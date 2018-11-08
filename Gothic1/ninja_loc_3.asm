@@ -21,7 +21,7 @@
 loc_start:
 
 0x452873         90                      nop
-0x452874         E9 3A 08 00 00          jmp     loc_skip                    # 0x4530B2-0x452873-1
+0x452874         E9 39 08 00 00          jmp     loc_skip                    # 0x4530B2-0x452874-1
 
 
 loc_deploy_music_ninja:
@@ -263,9 +263,9 @@ loc_linker_replace_func:
 0x452AA8   0B8   85 C0                   test    eax, eax
 0x452AAA   0B8   74 2F                   jz      short loc_no_rf_back
 
-0x452AAC   0B8   8B 2C 24                mov     ebp, [esp+0xF4-0xF4]        # parser
+0x452AAC   0B8   8B 2C 24                mov     ebp, [esp+0xB8-0xB8]        # parser
 0x452AAF   0B4   8B 4D 48                mov     ecx, [ebp+0x48]             # parser->stackPos
-0x452AB2   0B8   8B 44 24 04             mov     eax, [esp+0xF4-0xF0]        # symbol->content
+0x452AB2   0B8   8B 44 24 04             mov     eax, [esp+0xB8-0xB4]        # symbol->content
 0x452AB6   0B8   80 3C 08 3C             cmp     BYTE PTR [eax+ecx*1], 0x3C  # zPAR_TOK_RET
 0x452ABA   0B8   74 1F                   jz      short loc_no_rf_back
 
@@ -380,7 +380,7 @@ loc_detour_netMessage_failed:
 
 0x452BAB   23C   C7 44 24 24 00 00 00 00 mov     [esp+0x23C-0x218], 0
 0x452BB3   23C   8B 6C 24 24             mov     ebp, [esp+0x23C-0x218]
-0x452BB7   23C   E9 C0 F9 FF FF          jmp     0x45273F-0x452D7A-1
+0x452BB7   23C   E9 83 FB FF FF          jmp     0x45273F-0x452BB7-1
 
 
 0x452BBC         90 90 90 90 90 90       nop nop nop nop nop nop
