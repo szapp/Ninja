@@ -1,13 +1,7 @@
-; Collection of hook destinations deploying the ninjas and overwriting parsing
+; Core of the executing code of Ninja
 
 %include "inc/macros.mac"
 %include "inc/engine.mac"
-
-%if GOTHIC_BASE_VERSION == 1
-    %include "inc/symboladdresses_g1.mac"
-%elif GOTHIC_BASE_VERSION == 2
-    %include "inc/symboladdresses_g2.mac"
-%endif
 
 %ifidn __OUTPUT_FORMAT__, bin
     org     g1g2(0x452873,0x457791)
@@ -21,6 +15,15 @@ section .text
         ; Redirect current function to jump beyond to make space
         jmp     g1g2(0x4530B2,0x4580AE)
 
+
+%include "func/findVdfSrc.asm"
+%include "func/initContent.asm"
+%include "func/initMenu.asm"
+%include "func/mergeSrc.asm"
+%include "func/inject.asm"
+%include "func/parseMsgOverwrite.asm"
+%include "func/zCPar_Symbol__GetNext_fix.asm"
+%include "func/initAnims.asm"
 
 %include "exec/deploy.asm"
 %include "exec/init.asm"

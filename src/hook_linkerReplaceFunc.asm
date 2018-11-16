@@ -3,9 +3,9 @@
 %include "inc/macros.mac"
 
 %if GOTHIC_BASE_VERSION == 1
-    %include "inc/symboladdresses2_g1.mac"
+    %include "inc/symbols_g1.mac"
 %elif GOTHIC_BASE_VERSION == 2
-    %include "inc/symboladdresses2_g2.mac"
+    %include "inc/symbols_g2.mac"
 %endif
 
 %ifidn __OUTPUT_FORMAT__, bin

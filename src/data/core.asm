@@ -11,3 +11,5 @@ NINJA_PATH_FIGHT         db   '\NINJA\FIGHT_', 0
 NINJA_PATH_MENU          db   '\NINJA\MENU_', 0
 NINJA_PATH_CAMERA        db   '\NINJA\CAMERA_', 0
 NINJA_PATH_ANIMATION     db   '\NINJA\ANIMATION_', 0
+NINJA_PATH_VDF           db   'DATA\NINJA_*.VDF', 0
+NINJA_LOAD_ANIM          db   'J: MDS: Appending animations from ', 0

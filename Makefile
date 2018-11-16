@@ -38,9 +38,7 @@ TARGETS_G1		:=	$(BUILDDIR)code_1C47577B$(PATCHEXT) $(BUILDDIR)code_CB86CAC3$(PAT
 TARGETS_G2		:=	$(BUILDDIR)code_EFD8A07B$(PATCHEXT)
 
 # Intermediate files
-BIN_BASE		:=	functions									\
-					functions2									\
-					hookdestinations							\
+BIN_BASE		:=	core										\
 					hook_deploy_camera_ninja					\
 					hook_deploy_content_ninja					\
 					hook_deploy_fightai_ninja					\
@@ -91,8 +89,8 @@ FUNC_BASE		:=	findVdfSrc									\
 					mergeSrc									\
 					inject										\
 					parseMsgOverwrite							\
-					zCPar_Symbol__GetNext_fix
-FUNC2_BASE		:=	initAnims
+					zCPar_Symbol__GetNext_fix					\
+					initAnims
 EXEC_BASE		:=	deploy										\
 					init										\
 					parse										\
@@ -101,7 +99,6 @@ EXEC_BASE		:=	deploy										\
 BINARIES_G1		:=	$(BIN_BASE:%=$(BINDIR)%_g1)
 BINARIES_G2		:=	$(BIN_BASE:%=$(BINDIR)%_g2) $(BIN_BASE_G2:%=$(BINDIR)%_g2)
 FUNC			:=	$(FUNC_BASE:%=$(FUNCDIR)%$(ASMEXT))
-FUNC2			:=	$(FUNC2_BASE:%=$(FUNCDIR)%$(ASMEXT))
 EXEC			:=	$(EXEC_BASE:%=$(EXECDIR)%$(ASMEXT))
 DATA			:=	$(DATADIR)core$(ASMEXT)
 
@@ -116,7 +113,7 @@ gothic2 : $(TARGETS_G2)
 clean :
 	$(RM) $(call FixPath,$(BUILDDIR)*)
 	$(RM) $(call FixPath,$(BINDIR)*)
-	$(RM) $(call FixPath,$(INCDIR)symboladdresses*$(MACEXT))
+	$(RM) $(call FixPath,$(INCDIR)symbols_g*$(MACEXT))
 
 remake: clean all
 
@@ -132,31 +129,17 @@ $(TARGETS_G2) : $(BINARIES_G2)
 	@$(call mkdir,$(BUILDDIR))
 	$(WRITEPATCH) $(call FixPath,$@) 2 $(SRCDIR) $(call FixPath,$(RSCDIR)$(@F))
 
-$(BINDIR)functions_g% : $(SRCDIR)functions$(ASMEXT) $(FUNC) $(INCDIR)macros$(MACEXT) $(INCDIR)engine$(MACEXT)
+$(BINDIR)core_g% : $(SRCDIR)core$(ASMEXT) $(FUNC) $(EXEC) $(DATA) $(INCDIR)macros$(MACEXT) $(INCDIR)engine$(MACEXT)
 	@$(call mkdir,$(BINDIR))
 	$(NASM) -DGOTHIC_BASE_VERSION=$* $(FLAGS) -o $@ $<
 
-$(BINDIR)functions2_g% : $(SRCDIR)functions2$(ASMEXT) $(FUNC2) $(INCDIR)macros$(MACEXT) $(INCDIR)engine$(MACEXT)
-	@$(call mkdir,$(BINDIR))
-	$(NASM) -DGOTHIC_BASE_VERSION=$* $(FLAGS) -o $@ $<
-
-$(BINDIR)hookdestinations_g% : $(SRCDIR)hookdestinations$(ASMEXT) $(EXEC) $(DATA) $(INCDIR)symboladdresses_g%$(MACEXT) \
-		$(INCDIR)engine$(MACEXT) $(INCDIR)macros$(MACEXT)
-	@$(call mkdir,$(BINDIR))
-	$(NASM) -DGOTHIC_BASE_VERSION=$* $(FLAGS) -o $@ $<
-
-$(INCDIR)symboladdresses_g%$(MACEXT) : $(SRCDIR)functions$(ASMEXT) $(SRCDIR)functions2$(ASMEXT)
-	$(EXTRACTSYM) $@ $* $^
-
-$(INCDIR)symboladdresses2_g%$(MACEXT) : $(SRCDIR)hookdestinations$(ASMEXT) $(INCDIR)symboladdresses_g%$(MACEXT)
+$(INCDIR)symbols_g%$(MACEXT) : $(SRCDIR)core$(ASMEXT) $(FUNC) $(EXEC) $(DATA)
 	$(EXTRACTSYM) $@ $* $<
 
-$(BINDIR)%_g1 : $(SRCDIR)%$(ASMEXT) $(INCDIR)symboladdresses2_g1$(MACEXT) $(INCDIR)engine$(MACEXT) \
-		$(INCDIR)macros$(MACEXT)
+$(BINDIR)%_g1 : $(SRCDIR)%$(ASMEXT) $(INCDIR)symbols_g1$(MACEXT) $(INCDIR)engine$(MACEXT) $(INCDIR)macros$(MACEXT)
 	@$(call mkdir,$(BINDIR))
 	$(NASM) -DGOTHIC_BASE_VERSION=1 $(FLAGS) -o $@ $<
 
-$(BINDIR)%_g2 : $(SRCDIR)%$(ASMEXT) $(INCDIR)symboladdresses2_g2$(MACEXT) $(INCDIR)engine$(MACEXT) \
-		$(INCDIR)macros$(MACEXT)
+$(BINDIR)%_g2 : $(SRCDIR)%$(ASMEXT) $(INCDIR)symbols_g2$(MACEXT) $(INCDIR)engine$(MACEXT) $(INCDIR)macros$(MACEXT)
 	@$(call mkdir,$(BINDIR))
 	$(NASM) -DGOTHIC_BASE_VERSION=2 $(FLAGS) -o $@ $<
