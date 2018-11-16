@@ -18,9 +18,6 @@ init_menu:
         jmp     g1g2(0x4CE914,0x4DB504)
 
 
-        times 6 nop
-
-
 global init_content
 init_content:
     resetStackoffset
@@ -41,9 +38,6 @@ init_content:
         test    eax, eax
 %endif
         jmp     g1g2(0x637F8A,0x6C20C8)
-
-
-        times g1g2(5,6) nop
 
 
 global init_anims

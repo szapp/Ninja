@@ -25,9 +25,6 @@ parser_check_func:
 %endif
 
 
-        times g1g2(6,7) nop
-
-
 global linker_replace_func
 linker_replace_func:
     resetStackoffset g1g2(0xA8,0xE4)
@@ -99,11 +96,6 @@ linker_replace_func:
         jmp     g1g2(0x6E8269,0x7915CC)
 
 
-%if GOTHIC_BASE_VERSION == 1
-        times 6 nop
-%endif
-
-
 global parser_check_var
 parser_check_var:
     resetStackoffset g1g2(0x394,0x3EC)
@@ -127,11 +119,6 @@ parser_check_var:
         push    str_dot
         push    eax                                                        ; Prefix (function or class name)
         lea     eax, [esp+stackoffset+g1g2(-0x3A8,-0x400)]                 ; New string
-
-%if GOTHIC_BASE_VERSION == 2
-        times 3 nop
-%endif
-
         push    eax
         call    operator_StrPlusChar                                       ; __cdecl
         add     esp, 0xC
@@ -146,11 +133,6 @@ parser_check_var:
     addStack 4
         mov     g1g2(edi,ebp), eax
         lea     ecx, [esp+stackoffset+g1g2(-0x3A8,-0x400)]                 ; New string
-
-%if GOTHIC_BASE_VERSION == 2
-        times 4 nop
-%endif
-
         call    zSTRING___zSTRING
         add     esp, 0x14
 
@@ -169,9 +151,6 @@ parser_check_var:
         call    operator_new
         jmp     0x79B3BC
 %endif
-
-
-        times g1g2(6,36) nop
 
 
 global parser_check_class
@@ -203,9 +182,6 @@ parser_check_class:
         call    operator_new
         jmp     0x79C437
 %endif
-
-
-        times g1g2(6,5) nop
 
 
 global parser_check_prototype

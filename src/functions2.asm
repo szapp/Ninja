@@ -18,8 +18,6 @@ section .text
 
 %include "func/initAnims.asm"
 
-        times 6 nop
-
 
 section .data
 

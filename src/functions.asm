@@ -17,20 +17,12 @@ section .text
 
 
 %include "func/findVdfSrc.asm"
-        times 84 nop
 %include "func/initContent.asm"
-        times 6 nop
 %include "func/initMenu.asm"
-        times 6 nop
 %include "func/mergeSrc.asm"
-        times 6 nop
 %include "func/inject.asm"
-        times 2 nop
 %include "func/parseMsgOverwrite.asm"
-        times 6 nop
 %include "func/zCPar_Symbol__GetNext_fix.asm"
-
-        times 6 nop
 
 
 section .data

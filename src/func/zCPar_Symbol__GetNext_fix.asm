@@ -7,9 +7,6 @@ zCPar_Symbol__GetNext_fix:
         pusha
         push    ecx
         mov     esi, DWORD [zCPar_SymbolTable__cur_table]
-
-        times 3 nop
-
         mov     ecx, esi
         call    zCPar_SymbolTable__GetIndex
     addStack 4

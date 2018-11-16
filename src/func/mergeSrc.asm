@@ -13,18 +13,12 @@ ninja_mergeSrc:
         push    ecx
 
         push    DWORD [esp+stackoffset+arg_1]
-
-        times 1 nop
-
         lea     ecx, [esp+stackoffset+var_string]
         call    zSTRING__zSTRING
     addStack 4
 
-        times 9 nop
-
         push    ecx
         mov     eax, DWORD [zCParser__cur_parser]
-
         mov     ecx, eax
         call    zCParser__MergeFile
     addStack 4

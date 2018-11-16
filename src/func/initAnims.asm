@@ -118,9 +118,7 @@ ninja_initAnims:
         cmp     eax, 0xFFFFFFFF
         jz      .mds_loop_start
         mov     ecx, esp                                                   ; zCFileBIN * (ignored in Gothic 1)
-%if GOTHIC_BASE_VERSION == 1
-        nop
-%elif GOTHIC_BASE_VERSION == 2
+%if GOTHIC_BASE_VERSION == 2
         push    ecx
 %endif
         mov     ecx, ebp

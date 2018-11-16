@@ -19,9 +19,6 @@ deploy_music_ninja:
         jmp     g1g2(0x4DA44D,0x4E7661)
 
 
-        times 6 nop
-
-
 global deploy_sfx_ninja
 deploy_sfx_ninja:
     resetStackoffset g1g2(0x304,0x308)
@@ -39,9 +36,6 @@ deploy_sfx_ninja:
         lea     g1g2(ecx,eax), [esp+stackoffset+g1g2(-0x2F2,-0x2F6)]
         push    g1g2(ecx,eax)
         jmp     g1g2(0x4DD891,0x4EAE90)
-
-
-        times 6 nop
 
 
 global deploy_pfx_ninja
@@ -63,9 +57,6 @@ deploy_pfx_ninja:
         jmp     g1g2(0x58CA27,0x5AC7C1)
 
 
-        times 6 nop
-
-
 global deploy_vfx_ninja
 deploy_vfx_ninja:
     resetStackoffset g1g2(0x248,0x250)
@@ -83,9 +74,6 @@ deploy_vfx_ninja:
         lea     g1g2(edx,eax), [esp+stackoffset+g1g2(-0x239,-0x235)]
         push    g1g2(edx,eax)
         jmp     g1g2(0x483A41,0x48B6F4)
-
-
-        times 6 nop
 
 
 global deploy_content_ninja
@@ -106,9 +94,6 @@ deploy_content_ninja:
         jmp     g1g2(0x6371F7,0x6C12A6)
 
 
-        times 6 nop
-
-
 global deploy_fightai_ninja
 deploy_fightai_ninja:
     resetStackoffset g1g2(0x7C,0x64)
@@ -127,9 +112,6 @@ deploy_fightai_ninja:
         jmp     g1g2(0x747EBF,0x67C62B)
 
 
-        times 6 nop
-
-
 global deploy_menu_ninja
 deploy_menu_ninja:
     resetStackoffset
@@ -146,9 +128,6 @@ deploy_menu_ninja:
         ; Jump back
         mov     eax, DWORD [zCSoundSystem_zsound]
         jmp     g1g2(0x4CD57F,0x4DA19B)
-
-
-        times 6 nop
 
 
 global deploy_camera_ninja
