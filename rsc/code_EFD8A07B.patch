@@ -1,0 +1,1867 @@
+//////////////////////////////
+//GOTHIC II NOTR Gothic2.exe//
+//////////////////////////////
+
+[ConVars]
+DEBUG:Disable_D3DVBCAPS_WRITEONLY = "1"
+DEBUG:BorderlessWindow  = "0"
+DEBUG:ZNORESTHREAD = "1"
+DEBUG:BUGFIX_already_deleted_zCObject = "1"
+DEBUG:Polish_version = "0"
+DEBUG:StrafeBug = "0"
+DEBUG:Show_FPS_Counter = "0"
+PARAMETERS:VerticalFOV = "67.5"
+PARAMETERS:NewFOVformula = "0"
+PARAMETERS:DisableLOD = "0"
+PARAMETERS:DisableIndoorClipping = "1"
+PARAMETERS:SPAWN_INSERTRANGE = "4500"
+PARAMETERS:SPAWN_REMOVERANGE = "5000"
+PARAMETERS:SPAWN_INSERTTIME_MAX = "1000"
+PARAMETERS:DrawDistanceMultiplier = "1"
+PARAMETERS:OutDoorPortalDistanceMultiplier = "1"
+PARAMETERS:InDoorPortalDistanceMultiplier = "1"
+PARAMETERS:EnableShields = "0"
+PARAMETERS:No_Take_Anim = "0"
+PARAMETERS:RMB_No_Take_Anim = "0"
+PARAMETERS:HideFocus = "0"
+INTERFACE:Scale = "1"
+INTERFACE:ForceMenuScale = "0"
+INTERFACE:ScaleMenusX = "640"
+INTERFACE:ScaleMenusY = "480"
+INTERFACE:DialogBoxX = "800"
+INTERFACE:DialogBoxY = "600"
+INTERFACE:SubtitlesBoxX = "600"
+INTERFACE:ShowManaBar = "1"
+INTERFACE:ShowSwimBar = "1"
+INTERFACE:HideHealthBar = "0"
+INTERFACE:NewChapterSizeX = "800"
+INTERFACE:NewChapterSizeY = "600"
+INTERFACE:SaveGameImageSizeX = "320"
+INTERFACE:SaveGameImageSizeY = "200"
+INTERFACE:InventoryCellSize = "70"
+INTERFACE:Color_DialogChoice_Active = "-1"
+INTERFACE:Color_DialogChoice_Inactive = "-6316129"
+INTERFACE:Color_Talk_Hero = "-1"
+INTERFACE:Color_Talk_NPC = "-256"
+SUBTITLES:Control = "0"
+SUBTITLES:TimeMultiplier = "2.0"
+SUBTITLES:MaxTimePerPhrase = "30.0"
+SUBTITLES:TimePerChar = "100.0"
+
+[MemBlocks]
+BlockA = "0x10000"
+BlockB = "0x30000"
+BlockC = "0x10000"
+BlockD = "0x100000"; s_posCacheList
+BlockE = "0x1000" ; temp
+BlockS = "0x1000" ; scale
+
+[1]
+Addr = "0x00528BBA"
+Type = "hex"
+Org = "68 00 01 00 00"
+New = "68 00 0C 00 00"
+
+[2]
+Addr = "0x0052D28C"
+Type = "hex"
+Org = "3D 00 01 00 00"
+New = "3D 00 0C 00 00"
+
+[3]
+Addr = "0x00528CE1"
+Type = "hex"
+Org = "68 00 01 00 00"
+New = "68 00 0C 00 00"
+
+[4]
+Addr = "0x00528BC2"
+Type = "ptr"
+Org = "0x008D4A40"
+NewBlock = "BlockA"
+
+[5]
+Addr = "0x00528CEB"
+Type = "ptr"
+Org = "0x008D4A40"
+NewBlock = "BlockA"
+
+[6]
+Addr = "0x00528DDD"
+Type = "ptr"
+Org = "0x008D4A40"
+NewBlock = "BlockA"
+
+[7]
+Addr = "0x0052D30B"
+Type = "ptr"
+Org = "0x008D4A40"
+NewBlock = "BlockA"
+
+[8]
+Addr = "0x00528F86"
+Type = "ptr"
+Org = "0x008D4A40"
+OrgOffset = "0xC"
+NewBlock = "BlockA"
+NewOffset = "0xC"
+
+[9]
+Addr = "0x00528FAD"
+Type = "ptr"
+Org = "0x008D4A40"
+OrgOffset = "0xC"
+NewBlock = "BlockA"
+NewOffset = "0xC"
+
+[10]
+Addr = "0x00528FE6"
+Type = "ptr"
+Org = "0x008D4A40"
+OrgOffset = "0xC"
+NewBlock = "BlockA"
+NewOffset = "0xC"
+
+[11]
+Addr = "0x0052900D"
+Type = "ptr"
+Org = "0x008D4A40"
+OrgOffset = "0xC"
+NewBlock = "BlockA"
+NewOffset = "0xC"
+
+[12]
+Addr = "0x0052BDEB"
+Type = "ptr"
+Org = "0x008D4A40"
+OrgOffset = "0xC"
+NewBlock = "BlockA"
+NewOffset = "0xC"
+
+[13]
+Addr = "0x0052BE12"
+Type = "ptr"
+Org = "0x008D4A40"
+OrgOffset = "0xC"
+NewBlock = "BlockA"
+NewOffset = "0xC"
+
+[14]
+Addr = "0x0052D304"
+Type = "ptr"
+Org = "0x008D4A40"
+OrgOffset = "0xC"
+NewBlock = "BlockA"
+NewOffset = "0xC"
+
+[15]
+Addr = "0x005D6EEA"
+Type = "hex"
+Org = "68 00 10 00 00"
+New = "68 00 26 00 00"
+
+[16]
+Addr = "0x005D6FEF"
+Type = "hex"
+Org = "81 FB 00 10 00 00"
+New = "81 FB 00 26 00 00"
+
+[17]
+Addr = "0x005D6F61"
+Type = "hex"
+Org = "68 00 10 00 00"
+New = "68 00 26 00 00"
+
+[18]
+Addr = "0x005D6EF2"
+Type = "ptr"
+Org = "0x009868B0"
+NewBlock = "BlockB"
+
+[19]
+Addr = "0x005D6F6B"
+Type = "ptr"
+Org = "0x009868B0"
+NewBlock = "BlockB"
+
+[20]
+Addr = "0x005D70AD"
+Type = "ptr"
+Org = "0x009868B0"
+NewBlock = "BlockB"
+
+[21]
+Addr = "0x005291C0"
+Type = "ptr"
+Org = "0x008D5E48"
+NewBlock = "BlockC"
+NewOffset = "0x10"
+
+[22]
+Addr = "0x00530790"
+Type = "ptr"
+Org = "0x008D5E48"
+NewBlock = "BlockC"
+NewOffset = "0x10"
+
+[23]
+Addr = "0x00529257"
+Type = "ptr"
+Org = "0x008D5E48"
+NewBlock = "BlockC"
+NewOffset = "0x10"
+
+[24]
+Addr = "0x0052A3EA"
+Type = "ptr"
+Org = "0x008D5E48"
+NewBlock = "BlockC"
+NewOffset = "0x10"
+
+[25]
+Addr = "0x0052E689"
+Type = "ptr"
+Org = "0x008D5E48"
+NewBlock = "BlockC"
+NewOffset = "0x10"
+
+[26]
+Addr = "0x0052E69E"
+Type = "ptr"
+Org = "0x008D5E48"
+NewBlock = "BlockC"
+NewOffset = "0x10"
+
+[27]
+Addr = "0x0052E6B5"
+Type = "ptr"
+Org = "0x008D5E48"
+NewBlock = "BlockC"
+NewOffset = "0x10"
+
+[28]
+Addr = "0x0052FF8F"
+Type = "ptr"
+Org = "0x008D5E48"
+NewBlock = "BlockC"
+NewOffset = "0x10"
+
+[29]
+Addr = "0x0052FFB4"
+Type = "ptr"
+Org = "0x008D5E48"
+NewBlock = "BlockC"
+NewOffset = "0x10"
+
+[30]
+Addr = "0x0052FFDB"
+Type = "ptr"
+Org = "0x008D5E48"
+NewBlock = "BlockC"
+NewOffset = "0x10"
+
+[31]
+Addr = "0x005291CC"
+Type = "ptr"
+Org = "0x008D5E48"
+OrgOffset = "0x1000"
+NewBlock = "BlockC"
+NewOffset = "0x5010"
+
+[32]
+Addr = "0x00529242"
+Type = "ptr"
+Org = "0x008D5E48"
+OrgOffset = "0x1000"
+NewBlock = "BlockC"
+NewOffset = "0x5010"
+
+[33]
+Addr = "0x00529250"
+Type = "ptr"
+Org = "0x008D5E48"
+OrgOffset = "0x1000"
+NewBlock = "BlockC"
+NewOffset = "0x5010"
+
+[34]
+Addr = "0x0052A3D1"
+Type = "ptr"
+Org = "0x008D5E48"
+OrgOffset = "0x1000"
+NewBlock = "BlockC"
+NewOffset = "0x5010"
+
+[35]
+Addr = "0x0052A3DF"
+Type = "ptr"
+Org = "0x008D5E48"
+OrgOffset = "0x1000"
+NewBlock = "BlockC"
+NewOffset = "0x5010"
+
+[36]
+Addr = "0x0052E6CD"
+Type = "ptr"
+Org = "0x008D5E48"
+OrgOffset = "0x1000"
+NewBlock = "BlockC"
+NewOffset = "0x5010"
+
+[37]
+Addr = "0x00530007"
+Type = "ptr"
+Org = "0x008D5E48"
+OrgOffset = "0x1000"
+NewBlock = "BlockC"
+NewOffset = "0x5010"
+
+[38]
+Addr = "0x0053078B"
+Type = "ptr"
+Org = "0x008D5E48"
+OrgOffset = "0x1000"
+NewBlock = "BlockC"
+NewOffset = "0x5010"
+
+[39]
+Addr = "0x0053079D"
+Type = "ptr"
+Org = "0x008D5E48"
+OrgOffset = "0x1000"
+NewBlock = "BlockC"
+NewOffset = "0x5010"
+
+[40]
+Addr = "0x005307A2"
+Type = "ptr"
+Org = "0x008D5E48"
+OrgOffset = "0x1004"
+NewBlock = "BlockC"
+NewOffset = "0x5014"
+
+[41]
+Addr = "0x0082D1E6"
+Type = "ptr"
+Org = "0x00"
+NewBlock = "BlockC"
+
+[42]
+Addr = "0x0082D241"
+Type = "ptr"
+Org = "0x00"
+NewBlock = "BlockC"
+
+[43]
+Addr = "0x0082D22C"
+Type = "ptr"
+Org = "0x00"
+NewBlock = "BlockC"
+NewOffset = "0x4"
+
+[44]
+Addr = "0x0082D23B"
+Type = "ptr"
+Org = "0x00"
+NewBlock = "BlockC"
+NewOffset = "0x8"
+
+[45]
+Addr = "0x0082D247"
+Type = "ptr"
+Org = "0x00"
+NewBlock = "BlockC"
+NewOffset = "0x8"
+
+[46]
+Addr = "0x0082D1DA"
+Type = "hex"
+OrgFill = "00"
+New = "CC CC DF 44 24 44 DA 74 24 40"
+
+[47]
+Addr = "0x0082D1EA"
+Type = "hex"
+OrgFill = "00"
+New = "55 89 5C 24 08 E9 7C B6 E2 FF CC CC 51 8B 41 70 85 C0 89 44 24 00 75 08 D9 05 2C 1D 83 00 EB 07 DB 41 74 DA 74 24 00 D8 4C 24 08 8B 44 24 08 51 D9 1C 24 50 E8 3D D7 D1 FF 59 C2 04 00 CC CC 51"
+
+[48]
+Addr = "0x0082D230"
+Type = "hex"
+OrgFill = "00"
+New = "D9 04 24 D8 35 0E A2 54 00"
+
+[49]
+Addr = "0x0068C9FC"
+Type = "hex"
+Org = "E8 5F 55 00 00"
+New = "E8 84 08 1A 00"
+
+[50]
+Addr = "0x004C0CC3"
+Type = "hex"
+Org = "E8 58 9C 08 00"
+New = "E8 61 C5 36 00"
+
+[51]
+Addr = "0x004C2F65"
+Type = "hex"
+Org = "E8 B6 79 08 00"
+New = "E8 BF A2 36 00"
+
+[52]
+Addr = "0x0054A214"
+Type = "hex"
+Org = "E8 07 07 00 00"
+New = "E8 10 30 2E 00"
+
+[53]
+Addr = "0x0071384E"
+Type = "hex"
+Org = "E8 CD 70 E3 FF"
+New = "E8 A3 99 11 00"
+
+[54]
+Addr = "0x0065886B"
+Type = "hex"
+Org = "55 89 5C 24 08"
+New = "E9 6C 49 1D 00"
+
+[55]
+Addr = "0x005E9EA0"
+Type = "hex"
+Org = "D8 1D 18 07 83 00"
+New = "D8 1D 08 07 83 00"
+
+[56]
+Addr = "0x0089D9B0"
+Type = "hex"
+Org = "98 DA 89 00"
+New = "8F D4 82 00"
+
+[57]
+Addr = "0x0082D24B"
+Type = "hex"
+OrgFill = "00"
+New = "DE F1 D9 E8 D9 F3 D8 0D 8C 02 83 00 D8 0D 84 00 83 00 50 D9 1C 24 E8 FA D6 D1 FF 59 C2 04 00 CC CC 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 CC CC 8B 02 83 EC 0C 85 C0 53 55 56 8B F1 89 46 30 8B 4A 04 57 89 4E 34 BD 01 00 00 00 7F 03 89 6E 30 8B 46 34 85 C0 7F 03 89 6E 34 33 C0 33 C9 89 46 40 89 4E 44 8B 46 4C 85 C0 74 44 8B 56 30 89 56 40 8B 46 34 89 46 44 8B 4E 4C 8B 56 30 DF 41 44 D8 35 8F 30 6C 00 50 DB 1C 24 58 0F B7 1D 40 BB 83 00 0F AF C2 99 F7 FB 8B 7E 34 8B D8 8B 41 44 0F B7 0D 42 BB 83 00 0F AF C7 89 5E 40 EB 38 A1 08 2F 98 00 8B 48 0C 8B 40 10 89 46 44 89 4E 40 8B 46 30 0F AF C1 89 46 40 0F B7 0D 40 BB 83 00 99 F7 F9 89 46 40 8B 46 34 0F AF 46 44 89 46 44 0F B7 0D 42 BB 83 00 99 F7 F9 89 46 44 8B 46 40 85 C0 7F 03 89 6E 40 8B 46 44 85 C0 7F 03 89 6E 44 8B 46 58 33 C9 85 C0 74 09 90 8B 40 08 41 85 C0 75 F8 85 C9 8B E9 0F 84 88 00 00 00 8B 46 58 4D 33 C9 85 C0 89 6C 24 10 74 10 3B CD 0F 84 A6 00 00 00 8B 40 08 41 85 C0 75 F0 33 FF 8B 4F 4C 33 C0 85 C9 8D 5F 38 89 03 89 43 04 74 48 8B 41 40 8B 57 28 0F B7 2D 40 BB 83 00 0F AF C2 99 F7 FD 8B E8 8B 41 44 0F AF 47 2C 0F B7 0D 42 BB 83 00 99 F7 F9 8D 54 24 14 52 8B CB 89 6C 24 18 89 44 24 1C E8 63 4D E6 FF 8B 4F 4C 8B D3 E8 79 4F E6 FF 8B 6C 24 10 8B CF E8 0E 52 E6 FF 85 ED 0F 85 78 FF FF FF 8B 46 58 33 DB 85 C0 74 08 8B 40 08 43 85 C0 75 F8 85 DB 74 4A 33 ED 8B 46 58 4B 33 C9 85 C0 74 20 90 8D 64 24 00 3B CB 74 12 8B 40 08 41 85 C0 75 F4 EB 0D 8B 78 04 E9 5C FF FF FF 8B 78 04 EB 02 33 FF 8D 57 40 33 C0 8B CF 89 2A 89 42 04 E8 72 4F E6 FF 8B CF E8 6B 52 E6 FF 85 DB 75 B8 5F 5E 5D 5B 83 C4 0C C3 CC CC"
+
+[58_2.6(fix-SP 1.2)]
+Addr = "0x0082D48F"
+Type = "hex"
+OrgFill = "00"
+New = "32 2E 36 28 66 69 78 2D 53 50 20 31 2E 37 29"
+
+[59]
+Addr = "0x005C8BF3"
+Type = "hex"
+Org = "00 10 00 00"
+New = "FF FF 00 00"
+
+[VerticalFOV]
+Base = "BlockC"
+Addr = "0x4"
+Type = "float"
+NewVar = "PARAMETERS:VerticalFOV"
+
+[DisableLOD]
+Addr = "0x00832A34"
+Type = "float"
+New = "0.0"
+Condition = "PARAMETERS:DisableLOD"
+ConditionValue = "1"
+
+[DisableIndoorClipping]
+Addr = "0x0054C174"
+Type = "hex"
+Org = "7A 12"
+New = "7A 00"
+Condition = "PARAMETERS:DisableIndoorClipping"
+ConditionValue = "1"
+
+[SPAWN_INSERTRANGE]
+Addr = "0x008BACD0"
+Type = "float"
+NewVar = "PARAMETERS:SPAWN_INSERTRANGE"
+
+[SPAWN_REMOVERANGE]
+Addr = "0x008BACD4"
+Type = "float"
+NewVar = "PARAMETERS:SPAWN_REMOVERANGE"
+
+[SPAWN_INSERTTIME_MAX]
+Addr = "0x008BACCC"
+Type = "float"
+NewVar = "PARAMETERS:SPAWN_INSERTTIME_MAX"
+
+[DrawDistanceMultiplier1]
+Addr = "0x004283C2"
+Type = "ptr"
+Org = "0x0082EE44"
+NewBlock = "BlockC"
+NewOffset = "0xC"
+
+[DrawDistanceMultiplier2]
+Base = "BlockC"
+Addr = "0xC"
+Type = "float"
+NewVar = "PARAMETERS:DrawDistanceMultiplier"
+NewMul = "0.01"
+NewMin = "0.01"
+NewMax = "0.26"
+
+[OutDoorPortalDistanceMultiplier]
+Addr = "0x0052F25E"
+Type = "float"
+NewVar = "PARAMETERS:OutDoorPortalDistanceMultiplier"
+NewMul = "3240000"
+
+[OutDoorPortalDistanceMultiplier1]
+Addr = "0x0052F266"
+Type = "float"
+NewVar = "PARAMETERS:OutDoorPortalDistanceMultiplier"
+NewMul = "3240000"
+NewAdd = "-1800000"
+
+[InDoorPortalDistanceMultiplier]
+Addr = "0x005348A9"
+Type = "float"
+NewVar = "PARAMETERS:InDoorPortalDistanceMultiplier"
+NewMul = "3240000"
+
+[InDoorPortalDistanceMultiplier1]
+Addr = "0x005348B1"
+Type = "float"
+NewVar = "PARAMETERS:InDoorPortalDistanceMultiplier"
+NewMul = "3240000"
+NewAdd = "-1800000"
+
+[ZNORESTHREAD]
+Addr = "0x00558D39"
+Type = "hex"
+Org = "40"
+New = "90"
+Condition = "DEBUG:ZNORESTHREAD"
+ConditionValue = "1"
+
+[60]
+Addr = "0x005C969F"
+Type = "hex"
+Org = "81 7E 38 00 08 00 00"
+New = "81 7E 38 00 00 08 00"
+
+[s_posCacheList]
+AddrSect = ".text"
+Type = "ptr"
+Org = "0x0096AA78"
+NewBlock = "BlockD"
+
+[DialogBoxX]
+Addr = "0x0065F837"
+Type = "int"
+Org = "800"
+NewVar = "INTERFACE:DialogBoxX"
+
+[DialogBoxY]
+Addr = "0x0065F846"
+Type = "int"
+Org = "600"
+NewVar = "INTERFACE:DialogBoxY"
+
+[SubtitlesBoxX]
+Addr = "0x006C2E39"
+Type = "int"
+Org = "600"
+NewVar = "INTERFACE:SubtitlesBoxX"
+
+[ShowManaBar0]
+Addr = "0x006C342A"
+Type = "hex"
+Org = "E8 A1 86 0E 00"
+New = "E8 B0 88 0E 00"
+Condition = "INTERFACE:ShowManaBar"
+ConditionValue = "0"
+
+[ShowManaBar2]
+Addr = "0x006C33FC"
+Type = "hex"
+Org = "0F 85 AB 00 00 00"
+New = "90 90 90 90 90 90"
+Condition = "INTERFACE:ShowManaBar"
+ConditionValue = "2"
+
+[ShowSwimBar0]
+Addr = "0x006C3373"
+Type = "hex"
+Org = "E8 58 87 0E 00"
+New = "E8 67 89 0E 00"
+Condition = "INTERFACE:ShowSwimBar"
+ConditionValue = "0"
+
+[ShowSwimBar2]
+Addr = "0x006C332C"
+Type = "hex"
+Org = "0F 84 A4 00 00 00"
+New = "EB 1C 90 90 90 90"
+Condition = "INTERFACE:ShowSwimBar"
+ConditionValue = "2"
+
+[HideHealthBar]
+Addr = "0x006C326C"
+Type = "hex"
+Org = "E8 5F 88 0E 00"
+New = "E8 6E 8A 0E 00"
+Condition = "INTERFACE:HideHealthBar"
+ConditionValue = "1"
+
+[NewChapterSizeX]
+Addr = "0x0042B30B"
+Type = "int"
+Org = "800"
+NewVar = "INTERFACE:NewChapterSizeX"
+
+[NewChapterSizeY]
+Addr = "0x0042B31C"
+Type = "int"
+Org = "600"
+NewVar = "INTERFACE:NewChapterSizeY"
+
+[SaveGameImageSizeX]
+Addr = "0x006C232D"
+Type = "int"
+Org = "320"
+NewVar = "INTERFACE:SaveGameImageSizeX"
+
+[SaveGameImageSizeY]
+Addr = "0x006C2341"
+Type = "int"
+Org = "200"
+NewVar = "INTERFACE:SaveGameImageSizeY"
+
+[InventoryCellSize1]
+Addr = "0x007087EC"
+Type = "hex"
+Org = "6A 46 8B CF FF 12"
+New = "E9 36 3D EC FF 90"
+Condition = "INTERFACE:InventoryCellSize"
+ConditionNotValue = "70"
+
+[InventoryCellSize2]
+Addr = "0x005CC527"
+Type = "hex"
+New = "68 46 00 00 00 8B CF FF 12 E9 BD C2 13 00"
+Condition = "INTERFACE:InventoryCellSize"
+ConditionNotValue = "70"
+
+[InventoryCellSize3]
+Addr = "0x005CC528"
+Type = "int"
+NewVar = "INTERFACE:InventoryCellSize"
+Condition = "INTERFACE:InventoryCellSize"
+ConditionNotValue = "70"
+NewMin = "10"
+
+[InventoryCellSize4]
+Addr = "0x0070880A"
+Type = "hex"
+Org = "6A 46 8B CF FF 50 04"
+New = "E9 26 3D EC FF 90 90"
+Condition = "INTERFACE:InventoryCellSize"
+ConditionNotValue = "70"
+
+[InventoryCellSize5]
+Addr = "0x005CC535"
+Type = "hex"
+New = "68 46 00 00 00 8B CF FF 50 04 E9 CD C2 13 00"
+Condition = "INTERFACE:InventoryCellSize"
+ConditionNotValue = "70"
+
+[InventoryCellSize6]
+Addr = "0x005CC536"
+Type = "int"
+NewVar = "INTERFACE:InventoryCellSize"
+Condition = "INTERFACE:InventoryCellSize"
+ConditionNotValue = "70"
+NewMin = "10"
+
+[D3DVBCAPS_WRITEONLY]
+Addr = "0x00656F36"
+Type = "hex"
+New = "81 4C 24 1C 00 00 00 00"
+Condition = "DEBUG:Disable_D3DVBCAPS_WRITEONLY"
+ConditionValue = "1"
+
+[61]
+Addr = "0x0082D1E4"
+Type = "hex"
+OrgFill = "00"
+New = "D9 1D"
+
+[62]
+Addr = "0x0082D23F"
+Type = "hex"
+OrgFill = "00"
+New = "D9 05"
+
+[63]
+Addr = "0x0082D22A"
+Type = "hex"
+OrgFill = "00"
+New = "FF 35"
+
+[64]
+Addr = "0x0082D239"
+Type = "hex"
+OrgFill = "00"
+New = "D9 1D"
+
+[65]
+Addr = "0x0082D245"
+Type = "hex"
+OrgFill = "00"
+New = "D9 05"
+
+[Shield1]
+Addr = "0x008AC14B"
+Type = "hex"
+Org = "67 65 66 6F 72 63 65 20 33 20 6F 72"
+New = "00 5A 53 5F 4C 45 46 54 41 52 4D 00"
+Condition = "PARAMETERS:EnableShields"
+ConditionValue = "1"
+
+[Shield2]
+Addr = "0x0082D49F"
+Type = "hex"
+OrgFill = "00"
+New = "60 8B CE 6A 09 68 50 83 8B 00 6A 00 68 F0 E6 82 00 54 E8 4A C3 F1 FF 83 C4 10 61 60 8B CE 6A 0A 68 4C C1 8A 00 6A 00 68 F0 E6 82 00 54 E8 2F C3 F1 FF 83 C4 10 61 60 68 FF D4 82 00 8B CE E8 AE C1 F1 FF 81 F9 00 01 00 00 7D 0B 61 68 0C 1E AB 00 E9 98 CC F0 FF 51 8B CE E8 C3 51 F0 FF EB EB F0 E6 82 00 00 00 00 00 2C 83 8B 00 0C 00 00 00 1F"
+Condition = "PARAMETERS:EnableShields"
+ConditionValue = "1"
+
+[Shield3]
+Addr = "0x0073A188"
+Type = "hex"
+Org = "68 0C 1E AB 00"
+New = "E9 12 33 0F 00"
+Condition = "PARAMETERS:EnableShields"
+ConditionValue = "1"
+
+[Shield4]
+Addr = "0x0073905D"
+Type = "hex"
+Org = "68 F4 1E AB 00"
+New = "E9 D9 44 0F 00"
+Condition = "PARAMETERS:EnableShields"
+ConditionValue = "1"
+
+[Shield5]
+Addr = "0x00739489"
+Type = "hex"
+Org = "68 F4 1E AB 00"
+New = "E9 DD 40 0F 00"
+Condition = "PARAMETERS:EnableShields"
+ConditionValue = "1"
+
+[Shield6]
+Addr = "0x00737621"
+Type = "hex"
+Org = "8B 86 B8 09 00 00"
+New = "E9 7A 5F 0F 00 90"
+Condition = "PARAMETERS:EnableShields"
+ConditionValue = "1"
+
+[Shield7]
+Addr = "0x0082D513"
+Type = "hex"
+OrgFill = "00"
+New = "F0 E6 82 00 00 00 00 00 4C C1 8A 00 0A 00 00 00 1F 00 00 00 F0 E6 82 00 00 00 00 00 50 83 8B 00 09 00 00 00 1F 00 00 00 68 F4 1E AB 00 60 8B CE E8 08 A9 F0 FF 81 F9 00 01 00 00 7D 06 61 E9 2D BB F0 FF 61 60 8B CE 68 13 D5 82 00 68 27 D5 82 00 E8 57 68 F1 FF EB E5 68 F4 1E AB 00 60 8B CE 68 13 D5 82 00 E8 13 C1 F1 FF 81 F9 00 01 00 00 7D 06 61 E9 03 BF F0 FF 61 60 8B CE 68 27 D5 82 00 68 13 D5 82 00 E8 22 68 F1 FF EB E5 8B 86 B8 09 00 00 33 FF 85 C0 7E 35 8D 49 00 8B 96 B0 09 00 00 8B 04 BA 68 17 D5 82 00 8D 48 04 E8 EB AA BE FF 85 C0 74 0D 8B 86 B8 09 00 00 47 3B F8 7C DB EB 0B 8B 86 B0 09 00 00 8B 3C B8 EB 02 33 FF 57 8B CE E8 75 D0 F1 FF 8B 86 B8 09 00 00 E9 31 A0 F0 FF"
+Condition = "PARAMETERS:EnableShields"
+ConditionValue = "1"
+
+[Shield8]
+Addr = "0x0082D5F6"
+Type = "hex"
+OrgFill = "00"
+New = "60 68 0C 1E AB 00 8B CE E8 8D 49 F0 FF 85 C0 75 0B 61 68 F0 1E AB 00 E9 2A EC F1 FF 50 8B CE E8 A6 50 F0 FF EB EB"
+Condition = "PARAMETERS:EnableShields"
+ConditionValue = "1"
+
+[Shield9]
+Addr = "0x0074C237"
+Type = "hex"
+Org = "68 F0 1E AB 00"
+New = "E9 BA 13 0E 00"
+Condition = "PARAMETERS:EnableShields"
+ConditionValue = "1"
+
+[66]
+Addr = "0x0052FD71"
+Type = "hex"
+Org = "C7 44 24 24 F0 23 74 49"
+New = "C7 44 24 24 F0 23 74 44"
+
+[67]
+Addr = "0x0054B01F"
+Type = "hex"
+Org = "C7 44 24 20 00 00 80 BF"
+New = "C7 44 24 20 00 00 00 BF"
+
+[Subtitles1]
+Addr = "0x0082D7B7"
+Type = "float"
+NewVar = "SUBTITLES:TimeMultiplier"
+Condition = "SUBTITLES:Control"
+ConditionValue = "1"
+
+
+[Subtitles2]
+Addr = "0x0082D7BF"
+Type = "float"
+NewVar = "SUBTITLES:MaxTimePerPhrase"
+NewMul = "1000.0"
+Condition = "SUBTITLES:Control"
+ConditionValue = "1"
+
+[Subtitles3]
+Addr = "0x0082D7BB"
+Type = "float"
+NewVar = "SUBTITLES:TimePerChar"
+Condition = "SUBTITLES:Control"
+ConditionValue = "1"
+
+[Subtitles4]
+Addr = "0x00758688"
+Type = "hex"
+Org = "8B CD FF 50 30"
+New = "E9 1A 51 0D 00"
+Condition = "SUBTITLES:Control"
+ConditionValue = "1"
+
+[Subtitles5]
+Addr = "0x0082D7A7"
+Type = "hex"
+OrgFill = "00"
+New = "8B CD FF 50 30 D8 0D B7 D7 82 00 E9 D6 AE F2 FF"
+Condition = "SUBTITLES:Control"
+ConditionValue = "1"
+
+[Subtitles6]
+Addr = "0x007586B6"
+Type = "hex"
+Org = "D8 0D 68 C8 8B 00"
+New = "D8 0D BB D7 82 00"
+Condition = "SUBTITLES:Control"
+ConditionValue = "1"
+
+[Subtitles7]
+Addr = "0x00758698"
+Type = "hex"
+Org = "D8 1D 90 00 83 00"
+New = "D8 1D 78 00 83 00"
+Condition = "SUBTITLES:Control"
+ConditionValue = "1"
+
+[Subtitles8]
+Addr = "0x007586CF"
+Type = "hex"
+Org = "D9 05 0C 81 8B 00"
+New = "D9 05 BF D7 82 00"
+Condition = "SUBTITLES:Control"
+ConditionValue = "1"
+
+[Equip both bow/crossbow bugfix1]
+Addr = "0x00745FB3"
+Type = "hex"
+Org = "E8 78 8F 00 00"
+New = "E8 38 63 E8 FF"
+
+[Equip both bow/crossbow bugfix2]
+Addr = "0x005CC2F0"
+Type = "hex"
+Org = "81 EC C4 01 00 00 53 55 56 57 8B E9 8B 0D 94 7F 8D 00 8B DA 6A 02 89 9C 24 10 01 00 00 89 AC 24 18 01 00 00 E8 57 E0 F7 FF 8B 0D 94 7F 8D 00 68 E8 45 8D 00 6A 02 E8 15 E2 F7 FF 8B 43 04 8B 80 BC 00 00 00 8B 48 08 83 C0 08 83 C0 04 89 8C 24 54 01 00 00 50 8D 8C 24 5C 01 00 00 E8 EF 47 E5 FF 68 E8 45 8D 00 8D 4C 24 40 E8 21 8A F4 FF 8B 53 04 C7 44 24 58 00 00 40 40 C7 44 24 50 00 00 00 00 C7 44 24 40 00 00 00 BF C7"
+New = "8B 44 24 04 83 F8 04 53 55 56 57 8B F9 75 75 8D AF 68 06 00 00 8B CD E8 14 33 14 00 8B CD E8 2D 00 14 00 33 DB 85 C0 89 44 24 14 7E 57 53 8B CD E8 2B 01 14 00 8B F0 56 8B CF E8 81 56 16 00 85 C0 74 19 6A 04 8B CE E8 94 63 14 00 85 C0 74 0C 56 8B CF E8 98 03 17 00 85 C0 75 10 8B 44 24 14 43 3B D8 7C C8 5F 5E 5D 5B C2 04 00 8B CE 68 00 00 00 40 E8 68 63 14 00 85 C0 75 08 8B CF 56 E8 9C DF 16 00 5F 5E 5D 5B C2 04 00"
+
+[VISEME face ani bugfix]
+Addr = "0x0067A0E3"
+Type = "hex"
+Org = "68 00 00 00 C0 68 00 00 80 3F"
+New = "68 00 00 80 BF 68 00 00 00 40"
+
+[already_deleted_zCObject]
+Addr = "0x00401EFD"
+Type = "hex"
+Org = "74 14"
+New = "EB 14"
+Condition = "DEBUG:BUGFIX_already_deleted_zCObject"
+ConditionValue = "1"
+
+[already_deleted_zCObject1]
+Addr = "0x005A8D1D"
+Type = "hex"
+Org = "0F 8D 87 00 00 00"
+New = "E9 88 00 00 00 90"
+Condition = "DEBUG:BUGFIX_already_deleted_zCObject"
+ConditionValue = "1"
+
+[Polish_1]
+Addr = "0x00899930"
+Type = "hex"
+Org = "4A 4F 59 20 42 54 4E 20 33 32 00 00 4A 4F 59 20 42 54 4E 20 33 31 00 00 4A 4F 59 20 42 54 4E 20 33 30 00 00 4A 4F 59 20 42 54 4E 20 32 39 00 00 4A 4F 59 20 42 54 4E 20 32 38 00 00 4A 4F 59 20 42 54 4E 20 32 37 00 00 4A 4F 59 20 42 54 4E 20 32 36 00 00 4A 4F 59 20 42 54 4E 20 32 35 00 00 4A 4F 59 20 42 54 4E 20 32 34 00 00 4A 4F 59 20 42 54 4E 20 32 33 00 00 4A 4F 59 20 42 54 4E 20 32 32 00 00 4A 4F 59 20 42 54 4E 20 32 31 00 00 4A 4F 59 20 42 54 4E 20 32 30 00 00 4A 4F 59 20 42 54 4E 20 31 39 00 00 4A 4F 59 20 42 54 4E 20 31 38 00 00 4A 4F 59 20 42 54 4E 20 31 37 00 00 4A 4F 59 20 42 54 4E 20 31 36 00 00 4A 4F 59 20 42 54 4E 20 31 35 00 00 4A 4F 59 20 42 54 4E 20 31 34 00 00 4A 4F 59 20 42 54 4E 20 31 33 00 00 4A 4F 59 20 42 54 4E 20 31 32 00 00 4A 4F 59 20 42 54 4E 20 31 31 00 00 4A 4F 59 20 42 54 4E 20 31 30 00 00 4A 4F 59 20 42 54 4E 20 39 00 00 00 4A 4F 59 20 42 54 4E 20 38 00 00 00 4A 4F 59 20 42 54 4E 20 37 00 00 00 4A 4F 59 20 42 54 4E 20 36 00 00 00 4A 4F 59 20 42 54 4E 20 35 00 00 00 4A 4F 59 20 42 54 4E 20 34 00 00 00 4A 4F 59 20 42 54 4E 20 33 00 00 00 4A 4F 59 20 42 54 4E 20 32 00 00 00 4A 4F 59 20 42 54 4E 20 31 00 00 00 50 4F 56 2D 44 4F 57 4E 00 00 00 00 50 4F 56 2D 55 50 00 00 50 4F 56 2D 52 49 47 48 54 00 00 00 50 4F 56 2D 4C 45 46 54 00 00 00 00 52 55 44 44 45 52 20 52 49 47 48 54 00 00 00 00 52 55 44 44 45 52 20 4C 45 46 54 00 54 48 52 4F 54 54 4C 45 20 44 4F 57 4E 00 00 00 54 48 52 4F 54 54 4C 45 20 55 50 00 4A 4F 59 20 44 4F 57 4E 00 00 00 00 4A 4F 59 20 55 50 00 00 4A 4F 59 20 52 49 47 48 54 00 00 00 4A 4F 59 20 4C 45 46 54 00 00 00 00 50 45 52 49 4F 44 00 00 43 4F 4D 4D 41 00 00 00 50 49 50 45 00 00 00 00 42 41 43 4B 53 4C 41 53 48 00 00 00 41 50 4F 53 54 52 4F 50 48 45 00 00 53 45 4D 49 43 4F 4C 4F 4E 00 00 00 52 49 47 48 54 20 42 52 41 43 4B 45 54 00 00 00 4C 45 46 54 20 42 52 41 43 4B 45 54 00 00 00 00 45 51 55 41 4C 53 00 00 47 52 41 56 45 20 41 43 43 45 4E 54 00 00 00 00 52 49 47 48 54 20 43 54 52 4C 00 00 43 4F 4E 54 45 58 54 00 52 49 47 48 54 20 4F 53 20 4B 45 59 00 00 00 00 52 49 47 48 54 20 41 4C 54 00 00 00 53 50 41 43 45 00 00 00 4C 45 46 54 20 41 4C 54 00 00 00 00 4C 45 46 54 20 4F 53 20 4B 45 59 00 4C 45 46 54 20 43 54 52 4C 00 00 00 52 49 47 48 54 20 53 48 49 46 54 00 4C 45 46 54 20 53 48 49 46 54 00 00 43 41 50 53 20 4C 4F 43 4B 00 00 00 54 41 42 00 42 41 43 4B 53 50 41 43 45 00 00 00 4E 55 4D 20 44 45 4C 00 4E 55 4D 4C 4F 43 4B 00 43 55 52 53 4F 52 20 52 49 47 48 54 00 00 00 00 43 55 52 53 4F 52 20 44 4F 57 4E 00 43 55 52 53 4F 52 20 4C 45 46 54 00 43 55 52 53 4F 52 20 55 50 00 00 00 50 41 47 45 20 44 4F 57 4E 00 00 00 45 4E 44 00 44 45 4C 45 54 45 00 00 50 41 47 45 20 55 50 00 48 4F 4D 45 00 00 00 00 49 4E 53 45 52 54 00 00 53 43 52 4F 4C 4C 4C 4F 43 4B 00 00 50 52 49 4E 54 00 00 00 50 4F 56 2D 55 4E 54 45 4E 00 00 00 50 4F 56 2D 4F 42 45 4E 00 00 00 00 50 4F 56 2D 52 45 43 48 54 53 00 00 50 4F 56 2D 4C 49 4E 4B 53 00 00 00 52 55 44 45 52 20 52 45 43 48 54 53 00 00 00 00 52 55 44 45 52 20 4C 49 4E 4B 53 00 53 43 48 55 42 52 45 47 4C 45 52 20 41 42 00 00 53 43 48 55 42 52 45 47 4C 45 52 20 41 55 46 00 4A 4F 59 2D 55 4E 54 45 4E 00 00 00 4A 4F 59 2D 4F 42 45 4E 00 00 00 00 4A 4F 59 2D 52 45 43 48 54 53 00 00 4A 4F 59 2D 4C 49 4E 4B 53 00 00 00 4D 49 4E 55 53 00 00 00 50 55 4E 4B 54 00 00 00 4B 4F 4D 4D 41 00 00 00 4D 00 00 00 4E 00 00 00 42 00 00 00 56 00 00 00 43 00 00 00 58 00 00 00 59 00 00 00 4B 4C 45 49 4E 45 52 2D 41 4C 53 00 52 41 55 54 45 00 00 00 C4 00 00 00 D6 00 00 00 4B 00 00 00 4A 00 00 00 48 00 00 00 47 00 00 00 44 00 00 00 41 00 00 00 50 4C 55 53 00 00 00 00 DC 00 00 00 50 00 00 00 4F 00 00 00 49 00 00 00 55 00 00 00 5A 00 00 00 54 00 00 00 45 00 00 00 57 00 00 00 51 00 00 00 41 4B 5A 45 4E 54 00 00 DF 00 00 00 39 00 00 00 38 00 00 00 37 00 00 00 36 00 00 00 35 00 00 00 34 00 00 00 33 00 00 00 32 00 00 00 5A 49 52 4B 55 4D 46 4C 45 58 00 00 53 54 52 47 20 52 45 43 48 54 53 00 4B 4F 4E 54 45 58 54 00 4F 53 2D 4C 4F 47 4F 20 52 45 43 48 54 53 00 00 41 4C 54 20 47 52 00 00 4C 45 45 52 54 41 53 54 45 00 00 00 41 4C 54 00 4F 53 2D 4C 4F 47 4F 20 4C 49 4E 4B 53 00 00 00 53 54 52 47 20 4C 49 4E 4B 53 00 00 55 4D 53 43 48 41 4C 54 20 52 45 43 48 54 53 00 55 4D 53 43 48 41 4C 54 20 4C 49 4E 4B 53 00 00 46 45 53 54 53 54 45 4C 4C 00 00 00 45 4E 54 45 52 00 00 00 54 41 42 55 4C 41 54 4F 52 00 00 00 52 DC 43 4B 00 00 00 00 4E 55 4D 20 39 00 00 00 4E 55 4D 20 38 00 00 00 4E 55 4D 20 37 00 00 00 4E 55 4D 20 36 00 00 00 4E 55 4D 20 35 00 00 00 4E 55 4D 20 34 00 00 00 4E 55 4D 20 33 00 00 00 4E 55 4D 20 32 00 00 00 4E 55 4D 20 31 00 00 00 4E 55 4D 20 30 00 00 00 4E 55 4D 20 45 4E 54 46 00 00 00 00 4E 55 4D 20 45 4E 54 45 52 00 00 00 4E 55 4D 20 53 55 42 00 4E 55 4D 20 4D 55 4C 00 4E 55 4D 20 44 49 56 00 4E 55 4D 2D 46 45 53 54 53 54 45 4C 4C 00 00 00 4E 41 43 48 2D 52 45 43 48 54 53 00 4E 41 43 48 2D 55 4E 54 45 4E 00 00 4E 41 43 48 2D 4C 49 4E 4B 53 00 00 4E 41 43 48 2D 4F 42 45 4E 00 00 00 42 49 4C 44 2D 41 42 00 45 4E 44 45 00 00 00 00 45 4E 54 46 45 52 4E 45 4E 00 00 00 42 49 4C 44 2D 41 55 46 00 00 00 00 50 4F 53 31 00 00 00 00 45 49 4E 46 DC 47 45 4E 00 00 00 00 50 41 55 53 45 00 00 00 52 4F 4C 4C 45 4E 2D 46 45 53 54 53 54 45 4C 4C 00 00 00 00 44 52 55 43 4B 00 00 00 46 31 35 00 46 31 34 00 46 31 33 00 46 31 32 00 46 31 31 00 46 31 30 00 46 39 00 00 46 38 00 00 46 37 00 00 46 36 00 00 46 35 00 00 46 34 00 00 46 33 00 00 46 32 00 00 46 31 00 00 45 53 43 00 4D 4F 55 53 45 20 58 35 00 00 00 00 4D 4F 55 53 45 20 58 34 00 00 00 00 4D 4F 55 53 45 20 58 33 00 00 00 00 4D 4F 55 53 45 20 58 32 00 00 00 00 4D 4F 55 53 45 20 58 31 00 00 00 00 4D 4F 55 53 45 20 4D 49 44 00 00 00 4D 4F 55 53 45 20 52 49 47 48 54 00 4D 4F 55 53 45 20 4C 45 46 54 00 00 57 48 45 45 4C 20 44 4F 57 4E 00 00 57 48 45 45 4C 20 55 50 00 00 00 00 4D 4F 55 53 45 2D 59 00 4D 4F 55 53 45 2D 58 00"
+New = "44 AF 2E 20 50 52 5A 2E 20 33 32 00 44 AF 2E 20 50 52 5A 2E 20 33 31 00 44 AF 2E 20 50 52 5A 2E 20 33 30 00 44 AF 2E 20 50 52 5A 2E 20 32 39 00 44 AF 2E 20 50 52 5A 2E 20 32 38 00 44 AF 2E 20 50 52 5A 2E 20 32 37 00 44 AF 2E 20 50 52 5A 2E 20 32 36 00 44 AF 2E 20 50 52 5A 2E 20 32 35 00 44 AF 2E 20 50 52 5A 2E 20 32 34 00 44 AF 2E 20 50 52 5A 2E 20 32 33 00 44 AF 2E 20 50 52 5A 2E 20 32 32 00 44 AF 2E 20 50 52 5A 2E 20 32 31 00 44 AF 2E 20 50 52 5A 2E 20 32 30 00 44 AF 2E 20 50 52 5A 2E 20 31 39 00 44 AF 2E 20 50 52 5A 2E 20 31 38 00 44 AF 2E 20 50 52 5A 2E 20 31 37 00 44 AF 2E 20 50 52 5A 2E 20 31 36 00 44 AF 2E 20 50 52 5A 2E 20 31 35 00 44 AF 2E 20 50 52 5A 2E 20 31 34 00 44 AF 2E 20 50 52 5A 2E 20 31 33 00 44 AF 2E 20 50 52 5A 2E 20 31 32 00 44 AF 2E 20 50 52 5A 2E 20 31 31 00 44 AF 2E 20 50 52 5A 2E 20 31 30 00 44 AF 2E 20 50 52 5A 2E 20 39 00 00 44 AF 2E 20 50 52 5A 2E 20 38 00 00 44 AF 2E 20 50 52 5A 2E 20 37 00 00 44 AF 2E 20 50 52 5A 2E 20 36 00 00 44 AF 2E 20 50 52 5A 2E 20 35 00 00 44 AF 2E 20 50 52 5A 2E 20 34 00 00 44 AF 2E 20 50 52 5A 2E 20 33 00 00 44 AF 2E 20 50 52 5A 2E 20 32 00 00 44 AF 2E 20 50 52 5A 2E 20 31 00 00 50 4F 56 2D 44 4F 57 4E 00 00 00 00 50 4F 56 2D 55 50 00 00 50 4F 56 2D 52 49 47 48 54 00 00 00 50 4F 56 2D 4C 45 46 54 00 00 00 00 53 54 45 52 20 50 52 41 57 4F 00 00 00 00 00 00 53 54 45 52 20 4C 45 57 4F 00 00 00 50 52 5A 45 50 2E 20 44 D3 A3 00 00 00 00 00 00 50 52 5A 45 50 2E 20 47 D3 52 41 00 44 AF 2E 20 44 D3 A3 00 00 00 00 00 44 AF 2E 20 47 D3 52 41 00 44 AF 2E 20 50 52 41 57 4F 00 00 44 AF 2E 20 4C 45 57 4F 00 00 00 00 4B 52 4F 50 4B 41 00 00 43 4F 4D 4D 41 00 00 00 50 49 50 45 00 00 00 00 5C 00 00 00 2F 00 00 00 00 00 00 00 41 50 4F 53 54 52 4F 46 00 00 00 00 8C 52 45 44 4E 49 4B 00 00 00 00 00 50 52 2E 20 4E 41 57 2E 20 4B 57 2E 00 00 00 00 4C 2E 20 4E 41 57 2E 20 4B 57 2E 00 00 00 00 00 3D 00 00 00 00 00 00 00 54 59 4C 44 41 00 00 00 00 00 00 00 00 00 00 00 50 52 41 57 59 20 43 54 52 4C 00 00 43 4F 4E 54 45 58 54 00 50 52 41 57 59 20 57 49 4E 00 00 00 00 00 00 00 50 52 41 57 59 20 41 4C 54 00 00 00 53 50 41 43 4A 41 00 00 4C 45 57 59 20 41 4C 54 00 00 00 00 4C 45 46 54 20 57 49 4E 00 00 00 00 4C 45 57 59 20 43 54 52 4C 00 00 00 50 52 41 57 59 20 53 48 49 46 54 00 4C 45 57 59 20 53 48 49 46 54 00 00 43 41 50 53 20 4C 4F 43 4B 00 00 00 54 41 42 00 42 41 43 4B 53 50 41 43 45 00 00 00 4E 55 4D 20 44 45 4C 00 4E 55 4D 4C 4F 43 4B 00 50 52 41 57 4F 00 00 00 00 00 00 00 00 00 00 00 44 D3 A3 00 00 00 00 00 00 00 00 00 4C 45 57 4F 00 00 00 00 00 00 00 00 47 D3 52 41 00 00 00 00 00 00 00 00 50 41 47 45 20 44 4F 57 4E 00 00 00 45 4E 44 00 44 45 4C 45 54 45 00 00 50 41 47 45 20 55 50 00 48 4F 4D 45 00 00 00 00 49 4E 53 45 52 54 00 00 53 43 52 4F 4C 4C 4C 4F 43 4B 00 00 50 52 49 4E 54 00 00 00 50 4F 56 2D 55 4E 54 45 4E 00 00 00 50 4F 56 2D 4F 42 45 4E 00 00 00 00 50 4F 56 2D 52 45 43 48 54 53 00 00 50 4F 56 2D 4C 49 4E 4B 53 00 00 00 52 55 44 45 52 20 52 45 43 48 54 53 00 00 00 00 52 55 44 45 52 20 4C 49 4E 4B 53 00 50 52 5A 45 43 49 4E 45 4B 00 00 00 00 00 00 00 53 43 48 55 42 52 45 47 4C 45 52 20 41 55 46 00 4A 4F 59 2D 55 4E 54 45 4E 00 00 00 4A 4F 59 2D 4F 42 45 4E 00 00 00 00 4A 4F 59 2D 52 45 43 48 54 53 00 00 4A 4F 59 2D 4C 49 4E 4B 53 00 00 00 4D 49 4E 55 53 00 00 00 50 55 4E 4B 54 00 00 00 4B 4F 4D 4D 41 00 00 00 4D 00 00 00 4E 00 00 00 42 00 00 00 56 00 00 00 43 00 00 00 58 00 00 00 59 00 00 00 4B 4C 45 49 4E 45 52 2D 41 4C 53 00 52 41 55 54 45 00 00 00 C4 00 00 00 D6 00 00 00 4B 00 00 00 4A 00 00 00 48 00 00 00 47 00 00 00 44 00 00 00 41 00 00 00 50 4C 55 53 00 00 00 00 DC 00 00 00 50 00 00 00 4F 00 00 00 49 00 00 00 55 00 00 00 5A 00 00 00 54 00 00 00 45 00 00 00 57 00 00 00 51 00 00 00 41 4B 5A 45 4E 54 00 00 DF 00 00 00 39 00 00 00 38 00 00 00 37 00 00 00 36 00 00 00 35 00 00 00 34 00 00 00 33 00 00 00 32 00 00 00 5A 49 52 4B 55 4D 46 4C 45 58 00 00 53 54 52 47 20 52 45 43 48 54 53 00 4B 4F 4E 54 45 58 54 00 4F 53 2D 4C 4F 47 4F 20 52 45 43 48 54 53 00 00 41 4C 54 20 47 52 00 00 4C 45 45 52 54 41 53 54 45 00 00 00 41 4C 54 00 4F 53 2D 4C 4F 47 4F 20 4C 49 4E 4B 53 00 00 00 53 54 52 47 20 4C 49 4E 4B 53 00 00 55 4D 53 43 48 41 4C 54 20 52 45 43 48 54 53 00 55 4D 53 43 48 41 4C 54 20 4C 49 4E 4B 53 00 00 46 45 53 54 53 54 45 4C 4C 00 00 00 45 4E 54 45 52 00 00 00 54 41 42 55 4C 41 54 4F 52 00 00 00 52 DC 43 4B 00 00 00 00 4E 55 4D 20 39 00 00 00 4E 55 4D 20 38 00 00 00 4E 55 4D 20 37 00 00 00 4E 55 4D 20 36 00 00 00 4E 55 4D 20 35 00 00 00 4E 55 4D 20 34 00 00 00 4E 55 4D 20 33 00 00 00 4E 55 4D 20 32 00 00 00 4E 55 4D 20 31 00 00 00 4E 55 4D 20 30 00 00 00 4E 55 4D 20 45 4E 54 46 00 00 00 00 4E 55 4D 20 45 4E 54 45 52 00 00 00 4E 55 4D 20 2D 00 00 00 4E 55 4D 20 47 57 2E 00 4E 55 4D 20 2F 00 00 00 4E 55 4D 2D 46 45 53 54 53 54 45 4C 4C 00 00 00 4E 41 43 48 2D 52 45 43 48 54 53 00 4E 41 43 48 2D 55 4E 54 45 4E 00 00 4E 41 43 48 2D 4C 49 4E 4B 53 00 00 4E 41 43 48 2D 4F 42 45 4E 00 00 00 42 49 4C 44 2D 41 42 00 45 4E 44 45 00 00 00 00 45 4E 54 46 45 52 4E 45 4E 00 00 00 42 49 4C 44 2D 41 55 46 00 00 00 00 50 4F 53 31 00 00 00 00 45 49 4E 46 DC 47 45 4E 00 00 00 00 50 41 55 53 45 00 00 00 52 4F 4C 4C 45 4E 2D 46 45 53 54 53 54 45 4C 4C 00 00 00 00 44 52 55 43 4B 00 00 00 46 31 35 00 46 31 34 00 46 31 33 00 46 31 32 00 46 31 31 00 46 31 30 00 46 39 00 00 46 38 00 00 46 37 00 00 46 36 00 00 46 35 00 00 46 34 00 00 46 33 00 00 46 32 00 00 46 31 00 00 45 53 43 00 4D 59 53 5A 20 58 35 00 00 00 00 00 4D 59 53 5A 20 58 34 00 00 00 00 00 4D 59 53 5A 20 58 33 00 00 00 00 00 4D 59 53 5A 20 58 32 00 00 00 00 00 4D 59 53 5A 20 58 31 00 00 00 00 00 8C 50 4D 00 00 00 00 00 00 00 00 00 50 50 4D 00 00 00 00 00 00 00 00 00 4C 50 4D 00 4B D3 A3 4B 4F 20 57 20 47 D3 52 CA 00 4B D3 A3 4B 4F 20 57 20 44 D3 A3 00 00 00 00 00 00 00 00 4D 59 53 5A 2D 59 00 00 4D 59 53 5A 2D 58 00 00"
+Condition = "DEBUG:Polish_version"
+ConditionValue = "1"
+
+[Polish_2]
+Addr = "0x008AF638"
+Type = "hex"
+Org = "45 4E 44 45 2E 00 00 00"
+New = "4B 4F 4E 49 45 43 00 00"
+Condition = "DEBUG:Polish_version"
+ConditionValue = "1"
+
+[Polish_3]
+Addr = "0x008B28F4"
+Type = "hex"
+Org = "50 41 55 53 45 44 00 00"
+New = "50 41 55 5A 41 00 00 00"
+Condition = "DEBUG:Polish_version"
+ConditionValue = "1"
+
+[Polish_4]
+Addr = "0x004CC67A"
+Type = "hex"
+Org = "75 43 6A 04 8D 44 24 10 50 8D 4C 24"
+New = "C7 05 14 99 89 00 00 02 04 09 EB 39"
+Condition = "DEBUG:Polish_version"
+ConditionValue = "1"
+
+[Polish_5]
+Addr = "0x004CC9C3"
+Type = "hex"
+Org = "BF A4 A0 89 00"
+New = "BF 9D A0 89 00"
+Condition = "DEBUG:Polish_version"
+ConditionValue = "1"
+
+[Polish_6]
+Addr = "0x004CC9CE"
+Type = "hex"
+Org = "68 A4 A0 89 00"
+New = "68 9D A0 89 00"
+Condition = "DEBUG:Polish_version"
+ConditionValue = "1"
+
+[Polish_7]
+Addr = "0x004CC9F7"
+Type = "hex"
+Org = "BF 98 A0 89 00"
+New = "BF 90 A0 89 00"
+Condition = "DEBUG:Polish_version"
+ConditionValue = "1"
+
+[Polish_8]
+Addr = "0x004CCA02"
+Type = "hex"
+Org = "68 98 A0 89 00"
+New = "68 90 A0 89 00"
+Condition = "DEBUG:Polish_version"
+ConditionValue = "1"
+
+[Polish_9]
+Addr = "0x004CF428"
+Type = "hex"
+Org = "68 48 9B 89 00"
+New = "68 18 9D 89 00"
+Condition = "DEBUG:Polish_version"
+ConditionValue = "1"
+
+[Polish_10]
+Addr = "0x004CF470"
+Type = "hex"
+Org = "68 68 9D 89 00"
+New = "68 5C 9B 89 00"
+Condition = "DEBUG:Polish_version"
+ConditionValue = "1"
+
+[Polish_11]
+Addr = "0x004CF4BF"
+Type = "hex"
+Org = "68 28 9B 89 00"
+New = "68 29 9B 89 00"
+Condition = "DEBUG:Polish_version"
+ConditionValue = "1"
+
+[Polish_12]
+Addr = "0x004D2199"
+Type = "hex"
+Org = "75 55 6A 04 8D 44 24 0C 50 8D 4C 24"
+New = "C7 05 50 A1 89 00 00 02 04 09 EB 4B"
+Condition = "DEBUG:Polish_version"
+ConditionValue = "1"
+
+[Polish_13]
+Addr = "0x0066C7A0"
+Type = "hex"
+Org = "0F 84 D4 01 00 00 68 D4 F9 8A 00 8D 4C 24 44 E8 0C 49 D9 FF 68 CC F9 8A 00 8D 4C 24 1C C7 84 24 80 02 00 00 B5 01 00 00 E8 F3 48 D9 FF 68 80 F9 8A 00 8D 4C 24 30 C6 84 24 80 02 00 00 B6 E8 DD 48 D9 FF 68 D0 1E 8C 00 8D 4C 24 58 C6 84 24 80 02 00 00 B7 E8 C7 48 D9 FF 33 D2 8A 15 AC 51 89 00 8D 4C 24 40 C6 84 24 7C 02 00 00 B8 52 6A 1E 6A 02 E8 49 E5 DF FF 33 C0 A0 AC 51 89 00 8D 4C 24 18 50 6A 1E 6A"
+New = "E9 D5 01 00 00 A5 C6 CA A3 D1 D3 8C 8F AF CC CC 33 DB 38 93 D4 C7 66 00 74 0B FE C3 80 FB 09 75 F1 B0 20 EB 06 8A 83 A5 C7 66 00 5B 81 C4 0C 01 00 00 C3 CC 1E 2E 12 26 31 18 1F 2D 2C CC CC CC 33 DB 38 93 D4 C7 66 00 74 0B FE C3 80 FB 09 75 F1 B0 20 EB 06 8A 83 04 C8 66 00 5B 81 C4 0C 01 00 00 C3 CC B9 E6 EA B3 F1 F3 9C 9F BF CC CC CC 84 DB 74 9C EB CA CC CC CC CC CC CC CC CC CC CC 84 DB 74 BC EB 8A"
+Condition = "DEBUG:Polish_version"
+ConditionValue = "1"
+
+[Polish_14]
+Addr = "0x004D23EF"
+Type = "hex"
+Org = "B0 B9 5B 81 C4 0C 01 00 00"
+New = "E9 1C A4 19 00 90 90 90 90"
+Condition = "DEBUG:Polish_version"
+ConditionValue = "1"
+
+[Polish_15]
+Addr = "0x004D25B6"
+Type = "hex"
+Org = "B0 B2 5B 81 C4 0C 01 00 00"
+New = "E9 25 A2 19 00 90 90 90 90"
+Condition = "DEBUG:Polish_version"
+ConditionValue = "1"
+
+[Polish_16]
+Addr = "0x004D262D"
+Type = "hex"
+Org = "B0 A1 5B 81 C4 0C 01 00 00"
+New = "E9 EE A1 19 00 90 90 90 90"
+Condition = "DEBUG:Polish_version"
+ConditionValue = "1"
+
+[Polish_17]
+Addr = "0x004D2F6C"
+Type = "hex"
+Org = "05 17 06 07 08 09 0A 0B 17 17 17 17 0C 0D 0E 17 17 17 17 17 0F 10 11 17 17 12 13 17 14 17 17 15"
+New = "00 17 06 07 08 09 00 0B 17 17 17 17 00 00 0E 17 17 17 17 17 00 10 11 17 17 12 00 00 00 17 17 00"
+Condition = "DEBUG:Polish_version"
+ConditionValue = "1"
+
+[Polish_18]
+Addr = "0x004D3058"
+Type = "hex"
+Org = "A8 26 4D 00"
+New = "2D 26 4D 00"
+Condition = "DEBUG:Polish_version"
+ConditionValue = "1"
+
+[Polish_19]
+Addr = "0x004D3070"
+Type = "hex"
+Org = "0E 27 4D 00"
+New = "2D 26 4D 00"
+Condition = "DEBUG:Polish_version"
+ConditionValue = "1"
+
+[Polish_20]
+Addr = "0x004D3088"
+Type = "hex"
+Org = "39 27 4D 00 50 27 4D 00"
+New = "2D 26 4D 00 2D 26 4D 00"
+Condition = "DEBUG:Polish_version"
+ConditionValue = "1"
+
+[Polish_21]
+Addr = "0x004D30A8"
+Type = "hex"
+Org = "71 27 4D 00"
+New = "2D 26 4D 00"
+Condition = "DEBUG:Polish_version"
+ConditionValue = "1"
+
+[Polish_22]
+Addr = "0x004D30C0"
+Type = "hex"
+Org = "A6 27 4D 00 24 2E 4D 00 BD 27 4D 00"
+New = "2D 26 4D 00 2D 26 4D 00 2D 26 4D 00"
+Condition = "DEBUG:Polish_version"
+ConditionValue = "1"
+
+[Polish_23]
+Addr = "0x004D30D4"
+Type = "hex"
+Org = "C7 27 4D 00"
+New = "2D 26 4D 00"
+Condition = "DEBUG:Polish_version"
+ConditionValue = "1"
+
+[Polish_24]
+Addr = "0x006D9E1A"
+Type = "hex"
+Org = "8D 54 24 18 52"
+New = "E9 07 2A F9 FF"
+Condition = "DEBUG:Polish_version"
+ConditionValue = "1"
+
+[Polish_25]
+Addr = "0x0066C826"
+Type = "hex"
+Org = "02 E8 34 E5 DF FF 33 C9 8A 0D AC 51 89 00 51 6A 28 6A 02 8D 4C 24 38 E8 1E E5 DF FF 33 D2 8A 15 AC 51 89 00 8D 4C 24 54 52 6A 28 6A 02 E8 08 E5 DF FF 68 0C 41 89 00 8D 44 24 44 50 8D 8C 24 84 00 00 00 51 E8 11 80 D9 FF 8D 54 24 24 52 50 8D 84 24 A4 00 00 00 50 C6 84 24 94 02 00 00 B9 E8 36 7D D9 FF 68 0C 41 89 00 50 8D 8C 24 D8 00 00 00 51 C6 84 24 A0 02 00 00 BA E8 DB 7F D9 FF 8D 54 24 50 52 50 8D 84 24 F8 00 00 00 50 C6 84 24 AC 02 00 00 BB E8 00 7D D9 FF 68 3C E5 88 00 C6 84 24 B0 02 00 00 BC 50 8D 8C 24 DC 00 00 00 51 E8 A5 7F D9 FF 8D 94 24 90 00 00 00 52 50 8D 84 24 AC 00 00 00 50 C6 84 24 C4 02 00 00 BD E8 C7 7C D9 FF 83 C4 48 50 C6 84 24 80 02 00 00 BE E8 C6 7A FF FF 83 C4 04 8D 4C 24 68 E8 4A 48 D9 FF 8D 8C 24 A4 00 00 00 E8 3E 48 D9 FF 8D 8C 24 CC 00 00 00 E8 32 48 D9 FF 8D 8C 24 B8 00 00 00 E8 26 48 D9 FF 8D 8C 24 90 00 00 00 E8 1A 48 D9 FF 8D 4C 24 7C E8 11 48 D9 FF 8D 4C 24 54 E8 08 48 D9 FF 8D 4C 24 2C E8 FF 47 D9 FF 8D 4C 24 18 E8 F6 47 D9 FF 8D 4C 24 40 89 9C 24 7C 02 00 00 E8 E6 47 D9 FF"
+New = "83 7C 24 04 32 75 05 83 44 24 04 20 8D 54 24 18 52 E9 E3 D5 06 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90"
+Condition = "DEBUG:Polish_version"
+ConditionValue = "1"
+
+[MAP_Delay_BUGFIX]
+Addr = "0x0068CD4E"
+Type = "hex"
+Org = "E8 4D 00 00 00"
+New = "E8 11 01 00 00"
+
+[BorderlessWindow1]
+Addr = "0x0050321B"
+Type = "hex"
+Org = "68 00 00 C8 00"
+New = "68 00 00 00 90"
+Condition = "DEBUG:BorderlessWindow"
+ConditionValue = "1"
+
+[BorderlessWindow2]
+Addr = "0x00503226"
+Type = "hex"
+Org = "68 00 03 00 00"
+New = "68 00 00 00 00"
+Condition = "DEBUG:BorderlessWindow"
+ConditionValue = "1"
+
+[BorderlessWindow3]
+Addr = "0x00630BD6"
+Type = "hex"
+Org = "8B 4C 24 6C"
+New = "33 C9 41 90"
+Condition = "DEBUG:BorderlessWindow"
+ConditionValue = "1"
+
+[FOV_New_Formula]
+Addr = "0x0082D233"
+Type = "hex"
+New = "D8 35 84 00 83 00 D8 35 8C 02 83 00 D9 F2 DD D8 D8 35 00 00 46 01 D9 E8 D9 F3 D8 0D 8C 02 83 00 D8 0D 84 00 83 00 50 D9 1C 24 E8 FE D6 D1 FF 59 C2 04 00 90 90 90 90 CC CC"
+Condition = "PARAMETERS:NewFOVformula"
+ConditionValue = "1"
+
+[FOV_New_Formula1]
+Addr = "0x0082D245"
+Type = "ptr"
+NewBlock = "BlockC"
+Condition = "PARAMETERS:NewFOVformula"
+ConditionValue = "1"
+
+[No_Take_Anim]
+Addr = "0x0075355B"
+Type = "hex"
+New = "00"
+Condition = "PARAMETERS:No_Take_Anim"
+ConditionValue = "1"
+
+[RMB_No_Take_Anim]
+Addr = "0x0069AE44"
+Type = "hex"
+New = "E9 FB 16 F3 FF"
+Condition = "PARAMETERS:RMB_No_Take_Anim"
+ConditionValue = "1"
+
+[RMB_No_Take_Anim_1]
+Addr = "0x005CC544"
+Type = "hex"
+New = "8B 41 04 8B 40 10 8B 40 04 C7 00 0C 02 0D 02 8B 01 6A 05 FF 50 04 E8 E9 49 20 00 85 C0 75 06 50 E9 E6 E8 0C 00 81 7C E4 E4 0D 02 00 00 75 2A A3 F0 CE AB 00 EB E9 83 3D F0 CE AB 00 01 74 0B 8B 8B 80 09 00 00 E9 12 70 18 00 C7 05 F0 CE AB 00 00 00 00 00 E9 BF 6F 18 00 C7 05 F0 CE AB 00 00 00 00 00 EB BA"
+Condition = "PARAMETERS:RMB_No_Take_Anim"
+ConditionValue = "1"
+
+[RMB_No_Take_Anim_2]
+Addr = "0x005CC574"
+Type = "ptr"
+NewBlock = "BlockE"
+Condition = "PARAMETERS:RMB_No_Take_Anim"
+ConditionValue = "1"
+
+[RMB_No_Take_Anim_3]
+Addr = "0x005CC57C"
+Type = "ptr"
+NewBlock = "BlockE"
+Condition = "PARAMETERS:RMB_No_Take_Anim"
+ConditionValue = "1"
+
+[RMB_No_Take_Anim_4]
+Addr = "0x005CC590"
+Type = "ptr"
+NewBlock = "BlockE"
+Condition = "PARAMETERS:RMB_No_Take_Anim"
+ConditionValue = "1"
+
+[RMB_No_Take_Anim_5]
+Addr = "0x005CC59F"
+Type = "ptr"
+NewBlock = "BlockE"
+Condition = "PARAMETERS:RMB_No_Take_Anim"
+ConditionValue = "1"
+
+[RMB_No_Take_Anim_6]
+Addr = "0x0075359A"
+Type = "hex"
+New = "E9 DB 8F E7 FF 90"
+Condition = "PARAMETERS:RMB_No_Take_Anim"
+ConditionValue = "1"
+
+[RMB_No_Take_Anim_7]
+Addr = "0x0075355B"
+Type = "hex"
+New = "3E"
+Condition = "PARAMETERS:RMB_No_Take_Anim"
+ConditionValue = "1"
+
+[INTERFACE_All_0]
+Base = "BlockS"
+Type = "float"
+NewVar = "INTERFACE:Scale"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+NewMin = "1.0"
+
+[INTERFACE_All_1]
+Addr = "0x006670E0"
+Type = "hex"
+New = "E9 10 03 00 00 DB 44 E4 0C DA 35 21 57 40 00 D8 15 00 00 B9 07 DF E0 F6 C4 41 7F 0C DD D8 68 6D 0D 81 00 E9 4F 17 FF FF D9 1D 00 00 B9 07 EB EE"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_2]
+Addr = "0x00658852"
+Type = "hex"
+New = "E9 8E E8 00 00"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_3]
+Addr = "0x006670F1"
+Type = "ptr"
+NewBlock = "BlockS"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_4]
+Addr = "0x0066710A"
+Type = "ptr"
+NewBlock = "BlockS"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_5]
+Addr = "0x00667110"
+Type = "hex"
+New = "0F B6 54 08 1C 52 DB 04 E4 D8 0D 00 00 B9 07 DB 1C E4 8B 14 E4 89 34 E4 E9 75 32 12 00"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_6]
+Addr = "0x0078A39C"
+Type = "hex"
+New = "E9 6F CD ED FF"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_7]
+Addr = "0x0066711B"
+Type = "ptr"
+NewBlock = "BlockS"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_8]
+Addr = "0x0066712D"
+Type = "hex"
+New = "DB 41 14 D8 0D 00 00 B9 07 DB 1D 04 00 B9 07 A1 04 00 B9 07 C3 A3 04 00 B9 07 DB 05 04 00 B9 07 D8 0D 00 00 B9 07 DB 1D 04 00 B9 07 A1 04 00 B9 07 C2 04 00"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_9]
+Addr = "0x007894E0"
+Type = "hex"
+New = "E9 48 DC ED FF"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_10]
+Addr = "0x00789518"
+Type = "hex"
+New = "E9 25 DC ED FF"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_11]
+Addr = "0x0078952A"
+Type = "hex"
+New = "E9 13 DC ED FF"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_12]
+Addr = "0x00667132"
+Type = "ptr"
+NewBlock = "BlockS"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_13]
+Addr = "0x00667138"
+Type = "ptr"
+NewBlock = "BlockS"
+NewOffset = "0x04"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_14]
+Addr = "0x0066713D"
+Type = "ptr"
+NewBlock = "BlockS"
+NewOffset = "0x04"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_15]
+Addr = "0x00667143"
+Type = "ptr"
+NewBlock = "BlockS"
+NewOffset = "0x04"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_16]
+Addr = "0x00667149"
+Type = "ptr"
+NewBlock = "BlockS"
+NewOffset = "0x04"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_17]
+Addr = "0x0066714F"
+Type = "ptr"
+NewBlock = "BlockS"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_18]
+Addr = "0x00667155"
+Type = "ptr"
+NewBlock = "BlockS"
+NewOffset = "0x04"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_19]
+Addr = "0x0066715A"
+Type = "ptr"
+NewBlock = "BlockS"
+NewOffset = "0x04"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_20]
+Addr = "0x00667161"
+Type = "hex"
+New = "D8 0D 00 00 B9 07 E9 DC 9D 16 00"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_21]
+Addr = "0x00667163"
+Type = "ptr"
+NewBlock = "BlockS"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_22]
+Addr = "0x004DC0E7"
+Type = "hex"
+New = "E9 80 B0 18 00 90 90 90"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_23]
+Addr = "0x0066716C"
+Type = "hex"
+New = "DA 0D 5D A9 4D 00 E8 EA FF FF FF DB 05 5D A9 4D 00 D8 0D 00 00 B9 07 E9 6A 4F E7 FF"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_24]
+Addr = "0x0066717F"
+Type = "ptr"
+NewBlock = "BlockS"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_25]
+Addr = "0x00667188"
+Type = "hex"
+New = "83 EC 24 56 8B F1 8B 46 60 85 C0 57 74 75 8D 48 54 8B 01 8D 54 24 10 52 FF 50 18 8B 78 10 8B 46 60 8D 48 54 8B 01 8D 54 24 10 52 FF 50 18 8B 4E 4C 85 C9 8B 40 14 74 4B 85 FF 8B 51 40 8B 49 44 7E 41 3B FA 7D 3D 85 C0 7E 39 3B C1 7D 35 8D 54 24 08 8B CE 89 7C 24 08 89 44 24 0C DB 44 E4 08 D8 0D 00 00 E2 07 DB 5C E4 08 DB 44 E4 0C D8 0D 00 00 E2 07 DB 5C E4 0C E8 5B AF 02 00 5F 5E 83 C4 24 C3 E9 F7 5D 02 00"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_26]
+Addr = "0x006671EA"
+Type = "ptr"
+NewBlock = "BlockS"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_27]
+Addr = "0x006671F8"
+Type = "ptr"
+NewBlock = "BlockS"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_28]
+Addr = "0x0068C9C8"
+Type = "hex"
+New = "E8 BB A7 FD FF"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_29]
+Addr = "0x00667210"
+Type = "hex"
+New = "E8 4B 95 13 00 DB 02 D8 0D 00 00 B7 07 DB 1A E9 DE 2B 07 00 E8 37 95 13 00 DB 01 D8 0D 00 00 B7 07 DB 19 E9 E2 2B 07 00"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_30]
+Addr = "0x00667219"
+Type = "ptr"
+NewBlock = "BlockS"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_31]
+Addr = "0x0066722D"
+Type = "ptr"
+NewBlock = "BlockS"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_32]
+Addr = "0x006D9DFD"
+Type = "hex"
+New = "E9 0E D4 F8 FF 8D 44 24 10 50 8B CE E8 52 69 0C 00 8D 4C 24 0C 51 8B CE E9 0A D4 F8 FF"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_33]
+Addr = "0x00667238"
+Type = "hex"
+New = "68 80 02 00 00 DB 04 E4 D8 0D 00 00 F1 02 DB 1C E4 E9 C1 40 DC FF 68 E0 01 00 00 DB 04 E4 D8 0D 00 00 F1 02 DB 1C E4 E9 BC 40 DC FF 68 80 02 00 00 DB 04 E4 D8 0D 00 00 F1 02 DB 1C E4 E9 C1 85 FF FF 68 E0 01 00 00 DB 04 E4 D8 0D 00 00 F1 02 DB 1C E4 E9 BA 85 FF FF 68 58 02 00 00 DB 04 E4 D8 0D 00 00 F1 02 DB 1C E4 E9 97 BB 05 00 68 40 01 00 00 DB 04 E4 D8 0D 00 00 F1 02 DB 1C E4 E9 75 B0 05 00 68 C8 00 00 00 DB 04 E4 D8 0D 00 00 F1 02 DB 1C E4 E9 73 B0 05 00"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_34]
+Addr = "0x00667242"
+Type = "ptr"
+NewBlock = "BlockS"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_35]
+Addr = "0x00667258"
+Type = "ptr"
+NewBlock = "BlockS"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_36]
+Addr = "0x0066726E"
+Type = "ptr"
+NewBlock = "BlockS"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_37]
+Addr = "0x00667284"
+Type = "ptr"
+NewBlock = "BlockS"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_38]
+Addr = "0x0066729A"
+Type = "ptr"
+NewBlock = "BlockS"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_39]
+Addr = "0x006672B0"
+Type = "ptr"
+NewBlock = "BlockS"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_40]
+Addr = "0x006672C6"
+Type = "ptr"
+NewBlock = "BlockS"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_41]
+Addr = "0x0042B30A"
+Type = "hex"
+New = "E9 29 BF 23 00"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_42]
+Addr = "0x0042B31B"
+Type = "hex"
+New = "E9 2E BF 23 00"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_43]
+Addr = "0x0065F836"
+Type = "hex"
+New = "E9 29 7A 00 00"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_44]
+Addr = "0x0065F845"
+Type = "hex"
+New = "E9 30 7A 00 00"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_45]
+Addr = "0x006C232C"
+Type = "hex"
+New = "E9 75 4F FA FF"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_46]
+Addr = "0x006C2340"
+Type = "hex"
+New = "E9 77 4F FA FF"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_47]
+Addr = "0x006C2E38"
+Type = "hex"
+New = "E9 53 44 FA FF"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_48]
+Addr = "0x007087C1"
+Type = "hex"
+New = "E8 9B E9 F5 FF A3 54 0F AB 00 8B 07 6A 46 8B CF FF 50 04 89 44 24 10 DB 44 24 10 D8 4C 24 0C E8 63 87 0C 00 A3 50 0F AB 00 8B 17 6A 46 8B CF FF 12 89 44 24 10 DB 44 24 10 D8 4C 24 08 E8 5E E9 F5 FF A3 A8 0F AB 00 8B 07 6A 46 8B CF FF 50 04 89 44 24 10 DB 44 24 10 D8 4C 24 0C E8 3F E9 F5 FF"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_49]
+Addr = "0x006672D2"
+Type = "hex"
+New = "68 B4 00 00 00 DB 04 E4 D8 0D 00 00 F1 02 DB 1C E4 FF 12 8B 0D 68 64 AB 00 A3 1C 30 8C 00 8B 01 6A 14 DB 04 E4 D8 0D 00 00 F1 02 DB 1C E4 E9 6F 63 DD FF 6A 1E DB 04 E4 D8 0D 00 00 F1 02 DB 1C E4 FF 52 04 E9 7C BC 05 00 68 BE 00 00 00 DB 04 E4 D8 0D 00 00 F1 02 DB 1C E4 E9 EE BC 05 00 6A 10 DB 04 E4 D8 0D 00 00 F1 02 DB 1C E4 FF 10 8B 8E 8C 03 00 00 89 86 14 04 00 00 8B 11 6A 10 DB 04 E4 D8 0D 00 00 F1 02 DB 1C E4 E9 4E CA E7 FF"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_50]
+Addr = "0x006672DC"
+Type = "ptr"
+NewBlock = "BlockS"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_51]
+Addr = "0x006672F9"
+Type = "ptr"
+NewBlock = "BlockS"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_52]
+Addr = "0x0066730C"
+Type = "ptr"
+NewBlock = "BlockS"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_53]
+Addr = "0x00667325"
+Type = "ptr"
+NewBlock = "BlockS"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_54]
+Addr = "0x00667338"
+Type = "ptr"
+NewBlock = "BlockS"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_55]
+Addr = "0x00667356"
+Type = "ptr"
+NewBlock = "BlockS"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_56]
+Addr = "0x0043D65E"
+Type = "hex"
+New = "E9 6F 9C 22 00"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_57]
+Addr = "0x004E3D9C"
+Type = "hex"
+New = "E9 90 35 18 00 90 90 90 90 90"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_58]
+Addr = "0x006C2F92"
+Type = "hex"
+New = "E9 6E 43 FA FF"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_59]
+Addr = "0x006C301A"
+Type = "hex"
+New = "E9 FC 42 FA FF"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_60]
+Addr = "0x00658852"
+Type = "hex"
+New = "E9 0B EB 00 00"
+Condition = "INTERFACE:Scale"
+ConditionValue = "1"
+
+[INTERFACE_All_61]
+Addr = "0x00667362"
+Type = "hex"
+New = "81 7C E4 0C 00 03 00 00 0F 8D 75 FD FF FF D9 E8 E9 91 FD FF FF"
+Condition = "INTERFACE:Scale"
+ConditionValue = "1"
+
+[INTERFACE_All_62]
+Addr = "0x006670FA"
+Type = "hex"
+New = "EB 0C"
+Condition = "INTERFACE:Scale"
+ConditionValue = "1"
+
+[INTERFACE_All_63]
+Addr = "0x006670E9"
+Type = "hex"
+New = "DA 35 E4 17 41 00"
+Condition = "INTERFACE:Scale"
+ConditionValue = "1"
+
+[Disable_Map_Use_1]
+Addr = "0x006FC36F"
+Type = "hex"
+New = "E8 8C 62 04 00"
+
+[Disable_Use_Weapon_When_Anvil_1]
+Addr = "0x005CC5A9"
+Type = "hex"
+New = "80 B9 6C 07 00 00 10 74 05 E9 59 06 18 00 B8 01 00 00 00 C2 04 00"
+
+[Disable_Use_Weapon_When_Anvil_2]
+Addr = "0x0074C192"
+Type = "hex"
+New = "E8 12 04 E8 FF"
+
+[Last_Scroll_Damage_Fix_1]
+Addr = "0x0066741A"
+Type = "hex"
+New = "E9 A0 51 F6 FF"
+
+[Last_Scroll_Damage_Fix_2]
+Addr = "0x005CC5BF"
+Type = "hex"
+New = "E8 7C C6 16 00 83 F8 00 0F 84 BC BC 09 00 E9 4D AE 09 00"
+
+[INTERFACE_All_64]
+Addr = "0x00830C84"
+Type = "float"
+Org = "640"
+NewVar = "INTERFACE:ScaleMenusX"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_65]
+Addr = "0x00830C88"
+Type = "float"
+Org = "480"
+NewVar = "INTERFACE:ScaleMenusY"
+Condition = "INTERFACE:Scale"
+ConditionNotValue = "0"
+
+[INTERFACE_All_66]
+Addr = "0x004DC0A1"
+Type = "hex"
+New = "74 00"
+Condition = "INTERFACE:ForceMenuScale"
+ConditionValue = "1"
+
+[No_Interrupt_Interact_ANI_1]
+Addr = "0x0066E872"
+Type = "hex"
+New = "E9 E0 F9 FF FF"
+
+[No_Interrupt_Interact_ANI_2]
+Addr = "0x0066E252"
+Type = "hex"
+New = "E9 0B 06 00 00 80 B9 6C 07 00 00 0E 0F 84 2F 06 00 00 E8 D7 A9 0C 00 E9 09 06 00 00 90 90"
+
+[AttackRun_fix_1]
+Addr = "0x00751957"
+Type = "hex"
+New = "E8 14 C9 F1 FF"
+
+[AttackRun_fix_2]
+Addr = "0x0066E270"
+Type = "hex"
+New = "39 35 84 26 AB 00 0F 84 C4 C6 02 00 C2 04 00"
+
+[Menu_Back_Fix_1]
+Addr = "0x00426BFD"
+Type = "hex"
+New = "E8 D2 76 24 00"
+
+[Menu_Back_Fix_2]
+Addr = "0x0066E2D4"
+Type = "hex"
+New = "81 7C E4 14 8A AE 47 00 74 0E 81 7C E4 20 D6 C6 4D 00 0F 85 C4 9D 0C 00 C7 44 E4 04 01 00 00 00 E9 B7 9D 0C 00"
+
+[FIST_Key1_BUGFIX_1]
+Addr = "0x006FCAB2"
+Type = "hex"
+New = "E9 E3 17 F7 FF"
+
+[FIST_Key1_BUGFIX_2]
+Addr = "0x0066E29A"
+Type = "hex"
+New = "E8 11 CC F3 FF 83 C4 0C 89 74 24 14 C6 84 24 FC 00 00 00 08 3B F3 0F 84 70 E8 08 00 53 53 6A 03 8B CE E8 0F 85 0F 00 89 C6 E9 52 F0 08 00"
+
+[Dropped_Bolt_Arrow_Torch_1]
+Addr = "0x0066E2C8"
+Type = "hex"
+New = "8B 47 30 89 44 E4 04 E9 FC 6A 0D 00"
+
+[Dropped_Bolt_Arrow_Torch_2]
+Addr = "0x0073761C"
+Type = "hex"
+New = "E8 A7 6C F3 FF"
+
+[Dropped_Bolt_Arrow_Torch_3]
+Addr = "0x00737672"
+Type = "hex"
+New = "E8 51 6C F3 FF"
+
+[Mouse_buffer_1]
+Addr = "0x004D37D2"
+Type = "hex"
+New = "E9 22 AB 19 00"
+
+[Mouse_buffer_2]
+Addr = "0x0066E2F9"
+Type = "hex"
+New = "A1 70 1D 8D 00 C7 44 E4 2C 64 00 00 00 E9 CC 54 E6 FF"
+
+[Hide_Focus_on_DEAD_NPC_1]
+Addr = "0x00733FA2"
+Type = "hex"
+New = "E9 64 A3 F3 FF 90"
+Condition = "PARAMETERS:HideFocus"
+ConditionValue = "1"
+
+[Hide_Focus_on_DEAD_NPC_2]
+Addr = "0x0066E30B"
+Type = "hex"
+New = "81 3F 24 D7 83 00 74 0B 8B 0D 38 07 AB 00 E9 8A 5C 0C 00 83 BF B8 01 00 00 00 75 EC 8D 8F 68 06 00 00 6A 00 6A 01 E8 6A EE 09 00 85 C0 74 D9 E9 2A 5D 0C 00"
+Condition = "PARAMETERS:HideFocus"
+ConditionValue = "1"
+
+[Color_DialogChoice]
+Addr = "0x0068EA97"
+Type = "hex"
+New = "90 90 B9 9F 9F 9F FF BA FF FF FF FF"
+
+[Color_DialogChoice_Inactive]
+Addr = "0x0068EA9A"
+Type = "int"
+NewVar = "INTERFACE:Color_DialogChoice_Inactive"
+
+[Color_DialogChoice_Active]
+Addr = "0x0068EA9F"
+Type = "int"
+NewVar = "INTERFACE:Color_DialogChoice_Active"
+
+[Color_Talk_Hero]
+Addr = "0x0072BDA0"
+Type = "hex"
+New = "C7 05 DC 1F AB 00 FF FF FF FF C3 90"
+
+[Color_Talk_Hero_value]
+Addr = "0x0072BDA6"
+Type = "int"
+NewVar = "INTERFACE:Color_Talk_Hero"
+
+[Color_Talk_NPC]
+Addr = "0x0072BDC0"
+Type = "hex"
+New = "C7 05 90 1E AB 00 00 FF FF FF C3 90"
+
+[Color_Talk_NPC_value]
+Addr = "0x0072BDC6"
+Type = "int"
+NewVar = "INTERFACE:Color_Talk_NPC"
+
+[Close_Inventory_In_NPC_1]
+Addr = "0x005CC5B2"
+Type = "hex"
+New = "E9 88 1D 0A 00"
+
+[Close_Inventory_In_NPC_2]
+Addr = "0x0066E33F"
+Type = "hex"
+New = "39 35 84 26 AB 00 0F 85 C5 E8 0D 00 83 3D D0 27 AB 00 01 75 0C E8 E7 47 0F 00 89 F1 E9 B0 E8 0D 00 83 3D D0 27 AB 00 02 0F 85 A3 E8 0D 00 E8 DE 45 0F 00 89 F1 E9 97 E8 0D 00"
+
+[Show_FPS_1]
+Addr = "0x00425328"
+Type = "hex"
+New = "E9 4C 90 24 00"
+Condition = "DEBUG:Show_FPS_Counter"
+ConditionValue = "1"
+
+[Show_FPS_2]
+Addr = "0x0066E379"
+Type = "hex"
+New = "A3 84 08 AB 00 C6 80 A4 00 00 00 01 E9 A3 6F DB FF"
+Condition = "DEBUG:Show_FPS_Counter"
+ConditionValue = "1"
+
+[No_Strafe_while_fall_1]
+Addr = "0x0069ACC7"
+Type = "hex"
+New = "00 00"
+Condition = "DEBUG:StrafeBug"
+ConditionValue = "1"
+
+[WASD_Menu_1]
+Addr = "0x0066E38A"
+Type = "hex"
+New = "83 F8 1F 0F 84 B1 D8 E6 FF 83 F8 11 0F 84 75 D8 E6 FF 83 F8 1E 0F 84 D2 D8 E6 FF 83 F8 20 0F 84 D7 D8 E6 FF 83 F8 0F 0F 84 23 D8 E6 FF E9 02 D8 E6 FF"
+
+[WASD_Menu_2]
+Addr = "0x004DBBB9"
+Type = "hex"
+New = "E9 CC 27 19 00"

@@ -1,0 +1,168 @@
+%ifndef ENGINE_MAC
+    %define ENGINE_MAC
+
+     ; Version dependent macros (i.e. addresses, offsets and constants)
+    %if GOTHIC_BASE_VERSION == 1
+
+        %define     operator_new_len                          0x54EBE0     ; uint, char const *, char const *, int
+        %define     operator_StrPlusChar                      0x404740     ; zSTRING const &, char const *
+        %define     _findfirst                                0x778B68     ; const char *, finddata_t *
+        %define     _findnext                                 0x778C35     ; int, _finddata_t *
+        %define     _findclose                                0x778CFD     ; int
+        %define     zFILE_VDFS__LockCriticalSection           0x4471C0     ; void
+        %define     zFILE_VDFS__UnlockCriticalSection         0x4471E0     ; void
+        %define     zFILE_cur_mds_file                        0x873D6C     ; zFILE *
+        %define     zSTRING__zSTRING                          0x4013A0     ; char const *
+        %define     zSTRING___zSTRING                         0x401260     ; void
+        %define     zSTRING__Upper                            0x465390     ; void
+        %define     zSTRING__Search                           0x467750     ; int, char const *, uint
+        %define     zSTRING__operator_plusEq                  0x644ED0     ; char const *
+        %define     ds_lstrcatA                               0x7D02D8     ; LPTSTR, LPTSTR
+        %define     ds_lstrcpyA                               0x7D0288     ; LPTSTR, LPTSTR
+        %define     ds_lstrlenA                               0x7D0274     ; LPCSTR
+        %define     ds_lstrcmpiA                              0x7D02C4     ; LPCSTR, LPCSTR
+        %define     ds_vdf_fexists                            0x7D04D0     ; const char*, long
+        %define     zCParser_parser                           0x8DCE08     ; zCParser
+        %define     zCParser__CallFunc                        0x6E9670     ; zSTRING const &
+        %define     zCParser__MergeFile                       0x6E82F0     ; zSTRING &
+        %define     zCParser__GetSymbol_str                   0x6EA520     ; zSTRING const &
+        %define     zCParser__cur_parser                      0x8DDFD4     ; zCParser *
+        %define     zCParser__enableParsing                   0x8DDFCC     ; int
+        %define     zCPar_SymbolTable__GetIndex               0x6F9FA0     ; zCPar_Symbol *
+        %define     zCPar_SymbolTable__GetSymbol_int          0x6FA410     ; int
+        %define     zCPar_SymbolTable__GetSymbol_str          0x6FA370     ; zSTRING const &
+        %define     zCPar_SymbolTable__cur_table              0x8DE174     ; zCPar_SymbolTable *
+        %define     zCPar_Symbol__SetStackPos                 0x6F8520     ; int, int
+        %define     zCMusicSys_DirectMusic__musicParser       0x86D6A8     ; zCParser *
+        %define     zCSndSys_MSS__sfxParser                   0x86DCFC     ; zCParser *
+        %define     zCParticleFX__s_pfxParser                 0x874380     ; zCParser *
+        %define     oCVisualFX__fxParser                      0x869E6C     ; zCParser *
+        %define     zCMenu__menuParser                        0x86D3D8     ; zCParser *
+        %define     zCAICamera__cameraParser                  0x86A1E0     ; zCParser *
+        %define     zCSoundSystem_zsound                      0x8CEE4C     ; zCSoundSystem *
+        %define     zERROR_zerr                               0x8699D8     ; zERROR *
+        %define     zERROR__Report                            0x448250     ; zERROR_TYPE, int, zSTRING const &, signed char, uint, int, char *, char *
+        %define     zERROR__Message                           0x4492F0     ; zSTRING const &
+        %define     zCOption_zoptions                         0x869694     ; zCOption *
+        %define     zCOption__GetDirString                    0x45FC00     ; zTOptionPaths
+        %define     zCObjectFactory_zfactory                  0x873F88     ; zCObjectFactory *
+        %define     zCModelPrototype__ReadModel               0x57E410     ; void
+        %define     zCModelPrototype__SearchAniIndex          0x56F850     ; zSTRING const &
+        %define     zCModelAni__deleting_destructor           0x56AA20     ; uint
+
+        %define     strModel                                  0x840908     ; "MODEL"
+        %define     str_mds                                   0x833534     ; ".MDS"
+        %define     str_dot                                   0x82AFB4     ; "."
+        %define     char_doubleFSlash                         0x82EDAC     ; "//"
+        %define     str_mdlBuffer                             0x873C60     ; zSTRING *
+
+        %define     zCObjectFactory__CreateZFile_offset       0x14         ; zSTRING const &
+        %define     zFILE_VDFS__Exists_offset                 0x94         ; void
+        %define     zFILE_VDFS__Open_offset                   0x8C         ; bool
+        %define     zFILE_VDFS__Eof_offset                    0xB0         ; void
+        %define     zFILE_VDFS__Read_offset                   0xC4         ; zSTRING &
+        %define     zFILE_VDFS__Close_offset                  0x98         ; void
+        %define     zFILE_VDFS__deleting_destructor_offset    0x0          ; uint
+
+        %define     zCParser_table_offset                     0x10
+        %define     zCParser_lastsym_offset                   0x34
+        %define     zCParser_stackpos_offset                  0x48
+        %define     zCParser_in_func_offset                   0x10D4       ; zCPar_Symbol *
+        %define     zCParser_in_class_offset                  0x10D8       ; zCPar_Symbol *
+        %define     zCParser_datsave_offset                   0x1090
+
+        %define     zCPar_Symbol_content_offset               0x18
+
+        %define     zPAR_TOK_RET                              0x3C
+        %define     zPAR_TOK_JUMP                             0x4B
+
+        %define     INVALID_HANDLE_VALUE                      0xFFFFFFFF
+        %define     VDF_VIRTUAL                               1
+        %define     VDF_PHYSICAL                              2
+        %define     VDF_PHYSICALFIRST                         4
+
+        %define     DIR_ANIMS                                 4
+
+    %elif GOTHIC_BASE_VERSION == 2
+
+        %define     operator_new                              0x565F50     ; uint
+        %define     operator_StrPlusChar                      0x404880     ; zSTRING const &, char const *
+        %define     _findfirst                                0x7D2506     ; const char *, finddata_t *
+        %define     _findnext                                 0x7D25D3     ; int, _finddata_t *
+        %define     _findclose                                0x7D269B     ; int
+        %define     zFILE_VDFS__LockCriticalSection           0x44B7E0     ; void
+        %define     zFILE_VDFS__UnlockCriticalSection         0x44B800     ; void
+        %define     zFILE_cur_mds_file                        0x8D8BCC     ; zFILE *
+        %define     zSTRING__zSTRING                          0x4010C0     ; char const *
+        %define     zSTRING___zSTRING                         0x401160     ; void
+        %define     zSTRING__Upper                            0x46AB00     ; void
+        %define     zSTRING__Search                           0x46C920     ; int, char const *, uint
+        %define     zSTRING__operator_plusEq                  0x67A7B0     ; char const *
+        %define     ds_lstrcatA                               0x82E1E0     ; LPTSTR, LPTSTR
+        %define     ds_lstrcpyA                               0x82E1E4     ; LPTSTR, LPTSTR
+        %define     ds_lstrlenA                               0x82E1E8     ; LPCSTR
+        %define     ds_lstrcmpiA                              0x82E174     ; LPCSTR, LPCSTR
+        %define     ds_vdf_fexists                            0x82E66C     ; const char*, long
+        %define     zCParser_parser                           0xAB40C0     ; zCParser
+        %define     zCParser__CallFunc                        0x7929D0     ; zSTRING const &
+        %define     zCParser__MergeFile                       0x791650     ; zSTRING &
+        %define     zCParser__GetSymbol_str                   0x7938D0     ; zSTRING const &
+        %define     zCParser__cur_parser                      0xAB628C     ; zCParser *
+        %define     zCParser__enableParsing                   0xAB6284     ; int
+        %define     zCPar_SymbolTable__GetIndex               0x7A3A70     ; zCPar_Symbol *
+        %define     zCPar_SymbolTable__GetSymbol_int          0x7A3EE0     ; int
+        %define     zCPar_SymbolTable__GetSymbol_str          0x7A3E40     ; zSTRING const &
+        %define     zCPar_SymbolTable__cur_table              0xAB6428     ; zCPar_SymbolTable *
+        %define     zCPar_Symbol__SetStackPos                 0x7A1E20     ; int, int
+        %define     zCMusicSys_DirectMusic__musicParser       0x8D2140     ; zCParser *
+        %define     zCSndSys_MSS__sfxParser                   0x8D2A64     ; zCParser *
+        %define     zCParticleFX__s_pfxParser                 0x8D9234     ; zCParser *
+        %define     oCVisualFX__fxParser                      0x8CE6EC     ; zCParser *
+        %define     zCMenu__menuParser                        0x8D1E68     ; zCParser *
+        %define     zCAICamera__cameraParser                  0x8CEAC8     ; zCParser *
+        %define     zCSoundSystem_zsound                      0x99B03C     ; zCSoundSystem *
+        %define     zERROR_zerr                               0x8CDCD0     ; zERROR *
+        %define     zERROR__Report                            0x44C8D0     ; zERROR_TYPE, int, zSTRING const &, signed char, uint, int, char *, char *
+        %define     zERROR__Message                           0x44DA10     ; zSTRING const &
+        %define     zCOption_zoptions                         0x8CD988     ; zCOption *
+        %define     zCOption__GetDirString                    0x465260     ; zTOptionPaths
+        %define     zCObjectFactory_zfactory                  0x8D8DF0     ; zCObjectFactory *
+        %define     zCModelPrototype__ReadModel               0x59D4C0     ; zCFileBIN &
+        %define     zCModelPrototype__SearchAniIndex          0x589FC0     ; zSTRING const &
+        %define     zCModelAni__deleting_destructor           0x5852D0     ; uint
+
+        %define     strModel                                  0x8A44CC     ; "MODEL"
+        %define     str_mds                                   0x8970E0     ; ".MDS"
+        %define     str_dot                                   0x88F1E4     ; "."
+        %define     char_doubleFSlash                         0x892C64     ; "//"
+        %define     str_mdlBuffer                             0x8D8AC0     ; zSTRING *
+
+        %define     zCObjectFactory__CreateZFile_offset       0x14         ; zSTRING const &
+        %define     zFILE_VDFS__Exists_offset                 0x94         ; void
+        %define     zFILE_VDFS__Open_offset                   0x8C         ; bool
+        %define     zFILE_VDFS__Eof_offset                    0xB0         ; void
+        %define     zFILE_VDFS__Read_offset                   0xC4         ; zSTRING &
+        %define     zFILE_VDFS__Close_offset                  0x98         ; void
+        %define     zFILE_VDFS__deleting_destructor_offset    0x0          ; uint
+
+        %define     zCParser_table_offset                     0x10
+        %define     zCParser_lastsym_offset                   0x34
+        %define     zCParser_stackpos_offset                  0x48
+        %define     zCParser_in_func_offset                   0x20D4       ; zCPar_Symbol *
+        %define     zCParser_in_class_offset                  0x20D8       ; zCPar_Symbol *
+        %define     zCParser_datsave_offset                   0x2090
+
+        %define     zCPar_Symbol_content_offset               0x18
+
+        %define     zPAR_TOK_RET                              0x3C
+        %define     zPAR_TOK_JUMP                             0x4B
+
+        %define     INVALID_HANDLE_VALUE                      0xFFFFFFFF
+        %define     VDF_VIRTUAL                               1
+        %define     VDF_PHYSICAL                              2
+        %define     VDF_PHYSICALFIRST                         4
+
+        %define     DIR_ANIMS                                 4
+
+    %endif
+%endif
