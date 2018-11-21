@@ -4,7 +4,7 @@
 %include "inc/engine.inc"
 
 %ifidn __OUTPUT_FORMAT__, bin
-    org     g1g2(0x452873,0x457791)
+    org     g1g2(0x452640,0x457470)
 %endif
 
 bits    32
@@ -12,8 +12,8 @@ bits    32
 
 section .text
 
-        ; Redirect current function to jump beyond to make space
-        jmp     g1g2(0x4530B2,0x4580AE)
+        ; Immediately return from zCNetEventManager::HandleNetMessage
+        ret
 
 
 %include "func/findVdfSrc.asm"

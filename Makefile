@@ -68,8 +68,7 @@ BIN_BASE		:=	core										\
 					ow_parserDeclareFunc_showOverwrite			\
 					ow_parserDeclarePrototype_showOverwrite		\
 					ow_parserDeclareVar_showOverwrite			\
-					ow_version									\
-					skip_netMessage_fail
+					ow_version
 BIN_BASE_G2		:=	skip_writeAniBinFile_ModelTag				\
 					skip_writeAniBinFile_ReadMeshAndTree		\
 					skip_writeAniBinFile_RegisterMesh			\
