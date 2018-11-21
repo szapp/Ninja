@@ -3,8 +3,7 @@
 global ninja_findVdfSrc
 ninja_findVdfSrc:
         resetStackoffset
-        %assign var_total      0x354
-        %assign var_array     -0x354                                       ; zCArray             0xC
+        %assign var_total      0x348
         %assign var_timestamp -0x348                                       ; int
         %assign var_filehndl  -0x344                                       ; FILE *
         %assign var_filevdf   -0x340                                       ; char[MAX_PATH]      0x104
@@ -33,7 +32,9 @@ ninja_findVdfSrc:
 
         mov     [esp+stackoffset+var_findhndl], eax
 
-        lea     ecx, [esp+stackoffset+var_array]
+        lea     ecx, [NINJA_PATCH_ARRAY-1]
+        mov     [ecx], BYTE 0                                              ; Null terminated char string
+        mov     ecx, NINJA_PATCH_ARRAY
         call    zCArray_int___zCArray_int_
 
 .fileLoopStart:
@@ -141,7 +142,7 @@ ninja_findVdfSrc:
         sub     esp, 0x4
         mov     [esp], edi
         push    esp
-        lea     ecx, [esp+stackoffset+var_array]
+        mov     ecx, NINJA_PATCH_ARRAY
         call    zCArray_int___InsertEnd
         add     esp, 0x4
     addStack 4
@@ -159,21 +160,21 @@ ninja_findVdfSrc:
         call    _findclose
         add     esp, 0x4
 
-        mov     eax, [esp+stackoffset+var_array+zCArray.numInArray]
+        mov     eax, [NINJA_PATCH_ARRAY+zCArray.numInArray]
         test    eax, eax
         jz      .arrayLoopEnd
 
         push    zCModel__AniAttachmentCompare                              ; Abuse convenient comparator
         push    0x4
-        push    DWORD [esp+stackoffset+var_array+zCArray.numInArray]
-        push    DWORD [esp+stackoffset+var_array+zCArray.array]
+        push    DWORD [NINJA_PATCH_ARRAY+zCArray.numInArray]
+        push    DWORD [NINJA_PATCH_ARRAY+zCArray.array]
         call    _qsort
         add     esp, 0x10
 
         xor     edi, edi
 
 .arrayLoop:
-        mov     eax, [esp+stackoffset+var_array]
+        mov     eax, [NINJA_PATCH_ARRAY+zCArray.array]
         mov     esi, [eax+edi*0x4]
 
         lea     eax, [esi+0x4]
@@ -186,12 +187,12 @@ ninja_findVdfSrc:
         add     esp, 0x4
 
         inc     edi
-        mov     eax, [esp+stackoffset+var_array+zCArray.numInArray]
+        mov     eax, [NINJA_PATCH_ARRAY+zCArray.numInArray]
         cmp     edi, eax
         jl     .arrayLoop
 
 .arrayLoopEnd:
-        lea     ecx, [esp+stackoffset+var_array]
+        mov     ecx, NINJA_PATCH_ARRAY
         call    zCArray_int____zCArray_int_
 
 .funcEnd:

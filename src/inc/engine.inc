@@ -61,6 +61,8 @@
         %define     zCModelPrototype__SearchAniIndex          0x56F850     ; zSTRING const &
         %define     zCModelAni__deleting_destructor           0x56AA20     ; uint
 
+        %define     NINJA_PATCH_ARRAY                         0x830391     ; zCArray
+
         %define     strModel                                  0x840908     ; "MODEL"
         %define     str_mds                                   0x833534     ; ".MDS"
         %define     str_dot                                   0x82AFB4     ; "."
@@ -179,6 +181,8 @@
         %define     zCModelPrototype__ReadModel               0x59D4C0     ; zCFileBIN &
         %define     zCModelPrototype__SearchAniIndex          0x589FC0     ; zSTRING const &
         %define     zCModelAni__deleting_destructor           0x5852D0     ; uint
+
+        %define     NINJA_PATCH_ARRAY                         0x894155     ; zCArray
 
         %define     strModel                                  0x8A44CC     ; "MODEL"
         %define     str_mds                                   0x8970E0     ; ".MDS"
