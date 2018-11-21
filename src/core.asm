@@ -1,7 +1,7 @@
 ; Core of the executing code of Ninja
 
-%include "inc/macros.mac"
-%include "inc/engine.mac"
+%include "inc/macros.inc"
+%include "inc/engine.inc"
 
 %ifidn __OUTPUT_FORMAT__, bin
     org     g1g2(0x452873,0x457791)

@@ -1,12 +1,12 @@
 ; Overwrite 'aniBlend' in zCModelPrototype::ReadAniEnum
 
-%include "inc/macros.mac"
-%include "inc/engine.mac"
+%include "inc/macros.inc"
+%include "inc/engine.inc"
 
 %if GOTHIC_BASE_VERSION == 1
-    %include "inc/symbols_g1.mac"
+    %include "inc/symbols_g1.inc"
 %elif GOTHIC_BASE_VERSION == 2
-    %include "inc/symbols_g2.mac"
+    %include "inc/symbols_g2.inc"
 %endif
 
 %ifidn __OUTPUT_FORMAT__, bin

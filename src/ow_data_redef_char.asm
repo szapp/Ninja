@@ -1,6 +1,6 @@
 ; Overwrite parser error message
 
-%include "inc/macros.mac"
+%include "inc/macros.inc"
 
 %ifidn __OUTPUT_FORMAT__, bin
     org     g1g2(0x8525C8,0x8BC220)

@@ -1,7 +1,7 @@
-%ifndef ENGINE_MAC
-    %define ENGINE_MAC
+%ifndef ENGINE_INC
+    %define ENGINE_INC
 
-     ; Version dependent macros (i.e. addresses, offsets and constants)
+    ; Version dependent macros (i.e. addresses, offsets and constants)
     %if GOTHIC_BASE_VERSION == 1
 
         %define     operator_new                              0x54EBA0     ; uint

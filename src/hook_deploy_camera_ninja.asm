@@ -1,11 +1,11 @@
 ; Hook camera parser in zCAICamera::StartUp
 
-%include "inc/macros.mac"
+%include "inc/macros.inc"
 
 %if GOTHIC_BASE_VERSION == 1
-    %include "inc/symbols_g1.mac"
+    %include "inc/symbols_g1.inc"
 %elif GOTHIC_BASE_VERSION == 2
-    %include "inc/symbols_g2.mac"
+    %include "inc/symbols_g2.inc"
 %endif
 
 %ifidn __OUTPUT_FORMAT__, bin

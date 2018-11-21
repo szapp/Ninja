@@ -1,6 +1,6 @@
 ; Disable function zCFileBIN::BinWriteInt
 
-%include "inc/macros.mac"
+%include "inc/macros.inc"
 
 %if GOTHIC_BASE_VERSION == 1
     %fatal This file is for Gothic 2 only

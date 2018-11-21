@@ -1,6 +1,6 @@
 ; Overwrite the version information at the bottom right of the game menu
 
-%include "inc/macros.mac"
+%include "inc/macros.inc"
 
 %ifidn __OUTPUT_FORMAT__, bin
     org     g1g2(0x7CF576,0x82D48F)

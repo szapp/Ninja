@@ -7,7 +7,7 @@
 
 # Macro file
 dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null && pwd)"
-filefull=$dir/src/inc/macros.mac
+filefull=$dir/src/inc/macros.inc
 
 # Assertions on file name
 [ ! -f "$filefull" ] && echo "File '$filefull' not found." && exit 1

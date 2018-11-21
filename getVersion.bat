@@ -6,7 +6,7 @@
 @ECHO OFF
 
 :: Macro file
-SET filefull=%~pd0src\inc\macros.mac
+SET filefull=%~pd0src\inc\macros.inc
 
 :: Assertions on file name
 IF NOT EXIST %filefull% ECHO File '%filefull%' not found.&& EXIT /B 1

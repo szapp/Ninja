@@ -1,5 +1,5 @@
-%ifndef MACROS_MAC
-    %define MACROS_MAC
+%ifndef MACROS_INC
+    %define MACROS_INC
 
     ; Sanity check
     %ifndef GOTHIC_BASE_VERSION

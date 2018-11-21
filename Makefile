@@ -23,7 +23,7 @@ DATADIR			:=	$(SRCDIR)data/
 
 # File extensions
 ASMEXT			:=	.asm
-MACEXT			:=	.mac
+INCEXT			:=	.inc
 PATCHEXT		:=	.patch
 
 # Assemblers/builders
@@ -113,7 +113,7 @@ gothic2 : $(TARGETS_G2)
 clean :
 	$(RM) $(call FixPath,$(BUILDDIR)*)
 	$(RM) $(call FixPath,$(BINDIR)*)
-	$(RM) $(call FixPath,$(INCDIR)symbols_g*$(MACEXT))
+	$(RM) $(call FixPath,$(INCDIR)symbols_g*$(INCEXT))
 
 remake: clean all
 
@@ -129,17 +129,17 @@ $(TARGETS_G2) : $(BINARIES_G2)
 	@$(call mkdir,$(BUILDDIR))
 	$(WRITEPATCH) $(call FixPath,$@) 2 $(SRCDIR) $(call FixPath,$(RSCDIR)$(@F))
 
-$(BINDIR)core_g% : $(SRCDIR)core$(ASMEXT) $(FUNC) $(EXEC) $(DATA) $(INCDIR)macros$(MACEXT) $(INCDIR)engine$(MACEXT)
+$(BINDIR)core_g% : $(SRCDIR)core$(ASMEXT) $(FUNC) $(EXEC) $(DATA) $(INCDIR)macros$(INCEXT) $(INCDIR)engine$(INCEXT)
 	@$(call mkdir,$(BINDIR))
 	$(NASM) -DGOTHIC_BASE_VERSION=$* $(FLAGS) -o $@ $<
 
-$(INCDIR)symbols_g%$(MACEXT) : $(SRCDIR)core$(ASMEXT) $(FUNC) $(EXEC) $(DATA)
+$(INCDIR)symbols_g%$(INCEXT) : $(SRCDIR)core$(ASMEXT) $(FUNC) $(EXEC) $(DATA)
 	$(EXTRACTSYM) $@ $* $<
 
-$(BINDIR)%_g1 : $(SRCDIR)%$(ASMEXT) $(INCDIR)symbols_g1$(MACEXT) $(INCDIR)engine$(MACEXT) $(INCDIR)macros$(MACEXT)
+$(BINDIR)%_g1 : $(SRCDIR)%$(ASMEXT) $(INCDIR)symbols_g1$(INCEXT) $(INCDIR)engine$(INCEXT) $(INCDIR)macros$(INCEXT)
 	@$(call mkdir,$(BINDIR))
 	$(NASM) -DGOTHIC_BASE_VERSION=1 $(FLAGS) -o $@ $<
 
-$(BINDIR)%_g2 : $(SRCDIR)%$(ASMEXT) $(INCDIR)symbols_g2$(MACEXT) $(INCDIR)engine$(MACEXT) $(INCDIR)macros$(MACEXT)
+$(BINDIR)%_g2 : $(SRCDIR)%$(ASMEXT) $(INCDIR)symbols_g2$(INCEXT) $(INCDIR)engine$(INCEXT) $(INCDIR)macros$(INCEXT)
 	@$(call mkdir,$(BINDIR))
 	$(NASM) -DGOTHIC_BASE_VERSION=2 $(FLAGS) -o $@ $<
