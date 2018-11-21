@@ -4,8 +4,19 @@
      ; Version dependent macros (i.e. addresses, offsets and constants)
     %if GOTHIC_BASE_VERSION == 1
 
+        %define     operator_new                              0x54EBA0     ; uint
         %define     operator_new_len                          0x54EBE0     ; uint, char const *, char const *, int
+        %define     operator_delete                           0x54EBB0     ; void *
         %define     operator_StrPlusChar                      0x404740     ; zSTRING const &, char const *
+        %define     zCArray_int___zCArray_int_                0x5499D0     ; void
+        %define     zCArray_int___InsertEnd                   0x530010     ; int const &
+        %define     zCArray_int____zCArray_int_               0x52FF50     ; void
+        %define     _qsort                                    0x77757F     ; void *, size_t, size_t, int (__cdecl *)(const void *, const void *)
+        %define     zCModel__AniAttachmentCompare             0x568AC0     ; void const *,void const *
+        %define     _fopen                                    0x778672     ; const char *, const char *
+        %define     _fseek                                    0x778588     ; FILE *, __int32, int
+        %define     _fread                                    0x778A51     ; void *, size_t, size_t, FILE *
+        %define     _fclose                                   0x7787BE     ; FILE *
         %define     _findfirst                                0x778B68     ; const char *, finddata_t *
         %define     _findnext                                 0x778C35     ; int, _finddata_t *
         %define     _findclose                                0x778CFD     ; int
@@ -83,10 +94,48 @@
 
         %define     DIR_ANIMS                                 4
 
+        %define     SEEK_SET                                  0
+
+        struc zCArray
+            .array:           resd 0x1                                     ; 0x0 T*
+            .numAlloc:        resd 0x1                                     ; 0x4 int
+            .numInArray:      resd 0x1                                     ; 0x8 int
+        endstruc
+
+        struc finddata_t
+            .attrib           resd 0x1                                     ; 0x00
+            .time_create      resd 0x1                                     ; 0x04
+            .time_access      resd 0x1                                     ; 0x08
+            .time_write       resd 0x1                                     ; 0x0C
+            .size             resd 0x1                                     ; 0x10
+            .name             resb 0x104                                   ; 0x14
+        endstruc
+
+        struc VDFheader
+            .comment          resb 0x100                                   ; 0x000 char[]
+            .signature        resb 0x10                                    ; 0x100 char[]
+            .numEntries       resd 0x1                                     ; 0x110 int
+            .numFiles         resd 0x1                                     ; 0x114 int
+            .timestamp        resd 0x1                                     ; 0x118 int
+            .datasize         resd 0x1                                     ; 0x11C int
+            .rootOffset       resd 0x1                                     ; 0x120 int
+            .entrySize        resd 0x1                                     ; 0x124 int
+        endstruc
+
     %elif GOTHIC_BASE_VERSION == 2
 
         %define     operator_new                              0x565F50     ; uint
+        %define     operator_delete                           0x565F60     ; void *
         %define     operator_StrPlusChar                      0x404880     ; zSTRING const &, char const *
+        %define     zCArray_int___zCArray_int_                0x560690     ; void
+        %define     zCArray_int___InsertEnd                   0x4D5A30     ; int const &
+        %define     zCArray_int____zCArray_int_               0x543CC0     ; void
+        %define     _qsort                                    0x7D0F6F     ; void *, size_t, size_t, int (__cdecl *)(const void *, const void *)
+        %define     zCModel__AniAttachmentCompare             0x583370     ; void const *,void const *
+        %define     _fopen                                    0x7D2010     ; const char *, const char *
+        %define     _fseek                                    0x7D1F26     ; FILE *, __int32, int
+        %define     _fread                                    0x7D23EF     ; void *, size_t, size_t, FILE *
+        %define     _fclose                                   0x7D215C     ; FILE *
         %define     _findfirst                                0x7D2506     ; const char *, finddata_t *
         %define     _findnext                                 0x7D25D3     ; int, _finddata_t *
         %define     _findclose                                0x7D269B     ; int
@@ -163,6 +212,34 @@
         %define     VDF_PHYSICALFIRST                         4
 
         %define     DIR_ANIMS                                 4
+
+        %define     SEEK_SET                                  0
+
+        struc zCArray
+            .array:           resd 0x1                                     ; 0x0 T*
+            .numAlloc:        resd 0x1                                     ; 0x4 int
+            .numInArray:      resd 0x1                                     ; 0x8 int
+        endstruc
+
+        struc finddata_t
+            .attrib           resd 0x1                                     ; 0x00
+            .time_create      resd 0x1                                     ; 0x04
+            .time_access      resd 0x1                                     ; 0x08
+            .time_write       resd 0x1                                     ; 0x0C
+            .size             resd 0x1                                     ; 0x10
+            .name             resb 0x104                                   ; 0x14
+        endstruc
+
+        struc VDFheader
+            .comment          resb 0x100                                   ; 0x000 char[]
+            .signature        resb 0x10                                    ; 0x100 char[]
+            .numEntries       resd 0x1                                     ; 0x110 int
+            .numFiles         resd 0x1                                     ; 0x114 int
+            .timestamp        resd 0x1                                     ; 0x118 int
+            .datasize         resd 0x1                                     ; 0x11C int
+            .rootOffset       resd 0x1                                     ; 0x120 int
+            .entrySize        resd 0x1                                     ; 0x124 int
+        endstruc
 
     %endif
 %endif
