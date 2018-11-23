@@ -4,6 +4,7 @@
     ; Version dependent macros (i.e. addresses, offsets and constants)
     %if GOTHIC_BASE_VERSION == 1
 
+        %define     _atexit                                   0x77661B     ; void (__cdecl *)()
         %define     operator_new                              0x54EBA0     ; uint
         %define     operator_new_len                          0x54EBE0     ; uint, char const *, char const *, int
         %define     operator_delete                           0x54EBB0     ; void *
@@ -51,6 +52,7 @@
         %define     zCMenu__menuParser                        0x86D3D8     ; zCParser *
         %define     zCAICamera__cameraParser                  0x86A1E0     ; zCParser *
         %define     zCSoundSystem_zsound                      0x8CEE4C     ; zCSoundSystem *
+        %define     zCRenderManager_zrenderMan                0x8CE900     ; zCRenderManager *
         %define     zERROR_zerr                               0x8699D8     ; zERROR *
         %define     zERROR__Report                            0x448250     ; zERROR_TYPE, int, zSTRING const &, signed char, uint, int, char *, char *
         %define     zERROR__Message                           0x4492F0     ; zSTRING const &
@@ -63,10 +65,12 @@
 
         %define     NINJA_PATCH_ARRAY                         0x830391     ; zCArray
 
-        %define     strModel                                  0x840908     ; "MODEL"
-        %define     str_mds                                   0x833534     ; ".MDS"
-        %define     str_dot                                   0x82AFB4     ; "."
-        %define     char_doubleFSlash                         0x82EDAC     ; "//"
+        %define     char_indent                               0x852E48     ; '    ', 0
+        %define     char_model                                0x840908     ; 'MODEL', 0
+        %define     char_mds                                  0x833534     ; '.MDS', 0
+        %define     char_src                                  0x8373EC     ; '.SRC', 0
+        %define     char_dot                                  0x82AFB4     ; '.', 0
+        %define     char_doubleFSlash                         0x82EDAC     ; '//', 0
         %define     str_mdlBuffer                             0x873C60     ; zSTRING *
 
         %define     zCObjectFactory__CreateZFile_offset       0x14         ; zSTRING const &
@@ -126,6 +130,7 @@
 
     %elif GOTHIC_BASE_VERSION == 2
 
+        %define     _atexit                                   0x7CFFC5     ; void (__cdecl *)()
         %define     operator_new                              0x565F50     ; uint
         %define     operator_delete                           0x565F60     ; void *
         %define     operator_StrPlusChar                      0x404880     ; zSTRING const &, char const *
@@ -172,6 +177,7 @@
         %define     zCMenu__menuParser                        0x8D1E68     ; zCParser *
         %define     zCAICamera__cameraParser                  0x8CEAC8     ; zCParser *
         %define     zCSoundSystem_zsound                      0x99B03C     ; zCSoundSystem *
+        %define     zCRenderManager_zrenderMan                0x99AA44     ; zCRenderManager *
         %define     zERROR_zerr                               0x8CDCD0     ; zERROR *
         %define     zERROR__Report                            0x44C8D0     ; zERROR_TYPE, int, zSTRING const &, signed char, uint, int, char *, char *
         %define     zERROR__Message                           0x44DA10     ; zSTRING const &
@@ -184,10 +190,12 @@
 
         %define     NINJA_PATCH_ARRAY                         0x894155     ; zCArray
 
-        %define     strModel                                  0x8A44CC     ; "MODEL"
-        %define     str_mds                                   0x8970E0     ; ".MDS"
-        %define     str_dot                                   0x88F1E4     ; "."
-        %define     char_doubleFSlash                         0x892C64     ; "//"
+        %define     char_indent                               0x8BC904     ; '    ', 0
+        %define     char_model                                0x8A44CC     ; 'MODEL', 0
+        %define     char_mds                                  0x8970E0     ; '.MDS', 0
+        %define     char_src                                  0x8BBDB0     ; '.SRC', 0
+        %define     char_dot                                  0x88F1E4     ; '.', 0
+        %define     char_doubleFSlash                         0x892C64     ; '//', 0
         %define     str_mdlBuffer                             0x8D8AC0     ; zSTRING *
 
         %define     zCObjectFactory__CreateZFile_offset       0x14         ; zSTRING const &

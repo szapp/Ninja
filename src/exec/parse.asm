@@ -39,28 +39,28 @@ linker_replace_func:
         push    ebp                                                        ; parser
         mov     ebp, [ecx+8]                                               ; symbol->name->ptr
 
-        push    CHAR_REPEAT
+        push    char_repeat
         push    ebp
         call    DWORD [ds_lstrcmpiA]
     addStack 2*4
         test    eax, eax
     verifyStackoffset g1g2(0xA8,0xE4) + 0x10
         jz      .no_rf_back
-        push    CHAR_WHILE
+        push    char_while
         push    ebp
         call    DWORD [ds_lstrcmpiA]
     addStack 2*4
         test    eax, eax
     verifyStackoffset g1g2(0xA8,0xE4) + 0x10
         jz      .no_rf_back
-        push    CHAR_MEM_LABEL
+        push    char_mem_label
         push    ebp
         call    DWORD [ds_lstrcmpiA]
     addStack 2*4
         test    eax, eax
     verifyStackoffset g1g2(0xA8,0xE4) + 0x10
         jz      .no_rf_back
-        push    CHAR_MEM_GOTO
+        push    char_mem_goto
         push    ebp
         call    DWORD [ds_lstrcmpiA]
     addStack 2*4
@@ -116,7 +116,7 @@ parser_check_var:
 
 .sub_var:
         sub     esp, 0x14
-        push    str_dot
+        push    char_dot
         push    eax                                                        ; Prefix (function or class name)
         lea     eax, [esp+stackoffset+g1g2(-0x3A8,-0x400)]                 ; New string
         push    eax

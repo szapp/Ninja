@@ -43,7 +43,7 @@ ninja_initAnims:
         push    eax
         call    zSTRING__operator_plusEq
     addStack 4
-        push    str_mds
+        push    char_mds
         call    zSTRING__operator_plusEq
     addStack 4
 
@@ -110,7 +110,7 @@ ninja_initAnims:
         cmp     eax, 0xFFFFFFFF
         jnz     .mds_loop_start
         push    0x1
-        push    strModel
+        push    char_model
         push    0
         mov     ecx, str_mdlBuffer
         call    zSTRING__Search

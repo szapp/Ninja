@@ -1,8 +1,8 @@
-CHAR_REPEAT              db   'REPEAT', 0
-CHAR_WHILE               db   'WHILE', 0
-CHAR_MEM_LABEL           db   'MEM_LABEL', 0
-CHAR_MEM_GOTO            db   'MEM_GOTO', 0
-CHAR_RB                  db   'rb', 0
+char_repeat              db   'REPEAT', 0
+char_while               db   'WHILE', 0
+char_mem_label           db   'MEM_LABEL', 0
+char_mem_goto            db   'MEM_GOTO', 0
+char_rb                  db   'rb', 0
 NINJA_PATH_MUSIC         db   '\NINJA\MUSIC_', 0
 NINJA_PATH_SFX           db   '\NINJA\SFX_', 0
 NINJA_PATH_PFX           db   '\NINJA\PFX_', 0
@@ -14,4 +14,5 @@ NINJA_PATH_CAMERA        db   '\NINJA\CAMERA_', 0
 NINJA_PATH_ANIMATION     db   '\NINJA\ANIMATION_', 0
 NINJA_PATH_DATA          db   'DATA\', 0
 NINJA_PATH_VDF           db   'DATA\NINJA_*.VDF', 0
-NINJA_LOAD_ANIM          db   'J: MDS: Appending animations from ', 0
+NINJA_AUTHOR_PREFIX      db   AUTHOR_PREFIX, ':', 0
+NINJA_LOAD_ANIM          db   AUTHOR_PREFIX, ': MDS: Appending animations from ', 0

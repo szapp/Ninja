@@ -39,6 +39,7 @@ TARGETS_G2		:=	$(BUILDDIR)code_EFD8A07B$(PATCHEXT)
 
 # Intermediate files
 BIN_BASE		:=	core										\
+					hook_createVdfArray							\
 					hook_deploy_camera_ninja					\
 					hook_deploy_content_ninja					\
 					hook_deploy_fightai_ninja					\
@@ -82,7 +83,8 @@ BIN_BASE_G2		:=	skip_writeAniBinFile_ModelTag				\
 					skip_zCFileBIN__BinWriteFloat				\
 					skip_zCFileBIN__BinWriteInt					\
 					skip_zCFileBIN__BinWriteString
-FUNC_BASE		:=	findVdfSrc									\
+FUNC_BASE		:=	freeVdfArray								\
+					findVdfSrc									\
 					initContent									\
 					initMenu									\
 					mergeSrc									\
@@ -90,7 +92,8 @@ FUNC_BASE		:=	findVdfSrc									\
 					parseMsgOverwrite							\
 					zCPar_Symbol__GetNext_fix					\
 					initAnims
-EXEC_BASE		:=	deploy										\
+EXEC_BASE		:=	createVdfArray								\
+					deploy										\
 					init										\
 					parse										\
 					misc

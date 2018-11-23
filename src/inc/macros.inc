@@ -10,6 +10,7 @@
 
     ; General macros
     %define NINJA_VERSION   'v1.2'
+    %define AUTHOR_PREFIX   'J'
     %if GOTHIC_BASE_VERSION == 1
         %define g1g2(g1,g2) g1
     %elif GOTHIC_BASE_VERSION == 2
@@ -97,5 +98,26 @@
     %endmacro
 
     %assign stackoffset 0
+
+    %macro reportToSpy 1
+        jmp     %%print
+        %%msg:  db  AUTHOR_PREFIX, ':', %1, 0
+    %%print:
+        push    ecx
+        push    eax
+        sub     esp, 0x14
+        mov     ecx, esp
+        push    %%msg
+        call    zSTRING__zSTRING
+    addStack 4
+        push    ecx
+        call    zERROR__Message
+    addStack 4
+        mov     ecx, esp
+        call    zSTRING___zSTRING
+        add     esp, 0x14
+        pop     eax
+        pop     ecx
+    %endmacro
 
 %endif

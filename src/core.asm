@@ -16,6 +16,7 @@ section .text
         ret
 
 
+%include "func/freeVdfArray.asm"
 %include "func/findVdfSrc.asm"
 %include "func/initContent.asm"
 %include "func/initMenu.asm"
@@ -25,6 +26,7 @@ section .text
 %include "func/zCPar_Symbol__GetNext_fix.asm"
 %include "func/initAnims.asm"
 
+%include "exec/createVdfArray.asm"
 %include "exec/deploy.asm"
 %include "exec/init.asm"
 %include "exec/parse.asm"
