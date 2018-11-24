@@ -502,7 +502,7 @@ OrgFill = "00"
 New = "CC CC 51"
 
 [67]
-Addr = "0x005A64F4
+Addr = "0x005A64F4"
 Type = "hex"
 Org = "00 10 00 00"
 New = "FF FF 00 00"
