@@ -3,7 +3,8 @@
 global createVdfArray
 createVdfArray:
         resetStackoffset
-        %assign var_total      0x348
+        %assign var_total      0x448
+        %assign var_comment   -0x448                                       ; char[0x100]         0x100
         %assign var_timestamp -0x348                                       ; int
         %assign var_filehndl  -0x344                                       ; FILE *
         %assign var_filevdf   -0x340                                       ; char[MAX_PATH]      0x104
@@ -102,9 +103,39 @@ createVdfArray:
         call    _fread
         add     esp, 0x10
 
+        push    SEEK_SET
+        push    VDFheader.comment
+        push    DWORD [esp+stackoffset+var_filehndl]
+        call    _fseek
+        add     esp, 0xC
+
+        push    DWORD [esp+stackoffset+var_filehndl]
+        push    0x1
+        push    0x100                                                      ; sizeof(VDFheader.comment)
+        lea     eax, [esp+stackoffset+var_comment]
+        push    eax
+        call    _fread
+        add     esp, 0x10
+
         push    DWORD [esp+stackoffset+var_filehndl]
         call    _fclose
         add     esp, 0x4
+
+        lea     eax, [esp+stackoffset+var_comment]
+        xor     edi, edi
+
+.replaceSEP:
+        cmp     edi, 0xFF
+        jge     .setNullByte
+        cmp     [eax], BYTE char_sep
+        jz      .setNullByte
+
+        inc     edi
+        inc     eax
+        jmp     .replaceSEP
+
+.setNullByte:
+        mov     [eax], BYTE 0                                              ; Terminate char properly
 
         lea     esi, [esp+stackoffset+var_filedata+finddata_t.name]
         push    esi
@@ -134,7 +165,29 @@ createVdfArray:
         sub     edi, 4
         mov     BYTE [esi+edi], 0
 
-        push    0x4+0x120                                                  ; sizeof(var_timestamp)+sizeof(var_patchname)
+        sub     esp, 0x14
+        mov     ecx, esp
+        push    NINJA_CON_COMMAND
+        call    zSTRING__zSTRING
+    addStack 4
+        push    char_space
+        call    zSTRING__operator_plusEq
+    addStack 4
+        lea     eax, [esp+stackoffset+var_patchname]
+        add     eax, 0x6                                                   ; Cut off 'NINJA_'
+        push    eax
+        call    zSTRING__operator_plusEq
+    addStack 4
+        push    zSTR_EMPTY
+        push    eax
+        mov     ecx, zCConsole_zcon
+        call    zCConsole__Register
+    addStack 2*4
+        mov     ecx, esp
+        call    zSTRING___zSTRING
+        add     esp, 0x14
+
+        push    0x4+0x120+0x100                                            ; var_timestamp + var_patchname + var_comment
         call    operator_new
         add     esp, 0x4
         mov     edi, eax
@@ -145,6 +198,13 @@ createVdfArray:
         lea     eax, [esp+stackoffset+var_patchname]
         push    eax
         lea     eax, [edi+0x4]
+        push    eax
+        call    DWORD [ds_lstrcpyA]
+    addStack 8
+
+        lea     eax, [esp+stackoffset+var_comment]
+        push    eax
+        lea     eax, [edi+0x4+0x120]
         push    eax
         call    DWORD [ds_lstrcpyA]
     addStack 8

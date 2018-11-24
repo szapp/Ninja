@@ -21,10 +21,66 @@ ninja_conEvalFunc:
         test    esi, esi
         jnz     .funcEnd
 
+        push    BYTE ' '
+        mov     ecx, [esp+stackoffset+arg_1]
+        call    zSTRING__TrimRight
+    addStack 4
+
+        push    NINJA_CON_COMMAND
+        mov     ecx, [esp+stackoffset+arg_1]
+        push    DWORD [ecx+0x8]
+        call    DWORD [ds_lstrcmpiA]
+    addStack 2*4
+        test    eax, eax
+        jz      .ninja
+
+        mov     eax, [NINJA_PATCH_ARRAY+zCArray.array]
+        mov     esi, eax
+        xor     eax, eax
+        test    esi, esi
+        jz      .funcEnd
+
+        xor     edi, edi
+
+.patchLoop:
+        mov     esi, [NINJA_PATCH_ARRAY+zCArray.numInArray]
+        xor     eax, eax
+        cmp     edi, esi
+        jge     .funcEnd
+
+        mov     esi, [NINJA_PATCH_ARRAY+zCArray.array]
+        mov     esi, [esi+edi*0x4]
+        add     esi, 0x4
+        lea     ecx, [esi+0x6]                                             ; Cut off 'NINJA_'
+        push    ecx
+        mov     ecx, [esp+stackoffset+arg_1]
+        mov     ecx, [ecx+0x8]
+        add     ecx, 0x6
+        push    ecx
+        call    DWORD [ds_lstrcmpiA]
+    addStack 2*4
+        inc     edi
+        test    eax, eax
+        jnz     .patchLoop
+
+        add     esi, 0x120
+        push    esi
+        call    DWORD [ds_lstrlenA]
+    addStack 4
+        push    eax
+        push    esi
+        mov     ecx, [esp+stackoffset+arg_2]
+        lea     ecx, [ecx+0x4]
+        call    std__basic_string__assign
+    addStack 2*4
+        mov     eax, 1
+        jmp     .funcEnd
+
+.ninja:
         push    NINJA_VERSION_CHAR_len
         push    NINJA_VERSION_CHAR
         mov     ecx, [esp+stackoffset+arg_2]
-        lea     ecx, [ecx+0x4]
+        add     ecx, 0x4
         call    std__basic_string__assign
     addStack 2*4
 
@@ -54,8 +110,7 @@ ninja_conEvalFunc:
     addStack 4
         mov     esi, [NINJA_PATCH_ARRAY+zCArray.array]
         mov     esi, [esi+edi*0x4]
-        lea     esi, [esi+0x4]
-        add     esi, 0x6                                                   ; Cut off 'NINJA_'
+        add     esi, 0x4+0x6                                               ; Cut off 'NINJA_'
         push    esi
         call    zSTRING__operator_plusEq
     addStack 4

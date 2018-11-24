@@ -29,6 +29,7 @@
         %define     zSTRING___zSTRING                         0x401260     ; void
         %define     zSTRING__Upper                            0x465390     ; void
         %define     zSTRING__Search                           0x467750     ; int, char const *, uint
+        %define     zSTRING__TrimRight                        0x4675A0     ; char
         %define     zSTRING__operator_plusEq                  0x644ED0     ; char const *
         %define     ds_lstrcatA                               0x7D02D8     ; LPTSTR, LPTSTR
         %define     ds_lstrcpyA                               0x7D0288     ; LPTSTR, LPTSTR
@@ -69,6 +70,7 @@
 
         %define     NINJA_PATCH_ARRAY                         0x830391     ; zCArray
 
+        %define     char_space                                0x831600     ; ' ', 0
         %define     char_indent                               0x852E48     ; '    ', 0
         %define     char_model                                0x840908     ; 'MODEL', 0
         %define     char_mds                                  0x833534     ; '.MDS', 0
@@ -78,6 +80,7 @@
         %define     char_doubleFSlash                         0x82EDAC     ; '//', 0
         %define     char_lf                                   0x82D200     ; 0xA, 0
         %define     str_mdlBuffer                             0x873C60     ; zSTRING *
+        %define     zSTR_EMPTY                                0x869978     ; zSTRING const
 
         %define     zCObjectFactory__CreateZFile_offset       0x14         ; zSTRING const &
         %define     zFILE_VDFS__Exists_offset                 0x94         ; void
@@ -99,6 +102,7 @@
         %define     zPAR_TOK_RET                              0x3C
         %define     zPAR_TOK_JUMP                             0x4B
 
+        %define     char_sep                                  0x1A
         %define     INVALID_HANDLE_VALUE                      0xFFFFFFFF
         %define     VDF_VIRTUAL                               1
         %define     VDF_PHYSICAL                              2
@@ -160,6 +164,7 @@
         %define     zSTRING___zSTRING                         0x401160     ; void
         %define     zSTRING__Upper                            0x46AB00     ; void
         %define     zSTRING__Search                           0x46C920     ; int, char const *, uint
+        %define     zSTRING__TrimRight                        0x46C770     ; char
         %define     zSTRING__operator_plusEq                  0x67A7B0     ; char const *
         %define     ds_lstrcatA                               0x82E1E0     ; LPTSTR, LPTSTR
         %define     ds_lstrcpyA                               0x82E1E4     ; LPTSTR, LPTSTR
@@ -200,6 +205,7 @@
 
         %define     NINJA_PATCH_ARRAY                         0x894155     ; zCArray
 
+        %define     char_space                                0x8951AC     ; ' ', 0
         %define     char_indent                               0x8BC904     ; '    ', 0
         %define     char_model                                0x8A44CC     ; 'MODEL', 0
         %define     char_mds                                  0x8970E0     ; '.MDS', 0
@@ -209,6 +215,7 @@
         %define     char_doubleFSlash                         0x892C64     ; '//', 0
         %define     char_lf                                   0x89150C     ; 0xA, 0
         %define     str_mdlBuffer                             0x8D8AC0     ; zSTRING *
+        %define     zSTR_EMPTY                                0x8CDC70     ; zSTRING const
 
         %define     zCObjectFactory__CreateZFile_offset       0x14         ; zSTRING const &
         %define     zFILE_VDFS__Exists_offset                 0x94         ; void
@@ -230,6 +237,7 @@
         %define     zPAR_TOK_RET                              0x3C
         %define     zPAR_TOK_JUMP                             0x4B
 
+        %define     char_sep                                  0x1A
         %define     INVALID_HANDLE_VALUE                      0xFFFFFFFF
         %define     VDF_VIRTUAL                               1
         %define     VDF_PHYSICAL                              2
