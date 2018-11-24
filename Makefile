@@ -91,12 +91,12 @@ FUNC_BASE		:=	freeVdfArray								\
 					inject										\
 					parseMsgOverwrite							\
 					zCPar_Symbol__GetNext_fix					\
-					initAnims
+					initAnims									\
+					conEvalFunc
 EXEC_BASE		:=	createVdfArray								\
 					deploy										\
 					init										\
-					parse										\
-					misc
+					parse
 
 BINARIES_G1		:=	$(BIN_BASE:%=$(BINDIR)%_g1)
 BINARIES_G2		:=	$(BIN_BASE:%=$(BINDIR)%_g2) $(BIN_BASE_G2:%=$(BINDIR)%_g2)

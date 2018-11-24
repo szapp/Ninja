@@ -16,3 +16,8 @@ NINJA_PATH_DATA          db   'DATA\', 0
 NINJA_PATH_VDF           db   'DATA\NINJA_*.VDF', 0
 NINJA_AUTHOR_PREFIX      db   AUTHOR_PREFIX, ':', 0
 NINJA_LOAD_ANIM          db   AUTHOR_PREFIX, ': MDS: Appending animations from ', 0
+NINJA_VERSION_CHAR       db   'Ninja ', NINJA_VERSION, 0
+NINJA_VERSION_CHAR_len   equ  $-NINJA_VERSION_CHAR
+NINJA_CON_COMMAND        db   'NINJA', 0
+NINJA_CON_DESCR          db   'List all found Ninja patches in order', 0
+NINJA_CON_NOTFOUND       db   0xA, 'No patches active.', 0

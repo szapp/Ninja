@@ -4,7 +4,7 @@
 %include "inc/engine.inc"
 
 %ifidn __OUTPUT_FORMAT__, bin
-    org     g1g2(0x452640,0x457470)
+    org     g1g2(0x453410,0x458380)
 %endif
 
 bits    32
@@ -12,8 +12,8 @@ bits    32
 
 section .text
 
-        ; Immediately return from zCNetEventManager::HandleNetMessage
-        ret
+        ; Immediately return from zCNetEventManager::OnMessage(zCEventMessage *, zCVob *)
+        ret     8
 
 
 %include "func/freeVdfArray.asm"
@@ -25,12 +25,12 @@ section .text
 %include "func/parseMsgOverwrite.asm"
 %include "func/zCPar_Symbol__GetNext_fix.asm"
 %include "func/initAnims.asm"
+%include "func/conEvalFunc.asm"
 
 %include "exec/createVdfArray.asm"
 %include "exec/deploy.asm"
 %include "exec/init.asm"
 %include "exec/parse.asm"
-%include "exec/misc.asm"
 
 
 section .data   align=1                                                    ; Prevent auto-alignment

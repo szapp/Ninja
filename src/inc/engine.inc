@@ -24,6 +24,7 @@
         %define     zFILE_VDFS__LockCriticalSection           0x4471C0     ; void
         %define     zFILE_VDFS__UnlockCriticalSection         0x4471E0     ; void
         %define     zFILE_cur_mds_file                        0x873D6C     ; zFILE *
+        %define     std__basic_string__assign                 0x403010     ; char const *, uint
         %define     zSTRING__zSTRING                          0x4013A0     ; char const *
         %define     zSTRING___zSTRING                         0x401260     ; void
         %define     zSTRING__Upper                            0x465390     ; void
@@ -53,6 +54,9 @@
         %define     zCAICamera__cameraParser                  0x86A1E0     ; zCParser *
         %define     zCSoundSystem_zsound                      0x8CEE4C     ; zCSoundSystem *
         %define     zCRenderManager_zrenderMan                0x8CE900     ; zCRenderManager *
+        %define     zCConsole_zcon                            0x8DC5A0     ; zCConsole *
+        %define     zCConsole__AddEvalFunc                    0x6DBCA0     ; int (*)(zSTRING const &, zSTRING &)
+        %define     zCConsole__Register                       0x6D9940     ; zSTRING const &, zSTRING const &
         %define     zERROR_zerr                               0x8699D8     ; zERROR *
         %define     zERROR__Report                            0x448250     ; zERROR_TYPE, int, zSTRING const &, signed char, uint, int, char *, char *
         %define     zERROR__Message                           0x4492F0     ; zSTRING const &
@@ -70,7 +74,9 @@
         %define     char_mds                                  0x833534     ; '.MDS', 0
         %define     char_src                                  0x8373EC     ; '.SRC', 0
         %define     char_dot                                  0x82AFB4     ; '.', 0
+        %define     char_commaSpace                           0x832494     ; ', ', 0
         %define     char_doubleFSlash                         0x82EDAC     ; '//', 0
+        %define     char_lf                                   0x82D200     ; 0xA, 0
         %define     str_mdlBuffer                             0x873C60     ; zSTRING *
 
         %define     zCObjectFactory__CreateZFile_offset       0x14         ; zSTRING const &
@@ -149,6 +155,7 @@
         %define     zFILE_VDFS__LockCriticalSection           0x44B7E0     ; void
         %define     zFILE_VDFS__UnlockCriticalSection         0x44B800     ; void
         %define     zFILE_cur_mds_file                        0x8D8BCC     ; zFILE *
+        %define     std__basic_string__assign                 0x402FC0     ; char const *, uint
         %define     zSTRING__zSTRING                          0x4010C0     ; char const *
         %define     zSTRING___zSTRING                         0x401160     ; void
         %define     zSTRING__Upper                            0x46AB00     ; void
@@ -178,6 +185,9 @@
         %define     zCAICamera__cameraParser                  0x8CEAC8     ; zCParser *
         %define     zCSoundSystem_zsound                      0x99B03C     ; zCSoundSystem *
         %define     zCRenderManager_zrenderMan                0x99AA44     ; zCRenderManager *
+        %define     zCConsole_zcon                            0xAB3860     ; zCConsole *
+        %define     zCConsole__AddEvalFunc                    0x784F80     ; int (*)(zSTRING const &, zSTRING &)
+        %define     zCConsole__Register                       0x782AE0     ; zSTRING const &, zSTRING const &
         %define     zERROR_zerr                               0x8CDCD0     ; zERROR *
         %define     zERROR__Report                            0x44C8D0     ; zERROR_TYPE, int, zSTRING const &, signed char, uint, int, char *, char *
         %define     zERROR__Message                           0x44DA10     ; zSTRING const &
@@ -195,7 +205,9 @@
         %define     char_mds                                  0x8970E0     ; '.MDS', 0
         %define     char_src                                  0x8BBDB0     ; '.SRC', 0
         %define     char_dot                                  0x88F1E4     ; '.', 0
+        %define     char_commaSpace                           0x8960F8     ; ', ', 0
         %define     char_doubleFSlash                         0x892C64     ; '//', 0
+        %define     char_lf                                   0x89150C     ; 0xA, 0
         %define     str_mdlBuffer                             0x8D8AC0     ; zSTRING *
 
         %define     zCObjectFactory__CreateZFile_offset       0x14         ; zSTRING const &

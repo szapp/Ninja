@@ -17,7 +17,42 @@ createVdfArray:
         push    esi
         push    edi
 
-        reportToSpy " NINJA: Detect and sort all Ninja patches (VDF)"
+        reportToSpy " NINJA: Registering console command"
+
+        sub     esp, 0x14
+        mov     ecx, esp
+        push    NINJA_CON_DESCR
+        call    zSTRING__zSTRING
+    addStack 4
+        mov     esi, eax
+        sub     esp, 0x14
+        mov     ecx, esp
+        push    NINJA_CON_COMMAND
+        call    zSTRING__zSTRING
+    addStack 4
+        push    esi
+        push    eax
+        mov     ecx, zCConsole_zcon
+        call    zCConsole__Register
+    addStack 2*4
+        mov     ecx, esp
+        call    zSTRING___zSTRING
+        add     esp, 0x14
+        mov     ecx, esp
+        call    zSTRING___zSTRING
+        add     esp, 0x14
+
+        push    ninja_conEvalFunc
+        mov     ecx, zCConsole_zcon
+        call    zCConsole__AddEvalFunc
+    addStack 4
+
+        reportToSpy " NINJA: Detecting and sorting all Ninja patches (VDF)"
+
+        lea     ecx, [NINJA_PATCH_ARRAY-1]
+        mov     [ecx], BYTE 0                                              ; Null terminated char string
+        mov     ecx, NINJA_PATCH_ARRAY
+        call    zCArray_int___zCArray_int_
 
         lea     esi, [esp+stackoffset+var_filedata]
 
@@ -27,14 +62,9 @@ createVdfArray:
         add     esp, 0x8
 
         cmp     eax, INVALID_HANDLE_VALUE
-        jz      .funcEnd
+        jz      .back
 
         mov     [esp+stackoffset+var_findhndl], eax
-
-        lea     ecx, [NINJA_PATCH_ARRAY-1]
-        mov     [ecx], BYTE 0                                              ; Null terminated char string
-        mov     ecx, NINJA_PATCH_ARRAY
-        call    zCArray_int___zCArray_int_
 
 .fileLoopStart:
         push    NINJA_PATH_DATA
@@ -142,7 +172,7 @@ createVdfArray:
 
         mov     eax, [NINJA_PATCH_ARRAY+zCArray.numInArray]
         test    eax, eax
-        jz      .funcEnd
+        jz      .back
 
         push    zCModel__AniAttachmentCompare                              ; Abuse convenient comparator
         push    0x4
@@ -162,7 +192,7 @@ createVdfArray:
 .arrayLoop:
         mov     eax, [NINJA_PATCH_ARRAY+zCArray.numInArray]
         cmp     edi, eax
-        jge     .funcEnd
+        jge     .back
 
         sub     esp, 0x14
         mov     ecx, esp
@@ -175,6 +205,7 @@ createVdfArray:
         mov     esi, [NINJA_PATCH_ARRAY+zCArray.array]
         mov     esi, [esi+edi*0x4]
         lea     esi, [esi+0x4]
+        add     esi, 0x6                                                   ; Cut off 'NINJA_'
         push    esi
         call    zSTRING__operator_plusEq
     addStack 4
@@ -188,7 +219,7 @@ createVdfArray:
         inc     edi
         jmp     .arrayLoop
 
-.funcEnd:
+.back:
         pop     edi
         pop     esi
         pop     ecx

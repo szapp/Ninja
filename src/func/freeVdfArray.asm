@@ -8,7 +8,7 @@ ninja_freeVdfArray:
         push    esi
         push    edi
 
-        reportToSpy " NINJA: Free patch array (VDF)"
+        reportToSpy " NINJA: Releasing patch array (VDF)"
 
         mov     eax, [NINJA_PATCH_ARRAY+zCArray.array]
         test    eax, eax
