@@ -18,7 +18,7 @@ ninja_initMenu:
     addStack 4
 
         mov     ecx, [esp+stackoffset+arg_1]
-        inc     eax                                                        ; This works, because buffer is big enough
+        sub     eax, 0x2                                                   ; Cut off/overwrite '_G*.SRC'
         mov     BYTE [eax+ecx*1], 0
         dec     eax
         mov     BYTE [eax+ecx*1], 'U'

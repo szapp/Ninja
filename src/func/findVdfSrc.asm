@@ -38,6 +38,10 @@ ninja_findVdfSrc:
         push    eax
         call    DWORD [ds_lstrcatA]
     addStack 8
+        push    char_g1g2
+        push    eax
+        call    DWORD [ds_lstrcatA]
+    addStack 8
         push    char_src
         push    eax
         call    DWORD [ds_lstrcatA]

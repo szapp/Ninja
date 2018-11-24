@@ -3,6 +3,7 @@ char_while               db   'WHILE', 0
 char_mem_label           db   'MEM_LABEL', 0
 char_mem_goto            db   'MEM_GOTO', 0
 char_rb                  db   'rb', 0
+char_g1g2                db   '_G', g1g2('1','2'), 0
 NINJA_PATH_MUSIC         db   '\NINJA\MUSIC_', 0
 NINJA_PATH_SFX           db   '\NINJA\SFX_', 0
 NINJA_PATH_PFX           db   '\NINJA\PFX_', 0
