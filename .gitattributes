@@ -1,2 +1,2 @@
 * text=auto
-*.patch text=auto linguist-vendored=true
+*.patch text=auto linguist-language=INI linguist-vendored=true
