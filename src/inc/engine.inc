@@ -30,6 +30,7 @@
         %define     zSTRING__Upper                            0x465390     ; void
         %define     zSTRING__Search                           0x467750     ; int, char const *, uint
         %define     zSTRING__TrimRight                        0x4675A0     ; char
+        %define     zSTRING__Delete                           0x4668D0     ; uint, ulong
         %define     zSTRING__operator_plusEq                  0x644ED0     ; char const *
         %define     ds_lstrcatA                               0x7D02D8     ; LPTSTR, LPTSTR
         %define     ds_lstrcpyA                               0x7D0288     ; LPTSTR, LPTSTR
@@ -39,6 +40,7 @@
         %define     zCParser_parser                           0x8DCE08     ; zCParser
         %define     zCParser__CallFunc                        0x6E9670     ; zSTRING const &
         %define     zCParser__MergeFile                       0x6E82F0     ; zSTRING &
+        %define     zCParser__Error                           0x6E5040     ; zSTRING &, int
         %define     zCParser__GetSymbol_str                   0x6EA520     ; zSTRING const &
         %define     zCParser__cur_parser                      0x8DDFD4     ; zCParser *
         %define     zCParser__enableParsing                   0x8DDFCC     ; int
@@ -96,6 +98,7 @@
         %define     zCParser_in_func_offset                   0x10D4       ; zCPar_Symbol *
         %define     zCParser_in_class_offset                  0x10D8       ; zCPar_Symbol *
         %define     zCParser_datsave_offset                   0x1090
+        %define     zCParser_mergemode_offset                 0x109C
 
         %define     zCPar_Symbol_content_offset               0x18
 
@@ -165,6 +168,7 @@
         %define     zSTRING__Upper                            0x46AB00     ; void
         %define     zSTRING__Search                           0x46C920     ; int, char const *, uint
         %define     zSTRING__TrimRight                        0x46C770     ; char
+        %define     zSTRING__Delete                           0x46BAA0     ; uint, ulong
         %define     zSTRING__operator_plusEq                  0x67A7B0     ; char const *
         %define     ds_lstrcatA                               0x82E1E0     ; LPTSTR, LPTSTR
         %define     ds_lstrcpyA                               0x82E1E4     ; LPTSTR, LPTSTR
@@ -174,6 +178,7 @@
         %define     zCParser_parser                           0xAB40C0     ; zCParser
         %define     zCParser__CallFunc                        0x7929D0     ; zSTRING const &
         %define     zCParser__MergeFile                       0x791650     ; zSTRING &
+        %define     zCParser__Error                           0x78E270     ; zSTRING &, int
         %define     zCParser__GetSymbol_str                   0x7938D0     ; zSTRING const &
         %define     zCParser__cur_parser                      0xAB628C     ; zCParser *
         %define     zCParser__enableParsing                   0xAB6284     ; int
@@ -231,6 +236,7 @@
         %define     zCParser_in_func_offset                   0x20D4       ; zCPar_Symbol *
         %define     zCParser_in_class_offset                  0x20D8       ; zCPar_Symbol *
         %define     zCParser_datsave_offset                   0x2090
+        %define     zCParser_mergemode_offset                 0x209C
 
         %define     zCPar_Symbol_content_offset               0x18
 

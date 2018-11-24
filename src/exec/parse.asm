@@ -206,3 +206,65 @@ parser_check_prototype:
         call    operator_new
         jmp     0x79CF79
 %endif
+
+
+global parser_verify_version
+parser_verify_version:
+    resetStackoffset g1g2(0x394,0x3EC)
+        push    ecx
+        push    eax
+
+        mov     ecx, [esi+zCParser_mergemode_offset]
+        test    ecx, ecx
+        jz      .back
+
+        push    char_lego
+        mov     ecx, [ebp+0x8]                                             ; symbol->name->ptr
+        push    ecx
+        call    DWORD [ds_lstrcmpiA]
+    addStack 2*4
+        test    eax, eax
+    verifyStackoffset g1g2(0x394,0x3EC) + 0x8
+        jnz     .back
+
+        push    char_lego_version
+        mov     ecx, [esp+stackoffset+g1g2(-0x340,-0x394)+0x8]             ; str->ptr
+        push    ecx
+        call    DWORD [ds_lstrcmpiA]
+    addStack 2*4
+        test    eax, eax
+    verifyStackoffset g1g2(0x394,0x3EC) + 0x8
+        jz      .back
+
+        sub     esp, 0x14
+        mov     ecx, esp
+        push    NINJA_PARSER_FAILED
+        call    zSTRING__zSTRING
+    addStack 4
+        push    esp
+        call    zERROR__Message
+    addStack 4
+        mov     ecx, esp
+        push    0x7
+        push    0x0
+        call    zSTRING__Delete                                            ; Cut off author prefix
+    addStack 2*4
+        mov     ecx, esp
+        push    0xFFFFFFFF                                                 ; -1
+        push    ecx
+        mov     ecx, esi
+        call    zCParser__Error
+    addStack 2*4
+        mov     ecx, esp
+        call    zSTRING___zSTRING
+        add     esp, 0x14
+
+.back:
+        pop     eax
+        pop     ecx
+    verifyStackoffset g1g2(0x394,0x3EC)
+
+        ; Jump back
+        push    edi
+        lea     ecx, [esp+stackoffset+g1g2(-0x340,-0x394)]
+        jmp     g1g2(0x6F24B1,0x79BE30)

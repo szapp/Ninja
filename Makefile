@@ -56,6 +56,7 @@ BIN_BASE		:=	core										\
 					hook_parserDeclareFunc						\
 					hook_parserDeclarePrototype					\
 					hook_parserDeclareVar						\
+					hook_parserDeclareVar_constString			\
 					hook_zCPar_Symbol__GetNext					\
 					ow_ani										\
 					ow_aniAlias									\
