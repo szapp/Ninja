@@ -104,32 +104,6 @@ FOR /F "tokens=*" %%a IN ('%getAddress% %filefull% %gothic%') DO (
 )
 IF NOT DEFINED address ECHO %filename%: %getAddress% failed to execute.&& EXIT /B 10
 
-:: Format binary to hex literals
-certutil -encodehex -f %fileobin% tmp.text 12
-FOR /F "delims=" %%x IN (tmp.text) DO SET hexstr=%%x
-DEL /Q tmp.text
-
-:: Add spaces, inspired by https://stackoverflow.com/questions/27297848/#27305899
-SET "out="
-SET i=1
-FOR /F delims^=^ eol^= %%A IN ('cmd /U /V:on /C ECHO(^^!hexstr^^!^|more') DO (
-    SET /A i=i+1
-    IF !i!==2 (
-        SET i=0 && SET "out=!out! ^%%A"
-    ) ELSE (
-        SET "out=!out!^%%A"
-    )
-)
-SET "hexstr=!out:~1!"
-
-:: Turn hex string upper case
-SET hexstr=%hexstr:a=A%
-SET hexstr=%hexstr:b=B%
-SET hexstr=%hexstr:c=C%
-SET hexstr=%hexstr:d=D%
-SET hexstr=%hexstr:e=E%
-SET hexstr=%hexstr:f=F%
-
 :: Retrieve original hex string, if present
 SET ERRORLEVEL=0
 SET orghex=
@@ -144,7 +118,11 @@ ECHO [ninja_%version%_%filebase%]>>           %outfile%
 ECHO Addr = "%address%">>                     %outfile%
 ECHO Type = "hex">>                           %outfile%
 IF NOT "%orghex%"=="" ECHO Org = "%orghex%">> %outfile%
-ECHO New = "%hexstr%">>                       %outfile%
+ECHO New = ^"| head -c -2 >>                  %outfile%
+hexdump -v -e "/1 \"%%02X \"" "%fileobin%" ^
+    | head -c -1 >>                           %outfile%
+ECHO ^">>                                     %outfile%
+
 
 EXIT /B 0
 

@@ -20,11 +20,14 @@ Assembling this project is possible under \*nix and Windows. To do so, the follo
 
 - [NASM (The Netwide Assembler)](https://nasm.us)
 
-On Windows, additionally install the following software and add their binaries to your `PATH` (same for NASM).  
-Also, you might want to rename/copy MinGW's `mingw32-make.exe` to `make.exe` for more convenient building.
+On Windows, additionally install the following *GNU Win32* packages and add their binaries to your `PATH` (same for
+NASM).
 
-- [MinGW (Minimalist GNU for Windows)](https://mingw.org)
-- [GNU Grep (Grep for Windows)](http://gnuwin32.sourceforge.net/packages/grep.htm)
+- [Make](http://gnuwin32.sourceforge.net/packages/make.htm)
+- [Grep](http://gnuwin32.sourceforge.net/packages/grep.htm)
+- [BinUtils](https://sourceforge.net/projects/mingw/files/MinGW/Base/binutils/) for `objdump`
+- [Util-Linux](http://gnuwin32.sourceforge.net/packages/util-linux-ng.htm) for `hexdump`
+- [CoreUtils](http://gnuwin32.sourceforge.net/packages/coreutils.htm) for `head`
 
 # Assembling
 
