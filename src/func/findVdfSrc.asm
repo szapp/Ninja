@@ -26,15 +26,19 @@ ninja_findVdfSrc:
         cmp     edi, eax
         jge     .funcEnd
 
-        push    DWORD [esp+stackoffset+arg_1]
+        push    NINJA_PATH
         lea     esi, [esp+stackoffset+var_fullname]
         push    esi
         call    DWORD [ds_lstrcpyA]
     addStack 8
         mov     esi, [NINJA_PATCH_ARRAY+zCArray.array]
         mov     esi, [esi+edi*0x4]
-        lea     esi, [esi+0x4]
+        add     esi, 0x4+0x6                                               ; Cut off 'NINJA_'
         push    esi
+        push    eax
+        call    DWORD [ds_lstrcatA]
+    addStack 8
+        push    DWORD [esp+stackoffset+arg_1]
         push    eax
         call    DWORD [ds_lstrcatA]
     addStack 8

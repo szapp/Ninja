@@ -4,7 +4,6 @@ global deploy_music_ninja
 deploy_music_ninja:
     resetStackoffset g1g2(0xD8,0xC8)
         pusha
-        reportToSpy "PAR: Deploying music ninjas"
         push    ninja_mergeSrc
         push    NINJA_PATH_MUSIC
         mov     eax, DWORD [zCMusicSys_DirectMusic__musicParser]
@@ -24,7 +23,6 @@ global deploy_sfx_ninja
 deploy_sfx_ninja:
     resetStackoffset g1g2(0x304,0x308)
         pusha
-        reportToSpy "PAR: Deploying SFX ninjas"
         push    ninja_mergeSrc
         push    NINJA_PATH_SFX
         mov     eax, DWORD [zCSndSys_MSS__sfxParser]
@@ -44,7 +42,6 @@ global deploy_pfx_ninja
 deploy_pfx_ninja:
     resetStackoffset g1g2(0x8C,0xC8)
         pusha
-        reportToSpy "PAR: Deploying PFX ninjas"
         push    ninja_mergeSrc
         push    NINJA_PATH_PFX
         mov     eax, DWORD [zCParticleFX__s_pfxParser]
@@ -64,7 +61,6 @@ global deploy_vfx_ninja
 deploy_vfx_ninja:
     resetStackoffset g1g2(0x248,0x250)
         pusha
-        reportToSpy "PAR: Deploying VFX ninjas"
         push    ninja_mergeSrc
         push    NINJA_PATH_VFX
         mov     eax, DWORD [oCVisualFX__fxParser]
@@ -84,7 +80,6 @@ global deploy_content_ninja
 deploy_content_ninja:
     resetStackoffset g1g2(0x90,0x80)
         pusha
-        reportToSpy "PAR: Deploying content ninjas"
         push    ninja_mergeSrc
         push    NINJA_PATH_CONTENT
         push    zCParser_parser
@@ -103,7 +98,6 @@ global deploy_fightai_ninja
 deploy_fightai_ninja:
     resetStackoffset g1g2(0x7C,0x64)
         pusha
-        reportToSpy "PAR: Deploying fight-ai ninjas"
         push    ninja_mergeSrc
         push    NINJA_PATH_FIGHT
         push    ebx
@@ -122,7 +116,6 @@ global deploy_menu_ninja
 deploy_menu_ninja:
     resetStackoffset
         pusha
-        reportToSpy "PAR: Deploying menu ninjas"
         push    ninja_mergeSrc
         push    NINJA_PATH_MENU
         mov     eax, DWORD [zCMenu__menuParser]
@@ -142,7 +135,6 @@ deploy_camera_ninja:
     resetStackoffset g1g2(0xB4,0xB8)
         pusha
         push    ninja_mergeSrc
-        reportToSpy "PAR: Deploying camera ninjas"
         push    NINJA_PATH_CAMERA
         mov     eax, DWORD [zCAICamera__cameraParser]
         push    eax

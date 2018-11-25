@@ -45,6 +45,7 @@
         %define     zCParser__cur_parser                      0x8DDFD4     ; zCParser *
         %define     zCParser__enableParsing                   0x8DDFCC     ; int
         %define     zCPar_SymbolTable__GetIndex               0x6F9FA0     ; zCPar_Symbol *
+        %define     zCPar_SymbolTable__GetIndex_str           0x6FA090     ; zSTRING const &
         %define     zCPar_SymbolTable__GetSymbol_int          0x6FA410     ; int
         %define     zCPar_SymbolTable__GetSymbol_str          0x6FA370     ; zSTRING const &
         %define     zCPar_SymbolTable__cur_table              0x8DE174     ; zCPar_SymbolTable *
@@ -79,6 +80,7 @@
         %define     char_src                                  0x8373EC     ; '.SRC', 0
         %define     char_dot                                  0x82AFB4     ; '.', 0
         %define     char_commaSpace                           0x832494     ; ', ', 0
+        %define     char_underscore                           0x82AF18     ; '_', 0
         %define     char_doubleFSlash                         0x82EDAC     ; '//', 0
         %define     char_lf                                   0x82D200     ; 0xA, 0
         %define     str_mdlBuffer                             0x873C60     ; zSTRING *
@@ -183,6 +185,7 @@
         %define     zCParser__cur_parser                      0xAB628C     ; zCParser *
         %define     zCParser__enableParsing                   0xAB6284     ; int
         %define     zCPar_SymbolTable__GetIndex               0x7A3A70     ; zCPar_Symbol *
+        %define     zCPar_SymbolTable__GetIndex_str           0x7A3B60     ; zSTRING const &
         %define     zCPar_SymbolTable__GetSymbol_int          0x7A3EE0     ; int
         %define     zCPar_SymbolTable__GetSymbol_str          0x7A3E40     ; zSTRING const &
         %define     zCPar_SymbolTable__cur_table              0xAB6428     ; zCPar_SymbolTable *
@@ -217,6 +220,7 @@
         %define     char_src                                  0x8BBDB0     ; '.SRC', 0
         %define     char_dot                                  0x88F1E4     ; '.', 0
         %define     char_commaSpace                           0x8960F8     ; ', ', 0
+        %define     char_underscore                           0x88F1C8     ; '_', 0
         %define     char_doubleFSlash                         0x892C64     ; '//', 0
         %define     char_lf                                   0x89150C     ; 0xA, 0
         %define     str_mdlBuffer                             0x8D8AC0     ; zSTRING *

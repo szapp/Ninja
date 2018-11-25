@@ -28,13 +28,17 @@ ninja_initAnims:
     addStack 4
 
         mov     ecx, [esp+stackoffset+arg_1]
-        sub     eax, 3
-        mov     BYTE [eax+ecx*1], 0
-        dec     eax
-        mov     BYTE [eax+ecx*1], '_'
-        add     ecx, 0x17                                                  ; Cut off "\NINJA\ANIMATION_NINJA_"
-        push    ecx                                                        ; "[NAME]_"
+        sub     eax, 0x11                                                  ; Cut off '\ANIMATION_G*.SRC'
+        mov     BYTE [ecx+eax], 0
+        add     ecx, 0x7                                                   ; Cut off '\NINJA\'
+        push    ecx
         lea     ecx, [esp+stackoffset+var_string]
+        call    zSTRING__operator_plusEq
+    addStack 4
+        push    char_g1g2
+        call    zSTRING__operator_plusEq
+    addStack 4
+        push    char_underscore                                            ; '[NAME]_G*_'
         call    zSTRING__operator_plusEq
     addStack 4
 

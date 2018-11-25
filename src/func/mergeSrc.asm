@@ -17,6 +17,24 @@ ninja_mergeSrc:
         call    zSTRING__zSTRING
     addStack 4
 
+        sub     esp, 0x14
+        mov     ecx, esp
+        push    NINJA_INJECT_SRC
+        call    zSTRING__zSTRING
+    addStack 4
+        mov     eax, [esp+stackoffset+var_string+0x8]
+        add     eax, 0x7                                                   ; Cut off '\NINJA\'
+        push    eax
+        call    zSTRING__operator_plusEq
+    addStack 4
+        push    ecx
+        call    zERROR__Message
+    addStack 4
+        mov     ecx, esp
+        call    zSTRING___zSTRING
+        add     esp, 0x14
+
+        lea     ecx, [esp+stackoffset+var_string]
         push    ecx
         mov     eax, DWORD [zCParser__cur_parser]
         mov     ecx, eax
