@@ -72,7 +72,7 @@ ninja_findVdfSrc:
         test    eax, eax
         jz      .arrayLoop
 
-.deploy
+.deploy:
         push    esi
         call    [esp+stackoffset+arg_2]
     addStack 4
