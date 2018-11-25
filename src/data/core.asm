@@ -21,7 +21,7 @@ NINJA_PATH_VDF           db   'DATA\NINJA_*.VDF', 0
 NINJA_AUTHOR_PREFIX      db   AUTHOR_PREFIX, ':', 0
 NINJA_INJECT_SRC         db   AUTHOR_PREFIX, ':NINJA: Injecting ', 0
 NINJA_CALL_FUNC          db   AUTHOR_PREFIX, ': NINJA: Calling function ', 0
-NINJA_LOAD_ANIM          db   AUTHOR_PREFIX, ': MDS: Appending animations from ', 0
+NINJA_LOAD_ANIM          db   AUTHOR_PREFIX, ': NINJA: Appending animations from ', 0
 NINJA_VERSION_CHAR       db   'Ninja ', NINJA_VERSION, ' (built ', __UTC_DATE__, ' ', __UTC_TIME__, ' UTC) '
                          db   '<http://tiny.cc/GothicNinja>', 0
 NINJA_VERSION_CHAR_len   equ  $-NINJA_VERSION_CHAR

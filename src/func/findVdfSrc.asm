@@ -54,6 +54,13 @@ ninja_findVdfSrc:
 
         inc     edi
 
+        push    NINJA_PATH_ANIMATION
+        push    DWORD [esp+stackoffset+arg_1]
+        call    DWORD [ds_lstrcmpiA]
+    addStack 8
+        test    eax, eax
+        jz      .deploy
+
         call    zFILE_VDFS__LockCriticalSection
         push    VDF_VIRTUAL | VDF_PHYSICAL | VDF_PHYSICALFIRST
         push    esi                                                        ; arg_1 + var_fullname + ext
@@ -65,6 +72,7 @@ ninja_findVdfSrc:
         test    eax, eax
         jz      .arrayLoop
 
+.deploy
         push    esi
         call    [esp+stackoffset+arg_2]
     addStack 4
