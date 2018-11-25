@@ -268,3 +268,31 @@ parser_verify_version:
         push    edi
         lea     ecx, [esp+stackoffset+g1g2(-0x340,-0x394)]
         jmp     g1g2(0x6F24B1,0x79BE30)
+
+
+global parser_resolve_path_src
+parser_resolve_path_src:
+    resetStackoffset 0x250
+        push    ebp
+        call    ninja_resolvePath
+    addStack 4
+    verifyStackoffset 0x250
+
+        ; Jump back
+        sub     esp, 0x14
+        test    ebp, ebp
+        jmp     g1g2(0x6E5C5C,0x78EED8)
+
+
+global parser_resolve_path_d
+parser_resolve_path_d:
+    resetStackoffset 0xC0
+        push    g1g2(ebx,ebp)
+        call    ninja_resolvePath
+    addStack 4
+    verifyStackoffset 0xC0
+
+        ; Jump back
+        push    g1g2(ebx,ebp)
+        mov     [esp+stackoffset+g1g2(-0xA0,-0x74)], g1g2(ebp,ebx)
+        jmp     g1g2(0x6E6659,0x78F87D)

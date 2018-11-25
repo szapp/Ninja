@@ -57,6 +57,8 @@ BIN_BASE		:=	core										\
 					hook_parserDeclarePrototype					\
 					hook_parserDeclareVar						\
 					hook_parserDeclareVar_constString			\
+					hook_parserParseSource						\
+					hook_parserParseFile						\
 					hook_zCPar_Symbol__GetNext					\
 					ow_ani										\
 					ow_aniAlias									\
@@ -86,6 +88,7 @@ BIN_BASE_G2		:=	skip_writeAniBinFile_ModelTag				\
 					skip_zCFileBIN__BinWriteString
 FUNC_BASE		:=	freeVdfArray								\
 					findVdfSrc									\
+					resolvePath									\
 					initContent									\
 					initMenu									\
 					mergeSrc									\

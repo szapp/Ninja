@@ -18,6 +18,7 @@ section .text
 
 %include "func/freeVdfArray.asm"
 %include "func/findVdfSrc.asm"
+%include "func/resolvePath.asm"
 %include "func/initContent.asm"
 %include "func/initMenu.asm"
 %include "func/mergeSrc.asm"
