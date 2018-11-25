@@ -54,11 +54,8 @@ ninja_findVdfSrc:
 
         inc     edi
 
-        push    NINJA_PATH_ANIMATION
-        push    DWORD [esp+stackoffset+arg_1]
-        call    DWORD [ds_lstrcmpiA]
-    addStack 8
-        test    eax, eax
+        mov     eax, ninja_initAnims
+        cmp     eax, DWORD [esp+stackoffset+arg_2]
         jz      .deploy
 
         call    zFILE_VDFS__LockCriticalSection

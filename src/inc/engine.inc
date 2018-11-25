@@ -74,6 +74,7 @@
 
         %define     NINJA_PATCH_ARRAY                         0x830391     ; zCArray
 
+        %define     char_nul                                  0x85E104     ; 0
         %define     char_space                                0x831600     ; ' ', 0
         %define     char_indent                               0x852E48     ; '    ', 0
         %define     char_model                                0x840908     ; 'MODEL', 0
@@ -215,6 +216,7 @@
 
         %define     NINJA_PATCH_ARRAY                         0x894155     ; zCArray
 
+        %define     char_nul                                  0x8C1ED0     ; 0
         %define     char_space                                0x8951AC     ; ' ', 0
         %define     char_indent                               0x8BC904     ; '    ', 0
         %define     char_model                                0x8A44CC     ; 'MODEL', 0

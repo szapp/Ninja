@@ -18,7 +18,6 @@ NINJA_PATH_CONTENT       db   '\CONTENT', 0
 NINJA_PATH_FIGHT         db   '\FIGHT', 0
 NINJA_PATH_MENU          db   '\MENU', 0
 NINJA_PATH_CAMERA        db   '\CAMERA', 0
-NINJA_PATH_ANIMATION     db   '\ANIMATION', 0
 NINJA_PATH_DATA          db   'DATA\', 0
 NINJA_PATH_VDF           db   'DATA\NINJA_*.VDF', 0
 NINJA_AUTHOR_PREFIX      db   AUTHOR_PREFIX, ':', 0

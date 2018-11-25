@@ -59,7 +59,7 @@ init_anims:
     verifyStackoffset 0xF54+32                                             ; Base + pusha
         jnz     .back
         push    ninja_initAnims
-        push    NINJA_PATH_ANIMATION
+        push    char_nul
         call    ninja_findVdfSrc
     addStack 2*4
 
@@ -75,7 +75,7 @@ init_anims:
         pusha
         mov     ebp, [esp+stackoffset-0x478]                               ; zCModelPrototype *
         push    ninja_initAnims
-        push    NINJA_PATH_ANIMATION
+        push    char_nul
         call    ninja_findVdfSrc
     addStack 2*4
         popa
