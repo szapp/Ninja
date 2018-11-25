@@ -64,6 +64,7 @@
         %define     zERROR_zerr                               0x8699D8     ; zERROR *
         %define     zERROR__Report                            0x448250     ; zERROR_TYPE, int, zSTRING const &, signed char, uint, int, char *, char *
         %define     zERROR__Message                           0x4492F0     ; zSTRING const &
+        %define     zERROR__Fatal                             0x449360     ; zSTRING const &
         %define     zCOption_zoptions                         0x869694     ; zCOption *
         %define     zCOption__GetDirString                    0x45FC00     ; zTOptionPaths
         %define     zCObjectFactory_zfactory                  0x873F88     ; zCObjectFactory *
@@ -204,6 +205,7 @@
         %define     zERROR_zerr                               0x8CDCD0     ; zERROR *
         %define     zERROR__Report                            0x44C8D0     ; zERROR_TYPE, int, zSTRING const &, signed char, uint, int, char *, char *
         %define     zERROR__Message                           0x44DA10     ; zSTRING const &
+        %define     zERROR__Fatal                             0x44DA80     ; zSTRING const &
         %define     zCOption_zoptions                         0x8CD988     ; zCOption *
         %define     zCOption__GetDirString                    0x465260     ; zTOptionPaths
         %define     zCObjectFactory_zfactory                  0x8D8DF0     ; zCObjectFactory *

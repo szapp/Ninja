@@ -22,6 +22,37 @@ ninja_resolvePath:
         test    eax, eax
         jl      .funcEnd
 
+        push    eax
+
+        push    0x1
+        push    NINJA_PATH
+        push    0x0
+        mov     ecx, ebp
+        call    zSTRING__Search
+    addStack 3*4
+        test    eax, eax
+        jnz     .funcEnd
+
+        push    0x1
+        push    char_ikarus
+        push    0x0
+        mov     ecx, ebp
+        call    zSTRING__Search
+    addStack 3*4
+        test    eax, eax
+        jge     .resolve
+
+        push    0x1
+        push    char_lego
+        push    0x0
+        mov     ecx, ebp
+        call    zSTRING__Search
+    addStack 3*4
+        test    eax, eax
+        jl      .invalid
+
+.resolve:
+        pop     eax
         xor     edi, edi
         dec     edi
         xor     esi, esi
@@ -48,6 +79,37 @@ ninja_resolvePath:
         mov     ecx, ebp
         call    zSTRING__Delete                                            ; Remove '\XXXX\..'
     addStack 2*4
+        jmp    .funcEnd
+
+.invalid:
+        sub     esp, 0x14
+        mov     ecx, esp
+        push    NINJA_AUTHOR_PREFIX
+        call    zSTRING__zSTRING
+    addStack 4
+        mov     eax, [ebp+0x8]
+        push    eax
+        call    zSTRING__operator_plusEq
+    addStack 4
+        push    eax
+        call    zERROR__Message
+    addStack 4
+        mov     ecx, esp
+        call    zSTRING___zSTRING
+        mov     esi, esp
+        mov     ecx, esp
+        push    NINJA_PATH_INVALID
+        call    zSTRING__zSTRING
+    addStack 4
+        push    esi
+        call    zERROR__Message
+    addStack 4
+        push    esi
+        call    zERROR__Fatal
+    addStack 4
+        mov     ecx, esp
+        call    zSTRING___zSTRING
+        add     esp, 0x14
 
 .funcEnd:
         pop     ebp

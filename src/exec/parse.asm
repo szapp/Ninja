@@ -218,7 +218,7 @@ parser_verify_version:
         test    ecx, ecx
         jz      .back
 
-        push    char_lego
+        push    char_lego_symb
         mov     ecx, [ebp+0x8]                                             ; symbol->name->ptr
         push    ecx
         call    DWORD [ds_lstrcmpiA]

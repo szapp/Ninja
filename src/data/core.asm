@@ -2,7 +2,9 @@ char_repeat              db   'REPEAT', 0
 char_while               db   'WHILE', 0
 char_mem_label           db   'MEM_LABEL', 0
 char_mem_goto            db   'MEM_GOTO', 0
-char_lego                db   'LEGO_VERSION', 0
+char_ikarus              db   'IKARUS', 0
+char_lego                db   'LEGO', 0
+char_lego_symb           db   'LEGO_VERSION', 0
 char_lego_version        db   'LeGo 2.5.0-Ninja-v1.2', 0
 char_rb                  db   'rb', 0
 char_g1g2                db   '_G', g1g2('1','2'), 0
@@ -32,3 +34,7 @@ NINJA_CON_NOTFOUND       db   0xA, 'No patches active.', 0
 NINJA_PARSER_FAILED      db   AUTHOR_PREFIX, ':PAR:  Ninja patch uses invalid LeGo version. ', 10, 13
                          db   'Please use the version specifically for Ninja ', 10, 13
                          db   'found at <http://tiny.cc/GothicNinjaTemplate>', 0
+NINJA_PATH_INVALID       db   AUTHOR_PREFIX, ': NINJA: The directory \NINJA\ is reserved for Ikarus and LeGo. ', 10, 13
+                         db   'Please keep all other files within the patch directory \NINJA\[PATCHNAME]\. ', 10, 13
+                         db   'For more information about Ninja patches and their file structure, ', 10, 13
+                         db   'see <http://tiny.cc/GothicNinjaTemplate>', 0
