@@ -229,6 +229,7 @@ parser_verify_version:
     verifyStackoffset g1g2(0x394,0x3EC) + 0x10
         jnz     .back
 
+        reportToSpy "NINJA: Verifying LeGo version"
         push    char_lego_version
         mov     ecx, [esp+stackoffset+g1g2(-0x340,-0x394)+0x8]             ; str->ptr
         push    ecx
@@ -270,7 +271,7 @@ parser_verify_version:
         test    eax, eax
         jz      .back
 
-        reportToSpy "NINJA: Verifying LeGo version"
+        reportToSpy "NINJA: Comparing LeGo version with DAT"
         push    DWORD [edx+0x8]
         call    ninja_parseVersionString
     addStack 4
