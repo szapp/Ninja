@@ -237,7 +237,7 @@ parser_verify_version:
     addStack 2*4
         test    eax, eax
     verifyStackoffset g1g2(0x394,0x3EC) + 0x10
-        jz      .compareVersions
+        jz      .verifyFilePath
 
         sub     esp, 0x14
         mov     ecx, esp
@@ -264,9 +264,38 @@ parser_verify_version:
     verifyStackoffset g1g2(0x394,0x3EC) + 0x10
         jmp     .back
 
+.verifyFilePath:
+        reportToSpy "NINJA: Verifying script file path"
+        mov     eax, [esi+0Ch]                                             ; zCParser.file_numInArray
+        dec     eax
+        mov     ecx, [esi+0x4]                                             ; zCParser.file_array
+        mov     ecx, [ecx+eax*0x4]                                         ; zCPar_File
+        mov     eax, [ecx+0xC]
+        test    eax, eax
+        jz      .compareVersions
+
+        push    NINJA_PATH_LEGO
+        push    eax
+        call    DWORD [ds_lstrcmpiA]
+    addStack 2*4
+        test    eax, eax
+        jz      .compareVersions
+
+        sub     esp, 0x14
+        mov     ecx, esp
+        push    NINJA_LEGO_INVALID_PATH
+        call    zSTRING__zSTRING
+    addStack 4
+        push    eax
+        call    zERROR__Fatal
+    addStack 4
+        mov     ecx, esp
+        call    zSTRING___zSTRING
+        add     esp, 0x14
+
 .compareVersions:
         mov     eax, [ebp+0x18]                                            ; zCPar_Symbol.content
-        lea     edx, [eax+edi*4]
+        lea     edx, [eax+edi*0x4]
         mov     eax, [edx+0x8]
         test    eax, eax
         jz      .back

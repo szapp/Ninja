@@ -20,6 +20,7 @@ NINJA_PATH_MENU          db   '\MENU', 0
 NINJA_PATH_CAMERA        db   '\CAMERA', 0
 NINJA_PATH_DATA          db   'DATA\', 0
 NINJA_PATH_VDF           db   'DATA\NINJA_*.VDF', 0
+NINJA_PATH_LEGO          db   '\NINJA\LEGO\LEGO.D', 0
 NINJA_AUTHOR_PREFIX      db   AUTHOR_PREFIX, ':', 0
 NINJA_INJECT_SRC         db   AUTHOR_PREFIX, ':NINJA: Injecting ', 0
 NINJA_CALL_FUNC          db   AUTHOR_PREFIX, ': NINJA: Calling function ', 0
@@ -35,6 +36,11 @@ NINJA_PARSER_FAILED      db   AUTHOR_PREFIX, ':PAR:  Ninja patch uses invalid Le
                          db   'found at <http://tiny.cc/GothicNinjaTemplate>', 0
 NINJA_PATH_INVALID       db   AUTHOR_PREFIX, ': NINJA: The directory \NINJA\ is reserved for Ikarus and LeGo. ', 10, 13
                          db   'Please keep all other files within the patch directory \NINJA\[PATCHNAME]\. ', 10, 13
+                         db   'For more information about Ninja patches and their file structure, ', 10, 13
+                         db   'see <http://tiny.cc/GothicNinjaTemplate>', 0
+NINJA_LEGO_INVALID_PATH  db   AUTHOR_PREFIX, ':NINJA: Invalid script file path.', 10, 13
+                         db   'Please keep LeGo and Ikarus within the directories \NINJA\IKARUS\ and \NINJA\LEGO\. '
+                         db   10, 13
                          db   'For more information about Ninja patches and their file structure, ', 10, 13
                          db   'see <http://tiny.cc/GothicNinjaTemplate>', 0
 NINJA_LEGO_END           db   AUTHOR_PREFIX, ':NINJA: LeGo version not understood (Reached end of string while '
