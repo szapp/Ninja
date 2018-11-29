@@ -8,6 +8,7 @@
         %define     operator_new                              0x54EBA0     ; uint
         %define     operator_new_len                          0x54EBE0     ; uint, char const *, char const *, int
         %define     operator_delete                           0x54EBB0     ; void *
+        %define     _memset                                   0x7831B0     ; void *, int, size_t
         %define     operator_StrPlusChar                      0x404740     ; zSTRING const &, char const *
         %define     zCArray_int___zCArray_int_                0x5499D0     ; void
         %define     zCArray_int___InsertEnd                   0x530010     ; int const &
@@ -25,8 +26,10 @@
         %define     zFILE_VDFS__UnlockCriticalSection         0x4471E0     ; void
         %define     zFILE_cur_mds_file                        0x873D6C     ; zFILE *
         %define     std__basic_string__assign                 0x403010     ; char const *, uint
+        %define     _atol                                     0x77774D     ; const char *
         %define     zSTRING__zSTRING                          0x4013A0     ; char const *
         %define     zSTRING___zSTRING                         0x401260     ; void
+        %define     zSTRING__Sprintf                          0x467A90     ; char const *, ...
         %define     zSTRING__Upper                            0x465390     ; void
         %define     zSTRING__Search                           0x467750     ; int, char const *, uint
         %define     zSTRING__TrimRight                        0x4675A0     ; char
@@ -150,6 +153,7 @@
         %define     _atexit                                   0x7CFFC5     ; void (__cdecl *)()
         %define     operator_new                              0x565F50     ; uint
         %define     operator_delete                           0x565F60     ; void *
+        %define     _memset                                   0x7DCA90     ; void *, int, size_t
         %define     operator_StrPlusChar                      0x404880     ; zSTRING const &, char const *
         %define     zCArray_int___zCArray_int_                0x560690     ; void
         %define     zCArray_int___InsertEnd                   0x4D5A30     ; int const &
@@ -167,8 +171,10 @@
         %define     zFILE_VDFS__UnlockCriticalSection         0x44B800     ; void
         %define     zFILE_cur_mds_file                        0x8D8BCC     ; zFILE *
         %define     std__basic_string__assign                 0x402FC0     ; char const *, uint
+        %define     _atol                                     0x7D113D     ; const char *
         %define     zSTRING__zSTRING                          0x4010C0     ; char const *
         %define     zSTRING___zSTRING                         0x401160     ; void
+        %define     zSTRING__Sprintf                          0x46CC60     ; char const *, ...
         %define     zSTRING__Upper                            0x46AB00     ; void
         %define     zSTRING__Search                           0x46C920     ; int, char const *, uint
         %define     zSTRING__TrimRight                        0x46C770     ; char

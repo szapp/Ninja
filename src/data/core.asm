@@ -37,3 +37,11 @@ NINJA_PATH_INVALID       db   AUTHOR_PREFIX, ': NINJA: The directory \NINJA\ is 
                          db   'Please keep all other files within the patch directory \NINJA\[PATCHNAME]\. ', 10, 13
                          db   'For more information about Ninja patches and their file structure, ', 10, 13
                          db   'see <http://tiny.cc/GothicNinjaTemplate>', 0
+NINJA_LEGO_END           db   AUTHOR_PREFIX, ':NINJA: LeGo version not understood (Reached end of string while '
+                         db   'searching for onset)', 0
+NINJA_LEGO_BMM           db   AUTHOR_PREFIX, ':NINJA: LeGo version not understood (Base-major-minor incomplete)', 0
+NINJA_LEGO_INVALID       db   AUTHOR_PREFIX, ':NINJA: The LeGo version of the game is newer then that of the patch. '
+                         db   10, 13
+                         db   'Game: %09d, patch: %09d ', 10, 13
+                         db   'Please update your Ninja patches or report the outdated patch at ', 10, 13
+                         db   '<http://tiny.cc/GothicNinja>', 0

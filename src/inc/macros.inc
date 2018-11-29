@@ -105,6 +105,7 @@
     %%print:
         push    ecx
         push    eax
+        push    edx
         sub     esp, 0x14
         mov     ecx, esp
         push    %%msg
@@ -116,6 +117,7 @@
         mov     ecx, esp
         call    zSTRING___zSTRING
         add     esp, 0x14
+        pop     edx
         pop     eax
         pop     ecx
     %endmacro

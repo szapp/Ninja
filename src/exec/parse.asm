@@ -213,6 +213,8 @@ parser_verify_version:
     resetStackoffset g1g2(0x394,0x3EC)
         push    ecx
         push    eax
+        push    edx
+        push    ebx
 
         mov     ecx, [esi+zCParser_mergemode_offset]
         test    ecx, ecx
@@ -224,7 +226,7 @@ parser_verify_version:
         call    DWORD [ds_lstrcmpiA]
     addStack 2*4
         test    eax, eax
-    verifyStackoffset g1g2(0x394,0x3EC) + 0x8
+    verifyStackoffset g1g2(0x394,0x3EC) + 0x10
         jnz     .back
 
         push    char_lego_version
@@ -233,8 +235,8 @@ parser_verify_version:
         call    DWORD [ds_lstrcmpiA]
     addStack 2*4
         test    eax, eax
-    verifyStackoffset g1g2(0x394,0x3EC) + 0x8
-        jz      .back
+    verifyStackoffset g1g2(0x394,0x3EC) + 0x10
+        jz      .compareVersions
 
         sub     esp, 0x14
         mov     ecx, esp
@@ -258,8 +260,67 @@ parser_verify_version:
         mov     ecx, esp
         call    zSTRING___zSTRING
         add     esp, 0x14
+    verifyStackoffset g1g2(0x394,0x3EC) + 0x10
+        jmp     .back
+
+.compareVersions:
+        mov     eax, [ebp+0x18]                                            ; zCPar_Symbol.content
+        lea     edx, [eax+edi*4]
+        mov     eax, [edx+0x8]
+        test    eax, eax
+        jz      .back
+
+        reportToSpy "NINJA: Verifying LeGo version"
+        push    DWORD [edx+0x8]
+        call    ninja_parseVersionString
+    addStack 4
+        test    eax, eax
+        jl      .back
+        mov     ebx, eax
+        mov     eax, [esp+stackoffset+g1g2(-0x340,-0x394)+0x8]             ; str->ptr
+        push    eax
+        call    ninja_parseVersionString
+    addStack 4
+        cmp     eax, ebx
+        jge     .back
+
+        push    edi
+        mov     edi, eax
+        sub     esp, 0x4
+        push    0x200
+        call    operator_new
+        add     esp, 0x4
+        push    0x200
+        push    0x20
+        push    eax
+        call    _memset
+        add     esp, 0xC
+        sub     esp, 0x14
+        mov     ecx, esp
+        push    eax
+        call    zSTRING__zSTRING
+    addStack 4
+        push    edi
+        push    ebx
+        push    NINJA_LEGO_INVALID
+        push    ecx
+        call    zSTRING__Sprintf
+        add     esp, 0x10
+        push    esp
+        call    zERROR__Fatal
+    addStack 4
+        mov     ecx, esp
+        call    zSTRING___zSTRING
+        add     esp, 0x14
+        push    esp
+        call    operator_delete
+        add     esp, 0x4
+        add     esp, 0x4
+        pop     edi
 
 .back:
+        pop     ebx
+        pop     edx
         pop     eax
         pop     ecx
     verifyStackoffset g1g2(0x394,0x3EC)

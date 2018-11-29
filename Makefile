@@ -88,6 +88,7 @@ BIN_BASE_G2		:=	skip_writeAniBinFile_ModelTag				\
 					skip_zCFileBIN__BinWriteString
 FUNC_BASE		:=	freeVdfArray								\
 					findVdfSrc									\
+					parseVersionString							\
 					resolvePath									\
 					initContent									\
 					initMenu									\

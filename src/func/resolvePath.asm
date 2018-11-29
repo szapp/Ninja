@@ -102,9 +102,6 @@ ninja_resolvePath:
         call    zSTRING__zSTRING
     addStack 4
         push    esi
-        call    zERROR__Message
-    addStack 4
-        push    esi
         call    zERROR__Fatal
     addStack 4
         mov     ecx, esp
