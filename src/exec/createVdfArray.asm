@@ -18,6 +18,7 @@ createVdfArray:
         push    esi
         push    edi
 
+        reportToSpy {" NINJA: Loading Ninja ", NINJA_VERSION}
         reportToSpy " NINJA: Registering console command"
 
         sub     esp, 0x14
