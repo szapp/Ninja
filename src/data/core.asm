@@ -31,16 +31,16 @@ NINJA_VERSION_CHAR_len   equ  $-NINJA_VERSION_CHAR
 NINJA_CON_COMMAND        db   'NINJA', 0
 NINJA_CON_DESCR          db   'List all found Ninja patches in order', 0
 NINJA_CON_NOTFOUND       db   0xA, 'No patches active.', 0
-NINJA_PARSER_FAILED      db   AUTHOR_PREFIX, ':PAR:  Ninja patch uses invalid LeGo version. ', 10, 13
+NINJA_PARSER_FAILED      db   AUTHOR_PREFIX, ':NINJA: Ninja patch uses invalid LeGo version. ', 10, 13
                          db   'Please use the version specifically for Ninja ', 10, 13
                          db   'found at <http://tiny.cc/GothicNinjaTemplate>', 0
-NINJA_PATH_INVALID       db   AUTHOR_PREFIX, ': NINJA: The directory \NINJA\ is reserved for Ikarus and LeGo. ', 10, 13
+NINJA_PATH_INVALID       db   AUTHOR_PREFIX, ':NINJA: The directory \NINJA\ is reserved for Ikarus and LeGo. ', 10, 13
                          db   'Please keep all other files within the patch directory \NINJA\[PATCHNAME]\. ', 10, 13
                          db   'For more information about Ninja patches and their file structure, ', 10, 13
                          db   'see <http://tiny.cc/GothicNinjaTemplate>', 0
 NINJA_LEGO_INVALID_PATH  db   AUTHOR_PREFIX, ':NINJA: Invalid script file path.', 10, 13
-                         db   'Please keep LeGo and Ikarus within the directories \NINJA\IKARUS\ and \NINJA\LEGO\. '
-                         db   10, 13
+                         db   'Please keep LeGo and Ikarus within their reserved directories ', 10, 13
+                         db   '\NINJA\IKARUS\ and \NINJA\LEGO\. ', 10, 13
                          db   'For more information about Ninja patches and their file structure, ', 10, 13
                          db   'see <http://tiny.cc/GothicNinjaTemplate>', 0
 NINJA_LEGO_END           db   AUTHOR_PREFIX, ':NINJA: LeGo version not understood (Reached end of string while '

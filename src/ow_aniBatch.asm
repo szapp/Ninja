@@ -34,7 +34,7 @@ section .text   align=1                                                    ; Pre
     %if GOTHIC_BASE_VERSION == 1
         mov     edx, [esp+stackoffset-0xF38]
     %endif
-        mov     [ecx+eax*4], g1g2(edx,ebp)                                 ; New ani
+        mov     [ecx+eax*0x4], g1g2(edx,ebp)                               ; New ani
         pop     ecx                                                        ; Old ani
         mov     eax, [ecx+0x4]
         dec     eax                                                        ; Decrease refCtr

@@ -32,7 +32,7 @@ linker_replace_func:
         push    eax                                                        ; Calculated stack position
         mov     eax, [ecx+zCPar_Symbol_content_offset]
         test    eax, eax
-    verifyStackoffset g1g2(0xA8,0xE4) + 2*4
+    verifyStackoffset g1g2(0xA8,0xE4) + 0x8
         jz      .rf_back
 
         push    eax                                                        ; symbol->content
@@ -83,7 +83,7 @@ linker_replace_func:
         mov     BYTE [eax], zPAR_TOK_JUMP
         mov     [eax+1], ecx
         sub     esp, 0x4
-    verifyStackoffset g1g2(0xA8,0xE4) + 2*4
+    verifyStackoffset g1g2(0xA8,0xE4) + 0x8
 
 .rf_back:
         add     esp, 0x4
@@ -244,20 +244,9 @@ parser_verify_version:
         push    NINJA_PARSER_FAILED
         call    zSTRING__zSTRING
     addStack 4
-        push    esp
-        call    zERROR__Message
+        push    eax
+        call    zERROR__Fatal
     addStack 4
-        mov     ecx, esp
-        push    0x7
-        push    0x0
-        call    zSTRING__Delete                                            ; Cut off author prefix
-    addStack 2*4
-        mov     ecx, esp
-        push    0xFFFFFFFF                                                 ; -1
-        push    ecx
-        mov     ecx, esi
-        call    zCParser__Error
-    addStack 2*4
         mov     ecx, esp
         call    zSTRING___zSTRING
         add     esp, 0x14

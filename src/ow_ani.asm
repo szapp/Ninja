@@ -28,7 +28,7 @@ section .text   align=1                                                    ; Pre
         pop     ecx
         mov     ecx, [ecx+0x48]
         mov     edx, [esp+stackoffset+g1g2(-0xF44,-0x12FC)]
-        mov     [ecx+eax*4], edx                                           ; New ani
+        mov     [ecx+eax*0x4], edx                                         ; New ani
         pop     ecx                                                        ; Old ani
         mov     eax, [ecx+0x4]
         dec     eax                                                        ; Decrease refCtr

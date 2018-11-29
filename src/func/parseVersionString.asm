@@ -40,11 +40,9 @@ ninja_parseVersionString:
         mov     edx, var_base
         mov     eax, edi
 
-
 .collectNum:
         cmp     BYTE [esi+edi], 0
         jz      .done
-
 
         cmp     BYTE [esi+edi], '0'
         jl      .foundOffset
