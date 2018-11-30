@@ -288,5 +288,5 @@ createVdfArray:
         add     esp, var_total
     verifyStackoffset
 
-        mov     ecx, zCRenderManager_zrenderMan
-        jmp     g1g2(0x6036E7,0x632A0B)
+        push    char_zStartupWindowed
+        jmp     g1g2(0x6019C6,0x630B61)

@@ -60,7 +60,6 @@
         %define     zCMenu__menuParser                        0x86D3D8     ; zCParser *
         %define     zCAICamera__cameraParser                  0x86A1E0     ; zCParser *
         %define     zCSoundSystem_zsound                      0x8CEE4C     ; zCSoundSystem *
-        %define     zCRenderManager_zrenderMan                0x8CE900     ; zCRenderManager *
         %define     zCConsole_zcon                            0x8DC5A0     ; zCConsole *
         %define     zCConsole__AddEvalFunc                    0x6DBCA0     ; int (*)(zSTRING const &, zSTRING &)
         %define     zCConsole__Register                       0x6D9940     ; zSTRING const &, zSTRING const &
@@ -88,6 +87,7 @@
         %define     char_underscore                           0x82AF18     ; '_', 0
         %define     char_doubleFSlash                         0x82EDAC     ; '//', 0
         %define     char_lf                                   0x82D200     ; 0xA, 0
+        %define     char_zStartupWindowed                     0x846978     ; 'zStartupWindowed', 0
         %define     str_mdlBuffer                             0x873C60     ; zSTRING *
         %define     zSTR_EMPTY                                0x869978     ; zSTRING const
 
@@ -206,7 +206,6 @@
         %define     zCMenu__menuParser                        0x8D1E68     ; zCParser *
         %define     zCAICamera__cameraParser                  0x8CEAC8     ; zCParser *
         %define     zCSoundSystem_zsound                      0x99B03C     ; zCSoundSystem *
-        %define     zCRenderManager_zrenderMan                0x99AA44     ; zCRenderManager *
         %define     zCConsole_zcon                            0xAB3860     ; zCConsole *
         %define     zCConsole__AddEvalFunc                    0x784F80     ; int (*)(zSTRING const &, zSTRING &)
         %define     zCConsole__Register                       0x782AE0     ; zSTRING const &, zSTRING const &
@@ -234,6 +233,7 @@
         %define     char_underscore                           0x88F1C8     ; '_', 0
         %define     char_doubleFSlash                         0x892C64     ; '//', 0
         %define     char_lf                                   0x89150C     ; 0xA, 0
+        %define     char_zStartupWindowed                     0x8AA930     ; 'zStartupWindowed', 0
         %define     str_mdlBuffer                             0x8D8AC0     ; zSTRING *
         %define     zSTR_EMPTY                                0x8CDC70     ; zSTRING const
 

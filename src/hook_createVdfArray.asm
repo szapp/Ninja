@@ -9,7 +9,7 @@
 %endif
 
 %ifidn __OUTPUT_FORMAT__, bin
-    org     g1g2(0x6036E2,0x632A06)
+    org     g1g2(0x6019C1,0x630B5C)
 %endif
 
 bits    32
