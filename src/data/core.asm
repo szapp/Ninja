@@ -5,7 +5,7 @@ char_mem_goto            db   'MEM_GOTO', 0
 char_ikarus              db   'IKARUS', 0
 char_lego                db   'LEGO', 0
 char_lego_symb           db   'LEGO_VERSION', 0
-char_lego_version        db   'LeGo 2.5.0-Ninja-', NINJA_VERSION, 0
+char_lego_version        db   'LeGo 2.5.0-N', NINJA_VERSION, 0
 char_rb                  db   'rb', 0
 char_g1g2                db   '_G', g1g2('1','2'), 0
 char_prevDir             db   '\..', 0

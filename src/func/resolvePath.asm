@@ -20,9 +20,10 @@ ninja_resolvePath:
         call    zSTRING__Search
     addStack 3*4
         test    eax, eax
+    verifyStackoffset 0x14
         jl      .funcEnd
 
-        push    eax
+        mov     edi, eax
 
         push    0x1
         push    NINJA_PATH
@@ -31,6 +32,7 @@ ninja_resolvePath:
         call    zSTRING__Search
     addStack 3*4
         test    eax, eax
+    verifyStackoffset 0x14
         jnz     .funcEnd
 
         push    0x1
@@ -52,7 +54,7 @@ ninja_resolvePath:
         jl      .invalid
 
 .resolve:
-        pop     eax
+        mov     eax, edi
         xor     edi, edi
         dec     edi
         xor     esi, esi
@@ -70,6 +72,7 @@ ninja_resolvePath:
 
 .searchEnd:
         test    esi, esi
+    verifyStackoffset 0x14
         jl      .funcEnd
 
         add     eax, 0x3
@@ -79,6 +82,7 @@ ninja_resolvePath:
         mov     ecx, ebp
         call    zSTRING__Delete                                            ; Remove '\XXXX\..'
     addStack 2*4
+    verifyStackoffset 0x14
         jmp    .funcEnd
 
 .invalid:

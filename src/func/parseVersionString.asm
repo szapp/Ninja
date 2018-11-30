@@ -27,6 +27,7 @@ ninja_parseVersionString:
 .findOnset:
         mov     ecx, [esi+edi]
         cmp     cl, 0
+    verifyStackoffset 0x10+var_total
         jz      .failed1
 
         inc     edi
@@ -69,6 +70,7 @@ ninja_parseVersionString:
 
 .done:
         cmp     edx, var_minor
+    verifyStackoffset 0x10+var_total
         jg      .failed2
         jz      .foundOffset
 
@@ -80,6 +82,7 @@ ninja_parseVersionString:
         mul     DWORD [esp+stackoffset+var_major]
         add     eax, esi
         add     eax, [esp+stackoffset+var_minor]
+    verifyStackoffset 0x10+var_total
         jmp     .funcEnd
 
 .failed1:

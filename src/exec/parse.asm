@@ -218,6 +218,7 @@ parser_verify_version:
 
         mov     ecx, [esi+zCParser_mergemode_offset]
         test    ecx, ecx
+    verifyStackoffset g1g2(0x394,0x3EC) + 0x10
         jz      .back
 
         push    char_lego_symb
@@ -255,9 +256,9 @@ parser_verify_version:
 
 .verifyFilePath:
         reportToSpy "NINJA: Verifying script file path"
-        mov     eax, [esi+0Ch]                                             ; zCParser.file_numInArray
+        mov     eax, [esi+zCParser_file_offset+zCArray.numInArray]
         dec     eax
-        mov     ecx, [esi+0x4]                                             ; zCParser.file_array
+        mov     ecx, [esi+zCParser_file_offset+zCArray.array]
         mov     ecx, [ecx+eax*0x4]                                         ; zCPar_File
         mov     eax, [ecx+0xC]
         test    eax, eax
@@ -281,12 +282,15 @@ parser_verify_version:
         mov     ecx, esp
         call    zSTRING___zSTRING
         add     esp, 0x14
+    verifyStackoffset g1g2(0x394,0x3EC) + 0x10
+        jmp     .back
 
 .compareVersions:
         mov     eax, [ebp+0x18]                                            ; zCPar_Symbol.content
         lea     edx, [eax+edi*0x4]
         mov     eax, [edx+0x8]
         test    eax, eax
+    verifyStackoffset g1g2(0x394,0x3EC) + 0x10
         jz      .back
 
         reportToSpy "NINJA: Comparing LeGo version with DAT"
@@ -294,6 +298,7 @@ parser_verify_version:
         call    ninja_parseVersionString
     addStack 4
         test    eax, eax
+    verifyStackoffset g1g2(0x394,0x3EC) + 0x10
         jl      .back
         mov     ebx, eax
         mov     eax, [esp+stackoffset+g1g2(-0x340,-0x394)+0x8]             ; str->ptr
@@ -301,6 +306,7 @@ parser_verify_version:
         call    ninja_parseVersionString
     addStack 4
         cmp     eax, ebx
+    verifyStackoffset g1g2(0x394,0x3EC) + 0x10
         jge     .back
 
         push    edi
@@ -309,11 +315,12 @@ parser_verify_version:
         push    0x200
         call    operator_new
         add     esp, 0x4
-        push    0x200
+        push    0x1FF
         push    0x20
         push    eax
         call    _memset
         add     esp, 0xC
+        mov     BYTE [eax+0x1FF], 0x0                                      ; Null-terminated
         sub     esp, 0x14
         mov     ecx, esp
         push    eax
