@@ -34,6 +34,7 @@
         %define     zSTRING__Search                           0x467750     ; int, char const *, uint
         %define     zSTRING__TrimRight                        0x4675A0     ; char
         %define     zSTRING__Delete                           0x4668D0     ; uint, ulong
+        %define     zSTRING__Delete_str                       0x466B20     ; zSTRING const &, zTSTR_KIND
         %define     zSTRING__operator_plusEq                  0x644ED0     ; char const *
         %define     ds_lstrcatA                               0x7D02D8     ; LPTSTR, LPTSTR
         %define     ds_lstrcpyA                               0x7D0288     ; LPTSTR, LPTSTR
@@ -98,6 +99,7 @@
         %define     zFILE_VDFS__Close_offset                  0x98         ; void
         %define     zFILE_VDFS__deleting_destructor_offset    0x0          ; uint
 
+        %define     zCParser_file_offset                      0x4
         %define     zCParser_table_offset                     0x10
         %define     zCParser_lastsym_offset                   0x34
         %define     zCParser_stackpos_offset                  0x48
@@ -178,6 +180,7 @@
         %define     zSTRING__Search                           0x46C920     ; int, char const *, uint
         %define     zSTRING__TrimRight                        0x46C770     ; char
         %define     zSTRING__Delete                           0x46BAA0     ; uint, ulong
+        %define     zSTRING__Delete_str                       0x46BCF0     ; zSTRING const &, zTSTR_KIND
         %define     zSTRING__operator_plusEq                  0x67A7B0     ; char const *
         %define     ds_lstrcatA                               0x82E1E0     ; LPTSTR, LPTSTR
         %define     ds_lstrcpyA                               0x82E1E4     ; LPTSTR, LPTSTR
@@ -242,6 +245,7 @@
         %define     zFILE_VDFS__Close_offset                  0x98         ; void
         %define     zFILE_VDFS__deleting_destructor_offset    0x0          ; uint
 
+        %define     zCParser_file_offset                      0x4
         %define     zCParser_table_offset                     0x10
         %define     zCParser_lastsym_offset                   0x34
         %define     zCParser_stackpos_offset                  0x48

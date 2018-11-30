@@ -12,6 +12,7 @@ ninja_initAnims:
         push    eax
         push    ecx
         push    esi
+        push    edi
 
         push    DIR_ANIMS
         mov     ecx, DWORD [zCOption_zoptions]
@@ -51,6 +52,9 @@ ninja_initAnims:
         call    zSTRING__operator_plusEq
     addStack 4
 
+        xor     edi, edi
+
+.fileExists:
         push    ecx
         mov     ecx, DWORD [zCObjectFactory_zfactory]
         mov     ecx, [ecx]
@@ -61,8 +65,34 @@ ninja_initAnims:
         mov     ecx, esi
         call    DWORD [eax+zFILE_VDFS__Exists_offset]
         test    al, al
-        jz      .funcEnd
+        jnz     .append
 
+        test    edi, edi
+        jnz     .funcEnd
+        inc     edi
+
+        mov     eax, [esi]
+        push    0x1
+        mov     ecx, esi
+        call    DWORD [eax+zFILE_VDFS__deleting_destructor_offset]
+    addStack 4
+        sub     esp, 0x14
+        mov     ecx, esp
+        push    char_g1g2
+        call    zSTRING__zSTRING
+    addStack 4
+        push    0x0                                                        ; enum zTSTR_KIND
+        push    ecx
+        lea     ecx, [esp+stackoffset+var_string]
+        call    zSTRING__Delete_str
+    addStack 2*4
+        mov     ecx, esp
+        call    zSTRING___zSTRING
+        add     esp, 0x14
+        lea     ecx, [esp+stackoffset+var_string]
+        jmp     .fileExists
+
+.append:
         sub     esp, 0x14
         mov     ecx, esp
         push    NINJA_LOAD_ANIM
@@ -91,7 +121,6 @@ ninja_initAnims:
         mov     DWORD [esp], 0xFFFFFFFF                                    ; -1
 
 .mds_loop_start:
-
         mov     eax, [esi]
         mov     ecx, esi
         call    DWORD [eax+zFILE_VDFS__Eof_offset]
@@ -133,7 +162,6 @@ ninja_initAnims:
         jnz     .mds_loop_start
 
 .eof:
-
         add     esp, 0xC
 
         pop     eax
@@ -144,7 +172,6 @@ ninja_initAnims:
         call    DWORD [eax+zFILE_VDFS__Close_offset]
 
 .funcEnd:
-
         mov     eax, [esi]
         push    0x1
         mov     ecx, esi
@@ -154,6 +181,7 @@ ninja_initAnims:
         lea     ecx, [esp+stackoffset+var_string]
         call    zSTRING___zSTRING
 
+        pop     edi
         pop     esi
         pop     ecx
         pop     eax

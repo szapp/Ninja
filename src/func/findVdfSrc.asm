@@ -14,6 +14,7 @@ ninja_findVdfSrc:
         push    ecx
         push    esi
         push    edi
+        push    ebx
 
         mov     eax, [NINJA_PATCH_ARRAY+zCArray.array]
         test    eax, eax
@@ -58,6 +59,9 @@ ninja_findVdfSrc:
         cmp     eax, DWORD [esp+stackoffset+arg_2]
         jz      .deploy
 
+        xor     ebx, ebx
+
+.fileExist:
         call    zFILE_VDFS__LockCriticalSection
         push    VDF_VIRTUAL | VDF_PHYSICAL | VDF_PHYSICALFIRST
         push    esi                                                        ; arg_1 + var_fullname + ext
@@ -67,7 +71,25 @@ ninja_findVdfSrc:
         call    zFILE_VDFS__UnlockCriticalSection
         pop     eax
         test    eax, eax
+        jnz     .deploy
+
+        test    ebx, ebx
+        jnz     .arrayLoop
+        mov     eax, NINJA_PATH_CONTENT
+        cmp     eax, DWORD [esp+stackoffset+arg_1]
         jz      .arrayLoop
+
+        push    esi
+        call    DWORD [ds_lstrlenA]
+    addStack 4
+        sub     eax, 0x7
+        mov     BYTE [esi+eax], 0x0
+        push    char_src
+        push    esi
+        call    DWORD [ds_lstrcatA]
+    addStack 8
+        inc     ebx
+        jmp     .fileExist
 
 .deploy:
         push    esi
@@ -76,7 +98,7 @@ ninja_findVdfSrc:
         jmp     .arrayLoop
 
 .funcEnd:
-
+        pop     ebx
         pop     edi
         pop     esi
         pop     ecx
