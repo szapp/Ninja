@@ -14,6 +14,7 @@ NINJA_PATH_MUSIC         db   '\MUSIC', 0
 NINJA_PATH_SFX           db   '\SFX', 0
 NINJA_PATH_PFX           db   '\PFX', 0
 NINJA_PATH_VFX           db   '\VFX', 0
+NINJA_PATH_OU            db   '\OU', 0
 NINJA_PATH_CONTENT       db   '\CONTENT', 0
 NINJA_PATH_FIGHT         db   '\FIGHT', 0
 NINJA_PATH_MENU          db   '\MENU', 0

@@ -29,7 +29,7 @@ ninja_initAnims:
     addStack 4
 
         mov     ecx, [esp+stackoffset+arg_1]
-        sub     eax, 0x7                                                   ; Cut off '\_G*.SRC'
+        sub     eax, 0x7                                                   ; Cut off '_G*.SRC'
         mov     BYTE [ecx+eax], 0
         add     ecx, 0x7                                                   ; Cut off '\NINJA\'
         push    ecx

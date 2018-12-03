@@ -48,6 +48,7 @@ BIN_BASE		:=	core										\
 					hook_deploy_pfx_ninja						\
 					hook_deploy_sfx_ninja						\
 					hook_deploy_vfx_ninja						\
+					hook_deploy_ou_ninja						\
 					hook_init_anims								\
 					hook_init_content							\
 					hook_init_menu								\
@@ -97,6 +98,7 @@ FUNC_BASE		:=	freeVdfArray								\
 					parseMsgOverwrite							\
 					zCPar_Symbol__GetNext_fix					\
 					initAnims									\
+					injectOU									\
 					conEvalFunc
 EXEC_BASE		:=	createVdfArray								\
 					deploy										\

@@ -76,6 +76,19 @@ deploy_vfx_ninja:
         jmp     g1g2(0x483A41,0x48B6F4)
 
 
+global deploy_ou_ninja
+deploy_ou_ninja:
+    resetStackoffset
+        pusha
+        push   ninja_injectOU
+        push   NINJA_PATH_OU
+        call   ninja_findVdfSrc
+    addStack 2*4
+        popa
+    verifyStackoffset
+        ret
+
+
 global deploy_content_ninja
 deploy_content_ninja:
     resetStackoffset g1g2(0x90,0x80)

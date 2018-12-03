@@ -58,13 +58,16 @@ ninja_findVdfSrc:
         mov     eax, ninja_initAnims
         cmp     eax, DWORD [esp+stackoffset+arg_2]
         jz      .deploy
+        mov     eax, ninja_injectOU
+        cmp     eax, DWORD [esp+stackoffset+arg_2]
+        jz      .deploy
 
         xor     ebx, ebx
 
 .fileExist:
         call    zFILE_VDFS__LockCriticalSection
         push    VDF_VIRTUAL | VDF_PHYSICAL | VDF_PHYSICALFIRST
-        push    esi                                                        ; arg_1 + var_fullname + ext
+        push    esi
         call    DWORD [ds_vdf_fexists]
         add     esp, 0x8
         push    eax

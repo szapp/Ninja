@@ -26,6 +26,7 @@ section .text
 %include "func/inject.asm"
 %include "func/parseMsgOverwrite.asm"
 %include "func/zCPar_Symbol__GetNext_fix.asm"
+%include "func/injectOU.asm"
 %include "func/initAnims.asm"
 %include "func/conEvalFunc.asm"
 

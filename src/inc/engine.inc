@@ -81,6 +81,7 @@
         %define     char_indent                               0x852E48     ; '    ', 0
         %define     char_model                                0x840908     ; 'MODEL', 0
         %define     char_mds                                  0x833534     ; '.MDS', 0
+        %define     char_csl                                  0x82B078     ; '.csl', 0
         %define     char_src                                  0x8373EC     ; '.SRC', 0
         %define     char_dot                                  0x82AFB4     ; '.', 0
         %define     char_commaSpace                           0x832494     ; ', ', 0
@@ -227,6 +228,7 @@
         %define     char_indent                               0x8BC904     ; '    ', 0
         %define     char_model                                0x8A44CC     ; 'MODEL', 0
         %define     char_mds                                  0x8970E0     ; '.MDS', 0
+        %define     char_csl                                  0x88F2D8     ; '.csl', 0
         %define     char_src                                  0x8BBDB0     ; '.SRC', 0
         %define     char_dot                                  0x88F1E4     ; '.', 0
         %define     char_commaSpace                           0x8960F8     ; ', ', 0
