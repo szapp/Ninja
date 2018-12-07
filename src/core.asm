@@ -17,17 +17,17 @@ section .text
 
 
 %include "func/freeVdfArray.asm"
-%include "func/findVdfSrc.asm"
+%include "func/dispatch.asm"
 %include "func/parseVersionString.asm"
 %include "func/resolvePath.asm"
-%include "func/initContent.asm"
-%include "func/initMenu.asm"
-%include "func/mergeSrc.asm"
-%include "func/inject.asm"
 %include "func/parseMsgOverwrite.asm"
 %include "func/zCPar_Symbol__GetNext_fix.asm"
+%include "func/armParser.asm"
+%include "func/injectSrc.asm"
+%include "func/injectMds.asm"
 %include "func/injectOU.asm"
-%include "func/initAnims.asm"
+%include "func/initContent.asm"
+%include "func/initMenu.asm"
 %include "func/conEvalFunc.asm"
 
 %include "exec/createVdfArray.asm"

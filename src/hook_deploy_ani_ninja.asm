@@ -17,7 +17,7 @@ bits    32
 
 section .text   align=1                                                    ; Prevent auto-alignment
 
-        jmp     init_anims
+        jmp     deploy_ani_ninja
         times 2 nop
 
         ; Overwrites

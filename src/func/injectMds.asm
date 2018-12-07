@@ -1,7 +1,7 @@
-; void __stdcall ninja_initAnims(char *)
+; void __stdcall ninja_injectMds(char *)
 ; Initialize the animation ninja
-global ninja_initAnims
-ninja_initAnims:
+global ninja_injectMds
+ninja_injectMds:
         resetStackoffset
         %assign var_total     0x14
         %assign var_string   -0x14                                         ; zString

@@ -1,7 +1,7 @@
-; void __stdcall ninja_inject(zCParser *,char *,void (__stdcall *)(char *))
-; Inject Daedalus symbols
-global ninja_inject
-ninja_inject:
+; void __stdcall ninja_armParser(zCParser *,char *,void (__stdcall *)(char *))
+; Prepare parser for injection
+global ninja_armParser
+ninja_armParser:
         resetStackoffset
         %assign arg_1      +0x4                                            ; zCParser *
         %assign arg_2      +0x8                                            ; char *
@@ -36,7 +36,7 @@ ninja_inject:
 
         push    DWORD [esp+stackoffset+arg_3]
         push    DWORD [esp+stackoffset+arg_2]
-        call    ninja_findVdfSrc
+        call    ninja_dispatch
     addStack 8
 
         pop     eax

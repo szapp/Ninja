@@ -1,7 +1,7 @@
-; void __stdcall ninja_findVdfSrc(char *,void (__stdcall *)(char *))
-; Find and Iterate over all Ninja VDF
-global ninja_findVdfSrc
-ninja_findVdfSrc:
+; void __stdcall ninja_dispatch(char *,void (__stdcall *)(char *))
+; Iterate over all Ninja VDF
+global ninja_dispatch
+ninja_dispatch:
         resetStackoffset
         %assign var_total      0x120
         %assign var_fullname  -0x120                                       ; char[MAX_PATH+28]   0x120
@@ -55,7 +55,7 @@ ninja_findVdfSrc:
 
         inc     edi
 
-        mov     eax, ninja_initAnims
+        mov     eax, ninja_injectMds
         cmp     eax, DWORD [esp+stackoffset+arg_2]
         jz      .deploy
         mov     eax, ninja_injectOU

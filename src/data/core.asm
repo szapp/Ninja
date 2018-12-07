@@ -23,7 +23,7 @@ NINJA_PATH_DATA          db   'DATA\', 0
 NINJA_PATH_VDF           db   'DATA\NINJA_*.VDF', 0
 NINJA_PATH_LEGO          db   '\NINJA\LEGO\LEGO.D', 0
 NINJA_AUTHOR_PREFIX      db   AUTHOR_PREFIX, ':', 0
-NINJA_INJECT_SRC         db   AUTHOR_PREFIX, ':NINJA: Injecting ', 0
+NINJA_INJECT             db   AUTHOR_PREFIX, ':NINJA: Injecting ', 0
 NINJA_CALL_FUNC          db   AUTHOR_PREFIX, ': NINJA: Calling function ', 0
 NINJA_LOAD_ANIM          db   AUTHOR_PREFIX, ': NINJA: Appending animations from ', 0
 NINJA_OU_OVERWRITE       db   AUTHOR_PREFIX, ':   NINJA: Overwriting OU: ', 0

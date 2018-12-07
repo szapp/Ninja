@@ -40,16 +40,16 @@ TARGETS_G2		:=	$(BUILDDIR)code_EFD8A07B$(PATCHEXT)
 # Intermediate files
 BIN_BASE		:=	core										\
 					hook_createVdfArray							\
+					hook_deploy_ani_ninja						\
 					hook_deploy_camera_ninja					\
 					hook_deploy_content_ninja					\
 					hook_deploy_fightai_ninja					\
 					hook_deploy_menu_ninja						\
 					hook_deploy_music_ninja						\
+					hook_deploy_ou_ninja						\
 					hook_deploy_pfx_ninja						\
 					hook_deploy_sfx_ninja						\
 					hook_deploy_vfx_ninja						\
-					hook_deploy_ou_ninja						\
-					hook_init_anims								\
 					hook_init_content							\
 					hook_init_menu								\
 					hook_linkerReplaceFunc						\
@@ -88,17 +88,17 @@ BIN_BASE_G2		:=	skip_writeAniBinFile_ModelTag				\
 					skip_zCFileBIN__BinWriteInt					\
 					skip_zCFileBIN__BinWriteString
 FUNC_BASE		:=	freeVdfArray								\
-					findVdfSrc									\
+					dispatch									\
 					parseVersionString							\
 					resolvePath									\
-					initContent									\
-					initMenu									\
-					mergeSrc									\
-					inject										\
 					parseMsgOverwrite							\
 					zCPar_Symbol__GetNext_fix					\
-					initAnims									\
+					armParser									\
+					injectSrc									\
+					injectMds									\
 					injectOU									\
+					initContent									\
+					initMenu									\
 					conEvalFunc
 EXEC_BASE		:=	createVdfArray								\
 					deploy										\

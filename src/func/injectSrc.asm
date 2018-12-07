@@ -1,7 +1,7 @@
-; void __stdcall ninja_mergeSrc(char *)
+; void __stdcall ninja_injectSrc(char *)
 ; Merge Ninja scripts
-global ninja_mergeSrc
-ninja_mergeSrc:
+global ninja_injectSrc
+ninja_injectSrc:
         resetStackoffset
         %assign var_total   0x14
         %assign var_string -0x14                                           ; zString
@@ -19,7 +19,7 @@ ninja_mergeSrc:
 
         sub     esp, 0x14
         mov     ecx, esp
-        push    NINJA_INJECT_SRC
+        push    NINJA_INJECT
         call    zSTRING__zSTRING
     addStack 4
         mov     eax, [esp+stackoffset+var_string+0x8]

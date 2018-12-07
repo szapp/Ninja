@@ -78,7 +78,7 @@ ninja_injectOU:
 .loadCSLib:
         sub     esp, 0x14
         mov     ecx, esp
-        push    NINJA_INJECT_SRC
+        push    NINJA_INJECT
         call    zSTRING__zSTRING
     addStack 4
         mov     eax, DWORD [esp+stackoffset+var_string+0x8]

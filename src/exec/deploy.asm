@@ -4,11 +4,11 @@ global deploy_music_ninja
 deploy_music_ninja:
     resetStackoffset g1g2(0xD8,0xC8)
         pusha
-        push    ninja_mergeSrc
+        push    ninja_injectSrc
         push    NINJA_PATH_MUSIC
         mov     eax, DWORD [zCMusicSys_DirectMusic__musicParser]
         push    eax
-        call    ninja_inject
+        call    ninja_armParser
     addStack 3*4
         popa
     verifyStackoffset g1g2(0xD8,0xC8)
@@ -23,11 +23,11 @@ global deploy_sfx_ninja
 deploy_sfx_ninja:
     resetStackoffset g1g2(0x304,0x308)
         pusha
-        push    ninja_mergeSrc
+        push    ninja_injectSrc
         push    NINJA_PATH_SFX
         mov     eax, DWORD [zCSndSys_MSS__sfxParser]
         push    eax
-        call    ninja_inject
+        call    ninja_armParser
     addStack 3*4
         popa
     verifyStackoffset g1g2(0x304,0x308)
@@ -42,11 +42,11 @@ global deploy_pfx_ninja
 deploy_pfx_ninja:
     resetStackoffset g1g2(0x8C,0xC8)
         pusha
-        push    ninja_mergeSrc
+        push    ninja_injectSrc
         push    NINJA_PATH_PFX
         mov     eax, DWORD [zCParticleFX__s_pfxParser]
         push    eax
-        call    ninja_inject
+        call    ninja_armParser
     addStack 3*4
         popa
     verifyStackoffset g1g2(0x8C,0xC8)
@@ -61,11 +61,11 @@ global deploy_vfx_ninja
 deploy_vfx_ninja:
     resetStackoffset g1g2(0x248,0x250)
         pusha
-        push    ninja_mergeSrc
+        push    ninja_injectSrc
         push    NINJA_PATH_VFX
         mov     eax, DWORD [oCVisualFX__fxParser]
         push    eax
-        call    ninja_inject
+        call    ninja_armParser
     addStack 3*4
         popa
     verifyStackoffset g1g2(0x248,0x250)
@@ -82,7 +82,7 @@ deploy_ou_ninja:
         pusha
         push   ninja_injectOU
         push   NINJA_PATH_OU
-        call   ninja_findVdfSrc
+        call   ninja_dispatch
     addStack 2*4
         popa
     verifyStackoffset
@@ -93,10 +93,10 @@ global deploy_content_ninja
 deploy_content_ninja:
     resetStackoffset g1g2(0x90,0x80)
         pusha
-        push    ninja_mergeSrc
+        push    ninja_injectSrc
         push    NINJA_PATH_CONTENT
         push    zCParser_parser
-        call    ninja_inject
+        call    ninja_armParser
     addStack 3*4
         popa
     verifyStackoffset g1g2(0x90,0x80)
@@ -111,10 +111,10 @@ global deploy_fightai_ninja
 deploy_fightai_ninja:
     resetStackoffset g1g2(0x7C,0x64)
         pusha
-        push    ninja_mergeSrc
+        push    ninja_injectSrc
         push    NINJA_PATH_FIGHT
         push    ebx
-        call    ninja_inject
+        call    ninja_armParser
     addStack 3*4
         popa
     verifyStackoffset g1g2(0x7C,0x64)
@@ -129,11 +129,11 @@ global deploy_menu_ninja
 deploy_menu_ninja:
     resetStackoffset
         pusha
-        push    ninja_mergeSrc
+        push    ninja_injectSrc
         push    NINJA_PATH_MENU
         mov     eax, DWORD [zCMenu__menuParser]
         push    eax
-        call    ninja_inject
+        call    ninja_armParser
     addStack 3*4
         popa
     verifyStackoffset
@@ -147,11 +147,11 @@ global deploy_camera_ninja
 deploy_camera_ninja:
     resetStackoffset g1g2(0xB4,0xB8)
         pusha
-        push    ninja_mergeSrc
+        push    ninja_injectSrc
         push    NINJA_PATH_CAMERA
         mov     eax, DWORD [zCAICamera__cameraParser]
         push    eax
-        call    ninja_inject
+        call    ninja_armParser
     addStack 3*4
         popa
     verifyStackoffset g1g2(0xB4,0xB8)
@@ -160,3 +160,51 @@ deploy_camera_ninja:
         lea     g1g2(eax,edx), [esp+stackoffset+g1g2(-0xA1,-0xA5)]
         push    g1g2(eax,edx)
         jmp     g1g2(0x4990A3,0x4A0559)
+
+
+global deploy_ani_ninja
+deploy_ani_ninja:
+
+%if GOTHIC_BASE_VERSION == 1
+
+    resetStackoffset 0xF54
+        pusha
+        mov     ebp, [esp+stackoffset-0xF24]                               ; zCModelPrototype *
+        mov     esi, [ebp+0x14]                                            ; name->ptr
+        push    esi
+        mov     esi, DWORD [zFILE_cur_mds_file]
+        mov     esi, [esi+0x40]                                            ; name->ptr
+        push    esi
+        call    DWORD [ds_lstrcmpiA]
+    addStack 2*4
+        test    eax, eax
+    verifyStackoffset 0xF54+32                                             ; Base + pusha
+        jnz     .back
+        push    ninja_injectMds
+        push    char_nul
+        call    ninja_dispatch
+    addStack 2*4
+
+    .back:
+        popa
+    verifyStackoffset 0xF54
+        cmp     [esp+stackoffset-0xE88], ebp
+        jmp     0x57DC47
+
+%elif GOTHIC_BASE_VERSION == 2
+
+    resetStackoffset 0x49C
+        pusha
+        mov     ebp, [esp+stackoffset-0x478]                               ; zCModelPrototype *
+        push    ninja_injectMds
+        push    char_nul
+        call    ninja_dispatch
+    addStack 2*4
+        popa
+    verifyStackoffset 0x49C
+
+        ; Jump back
+        mov     eax, [esp+stackoffset-0x3E0]
+        jmp     0x5961D4
+
+%endif
