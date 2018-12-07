@@ -5,9 +5,10 @@ init_menu:
     resetStackoffset 0x2C
         pusha
         push    ninja_initMenu
+        push    char_src
         push    NINJA_PATH_CONTENT
         call    ninja_dispatch
-    addStack 2*4
+    addStack 3*4
         popa
     verifyStackoffset 0x2C
 
@@ -22,9 +23,10 @@ init_content:
     resetStackoffset
         pusha
         push    ninja_initContent
+        push    char_src
         push    NINJA_PATH_CONTENT
         call    ninja_dispatch
-    addStack 2*4
+    addStack 3*4
         popa
     verifyStackoffset
 

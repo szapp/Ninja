@@ -35,7 +35,6 @@
         %define     zSTRING__Search                           0x467750     ; int, char const *, uint
         %define     zSTRING__TrimRight                        0x4675A0     ; char
         %define     zSTRING__Delete                           0x4668D0     ; uint, ulong
-        %define     zSTRING__Delete_str                       0x466B20     ; zSTRING const &, zTSTR_KIND
         %define     zSTRING__operator_plusEq                  0x644ED0     ; char const *
         %define     ds_lstrcatA                               0x7D02D8     ; LPTSTR, LPTSTR
         %define     ds_lstrcpyA                               0x7D0288     ; LPTSTR, LPTSTR
@@ -85,7 +84,6 @@
 
         %define     NINJA_PATCH_ARRAY                         0x830391     ; zCArray
 
-        %define     char_nul                                  0x85E104     ; 0
         %define     char_space                                0x831600     ; ' ', 0
         %define     char_indent                               0x852E48     ; '    ', 0
         %define     char_model                                0x840908     ; 'MODEL', 0
@@ -95,6 +93,7 @@
         %define     char_dot                                  0x82AFB4     ; '.', 0
         %define     char_commaSpace                           0x832494     ; ', ', 0
         %define     char_underscore                           0x82AF18     ; '_', 0
+        %define     char_BSlash                                    ; '\', 0
         %define     char_doubleFSlash                         0x82EDAC     ; '//', 0
         %define     char_lf                                   0x82D200     ; 0xA, 0
         %define     char_zStartupWindowed                     0x846978     ; 'zStartupWindowed', 0
@@ -202,7 +201,6 @@
         %define     zSTRING__Search                           0x46C920     ; int, char const *, uint
         %define     zSTRING__TrimRight                        0x46C770     ; char
         %define     zSTRING__Delete                           0x46BAA0     ; uint, ulong
-        %define     zSTRING__Delete_str                       0x46BCF0     ; zSTRING const &, zTSTR_KIND
         %define     zSTRING__operator_plusEq                  0x67A7B0     ; char const *
         %define     ds_lstrcatA                               0x82E1E0     ; LPTSTR, LPTSTR
         %define     ds_lstrcpyA                               0x82E1E4     ; LPTSTR, LPTSTR
@@ -252,7 +250,6 @@
 
         %define     NINJA_PATCH_ARRAY                         0x894155     ; zCArray
 
-        %define     char_nul                                  0x8C1ED0     ; 0
         %define     char_space                                0x8951AC     ; ' ', 0
         %define     char_indent                               0x8BC904     ; '    ', 0
         %define     char_model                                0x8A44CC     ; 'MODEL', 0
@@ -262,6 +259,7 @@
         %define     char_dot                                  0x88F1E4     ; '.', 0
         %define     char_commaSpace                           0x8960F8     ; ', ', 0
         %define     char_underscore                           0x88F1C8     ; '_', 0
+        %define     char_BSlash                               0x891D58     ; '\', 0
         %define     char_doubleFSlash                         0x892C64     ; '//', 0
         %define     char_lf                                   0x89150C     ; 0xA, 0
         %define     char_zStartupWindowed                     0x8AA930     ; 'zStartupWindowed', 0

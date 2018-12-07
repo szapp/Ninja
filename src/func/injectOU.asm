@@ -21,23 +21,10 @@ ninja_injectOU:
         push    edx
 
         push    DWORD [esp+stackoffset+arg_1]
-        call    DWORD [ds_lstrlenA]
-    addStack 4
-        mov     ecx, [esp+stackoffset+arg_1]
-        sub     eax, 0x4                                                   ; Replace '.SRC' with '.csl'
-        mov     BYTE [ecx+eax], 0
-        push    char_csl
-        push    ecx
-        call    DWORD [ds_lstrcatA]
-    addStack 2*4
-        push    DWORD [esp+stackoffset+arg_1]
         lea     ecx, [esp+stackoffset+var_string]
         call    zSTRING__zSTRING
     addStack 4
 
-        xor     edi, edi
-
-.fileExists:
         push    ecx
         mov     ecx, DWORD [zCObjectFactory_zfactory]
         mov     ecx, [ecx]
@@ -48,34 +35,8 @@ ninja_injectOU:
         mov     eax, [eax]
         call    DWORD [eax+zFILE_VDFS__Exists_offset]
         test    al, al
-        jnz     .loadCSLib
+        jz      .funcEnd
 
-        test    edi, edi
-        jnz     .funcEnd
-        inc     edi
-
-        mov     ecx, [esp+stackoffset+var_file]
-        mov     eax, [ecx]
-        push    0x1
-        call    DWORD [eax+zFILE_VDFS__deleting_destructor_offset]
-    addStack 4
-        sub     esp, 0x14
-        mov     ecx, esp
-        push    char_g1g2
-        call    zSTRING__zSTRING
-    addStack 4
-        push    0x0                                                        ; enum zTSTR_KIND
-        push    ecx
-        lea     ecx, [esp+stackoffset+var_string]
-        call    zSTRING__Delete_str
-    addStack 2*4
-        mov     ecx, esp
-        call    zSTRING___zSTRING
-        add     esp, 0x14
-        lea     ecx, [esp+stackoffset+var_string]
-        jmp     .fileExists
-
-.loadCSLib:
         sub     esp, 0x14
         mov     ecx, esp
         push    NINJA_INJECT

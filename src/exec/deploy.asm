@@ -81,9 +81,10 @@ deploy_ou_ninja:
     resetStackoffset
         pusha
         push   ninja_injectOU
+        push   char_csl
         push   NINJA_PATH_OU
         call   ninja_dispatch
-    addStack 2*4
+    addStack 3*4
         popa
     verifyStackoffset
         ret
@@ -181,7 +182,8 @@ deploy_ani_ninja:
     verifyStackoffset 0xF54+32                                             ; Base + pusha
         jnz     .back
         push    ninja_injectMds
-        push    char_nul
+        push    char_mds
+        push    DWORD [ebp+0x14]                                           ; name->ptr
         call    ninja_dispatch
     addStack 2*4
 
@@ -197,9 +199,10 @@ deploy_ani_ninja:
         pusha
         mov     ebp, [esp+stackoffset-0x478]                               ; zCModelPrototype *
         push    ninja_injectMds
-        push    char_nul
+        push    char_mds
+        push    DWORD [ebp+0x14]                                           ; name->ptr
         call    ninja_dispatch
-    addStack 2*4
+    addStack 3*4
         popa
     verifyStackoffset 0x49C
 

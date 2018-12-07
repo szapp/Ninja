@@ -14,47 +14,11 @@ ninja_injectMds:
         push    esi
         push    edi
 
-        push    DIR_ANIMS
-        mov     ecx, DWORD [zCOption_zoptions]
-        call    zCOption__GetDirString
-    addStack 4
-        mov     eax, [eax+0x8]
-        push    eax
+        push    DWORD [esp+stackoffset+arg_1]
         lea     ecx, [esp+stackoffset+var_string]
         call    zSTRING__zSTRING
     addStack 4
 
-        push    DWORD [esp+stackoffset+arg_1]
-        call    [ds_lstrlenA]
-    addStack 4
-
-        mov     ecx, [esp+stackoffset+arg_1]
-        sub     eax, 0x7                                                   ; Cut off '_G*.SRC'
-        mov     BYTE [ecx+eax], 0
-        add     ecx, 0x7                                                   ; Cut off '\NINJA\'
-        push    ecx
-        lea     ecx, [esp+stackoffset+var_string]
-        call    zSTRING__operator_plusEq
-    addStack 4
-        push    char_g1g2
-        call    zSTRING__operator_plusEq
-    addStack 4
-        push    char_underscore                                            ; '[NAME]_G*_'
-        call    zSTRING__operator_plusEq
-    addStack 4
-
-        lea     eax, [ebp+0xC]                                             ; modelPtrotype->name
-        mov     eax, [eax+0x8]                                             ; name->ptr
-        push    eax
-        call    zSTRING__operator_plusEq
-    addStack 4
-        push    char_mds
-        call    zSTRING__operator_plusEq
-    addStack 4
-
-        xor     edi, edi
-
-.fileExists:
         push    ecx
         mov     ecx, DWORD [zCObjectFactory_zfactory]
         mov     ecx, [ecx]
@@ -65,32 +29,7 @@ ninja_injectMds:
         mov     ecx, esi
         call    DWORD [eax+zFILE_VDFS__Exists_offset]
         test    al, al
-        jnz     .append
-
-        test    edi, edi
-        jnz     .funcEnd
-        inc     edi
-
-        mov     eax, [esi]
-        push    0x1
-        mov     ecx, esi
-        call    DWORD [eax+zFILE_VDFS__deleting_destructor_offset]
-    addStack 4
-        sub     esp, 0x14
-        mov     ecx, esp
-        push    char_g1g2
-        call    zSTRING__zSTRING
-    addStack 4
-        push    0x0                                                        ; enum zTSTR_KIND
-        push    ecx
-        lea     ecx, [esp+stackoffset+var_string]
-        call    zSTRING__Delete_str
-    addStack 2*4
-        mov     ecx, esp
-        call    zSTRING___zSTRING
-        add     esp, 0x14
-        lea     ecx, [esp+stackoffset+var_string]
-        jmp     .fileExists
+        jz      .funcEnd
 
 .append:
         sub     esp, 0x14

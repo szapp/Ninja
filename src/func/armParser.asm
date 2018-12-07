@@ -1,4 +1,4 @@
-; void __stdcall ninja_armParser(zCParser *,char *,void (__stdcall *)(char *))
+; void __stdcall ninja_armParser(zCParser *, char *, void (__stdcall *)(char *))
 ; Prepare parser for injection
 global ninja_armParser
 ninja_armParser:
@@ -35,9 +35,10 @@ ninja_armParser:
         mov     DWORD [zCParser__enableParsing], eax
 
         push    DWORD [esp+stackoffset+arg_3]
+        push    char_src
         push    DWORD [esp+stackoffset+arg_2]
         call    ninja_dispatch
-    addStack 8
+    addStack 3*4
 
         pop     eax
         mov     DWORD [zCParser__enableParsing], eax

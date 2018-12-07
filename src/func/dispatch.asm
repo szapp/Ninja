@@ -1,4 +1,4 @@
-; void __stdcall ninja_dispatch(char *,void (__stdcall *)(char *))
+; void __stdcall ninja_dispatch(char *, char *, void (__stdcall *)(char *))
 ; Iterate over all Ninja VDF
 global ninja_dispatch
 ninja_dispatch:
@@ -6,8 +6,9 @@ ninja_dispatch:
         %assign var_total      0x120
         %assign var_fullname  -0x120                                       ; char[MAX_PATH+28]   0x120
         %assign arg_1         +0x4                                         ; char *
-        %assign arg_2         +0x8                                         ; void (__stdcall *)(char *)
-        %assign arg_total      0x8
+        %assign arg_2         +0x8                                         ; char *
+        %assign arg_3         +0xC                                         ; void (__stdcall *)(char *)
+        %assign arg_total      0xC
 
         sub     esp, var_total
         push    eax
@@ -39,6 +40,10 @@ ninja_dispatch:
         push    eax
         call    DWORD [ds_lstrcatA]
     addStack 8
+        push    char_BSlash
+        push    eax
+        call    DWORD [ds_lstrcatA]
+    addStack 8
         push    DWORD [esp+stackoffset+arg_1]
         push    eax
         call    DWORD [ds_lstrcatA]
@@ -47,20 +52,12 @@ ninja_dispatch:
         push    eax
         call    DWORD [ds_lstrcatA]
     addStack 8
-        push    char_src
+        push    DWORD [esp+stackoffset+arg_2]
         push    eax
         call    DWORD [ds_lstrcatA]
     addStack 8
         mov     esi, eax
-
         inc     edi
-
-        mov     eax, ninja_injectMds
-        cmp     eax, DWORD [esp+stackoffset+arg_2]
-        jz      .deploy
-        mov     eax, ninja_injectOU
-        cmp     eax, DWORD [esp+stackoffset+arg_2]
-        jz      .deploy
 
         xor     ebx, ebx
 
@@ -85,9 +82,9 @@ ninja_dispatch:
         push    esi
         call    DWORD [ds_lstrlenA]
     addStack 4
-        sub     eax, 0x7
+        sub     eax, 0x7                                                   ; Cut off '_G*.EXT'
         mov     BYTE [esi+eax], 0x0
-        push    char_src
+        push    DWORD [esp+stackoffset+arg_2]
         push    esi
         call    DWORD [ds_lstrcatA]
     addStack 8
@@ -96,7 +93,7 @@ ninja_dispatch:
 
 .deploy:
         push    esi
-        call    [esp+stackoffset+arg_2]
+        call    [esp+stackoffset+arg_3]
     addStack 4
         jmp     .arrayLoop
 
