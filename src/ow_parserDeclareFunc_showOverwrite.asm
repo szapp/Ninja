@@ -22,6 +22,6 @@ section .text   align=1                                                    ; Pre
         nop
         push    eax
         mov     BYTE [esp+stackoffset-0x4], 0x2
-        call    ninja_parseMsgOverwrite
+        call    ninja_debugMessage
         nop
         pop     esi

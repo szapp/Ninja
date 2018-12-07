@@ -20,7 +20,7 @@ section .text
 %include "func/dispatch.asm"
 %include "func/parseVersionString.asm"
 %include "func/resolvePath.asm"
-%include "func/parseMsgOverwrite.asm"
+%include "func/debugMessage.asm"
 %include "func/zCPar_Symbol__GetNext_fix.asm"
 %include "func/armParser.asm"
 %include "func/injectSrc.asm"

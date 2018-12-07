@@ -1,5 +1,5 @@
 ; void __stdcall ninja_injectOU(char *)
-; Load the output units
+; Load output units library
 global ninja_injectOU
 ninja_injectOU:
         resetStackoffset
@@ -145,7 +145,7 @@ ninja_injectOU:
         call    zSTRING__operator_plusEq
     addStack 4
         push    ecx
-        call    ninja_parseMsgOverwrite
+        call    ninja_debugMessage
     addStack 4
         pop     edx
         pop     eax
@@ -183,7 +183,7 @@ ninja_injectOU:
         call    zSTRING__operator_plusEq
     addStack 4
         push    ecx
-        call    ninja_parseMsgOverwrite
+        call    ninja_debugMessage
     addStack 4
         pop     edx
 

@@ -1,7 +1,7 @@
-; void __stdcall ninja_parseMsgOverwrite(zString *)
-; Log overwriting of symbol
-global ninja_parseMsgOverwrite
-ninja_parseMsgOverwrite:
+; void __stdcall ninja_debugMessage(zString *)
+; Log additional information (requires zSpy level >= 6)
+global ninja_debugMessage
+ninja_debugMessage:
         resetStackoffset
         %assign arg_1      +0x4                                            ; zString *
         %assign arg_total   0x4

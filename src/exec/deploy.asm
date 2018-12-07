@@ -81,7 +81,7 @@ deploy_ou_ninja:
     resetStackoffset
         pusha
         push   ninja_injectOU
-        push   char_csl
+        push   char_bin
         push   NINJA_PATH_OU
         call   ninja_dispatch
     addStack 3*4
@@ -185,7 +185,7 @@ deploy_ani_ninja:
         push    char_mds
         push    DWORD [ebp+0x14]                                           ; name->ptr
         call    ninja_dispatch
-    addStack 2*4
+    addStack 3*4
 
     .back:
         popa

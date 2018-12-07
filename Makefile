@@ -91,7 +91,7 @@ FUNC_BASE		:=	freeVdfArray								\
 					dispatch									\
 					parseVersionString							\
 					resolvePath									\
-					parseMsgOverwrite							\
+					debugMessage								\
 					zCPar_Symbol__GetNext_fix					\
 					armParser									\
 					injectSrc									\

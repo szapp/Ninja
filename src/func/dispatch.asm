@@ -32,36 +32,56 @@ ninja_dispatch:
         lea     esi, [esp+stackoffset+var_fullname]
         push    esi
         call    DWORD [ds_lstrcpyA]
-    addStack 8
+    addStack 2*4
         mov     esi, [NINJA_PATCH_ARRAY+zCArray.array]
         mov     esi, [esi+edi*0x4]
         add     esi, 0x4+0x6                                               ; Cut off 'NINJA_'
         push    esi
         push    eax
         call    DWORD [ds_lstrcatA]
-    addStack 8
+    addStack 2*4
         push    char_BSlash
         push    eax
         call    DWORD [ds_lstrcatA]
-    addStack 8
+    addStack 2*4
         push    DWORD [esp+stackoffset+arg_1]
         push    eax
         call    DWORD [ds_lstrcatA]
-    addStack 8
+    addStack 2*4
         push    char_g1g2
         push    eax
         call    DWORD [ds_lstrcatA]
-    addStack 8
+    addStack 2*4
         push    DWORD [esp+stackoffset+arg_2]
         push    eax
         call    DWORD [ds_lstrcatA]
-    addStack 8
+    addStack 2*4
         mov     esi, eax
         inc     edi
 
         xor     ebx, ebx
 
+        mov     eax, NINJA_PATH_OU                                         ; Special case: Alternating file extensions
+        cmp     eax, DWORD [esp+stackoffset+arg_1]
+        jnz     .fileExist
+        sub     ebx, 0x2                                                   ; Four filenames to check
+
 .fileExist:
+        sub     esp, 0x14
+        mov     ecx, esp
+        push    NINJA_LOOKING_FOR
+        call    zSTRING__zSTRING
+    addStack 4
+        push    esi
+        call    zSTRING__operator_plusEq
+    addStack 4
+        push    eax
+        call    ninja_debugMessage
+    addStack 4
+        mov     ecx, esp
+        call    zSTRING___zSTRING
+        add     esp, 0x14
+
         call    zFILE_VDFS__LockCriticalSection
         push    VDF_VIRTUAL | VDF_PHYSICAL | VDF_PHYSICALFIRST
         push    esi
@@ -74,11 +94,31 @@ ninja_dispatch:
         jnz     .deploy
 
         test    ebx, ebx
-        jnz     .arrayLoop
-        mov     eax, NINJA_PATH_CONTENT
+        jg      .arrayLoop
+        mov     eax, NINJA_PATH_CONTENT                                    ; Disallow fall-back for content ninja
         cmp     eax, DWORD [esp+stackoffset+arg_1]
         jz      .arrayLoop
 
+        mov     eax, NINJA_PATH_OU                                         ; Special case: Check OUs with BIN-extension
+        cmp     eax, DWORD [esp+stackoffset+arg_1]
+        jnz     .removePostfix
+
+        cmp     ebx, 0xFFFFFFFF                                            ; -1
+        jz      .removePostfix
+
+        push    esi
+        call    DWORD [ds_lstrlenA]
+    addStack 4
+        sub     eax, 0x4                                                   ; Cut off '.BIN'
+        mov     BYTE [esi+eax], 0x0
+        push    char_csl
+        push    esi
+        call    DWORD [ds_lstrcatA]
+    addStack 2*4
+        inc     ebx
+        jmp     .fileExist
+
+.removePostfix:
         push    esi
         call    DWORD [ds_lstrlenA]
     addStack 4
@@ -87,7 +127,7 @@ ninja_dispatch:
         push    DWORD [esp+stackoffset+arg_2]
         push    esi
         call    DWORD [ds_lstrcatA]
-    addStack 8
+    addStack 2*4
         inc     ebx
         jmp     .fileExist
 

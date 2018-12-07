@@ -51,7 +51,7 @@ createVdfArray:
 
         reportToSpy " NINJA: Detecting and sorting all Ninja patches (VDF)"
 
-        lea     ecx, [NINJA_PATCH_ARRAY-1]
+        lea     ecx, [NINJA_PATCH_ARRAY-0x1]
         mov     [ecx], BYTE 0                                              ; Null terminated char string
         mov     ecx, NINJA_PATCH_ARRAY
         call    zCArray_int___zCArray_int_
@@ -159,7 +159,7 @@ createVdfArray:
         cmp     al, 'z'
         jg      .toUpper
         sub     al, 0x20
-        mov     [esi+edi-1], al
+        mov     [esi+edi-0x1], al
         jmp     .toUpper
 
 .removeExtension:
