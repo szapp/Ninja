@@ -11,4 +11,4 @@ bits    32
 
 section .data   align=1                                                    ; Prevent auto-alignment
 
-        db  'J:NINJA: Overwriting : ', 0
+        db  AUTHOR_PREFIX, ':NINJA: Overwriting : ', 0

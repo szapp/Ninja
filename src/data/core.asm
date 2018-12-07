@@ -26,6 +26,10 @@ NINJA_AUTHOR_PREFIX      db   AUTHOR_PREFIX, ':', 0
 NINJA_INJECT_SRC         db   AUTHOR_PREFIX, ':NINJA: Injecting ', 0
 NINJA_CALL_FUNC          db   AUTHOR_PREFIX, ': NINJA: Calling function ', 0
 NINJA_LOAD_ANIM          db   AUTHOR_PREFIX, ': NINJA: Appending animations from ', 0
+NINJA_OU_OVERWRITE       db   AUTHOR_PREFIX, ':   NINJA: Overwriting OU: ', 0
+NINJA_OU_ADD             db   AUTHOR_PREFIX, ':   NINJA: Adding OU:      ', 0
+NINJA_OU_BEFORE          db   AUTHOR_PREFIX, ':   NINJA: OU blocks before: ', 0
+NINJA_OU_AFTER           db   AUTHOR_PREFIX, ':   NINJA: OU blocks after:  ', 0
 NINJA_VERSION_CHAR       db   'Ninja ', NINJA_VERSION, ' (built ', __UTC_DATE__, ' ', __UTC_TIME__, ' UTC) '
                          db   '<', NINJA_WEBSITE, '>', 0
 NINJA_VERSION_CHAR_len   equ  $-NINJA_VERSION_CHAR

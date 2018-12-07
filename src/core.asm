@@ -13,7 +13,7 @@ bits    32
 section .text
 
         ; Immediately return from zCNetEventManager::OnMessage(zCEventMessage *, zCVob *)
-        ret     8
+        ret     0x8
 
 
 %include "func/freeVdfArray.asm"

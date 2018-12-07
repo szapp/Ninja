@@ -27,6 +27,7 @@
         %define     zFILE_cur_mds_file                        0x873D6C     ; zFILE *
         %define     std__basic_string__assign                 0x403010     ; char const *, uint
         %define     _atol                                     0x77774D     ; const char *
+        %define     _itoa                                     0x789587     ; int, char *, int
         %define     zSTRING__zSTRING                          0x4013A0     ; char const *
         %define     zSTRING___zSTRING                         0x401260     ; void
         %define     zSTRING__Sprintf                          0x467A90     ; char const *, ...
@@ -60,6 +61,7 @@
         %define     zCMenu__menuParser                        0x86D3D8     ; zCParser *
         %define     zCAICamera__cameraParser                  0x86A1E0     ; zCParser *
         %define     zCSoundSystem_zsound                      0x8CEE4C     ; zCSoundSystem *
+        %assign     oCGame_ogame                              0x8DA6BC     ; oCGame *
         %define     zCConsole_zcon                            0x8DC5A0     ; zCConsole *
         %define     zCConsole__AddEvalFunc                    0x6DBCA0     ; int (*)(zSTRING const &, zSTRING &)
         %define     zCConsole__Register                       0x6D9940     ; zSTRING const &, zSTRING const &
@@ -73,6 +75,13 @@
         %define     zCModelPrototype__ReadModel               0x57E410     ; void
         %define     zCModelPrototype__SearchAniIndex          0x56F850     ; zSTRING const &
         %define     zCModelAni__deleting_destructor           0x56AA20     ; uint
+        %define     zCArchiverFactory__CreateArchiverRead     0x50A240     ; zFILE *, int
+        %define     zCArchiverFactory_zarcFactory             0x86F9AC     ; zCArchiverFactory
+        %assign     zCCSManager__LibValidateOU                0x41BE50     ; zString *
+        %assign     zCCSManager__LibAddOU                     0x41BA60     ; zCCSBlock *
+        %define     zCCSLib___CreateNewInstance               0x418530     ; void
+        %assign     zCCSLib__deleting_destructor              0x418EB0     ; uint
+        %define     zCCSBlock__deleting_destructor            0x40CF10     ; uint
 
         %define     NINJA_PATCH_ARRAY                         0x830391     ; zCArray
 
@@ -99,6 +108,10 @@
         %define     zFILE_VDFS__Read_offset                   0xC4         ; zSTRING &
         %define     zFILE_VDFS__Close_offset                  0x98         ; void
         %define     zFILE_VDFS__deleting_destructor_offset    0x0          ; uint
+
+        %define     zCArchiver__ReadObject_offset             0xB0         ; zCObject *
+        %define     zCArchiver__Close_offset                  0xE0         ; void
+        %define     zCArchiver__deleting_destructor_offset    0xC          ; uint
 
         %define     zCParser_file_offset                      0x4
         %define     zCParser_table_offset                     0x10
@@ -128,6 +141,13 @@
             .array:           resd 0x1                                     ; 0x0 T*
             .numAlloc:        resd 0x1                                     ; 0x4 int
             .numInArray:      resd 0x1                                     ; 0x8 int
+        endstruc
+
+        struc zCArraySort
+            .array:           resd 0x1                                     ; 0x0 T*
+            .numAlloc:        resd 0x1                                     ; 0x4 int
+            .numInArray:      resd 0x1                                     ; 0x8 int
+            .compare:         resd 0x1                                     ; 0xC int (__cdecl *)(void *, void *)
         endstruc
 
         struc finddata_t
@@ -174,6 +194,7 @@
         %define     zFILE_cur_mds_file                        0x8D8BCC     ; zFILE *
         %define     std__basic_string__assign                 0x402FC0     ; char const *, uint
         %define     _atol                                     0x7D113D     ; const char *
+        %define     _itoa                                     0x7E2E57     ; int, char *, int
         %define     zSTRING__zSTRING                          0x4010C0     ; char const *
         %define     zSTRING___zSTRING                         0x401160     ; void
         %define     zSTRING__Sprintf                          0x46CC60     ; char const *, ...
@@ -207,6 +228,7 @@
         %define     zCMenu__menuParser                        0x8D1E68     ; zCParser *
         %define     zCAICamera__cameraParser                  0x8CEAC8     ; zCParser *
         %define     zCSoundSystem_zsound                      0x99B03C     ; zCSoundSystem *
+        %assign     oCGame_ogame                              0xAB0884     ; oCGame *
         %define     zCConsole_zcon                            0xAB3860     ; zCConsole *
         %define     zCConsole__AddEvalFunc                    0x784F80     ; int (*)(zSTRING const &, zSTRING &)
         %define     zCConsole__Register                       0x782AE0     ; zSTRING const &, zSTRING const &
@@ -220,6 +242,13 @@
         %define     zCModelPrototype__ReadModel               0x59D4C0     ; zCFileBIN &
         %define     zCModelPrototype__SearchAniIndex          0x589FC0     ; zSTRING const &
         %define     zCModelAni__deleting_destructor           0x5852D0     ; uint
+        %define     zCArchiverFactory__CreateArchiverRead     0x51A0B0     ; zFILE *, int
+        %define     zCArchiverFactory_zarcFactory             0x8D472C     ; zCArchiverFactory
+        %assign     zCCSManager__LibValidateOU                0x41C3E0     ; zString *
+        %assign     zCCSManager__LibAddOU                     0x41BF50     ; zCCSBlock *
+        %define     zCCSLib___CreateNewInstance               0x418A00     ; void
+        %assign     zCCSLib__deleting_destructor              0x419400     ; uint
+        %define     zCCSBlock__deleting_destructor            0x40D300     ; uint
 
         %define     NINJA_PATCH_ARRAY                         0x894155     ; zCArray
 
@@ -246,6 +275,10 @@
         %define     zFILE_VDFS__Read_offset                   0xC4         ; zSTRING &
         %define     zFILE_VDFS__Close_offset                  0x98         ; void
         %define     zFILE_VDFS__deleting_destructor_offset    0x0          ; uint
+
+        %define     zCArchiver__ReadObject_offset             0xB0         ; zCObject *
+        %define     zCArchiver__Close_offset                  0xE0         ; void
+        %define     zCArchiver__deleting_destructor_offset    0xC          ; uint
 
         %define     zCParser_file_offset                      0x4
         %define     zCParser_table_offset                     0x10
@@ -275,6 +308,13 @@
             .array:           resd 0x1                                     ; 0x0 T*
             .numAlloc:        resd 0x1                                     ; 0x4 int
             .numInArray:      resd 0x1                                     ; 0x8 int
+        endstruc
+
+        struc zCArraySort
+            .array:           resd 0x1                                     ; 0x0 T*
+            .numAlloc:        resd 0x1                                     ; 0x4 int
+            .numInArray:      resd 0x1                                     ; 0x8 int
+            .compare:         resd 0x1                                     ; 0xC int (__cdecl *)(void *, void *)
         endstruc
 
         struc finddata_t
