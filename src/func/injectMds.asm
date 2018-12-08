@@ -34,10 +34,12 @@ ninja_injectMds:
 .append:
         sub     esp, 0x14
         mov     ecx, esp
-        push    NINJA_LOAD_ANIM
+        push    NINJA_INJECT
         call    zSTRING__zSTRING
     addStack 4
-        push    DWORD [esp+stackoffset+var_string+0x8]
+        mov     eax, [esp+stackoffset+var_string+0x8]
+        add     eax, 0x7                                                   ; Cut off '\NINJA\'
+        push    eax
         call    zSTRING__operator_plusEq
     addStack 4
         push    ecx

@@ -181,11 +181,22 @@ deploy_ani_ninja:
         test    eax, eax
     verifyStackoffset 0xF54+32                                             ; Base + pusha
         jnz     .back
+        sub     esp, 0x120
+        mov     eax, esp
+        push    NINJA_MDS_PREFIX
+        push    eax
+        call    DWORD [ds_lstrcpyA]
+    addStack 2*4
+        push    DWORD [ebp+0x14]                                           ; name->ptr
+        push    eax
+        call    DWORD [ds_lstrcatA]
+    addStack 2*4
         push    ninja_injectMds
         push    char_mds
-        push    DWORD [ebp+0x14]                                           ; name->ptr
+        push    eax
         call    ninja_dispatch
     addStack 3*4
+        add     esp, 0x120
 
     .back:
         popa
@@ -198,11 +209,22 @@ deploy_ani_ninja:
     resetStackoffset 0x49C
         pusha
         mov     ebp, [esp+stackoffset-0x478]                               ; zCModelPrototype *
+        sub     esp, 0x120
+        mov     eax, esp
+        push    NINJA_MDS_PREFIX
+        push    eax
+        call    DWORD [ds_lstrcpyA]
+    addStack 2*4
+        push    DWORD [ebp+0x14]                                           ; name->ptr
+        push    eax
+        call    DWORD [ds_lstrcatA]
+    addStack 2*4
         push    ninja_injectMds
         push    char_mds
-        push    DWORD [ebp+0x14]                                           ; name->ptr
+        push    eax
         call    ninja_dispatch
     addStack 3*4
+        add     esp, 0x120
         popa
     verifyStackoffset 0x49C
 
