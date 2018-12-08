@@ -51,8 +51,7 @@ ninja_conEvalFunc:
         mov     esi, [NINJA_PATCH_ARRAY+zCArray.array]
         mov     esi, [esi+edi*0x4]
         add     esi, 0x4
-        lea     ecx, [esi+0x6]                                             ; Cut off 'NINJA_'
-        push    ecx
+        push    esi
         mov     ecx, [esp+stackoffset+arg_1]
         mov     ecx, [ecx+0x8]
         add     ecx, 0x6
@@ -110,7 +109,7 @@ ninja_conEvalFunc:
     addStack 4
         mov     esi, [NINJA_PATCH_ARRAY+zCArray.array]
         mov     esi, [esi+edi*0x4]
-        add     esi, 0x4+0x6                                               ; Cut off 'NINJA_'
+        add     esi, 0x4
         push    esi
         call    zSTRING__operator_plusEq
     addStack 4

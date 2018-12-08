@@ -35,7 +35,7 @@ ninja_dispatch:
     addStack 2*4
         mov     esi, [NINJA_PATCH_ARRAY+zCArray.array]
         mov     esi, [esi+edi*0x4]
-        add     esi, 0x4+0x6                                               ; Cut off 'NINJA_'
+        add     esi, 0x4
         push    esi
         push    eax
         call    DWORD [ds_lstrcatA]

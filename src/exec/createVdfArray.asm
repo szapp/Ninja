@@ -138,7 +138,7 @@ createVdfArray:
 .setNullByte:
         mov     [eax], BYTE 0                                              ; Terminate char properly
 
-        lea     esi, [esp+stackoffset+var_filedata+finddata_t.name]
+        lea     esi, [esp+stackoffset+var_filedata+finddata_t.name+0x6]    ; Cut off 'NINJA_'
         push    esi
         lea     esi, [esp+stackoffset+var_patchname]
         push    esi
@@ -175,7 +175,6 @@ createVdfArray:
         call    zSTRING__operator_plusEq
     addStack 4
         lea     eax, [esp+stackoffset+var_patchname]
-        add     eax, 0x6                                                   ; Cut off 'NINJA_'
         push    eax
         call    zSTRING__operator_plusEq
     addStack 4
@@ -266,7 +265,6 @@ createVdfArray:
         mov     esi, [NINJA_PATCH_ARRAY+zCArray.array]
         mov     esi, [esi+edi*0x4]
         lea     esi, [esi+0x4]
-        add     esi, 0x6                                                   ; Cut off 'NINJA_'
         push    esi
         call    zSTRING__operator_plusEq
     addStack 4
