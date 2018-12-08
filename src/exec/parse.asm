@@ -273,7 +273,7 @@ parser_verify_version:
 
         sub     esp, 0x14
         mov     ecx, esp
-        push    NINJA_LEGO_INVALID_PATH
+        push    NINJA_PATH_INVALID
         call    zSTRING__zSTRING
     addStack 4
         push    eax
@@ -293,7 +293,7 @@ parser_verify_version:
     verifyStackoffset g1g2(0x394,0x3EC) + 0x10
         jz      .back
 
-        reportToSpy "NINJA: Comparing LeGo version with DAT"
+        reportToSpy "NINJA: Comparing LeGo versions"
         push    DWORD [edx+0x8]
         call    ninja_parseVersionString
     addStack 4

@@ -70,15 +70,15 @@ ninja_injectMds:
 
         mov     eax, [esi]
         mov     ecx, esi
-        push    str_mdlBuffer
+        push    zSTRING_mdlBuffer
         call    DWORD [eax+zFILE_VDFS__Read_offset]
     addStack 4
-        mov     ecx, str_mdlBuffer
+        mov     ecx, zSTRING_mdlBuffer
         call    zSTRING__Upper
         push    0x1
         push    char_doubleFSlash
         push    0
-        mov     ecx, str_mdlBuffer
+        mov     ecx, zSTRING_mdlBuffer
         call    zSTRING__Search
     addStack 3*4
         cmp     eax, 0xFFFFFFFF
@@ -86,7 +86,7 @@ ninja_injectMds:
         push    0x1
         push    char_model
         push    0
-        mov     ecx, str_mdlBuffer
+        mov     ecx, zSTRING_mdlBuffer
         call    zSTRING__Search
     addStack 3*4
         cmp     eax, 0xFFFFFFFF

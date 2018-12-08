@@ -69,6 +69,8 @@
         %define     zERROR__Message                           0x4492F0     ; zSTRING const &
         %define     zERROR__Fatal                             0x449360     ; zSTRING const &
         %define     zCOption_zoptions                         0x869694     ; zCOption *
+        %define     zCOption_zgameoptions                     0x869698     ; zCOption *
+        %define     zCOption__ReadString                      0x45D080     ; zSTRING const &, char const *, char const *
         %define     zCOption__GetDirString                    0x45FC00     ; zTOptionPaths
         %define     zCObjectFactory_zfactory                  0x873F88     ; zCObjectFactory *
         %define     zCModelPrototype__ReadModel               0x57E410     ; void
@@ -84,6 +86,7 @@
 
         %define     NINJA_PATCH_ARRAY                         0x830391     ; zCArray
 
+        %define     char_NUL                                  0x85E104     ; 0
         %define     char_space                                0x831600     ; ' ', 0
         %define     char_indent                               0x852E48     ; '    ', 0
         %define     char_model                                0x840908     ; 'MODEL', 0
@@ -93,13 +96,13 @@
         %define     char_src                                  0x8373EC     ; '.SRC', 0
         %define     char_dot                                  0x82AFB4     ; '.', 0
         %define     char_commaSpace                           0x832494     ; ', ', 0
-        %define     char_underscore                           0x82AF18     ; '_', 0
         %define     char_BSlash                               0x82DDA4     ; '\', 0
         %define     char_doubleFSlash                         0x82EDAC     ; '//', 0
         %define     char_lf                                   0x82D200     ; 0xA, 0
         %define     char_zStartupWindowed                     0x846978     ; 'zStartupWindowed', 0
-        %define     str_mdlBuffer                             0x873C60     ; zSTRING *
-        %define     zSTR_EMPTY                                0x869978     ; zSTRING const
+        %define     char_settings                             0x82BD98     ; 'SETTINGS', 0
+        %define     zSTRING_mdlBuffer                         0x873C60     ; zSTRING *
+        %define     zSTRING_empty                             0x869978     ; zSTRING const
 
         %define     zCObjectFactory__CreateZFile_offset       0x14         ; zSTRING const &
         %define     zFILE_VDFS__Exists_offset                 0x94         ; void
@@ -236,6 +239,8 @@
         %define     zERROR__Message                           0x44DA10     ; zSTRING const &
         %define     zERROR__Fatal                             0x44DA80     ; zSTRING const &
         %define     zCOption_zoptions                         0x8CD988     ; zCOption *
+        %define     zCOption_zgameoptions                     0x8CD98C     ; zCOption *
+        %define     zCOption__ReadString                      0x4627E0     ; zSTRING const &, char const *, char const *
         %define     zCOption__GetDirString                    0x465260     ; zTOptionPaths
         %define     zCObjectFactory_zfactory                  0x8D8DF0     ; zCObjectFactory *
         %define     zCModelPrototype__ReadModel               0x59D4C0     ; zCFileBIN &
@@ -251,6 +256,7 @@
 
         %define     NINJA_PATCH_ARRAY                         0x894155     ; zCArray
 
+        %define     char_NUL                                  0x8C1ED0     ; 0
         %define     char_space                                0x8951AC     ; ' ', 0
         %define     char_indent                               0x8BC904     ; '    ', 0
         %define     char_model                                0x8A44CC     ; 'MODEL', 0
@@ -260,13 +266,13 @@
         %define     char_src                                  0x8BBDB0     ; '.SRC', 0
         %define     char_dot                                  0x88F1E4     ; '.', 0
         %define     char_commaSpace                           0x8960F8     ; ', ', 0
-        %define     char_underscore                           0x88F1C8     ; '_', 0
         %define     char_BSlash                               0x891D58     ; '\', 0
         %define     char_doubleFSlash                         0x892C64     ; '//', 0
         %define     char_lf                                   0x89150C     ; 0xA, 0
         %define     char_zStartupWindowed                     0x8AA930     ; 'zStartupWindowed', 0
-        %define     str_mdlBuffer                             0x8D8AC0     ; zSTRING *
-        %define     zSTR_EMPTY                                0x8CDC70     ; zSTRING const
+        %define     char_settings                             0x8948A0     ; 'SETTINGS', 0
+        %define     zSTRING_mdlBuffer                         0x8D8AC0     ; zSTRING *
+        %define     zSTRING_empty                             0x8CDC70     ; zSTRING const
 
         %define     zCObjectFactory__CreateZFile_offset       0x14         ; zSTRING const &
         %define     zFILE_VDFS__Exists_offset                 0x94         ; void

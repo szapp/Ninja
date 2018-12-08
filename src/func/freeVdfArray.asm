@@ -5,10 +5,9 @@ ninja_freeVdfArray:
     resetStackoffset
         push    ecx
         push    eax
-        push    esi
         push    edi
 
-        reportToSpy " NINJA: Releasing patch array (VDF)"
+        reportToSpy " NINJA: Releasing array"
 
         mov     eax, [NINJA_PATCH_ARRAY+zCArray.array]
         test    eax, eax
@@ -22,8 +21,8 @@ ninja_freeVdfArray:
         jge     .arrayLoopEnd
 
         mov     eax, [NINJA_PATCH_ARRAY+zCArray.array]
-        mov     esi, [eax+edi*0x4]
-        push    esi
+        mov     ecx, [eax+edi*0x4]
+        push    ecx
         call    operator_delete
         add     esp, 0x4
 
@@ -36,7 +35,6 @@ ninja_freeVdfArray:
 
 .funcEnd:
         pop     edi
-        pop     esi
         pop     eax
         pop     ecx
         ret

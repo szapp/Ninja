@@ -8,6 +8,7 @@ char_lego_symb           db   'LEGO_VERSION', 0
 char_lego_version        db   'LeGo 2.5.0-N', NINJA_VERSION, 0
 char_rb                  db   'rb', 0
 char_g1g2                db   '_G', g1g2('1','2'), 0
+char_zOPT_ignorePatches  db   'IgnoredNinjaPatches', 0
 char_prevDir             db   '\..', 0
 NINJA_PATH               db   '\NINJA\', 0
 NINJA_PATH_MUSIC         db   'MUSIC', 0
@@ -25,6 +26,7 @@ NINJA_PATH_LEGO          db   '\NINJA\LEGO\LEGO.D', 0
 NINJA_MDS_PREFIX         db   'ANIMS_', 0
 NINJA_AUTHOR_PREFIX      db   AUTHOR_PREFIX, ':', 0
 NINJA_LOOKING_FOR        db   AUTHOR_PREFIX, ':NINJA: Checking if file exists: ', 0
+NINJA_IGNORING           db   AUTHOR_PREFIX, ':    Ignoring ', 0
 NINJA_INJECT             db   AUTHOR_PREFIX, ':NINJA: Injecting ', 0
 NINJA_CALL_FUNC          db   AUTHOR_PREFIX, ': NINJA: Calling function ', 0
 NINJA_OU_OVERWRITE       db   AUTHOR_PREFIX, ':   NINJA: Overwriting OU: ', 0
@@ -35,25 +37,19 @@ NINJA_VERSION_CHAR       db   'Ninja ', NINJA_VERSION, ' (built ', __UTC_DATE__,
                          db   '<', NINJA_WEBSITE, '>', 0
 NINJA_VERSION_CHAR_len   equ  $-NINJA_VERSION_CHAR
 NINJA_CON_COMMAND        db   'NINJA', 0
-NINJA_CON_DESCR          db   'List all found Ninja patches in order', 0
+NINJA_CON_DESCR          db   'List active Ninja patches in order', 0
 NINJA_CON_NOTFOUND       db   0xA, 'No patches active.', 0
 NINJA_PARSER_FAILED      db   AUTHOR_PREFIX, ':NINJA: Ninja patch uses invalid LeGo version. ', 10, 13
                          db   'Please use the version specifically for Ninja ', 10, 13
                          db   'found at <', NINJA_TEMPLATE, '>', 0
 NINJA_PATH_INVALID       db   AUTHOR_PREFIX, ':NINJA: The directory \NINJA\ is reserved for Ikarus and LeGo. ', 10, 13
-                         db   'Please keep all other files within the patch directory \NINJA\[PATCHNAME]\. ', 10, 13
-                         db   'For more information about Ninja patches and their file structure, ', 10, 13
-                         db   'see <', NINJA_TEMPLATE, '>', 0
-NINJA_LEGO_INVALID_PATH  db   AUTHOR_PREFIX, ':NINJA: Invalid script file path.', 10, 13
-                         db   'Please keep LeGo and Ikarus within their reserved directories ', 10, 13
-                         db   '\NINJA\IKARUS\ and \NINJA\LEGO\. ', 10, 13
-                         db   'For more information about Ninja patches and their file structure, ', 10, 13
-                         db   'see <', NINJA_TEMPLATE, '>', 0
-NINJA_LEGO_END           db   AUTHOR_PREFIX, ':NINJA: LeGo version not understood (Reached end of string while '
-                         db   'searching for onset)', 0
+                         db   'Please keep LeGo and Ikarus in \NINJA\IKARUS\ and \NINJA\LEGO\ and ', 10, 13
+                         db   'all other files within the patch directory \NINJA\[PATCHNAME]\. ', 10, 13
+                         db   'For more information about Ninja patches, ', 10, 13
+                         db   'visit <', NINJA_TEMPLATE, '>', 0
+NINJA_LEGO_END           db   AUTHOR_PREFIX, ':NINJA: LeGo version not understood (Onset not found)', 0
 NINJA_LEGO_BMM           db   AUTHOR_PREFIX, ':NINJA: LeGo version not understood (Base-major-minor incomplete)', 0
-NINJA_LEGO_INVALID       db   AUTHOR_PREFIX, ':NINJA: The LeGo version of the game is newer then that of the patch. '
-                         db   10, 13
+NINJA_LEGO_INVALID       db   AUTHOR_PREFIX, ':NINJA: The LeGo version of the game is newer than the patch. ', 10, 13
                          db   'Game: %09d, patch: %09d ', 10, 13
-                         db   'Please update your Ninja patches or report the outdated patch at ', 10, 13
+                         db   'Please update your Ninja patches or report outdated patches at ', 10, 13
                          db   '<', NINJA_WEBSITE, '>', 0

@@ -4,17 +4,17 @@
 %include "inc/engine.inc"
 
 %ifidn __OUTPUT_FORMAT__, bin
-    org     g1g2(0x453410,0x458380)
+    org     g1g2(0x452640,0x457470)
 %endif
 
 bits    32
 
+; This address space spans multiple methods of the deprecated class
+; 'zCNetEventManager' starting with zCNetEventManager::HandleNetMessage.
+; After a long testing period any safety checks for ensuring that the
+; overwritten methods are indeed never called are now omitted.
 
 section .text
-
-        ; Immediately return from zCNetEventManager::OnMessage(zCEventMessage *, zCVob *)
-        ret     0x8
-
 
 %include "func/freeVdfArray.asm"
 %include "func/dispatch.asm"

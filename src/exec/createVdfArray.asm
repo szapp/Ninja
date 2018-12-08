@@ -3,14 +3,16 @@
 global createVdfArray
 createVdfArray:
         resetStackoffset
-        %assign var_total      0x448
-        %assign var_comment   -0x448                                       ; char[0x100]         0x100
-        %assign var_timestamp -0x348                                       ; int
-        %assign var_filehndl  -0x344                                       ; FILE *
-        %assign var_filevdf   -0x340                                       ; char[MAX_PATH]      0x104
-        %assign var_patchname -0x23C                                       ; char[MAX_PATH+28]   0x120
-        %assign var_filedata  -0x11C                                       ; finddata_t          0x118
-        %assign var_findhndl  -0x4                                         ; HANDLE
+        %assign var_total       0x470
+        %assign var_retstr     -0x470                                      ; zString
+        %assign var_ignoreList -0x45C                                      ; zString
+        %assign var_comment    -0x448                                      ; char[0x100]         0x100
+        %assign var_timestamp  -0x348                                      ; int
+        %assign var_filehndl   -0x344                                      ; FILE *
+        %assign var_filevdf    -0x340                                      ; char[MAX_PATH]      0x104
+        %assign var_patchname  -0x23C                                      ; char[MAX_PATH+28]   0x120
+        %assign var_filedata   -0x11C                                      ; finddata_t          0x118
+        %assign var_findhndl   -0x4                                        ; HANDLE
 
         sub     esp, var_total
         push    eax
@@ -49,8 +51,53 @@ createVdfArray:
         call    zCConsole__AddEvalFunc
     addStack 4
 
-        reportToSpy " NINJA: Detecting and sorting all Ninja patches (VDF)"
+        reportToSpy " NINJA: Reading ignore list from ini"
+        mov     esi, DWORD [zCOption_zgameoptions]
+        test    esi, esi
+        jz      .ignoreListEmpty
+        sub     esp, 0x14
+        mov     ecx, esp
+        push    char_settings
+        call    zSTRING__zSTRING
+    addStack 4
+        push    0x0
+        push    char_zOPT_ignorePatches
+        push    ecx
+        lea     ecx, [esp+stackoffset+var_retstr]
+        push    ecx                                                        ; retstr *
+        mov     ecx, esi
+        call    zCOption__ReadString
+    addStack 4*4
+        mov     ecx, esp
+        call    zSTRING___zSTRING
+        add     esp, 0x14
+        mov     eax, [esp+stackoffset+var_retstr+0x8]
+        test    eax, eax
+        jz      .ignoreListEmpty
 
+        push    char_space
+        lea     ecx, [esp+stackoffset+var_ignoreList]
+        call    zSTRING__zSTRING
+    addStack 4
+        push    DWORD [esp+stackoffset+var_retstr+0x8]
+        call    zSTRING__operator_plusEq
+    addStack 4
+        push    char_space
+        call    zSTRING__operator_plusEq
+    addStack 4
+        call    zSTRING__Upper
+        lea     ecx, [esp+stackoffset+var_retstr]
+        call    zSTRING___zSTRING
+        jmp     .detect
+
+.ignoreListEmpty:
+        push    char_NUL
+        lea     ecx, [esp+stackoffset+var_ignoreList]
+        call    zSTRING__zSTRING
+    addStack 4
+
+.detect:
+        reportToSpy " NINJA: Detecting and sorting Ninja patches (VDF)"
         lea     ecx, [NINJA_PATCH_ARRAY-0x1]
         mov     [ecx], BYTE 0                                              ; Null terminated char string
         mov     ecx, NINJA_PATCH_ARRAY
@@ -86,7 +133,7 @@ createVdfArray:
         call    _fopen
         add     esp, 0x8
         test    eax, eax
-        jz      .nextfile
+        jz      .nextFile
 
         mov     [esp+stackoffset+var_filehndl], eax
 
@@ -168,6 +215,49 @@ createVdfArray:
 
         sub     esp, 0x14
         mov     ecx, esp
+        push    char_space
+        call    zSTRING__zSTRING
+    addStack 4
+        lea     eax, [esp+stackoffset+var_patchname]
+        push    eax
+        call    zSTRING__operator_plusEq
+    addStack 4
+        push    char_space
+        call    zSTRING__operator_plusEq
+    addStack 4
+        push    0x1
+        push    DWORD [ecx+0x8]
+        push    0x0
+        lea     ecx, [esp+stackoffset+var_ignoreList]
+        call    zSTRING__Search
+    addStack 3*4
+        mov     esi, eax
+        mov     ecx, esp
+        call    zSTRING___zSTRING
+        add     esp, 0x14
+        test    esi, esi
+        jl      .addToConsole
+
+        sub     esp, 0x14
+        mov     ecx, esp
+        push    NINJA_IGNORING
+        call    zSTRING__zSTRING
+    addStack 4
+        lea     eax, [esp+stackoffset+var_patchname]
+        push    eax
+        call    zSTRING__operator_plusEq
+    addStack 4
+        push    ecx
+        call    zERROR__Message
+    addStack 4
+        mov     ecx, esp
+        call    zSTRING___zSTRING
+        add     esp, 0x14
+        jmp     .nextFile
+
+.addToConsole:
+        sub     esp, 0x14
+        mov     ecx, esp
         push    NINJA_CON_COMMAND
         call    zSTRING__zSTRING
     addStack 4
@@ -178,7 +268,7 @@ createVdfArray:
         push    eax
         call    zSTRING__operator_plusEq
     addStack 4
-        push    zSTR_EMPTY
+        push    zSTRING_empty
         push    eax
         mov     ecx, zCConsole_zcon
         call    zCConsole__Register
@@ -217,7 +307,7 @@ createVdfArray:
         add     esp, 0x4
     addStack 4
 
-.nextfile:
+.nextFile:
         lea     esi, [esp+stackoffset+var_filedata]
         push    esi
         push    DWORD [esp+stackoffset+var_findhndl]
@@ -245,7 +335,7 @@ createVdfArray:
         call    _atexit
         add     esp, 0x4
 
-        reportToSpy " NINJA: Patches found in sorted order:"
+        reportToSpy " NINJA: Patches found (sorted):"
 
         xor     edi, edi
 
@@ -279,6 +369,8 @@ createVdfArray:
         jmp     .arrayLoop
 
 .back:
+        lea     ecx, [esp+stackoffset+var_ignoreList]
+        call    zSTRING___zSTRING
         pop     edi
         pop     esi
         pop     ecx
