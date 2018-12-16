@@ -6,6 +6,8 @@ char_ikarus              db   'IKARUS', 0
 char_lego                db   'LEGO', 0
 char_ikarus_symb         db   'IKARUS_VERSION', 0
 char_lego_symb           db   'LEGO_VERSION', 0
+char_nversion_symb       db   'NINJA_VERSION', 0
+char_narray_symb         db   'NINJA_PATCHES', 0
 char_rb                  db   'rb', 0
 char_g1g2                db   '_G', g1g2('1','2'), 0
 char_zOPT_ignorePatches  db   'IncompatibleNinjaPatches', 0
