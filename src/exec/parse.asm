@@ -208,8 +208,121 @@ parser_check_prototype:
 %endif
 
 
-global parser_verify_version
-parser_verify_version:
+global parser_verify_ikarus_version
+parser_verify_ikarus_version:
+    resetStackoffset g1g2(0x39C,0x3F4)
+        push    ecx
+        push    eax
+        push    ebx
+
+        mov     ecx, [esi+zCParser_mergemode_offset]
+        test    ecx, ecx
+    verifyStackoffset g1g2(0x39C,0x3F4) + 0xC
+        jz      .back
+
+        mov     ebx, eax                                                   ; New value of symbol (content)
+        push    char_ikarus_symb
+        mov     ecx, [ebp+0x8]                                             ; symbol->name->ptr
+        push    ecx
+        call    DWORD [ds_lstrcmpiA]
+    addStack 2*4
+        test    eax, eax
+    verifyStackoffset g1g2(0x39C,0x3F4) + 0xC
+        jnz     .back
+
+        reportToSpy "NINJA: Verifying Ikarus version"
+        cmp     ebx, IKARUS_VERSION
+        jge     .verifyFilePath
+
+        sub     esp, 0x14
+        mov     ecx, esp
+        push    NINJA_PARSER_FAILED
+        call    zSTRING__zSTRING
+    addStack 4
+        push    char_ikarus
+        call    zSTRING__operator_plusEq
+    addStack 4
+        push    NINJA_PARSER_FAILED_2
+        call    zSTRING__operator_plusEq
+    addStack 4
+        push    eax
+        call    zERROR__Fatal
+    addStack 4
+        mov     ecx, esp
+        call    zSTRING___zSTRING
+        add     esp, 0x14
+    verifyStackoffset g1g2(0x39C,0x3F4) + 0xC
+        jmp     .back
+
+.verifyFilePath:
+        push    NINJA_PATH_IKARUS
+        push    esi
+        call    ninja_scriptPathInvalid
+    addStack 2*4
+        test    eax, eax
+        jnz     .back
+
+.compareVersions:
+        mov     eax, [ebp+zCPar_Symbol_content_offset]
+        lea     eax, [eax+edi*0x4]
+        test    eax, eax
+    verifyStackoffset g1g2(0x39C,0x3F4) + 0xC
+        jz      .back
+
+        reportToSpy "NINJA: Comparing Ikarus versions"
+        cmp     ebx, eax
+    verifyStackoffset g1g2(0x39C,0x3F4) + 0xC
+        jge     .back
+
+        push    edi
+        mov     edi, eax
+        sub     esp, 0x4
+        push    0x200
+        call    operator_new
+        add     esp, 0x4
+        push    0x1FF
+        push    0x20
+        push    eax
+        call    _memset
+        add     esp, 0xC
+        mov     BYTE [eax+0x1FF], 0x0                                      ; Null-terminated
+        sub     esp, 0x14
+        mov     ecx, esp
+        push    eax
+        call    zSTRING__zSTRING
+    addStack 4
+        push    ebx
+        push    edi
+        push    char_ikarus
+        push    NINJA_VERSION_INVALID
+        push    ecx
+        call    zSTRING__Sprintf
+        add     esp, 0x14
+        push    esp
+        call    zERROR__Fatal
+    addStack 4
+        mov     ecx, esp
+        call    zSTRING___zSTRING
+        add     esp, 0x14
+        push    esp
+        call    operator_delete
+        add     esp, 0x4
+        add     esp, 0x4
+        pop     edi
+
+.back:
+        pop     ebx
+        pop     eax
+        pop     ecx
+    verifyStackoffset g1g2(0x39C,0x3F4)
+
+        ; Jump back
+        call    zCPar_Symbol__SetValue
+        jmp     g1g2(0x6F2459,0x79BDD8)
+
+
+global parser_verify_lego_version
+parser_verify_lego_version:
     resetStackoffset g1g2(0x394,0x3EC)
         push    ecx
         push    eax
@@ -245,6 +358,12 @@ parser_verify_version:
         push    NINJA_PARSER_FAILED
         call    zSTRING__zSTRING
     addStack 4
+        push    char_lego
+        call    zSTRING__operator_plusEq
+    addStack 4
+        push    NINJA_PARSER_FAILED_2
+        call    zSTRING__operator_plusEq
+    addStack 4
         push    eax
         call    zERROR__Fatal
     addStack 4
@@ -255,38 +374,16 @@ parser_verify_version:
         jmp     .back
 
 .verifyFilePath:
-        reportToSpy "NINJA: Verifying script file path"
-        mov     eax, [esi+zCParser_file_offset+zCArray.numInArray]
-        dec     eax
-        mov     ecx, [esi+zCParser_file_offset+zCArray.array]
-        mov     ecx, [ecx+eax*0x4]                                         ; zCPar_File
-        mov     eax, [ecx+0xC]
-        test    eax, eax
-        jz      .compareVersions
-
         push    NINJA_PATH_LEGO
-        push    eax
-        call    DWORD [ds_lstrcmpiA]
+        push    esi
+        call    ninja_scriptPathInvalid
     addStack 2*4
         test    eax, eax
-        jz      .compareVersions
-
-        sub     esp, 0x14
-        mov     ecx, esp
-        push    NINJA_PATH_INVALID
-        call    zSTRING__zSTRING
-    addStack 4
-        push    eax
-        call    zERROR__Fatal
-    addStack 4
-        mov     ecx, esp
-        call    zSTRING___zSTRING
-        add     esp, 0x14
     verifyStackoffset g1g2(0x394,0x3EC) + 0x10
-        jmp     .back
+        jnz     .back
 
 .compareVersions:
-        mov     eax, [ebp+0x18]                                            ; zCPar_Symbol.content
+        mov     eax, [ebp+zCPar_Symbol_content_offset]
         lea     edx, [eax+edi*0x4]
         mov     eax, [edx+0x8]
         test    eax, eax
@@ -328,10 +425,11 @@ parser_verify_version:
     addStack 4
         push    edi
         push    ebx
-        push    NINJA_LEGO_INVALID
+        push    char_lego
+        push    NINJA_VERSION_INVALID
         push    ecx
         call    zSTRING__Sprintf
-        add     esp, 0x10
+        add     esp, 0x14
         push    esp
         call    zERROR__Fatal
     addStack 4

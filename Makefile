@@ -57,6 +57,7 @@ BIN_BASE		:=	core										\
 					hook_parserDeclareFunc						\
 					hook_parserDeclarePrototype					\
 					hook_parserDeclareVar						\
+					hook_parserDeclareVar_constInt				\
 					hook_parserDeclareVar_constString			\
 					hook_parserParseSource						\
 					hook_parserParseFile						\
@@ -90,6 +91,7 @@ BIN_BASE_G2		:=	skip_writeAniBinFile_ModelTag				\
 FUNC_BASE		:=	freeVdfArray								\
 					dispatch									\
 					parseVersionString							\
+					scriptPathInvalid							\
 					resolvePath									\
 					debugMessage								\
 					zCPar_Symbol__GetNext_fix					\
