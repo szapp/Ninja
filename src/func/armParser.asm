@@ -49,6 +49,10 @@ ninja_armParser:
         push    0x1
         call    zCPar_Symbol__SetFlag
     addStack 4
+        mov     eax, [ecx+zCPar_Symbol_bitfield_offset]
+        or      eax, zPAR_TYPE_INT
+        or      eax, 0x1                                                   ; Number of elements: 1
+        mov     DWORD [ecx+zCPar_Symbol_bitfield_offset], eax
 
         push    ecx
         mov     ecx, DWORD [zCPar_SymbolTable__cur_table]

@@ -130,9 +130,12 @@
         %define     zCParser_mergemode_offset                 0x109C
 
         %define     zCPar_Symbol_content_offset               0x18
+        %define     zCPar_Symbol_bitfield_offset              0x20
 
         %define     zPAR_TOK_RET                              0x3C
         %define     zPAR_TOK_JUMP                             0x4B
+
+        %define     zPAR_TYPE_INT                             2<<12
 
         %define     char_sep                                  0x1A
         %define     INVALID_HANDLE_VALUE                      0xFFFFFFFF
@@ -304,9 +307,12 @@
         %define     zCParser_mergemode_offset                 0x209C
 
         %define     zCPar_Symbol_content_offset               0x18
+        %define     zCPar_Symbol_bitfield_offset              0x20
 
         %define     zPAR_TOK_RET                              0x3C
         %define     zPAR_TOK_JUMP                             0x4B
+
+        %define     zPAR_TYPE_INT                             2<<12
 
         %define     char_sep                                  0x1A
         %define     INVALID_HANDLE_VALUE                      0xFFFFFFFF
