@@ -47,11 +47,14 @@
         %define     zCParser__GetSymbol_str                   0x6EA520     ; zSTRING const &
         %define     zCParser__cur_parser                      0x8DDFD4     ; zCParser *
         %define     zCParser__enableParsing                   0x8DDFCC     ; int
+        %define     zCPar_SymbolTable__Insert                 0x6FA430     ; zCPar_Symbol *
         %define     zCPar_SymbolTable__GetIndex               0x6F9FA0     ; zCPar_Symbol *
         %define     zCPar_SymbolTable__GetIndex_str           0x6FA090     ; zSTRING const &
         %define     zCPar_SymbolTable__GetSymbol_int          0x6FA410     ; int
         %define     zCPar_SymbolTable__GetSymbol_str          0x6FA370     ; zSTRING const &
         %define     zCPar_SymbolTable__cur_table              0x8DE174     ; zCPar_SymbolTable *
+        %define     zCPar_Symbol__zCPar_Symbol                0x6F7D20     ; void
+        %define     zCPar_Symbol__SetFlag                     0x6F8450     ; int
         %define     zCPar_Symbol__SetValue                    0x6F8530     ; int, int
         %define     zCPar_Symbol__SetStackPos                 0x6F8520     ; int, int
         %define     zCMusicSys_DirectMusic__musicParser       0x86D6A8     ; zCParser *
@@ -218,11 +221,14 @@
         %define     zCParser__GetSymbol_str                   0x7938D0     ; zSTRING const &
         %define     zCParser__cur_parser                      0xAB628C     ; zCParser *
         %define     zCParser__enableParsing                   0xAB6284     ; int
+        %define     zCPar_SymbolTable__Insert                 0x7A3F00     ; zCPar_Symbol *
         %define     zCPar_SymbolTable__GetIndex               0x7A3A70     ; zCPar_Symbol *
         %define     zCPar_SymbolTable__GetIndex_str           0x7A3B60     ; zSTRING const &
         %define     zCPar_SymbolTable__GetSymbol_int          0x7A3EE0     ; int
         %define     zCPar_SymbolTable__GetSymbol_str          0x7A3E40     ; zSTRING const &
         %define     zCPar_SymbolTable__cur_table              0xAB6428     ; zCPar_SymbolTable *
+        %define     zCPar_Symbol__zCPar_Symbol                0x7A1690     ; void
+        %define     zCPar_Symbol__SetFlag                     0x7A1D50     ; int
         %define     zCPar_Symbol__SetValue                    0x7A1E30     ; int, int
         %define     zCPar_Symbol__SetStackPos                 0x7A1E20     ; int, int
         %define     zCMusicSys_DirectMusic__musicParser       0x8D2140     ; zCParser *

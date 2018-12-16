@@ -8,6 +8,7 @@ char_ikarus_symb         db   'IKARUS_VERSION', 0
 char_lego_symb           db   'LEGO_VERSION', 0
 char_nversion_symb       db   'NINJA_VERSION', 0
 char_narray_symb         db   'NINJA_PATCHES', 0
+char_ndivider_symb       db   'NINJA_SYMBOLS_START', 0
 char_rb                  db   'rb', 0
 char_g1g2                db   '_G', g1g2('1','2'), 0
 char_zOPT_ignorePatches  db   'IncompatibleNinjaPatches', 0
@@ -42,6 +43,7 @@ NINJA_VERSION_CHAR_len   equ  $-NINJA_VERSION_CHAR
 NINJA_CON_COMMAND        db   'NINJA', 0
 NINJA_CON_DESCR          db   'List active Ninja patches in order', 0
 NINJA_CON_NOTFOUND       db   0xA, 'No patches active.', 0
+NINJA_DIVIDER_FAILED     db   AUTHOR_PREFIX, ':NINJA: Failed to add divider symbol to symbol table!', 0
 NINJA_PARSER_FAILED      db   AUTHOR_PREFIX, ':NINJA: Ninja patch uses an invalid ', 0
 NINJA_PARSER_FAILED_2    db   ' version. ', 10, 13
                          db   'Please use the version specifically for Ninja ', 10, 13

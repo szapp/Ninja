@@ -34,6 +34,51 @@ ninja_armParser:
         inc     eax
         mov     DWORD [zCParser__enableParsing], eax
 
+        reportToSpy "NINJA: Adding divider symbol to symbol table"
+        push    0x3C                                                       ; sizeof(zCPar_Symbol)
+        call    operator_new
+        add     esp, 0x4
+        test    eax, eax
+        jz      .dividerFailed
+        mov     esi, eax
+        mov     ecx, eax
+        call    zCPar_Symbol__zCPar_Symbol
+        push    char_ndivider_symb
+        call    zSTRING__zSTRING
+    addStack 4
+        push    0x1
+        call    zCPar_Symbol__SetFlag
+    addStack 4
+
+        push    ecx
+        mov     ecx, DWORD [zCPar_SymbolTable__cur_table]
+        mov     eax, [ecx+0x10]
+        mov     DWORD [ecx+0x1C], eax                                      ; Fix zCParser->tablesort->numInArray
+        call    zCPar_SymbolTable__Insert
+    addStack 4
+        test    eax, eax
+        jz      .dividerFailed
+        push    esi
+        mov     ecx, DWORD [zCPar_SymbolTable__cur_table]
+        call    zCPar_SymbolTable__GetIndex
+    addStack 4
+        mov     DWORD [esi+zCPar_Symbol_content_offset], eax
+        jmp     .dispatch
+
+.dividerFailed:
+        sub     esp, 0x14
+        mov     ecx, esp
+        push    NINJA_DIVIDER_FAILED
+        call    zSTRING__zSTRING
+    addStack 4
+        push    ecx
+        call    zERROR__Fatal
+    addStack 4
+        mov     ecx, esp
+        call    zSTRING___zSTRING
+        add     esp, 0x14
+
+.dispatch:
         push    DWORD [esp+stackoffset+arg_3]
         push    char_src
         push    DWORD [esp+stackoffset+arg_2]
