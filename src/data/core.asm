@@ -8,7 +8,7 @@ char_lego_symb           db   'LEGO_VERSION', 0
 char_lego_version        db   'LeGo 2.5.0-N', NINJA_VERSION, 0
 char_rb                  db   'rb', 0
 char_g1g2                db   '_G', g1g2('1','2'), 0
-char_zOPT_ignorePatches  db   'IgnoredNinjaPatches', 0
+char_zOPT_ignorePatches  db   'IncompatibleNinjaPatches', 0
 char_prevDir             db   '\..', 0
 NINJA_PATH               db   '\NINJA\', 0
 NINJA_PATH_MUSIC         db   'MUSIC', 0
