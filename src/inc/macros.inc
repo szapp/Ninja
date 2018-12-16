@@ -14,6 +14,7 @@
     %define NINJA_WEBSITE   'http://tiny.cc/GothicNinja'
     %define NINJA_TEMPLATE  'http://tiny.cc/GothicNinjaTemplate'
     %assign IKARUS_VERSION  10201
+    %assign LEGO_N_VERSION  001
     %if GOTHIC_BASE_VERSION == 1
         %define g1g2(g1,g2) g1
     %elif GOTHIC_BASE_VERSION == 2

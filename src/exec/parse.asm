@@ -344,15 +344,26 @@ parser_verify_lego_version:
         jnz     .back
 
         reportToSpy "NINJA: Verifying LeGo version"
-        push    char_lego_version
         mov     ecx, [esp+stackoffset+g1g2(-0x340,-0x394)+0x8]             ; str->ptr
         push    ecx
-        call    DWORD [ds_lstrcmpiA]
-    addStack 2*4
-        test    eax, eax
-    verifyStackoffset g1g2(0x394,0x3EC) + 0x10
-        jz      .verifyFilePath
+        call    DWORD [ds_lstrlenA]
+    addStack 4
+        mov     ecx, [esp+stackoffset+g1g2(-0x340,-0x394)+0x8]             ; str->ptr
+        sub     eax, 0x5                                                   ; Expects "...-Nxxx"
+        add     ecx, eax
+        cmp     BYTE [ecx], '-'
+        jnz     .invalidVersion
+        inc     ecx
+        cmp     BYTE [ecx], 'N'
+        jnz     .invalidVersion
+        inc     ecx
+        push    ecx
+        call    _atol
+        add     esp, 0x4
+        cmp     eax, LEGO_N_VERSION
+        jge     .verifyFilePath
 
+.invalidVersion:
         sub     esp, 0x14
         mov     ecx, esp
         push    NINJA_PARSER_FAILED
