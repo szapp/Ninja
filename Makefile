@@ -50,8 +50,9 @@ BIN_BASE		:=	core										\
 					hook_deploy_pfx_ninja						\
 					hook_deploy_sfx_ninja						\
 					hook_deploy_vfx_ninja						\
-					hook_init_content							\
 					hook_init_menu								\
+					hook_init_content							\
+					hook_init_posthero							\
 					hook_linkerReplaceFunc						\
 					hook_parserDeclareClass						\
 					hook_parserDeclareFunc						\
@@ -99,8 +100,9 @@ FUNC_BASE		:=	freeVdfArray								\
 					injectSrc									\
 					injectMds									\
 					injectOU									\
-					initContent									\
 					initMenu									\
+					initContent									\
+					initPostHero								\
 					conEvalFunc
 EXEC_BASE		:=	createVdfArray								\
 					deploy										\
