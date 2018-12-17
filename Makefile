@@ -63,6 +63,7 @@ BIN_BASE		:=	core										\
 					hook_parserParseSource						\
 					hook_parserParseFile						\
 					hook_zCPar_Symbol__GetNext					\
+					hook_setVobToTransient						\
 					ow_ani										\
 					ow_aniAlias									\
 					ow_aniBatch									\
@@ -107,7 +108,8 @@ FUNC_BASE		:=	freeVdfArray								\
 EXEC_BASE		:=	createVdfArray								\
 					deploy										\
 					init										\
-					parse
+					parse										\
+					misc
 
 BINARIES_G1		:=	$(BIN_BASE:%=$(BINDIR)%_g1)
 BINARIES_G2		:=	$(BIN_BASE:%=$(BINDIR)%_g2) $(BIN_BASE_G2:%=$(BINDIR)%_g2)

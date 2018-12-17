@@ -44,6 +44,7 @@
         %define     zCParser_parser                           0x8DCE08     ; zCParser
         %define     zCParser__CallFunc                        0x6E9670     ; zSTRING const &
         %define     zCParser__MergeFile                       0x6E82F0     ; zSTRING &
+        %define     zCParser__GetIndex                        0x6EA0C0     ; zSTRING const &
         %define     zCParser__GetSymbol_str                   0x6EA520     ; zSTRING const &
         %define     zCParser__cur_parser                      0x8DDFD4     ; zCParser *
         %define     zCParser__enableParsing                   0x8DDFCC     ; int
@@ -221,6 +222,7 @@
         %define     zCParser_parser                           0xAB40C0     ; zCParser
         %define     zCParser__CallFunc                        0x7929D0     ; zSTRING const &
         %define     zCParser__MergeFile                       0x791650     ; zSTRING &
+        %define     zCParser__GetIndex                        0x793470     ; zSTRING const &
         %define     zCParser__GetSymbol_str                   0x7938D0     ; zSTRING const &
         %define     zCParser__cur_parser                      0xAB628C     ; zCParser *
         %define     zCParser__enableParsing                   0xAB6284     ; int

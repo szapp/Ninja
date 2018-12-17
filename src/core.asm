@@ -36,6 +36,7 @@ section .text
 %include "exec/deploy.asm"
 %include "exec/init.asm"
 %include "exec/parse.asm"
+%include "exec/misc.asm"
 
 
 section .data   align=1                                                    ; Prevent auto-alignment
