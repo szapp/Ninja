@@ -211,10 +211,17 @@ parser_check_prototype:
 global parser_verify_ikarus_version
 parser_verify_ikarus_version:
     resetStackoffset g1g2(0x39C,0x3F4)
-        push    eax
         push    ebx
-
         mov     ebx, eax                                                   ; New value of symbol (content)
+
+        push    char_ndivider_symb
+        mov     ecx, [ebp+0x8]                                             ; symbol->name->ptr
+        push    ecx
+        call    DWORD [ds_lstrcmpiA]
+    addStack 2*4
+        test    eax, eax
+    verifyStackoffset g1g2(0x39C,0x3F4) + 0x4
+        jz      .keepContent
 
         push    char_nversion_symb
         mov     ecx, [ebp+0x8]                                             ; symbol->name->ptr
@@ -222,46 +229,27 @@ parser_verify_ikarus_version:
         call    DWORD [ds_lstrcmpiA]
     addStack 2*4
         test    eax, eax
-    verifyStackoffset g1g2(0x39C,0x3F4) + 0x8
-        jnz     .provideNinjaArray
+    verifyStackoffset g1g2(0x39C,0x3F4) + 0x4
+        jz      .keepContent
 
-        reportToSpy "NINJA: Providing Ninja version to Daedalus"
-        pop     ebx
-        pop     eax
-        %substr .nversion1 NINJA_VERSION 2,1                               ; Convert version string into integer
-        %substr .nversion2 NINJA_VERSION 4,1
-        %assign .nversion (.nversion1-48)*10 + (.nversion2-48)
-        mov     eax, .nversion                                             ; Replace content
-    verifyStackoffset g1g2(0x39C,0x3F4)
-        jmp     .backClean
-
-    addStack -2*4
-    verifyStackoffset g1g2(0x39C,0x3F4) + 0x8
-
-.provideNinjaArray:
         push    char_narray_symb
         mov     ecx, [ebp+0x8]                                             ; symbol->name->ptr
         push    ecx
         call    DWORD [ds_lstrcmpiA]
     addStack 2*4
         test    eax, eax
-    verifyStackoffset g1g2(0x39C,0x3F4) + 0x8
+    verifyStackoffset g1g2(0x39C,0x3F4) + 0x4
         jnz     .checkMergeMode
 
-        reportToSpy "NINJA: Providing Ninja patch array to Daedalus"
-        pop     ebx
-        pop     eax
-        mov     eax, NINJA_PATCH_ARRAY                                     ; Replace content
-    verifyStackoffset g1g2(0x39C,0x3F4)
+.keepContent:
+        mov     eax, DWORD [ebp+zCPar_Symbol_content_offset]               ; Overwrite new value with old value
+    verifyStackoffset g1g2(0x39C,0x3F4) + 0x4
         jmp     .backClean
-
-    addStack -2*4
-    verifyStackoffset g1g2(0x39C,0x3F4) + 0x8
 
 .checkMergeMode:
         mov     ecx, [esi+zCParser_mergemode_offset]
         test    ecx, ecx
-    verifyStackoffset g1g2(0x39C,0x3F4) + 0x8
+    verifyStackoffset g1g2(0x39C,0x3F4) + 0x4
         jz      .back
 
         push    char_ikarus_symb
@@ -270,7 +258,7 @@ parser_verify_ikarus_version:
         call    DWORD [ds_lstrcmpiA]
     addStack 2*4
         test    eax, eax
-    verifyStackoffset g1g2(0x39C,0x3F4) + 0x8
+    verifyStackoffset g1g2(0x39C,0x3F4) + 0x4
         jnz     .back
 
         reportToSpy "NINJA: Verifying Ikarus version"
@@ -294,7 +282,7 @@ parser_verify_ikarus_version:
         mov     ecx, esp
         call    zSTRING___zSTRING
         add     esp, 0x14
-    verifyStackoffset g1g2(0x39C,0x3F4) + 0x8
+    verifyStackoffset g1g2(0x39C,0x3F4) + 0x4
         jmp     .back
 
 .verifyFilePath:
@@ -309,12 +297,12 @@ parser_verify_ikarus_version:
         mov     eax, [ebp+zCPar_Symbol_content_offset]
         lea     eax, [eax+edi*0x4]
         test    eax, eax
-    verifyStackoffset g1g2(0x39C,0x3F4) + 0x8
+    verifyStackoffset g1g2(0x39C,0x3F4) + 0x4
         jz      .back
 
         reportToSpy "NINJA: Comparing Ikarus versions"
         cmp     ebx, eax
-    verifyStackoffset g1g2(0x39C,0x3F4) + 0x8
+    verifyStackoffset g1g2(0x39C,0x3F4) + 0x4
         jge     .back
 
         push    edi
@@ -354,11 +342,12 @@ parser_verify_ikarus_version:
         pop     edi
 
 .back:
-        pop     ebx
-        pop     eax
-    verifyStackoffset g1g2(0x39C,0x3F4)
+        mov     eax, ebx
 
 .backClean:
+        pop     ebx
+    verifyStackoffset g1g2(0x39C,0x3F4)
+
         ; Jump back
         push    eax
         mov     ecx, ebp

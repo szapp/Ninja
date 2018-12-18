@@ -97,6 +97,7 @@ FUNC_BASE		:=	freeVdfArray								\
 					resolvePath									\
 					debugMessage								\
 					zCPar_Symbol__GetNext_fix					\
+					createSymbol								\
 					armParser									\
 					injectSrc									\
 					injectMds									\
