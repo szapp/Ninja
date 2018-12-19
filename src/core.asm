@@ -30,7 +30,6 @@ section .text
 %include "func/injectOU.asm"
 %include "func/initMenu.asm"
 %include "func/initContent.asm"
-%include "func/initPostHero.asm"
 %include "func/conEvalFunc.asm"
 
 %include "exec/createVdfArray.asm"

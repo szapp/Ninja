@@ -38,21 +38,3 @@ init_content:
         test    eax, eax
 %endif
         jmp     g1g2(0x637F8A,0x6C20C8)
-
-
-global init_posthero
-init_posthero:
-    resetStackoffset
-        pusha
-        push    ninja_initPostHero
-        push    char_src
-        push    NINJA_PATH_CONTENT
-        call    ninja_dispatch
-    addStack 3*4
-        popa
-    verifyStackoffset
-
-        ; Jump back
-        mov     ecx, g1g2(ebp,esi)
-        call    DWORD [edx+0x70]
-        jmp     g1g2(0x63ECA1,0x6C98DE)
