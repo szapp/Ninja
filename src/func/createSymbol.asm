@@ -45,6 +45,22 @@ ninja_createSymbol:
 .failed:
         sub     esp, 0x14
         mov     ecx, esp
+        push    DWORD [esp+stackoffset+arg_1]
+        call    zSTRING__zSTRING
+    addStack 4
+        push    ecx
+        mov     ecx, DWORD [zCPar_SymbolTable__cur_table]
+        call    zCPar_SymbolTable__GetSymbol_str
+    addStack 4
+        mov     esi, eax
+        mov     ecx, esp
+        call    zSTRING___zSTRING
+        add     esp, 0x14
+        mov     eax, esi
+        jnz     .funcEnd
+
+        sub     esp, 0x14
+        mov     ecx, esp
         push    NINJA_SYMBOL_FAILED
         call    zSTRING__zSTRING
     addStack 4

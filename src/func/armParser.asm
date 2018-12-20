@@ -42,12 +42,10 @@ ninja_armParser:
         push    char_ndivider_symb
         call    ninja_createSymbol
     addStack 4
-        push    eax
-        mov     esi, eax
         mov     ecx, DWORD [zCPar_SymbolTable__cur_table]
-        call    zCPar_SymbolTable__GetIndex
-    addStack 4
-        mov     DWORD [esi+zCPar_Symbol_content_offset], eax
+        mov     ecx, [ecx+0x10]                                            ; zCPar_SymbolTable->table->numInArray
+        dec     ecx
+        mov     DWORD [eax+zCPar_Symbol_content_offset], ecx
 
         cmp     DWORD [esp+stackoffset+arg_2], NINJA_PATH_CONTENT
         jnz     .dispatch
