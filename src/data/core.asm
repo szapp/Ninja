@@ -1,3 +1,5 @@
+char_initglobal          db   'INIT_GLOBAL', 0
+char_initperceptions     db   'INITPERCEPTIONS', 0
 char_repeat              db   'REPEAT', 0
 char_while               db   'WHILE', 0
 char_mem_label           db   'MEM_LABEL', 0

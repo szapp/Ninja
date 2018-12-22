@@ -39,6 +39,20 @@ linker_replace_func:
         push    ebp                                                        ; parser
         mov     ebp, [ecx+8]                                               ; symbol->name->ptr
 
+        push    char_initglobal
+        push    ebp
+        call    DWORD [ds_lstrcmpiA]
+    addStack 2*4
+        test    eax, eax
+    verifyStackoffset g1g2(0xA8,0xE4) + 0x10
+        jz      .no_rf_back
+        push    char_initperceptions
+        push    ebp
+        call    DWORD [ds_lstrcmpiA]
+    addStack 2*4
+        test    eax, eax
+    verifyStackoffset g1g2(0xA8,0xE4) + 0x10
+        jz      .no_rf_back
         push    char_repeat
         push    ebp
         call    DWORD [ds_lstrcmpiA]
