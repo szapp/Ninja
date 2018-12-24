@@ -1,16 +1,25 @@
+; Version symbols
+char_ikarus_symb         db   'IKARUS_VERSION', 0
+char_lego_symb           db   'LEGO_VERSION', 0
+
+; Preserved Gothic symbols
 char_initglobal          db   'INIT_GLOBAL', 0
 char_initperceptions     db   'INITPERCEPTIONS', 0
+
+; Preserved Ikarus symbols
 char_repeat              db   'REPEAT', 0
 char_while               db   'WHILE', 0
 char_mem_label           db   'MEM_LABEL', 0
 char_mem_goto            db   'MEM_GOTO', 0
-char_ikarus              db   'IKARUS', 0
-char_lego                db   'LEGO', 0
-char_ikarus_symb         db   'IKARUS_VERSION', 0
-char_lego_symb           db   'LEGO_VERSION', 0
+
+; Ninja helper symbols
+char_ndivider_symb       db   'NINJA_SYMBOLS_START', 0
 char_nversion_symb       db   'NINJA_VERSION', 0
 char_narray_symb         db   'NINJA_PATCHES', 0
-char_ndivider_symb       db   'NINJA_SYMBOLS_START', 0
+
+; Paths and IO
+char_ikarus              db   'IKARUS', 0
+char_lego                db   'LEGO', 0
 char_rb                  db   'rb', 0
 char_g1g2                db   '_G', g1g2('1','2'), 0
 char_zOPT_ignorePatches  db   'IncompatibleNinjaPatches', 0
@@ -30,6 +39,16 @@ NINJA_PATH_VDF           db   'DATA\NINJA_*.VDF', 0
 NINJA_PATH_IKARUS        db   '\NINJA\IKARUS\IKARUS.D', 0
 NINJA_PATH_LEGO          db   '\NINJA\LEGO\LEGO.D', 0
 NINJA_MDS_PREFIX         db   'ANIMS_', 0
+
+; Console command
+NINJA_VERSION_CHAR       db   'Ninja ', NINJA_VERSION, ' (built ', __UTC_DATE__, ' ', __UTC_TIME__, ' UTC) '
+                         db   '<', NINJA_WEBSITE, '>', 0
+NINJA_VERSION_CHAR_len   equ  $-NINJA_VERSION_CHAR
+NINJA_CON_COMMAND        db   'NINJA', 0
+NINJA_CON_DESCR          db   'List active Ninja patches in order', 0
+NINJA_CON_NOTFOUND       db   0xA, 'No patches active.', 0
+
+; Messages
 NINJA_AUTHOR_PREFIX      db   AUTHOR_PREFIX, ':', 0
 NINJA_LOOKING_FOR        db   AUTHOR_PREFIX, ':NINJA: Checking if file exists: ', 0
 NINJA_IGNORING           db   AUTHOR_PREFIX, ':    Ignoring ', 0
@@ -39,12 +58,6 @@ NINJA_OU_OVERWRITE       db   AUTHOR_PREFIX, ':   NINJA: Overwriting OU: ', 0
 NINJA_OU_ADD             db   AUTHOR_PREFIX, ':   NINJA: Adding OU:      ', 0
 NINJA_OU_BEFORE          db   AUTHOR_PREFIX, ':   NINJA: OU blocks before: ', 0
 NINJA_OU_AFTER           db   AUTHOR_PREFIX, ':   NINJA: OU blocks after:  ', 0
-NINJA_VERSION_CHAR       db   'Ninja ', NINJA_VERSION, ' (built ', __UTC_DATE__, ' ', __UTC_TIME__, ' UTC) '
-                         db   '<', NINJA_WEBSITE, '>', 0
-NINJA_VERSION_CHAR_len   equ  $-NINJA_VERSION_CHAR
-NINJA_CON_COMMAND        db   'NINJA', 0
-NINJA_CON_DESCR          db   'List active Ninja patches in order', 0
-NINJA_CON_NOTFOUND       db   0xA, 'No patches active.', 0
 NINJA_SYMBOL_FAILED      db   AUTHOR_PREFIX, ':NINJA: Failed to add helper symbol to symbol table!', 0
 NINJA_PARSER_FAILED      db   AUTHOR_PREFIX, ':NINJA: Ninja patch uses an invalid ', 0
 NINJA_PARSER_FAILED_2    db   ' version. ', 10, 13
