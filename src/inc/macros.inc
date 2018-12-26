@@ -126,4 +126,30 @@
         pop     ecx
     %endmacro
 
+    %macro reportToSpyReg 1
+        push    ecx
+        push    eax
+        push    edx
+        push    edi
+        mov     edi, %1
+        sub     esp, 0x14
+        mov     ecx, esp
+        push    NINJA_AUTHOR_PREFIX
+        call    zSTRING__zSTRING
+    addStack 4
+        push    edi
+        call    zSTRING__operator_plusEq
+    addStack 4
+        push    ecx
+        call    zERROR__Message
+    addStack 4
+        mov     ecx, esp
+        call    zSTRING___zSTRING
+        add     esp, 0x14
+        pop     edi
+        pop     edx
+        pop     eax
+        pop     ecx
+    %endmacro
+
 %endif
