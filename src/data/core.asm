@@ -25,10 +25,18 @@ keep_string_symbol_start db   'CURSOR_TEXTURE', 0
                          db   'PRINT_LINESEPERATOR', 0
                          db   'DIAG_PREFIX', 0
 keep_string_symbol_end   db   'DIAG_SUFFIX', 0
-keep_int_symbol_start    db   'AIV_TALENT', 0
+keep_int_symbol_start    db   'BLOODSPLAT_NUM', 0
+                         db   'BLOODSPLAT_TEX', 0
+                         db   'BLOODSPLAT_DAM', 0
+                         db   'BUFFS_DISPLAYFORHERO', 0
                          db   'PF_PRINTX', 0
                          db   'PF_PRINTY', 0
                          db   'PF_TEXTHEIGHT', 0
+                         db   'PF_FADEINTIME', 0
+                         db   'PF_FADEOUTTIME', 0
+                         db   'PF_MOVEYTIME', 0
+                         db   'PF_WAITTIME', 0
+                         db   'AIV_TALENT', 0
 
 ; Ninja helper symbols
 char_ndivider_symb       db   'NINJA_SYMBOLS_START', 0

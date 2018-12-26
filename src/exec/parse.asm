@@ -222,45 +222,54 @@ parser_check_prototype:
 global parser_verify_ikarus_version
 parser_verify_ikarus_version:
     resetStackoffset g1g2(0x39C,0x3F4)
+        %assign var_newvalue  0x04
+        push    eax
         push    ebx
-        mov     ebx, eax                                                   ; New value of symbol (content)
 
-        push    char_ndivider_symb
+        mov     ebx, keep_int_symbol_start
+
+.preserveSymbols:
+        cmp     ebx, char_narray_symb
+        jg      .checkMergeMode
+        push    ebx
         mov     ecx, [ebp+0x8]                                             ; symbol->name->ptr
         push    ecx
         call    DWORD [ds_lstrcmpiA]
     addStack 2*4
         test    eax, eax
-    verifyStackoffset g1g2(0x39C,0x3F4) + 0x4
+    verifyStackoffset g1g2(0x39C,0x3F4) + 0x8
         jz      .keepContent
-
-        push    char_nversion_symb
-        mov     ecx, [ebp+0x8]                                             ; symbol->name->ptr
-        push    ecx
-        call    DWORD [ds_lstrcmpiA]
-    addStack 2*4
-        test    eax, eax
-    verifyStackoffset g1g2(0x39C,0x3F4) + 0x4
-        jz      .keepContent
-
-        push    char_narray_symb
-        mov     ecx, [ebp+0x8]                                             ; symbol->name->ptr
-        push    ecx
-        call    DWORD [ds_lstrcmpiA]
-    addStack 2*4
-        test    eax, eax
-    verifyStackoffset g1g2(0x39C,0x3F4) + 0x4
-        jnz     .checkMergeMode
+        push    ebx
+        call    DWORD [ds_lstrlenA]
+    addStack 4
+        add     ebx, eax
+        inc     ebx
+        jmp     .preserveSymbols
 
 .keepContent:
+        sub     esp, 0x14
+        mov     ecx, esp
+        push    NINJA_SKIPPING
+        call    zSTRING__zSTRING
+    addStack 4
+        push    DWORD [ebp+0x8]
+        call    zSTRING__operator_plusEq
+    addStack 4
+        push    ecx
+        call    ninja_debugMessage
+    addStack 4
+        mov     ecx, esp
+        call    zSTRING___zSTRING
+        add     esp, 0x14
         mov     eax, DWORD [ebp+zCPar_Symbol_content_offset]               ; Overwrite new value with old value
-    verifyStackoffset g1g2(0x39C,0x3F4) + 0x4
+    verifyStackoffset g1g2(0x39C,0x3F4) + 0x8
         jmp     .backClean
 
 .checkMergeMode:
+        mov     ebx, DWORD [esp+var_newvalue]                              ; New value of symbol (content)
         mov     ecx, [esi+zCParser_mergemode_offset]
         test    ecx, ecx
-    verifyStackoffset g1g2(0x39C,0x3F4) + 0x4
+    verifyStackoffset g1g2(0x39C,0x3F4) + 0x8
         jz      .back
 
         push    char_ikarus_symb
@@ -269,7 +278,7 @@ parser_verify_ikarus_version:
         call    DWORD [ds_lstrcmpiA]
     addStack 2*4
         test    eax, eax
-    verifyStackoffset g1g2(0x39C,0x3F4) + 0x4
+    verifyStackoffset g1g2(0x39C,0x3F4) + 0x8
         jnz     .back
 
         reportToSpy "NINJA: Verifying Ikarus version"
@@ -293,7 +302,7 @@ parser_verify_ikarus_version:
         mov     ecx, esp
         call    zSTRING___zSTRING
         add     esp, 0x14
-    verifyStackoffset g1g2(0x39C,0x3F4) + 0x4
+    verifyStackoffset g1g2(0x39C,0x3F4) + 0x8
         jmp     .back
 
 .verifyFilePath:
@@ -308,12 +317,12 @@ parser_verify_ikarus_version:
         mov     eax, [ebp+zCPar_Symbol_content_offset]
         lea     eax, [eax+edi*0x4]
         test    eax, eax
-    verifyStackoffset g1g2(0x39C,0x3F4) + 0x4
+    verifyStackoffset g1g2(0x39C,0x3F4) + 0x8
         jz      .back
 
         reportToSpy "NINJA: Comparing Ikarus versions"
         cmp     ebx, eax
-    verifyStackoffset g1g2(0x39C,0x3F4) + 0x4
+    verifyStackoffset g1g2(0x39C,0x3F4) + 0x8
         jge     .back
 
         push    edi
@@ -357,6 +366,7 @@ parser_verify_ikarus_version:
 
 .backClean:
         pop     ebx
+        add     esp, 0x4
     verifyStackoffset g1g2(0x39C,0x3F4)
 
         ; Jump back
