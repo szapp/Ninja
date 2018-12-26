@@ -98,6 +98,8 @@ linker_replace_func:
         push    ecx
         call    ninja_debugMessage
     addStack 4
+        mov     ecx, esp
+        call    zSTRING___zSTRING
         add     esp, 0x14
         pop     ebp
         add     esp, 0x14
@@ -367,23 +369,42 @@ parser_verify_ikarus_version:
 global parser_verify_lego_version
 parser_verify_lego_version:
     resetStackoffset g1g2(0x394,0x3EC)
-        push    ecx
         push    eax
         push    edx
         push    ebx
 
         mov     ecx, [esi+zCParser_mergemode_offset]
         test    ecx, ecx
-    verifyStackoffset g1g2(0x394,0x3EC) + 0x10
+    verifyStackoffset g1g2(0x394,0x3EC) + 0xC
         jz      .back
 
+        mov     ebx, keep_string_symbol_start
+
+.preserveSymbols:
+        cmp     ebx, keep_string_symbol_end
+        jg      .verifyLeGoVersion
+        push    DWORD [ebp+0x8]                                            ; symbol->name->ptr
+        push    ebx
+        call    DWORD [ds_lstrcmpiA]
+    addStack 2*4
+        test    eax, eax
+    verifyStackoffset g1g2(0x394,0x3EC) + 0xC
+        jz      .skip
+        push    ebx
+        call    DWORD [ds_lstrlenA]
+    addStack 4
+        add     ebx, eax
+        inc     ebx
+        jmp     .preserveSymbols
+
+.verifyLeGoVersion:
         push    char_lego_symb
         mov     ecx, [ebp+0x8]                                             ; symbol->name->ptr
         push    ecx
         call    DWORD [ds_lstrcmpiA]
     addStack 2*4
         test    eax, eax
-    verifyStackoffset g1g2(0x394,0x3EC) + 0x10
+    verifyStackoffset g1g2(0x394,0x3EC) + 0xC
         jnz     .back
 
         reportToSpy "NINJA: Verifying LeGo version"
@@ -424,7 +445,7 @@ parser_verify_lego_version:
         mov     ecx, esp
         call    zSTRING___zSTRING
         add     esp, 0x14
-    verifyStackoffset g1g2(0x394,0x3EC) + 0x10
+    verifyStackoffset g1g2(0x394,0x3EC) + 0xC
         jmp     .back
 
 .verifyFilePath:
@@ -433,7 +454,7 @@ parser_verify_lego_version:
         call    ninja_scriptPathInvalid
     addStack 2*4
         test    eax, eax
-    verifyStackoffset g1g2(0x394,0x3EC) + 0x10
+    verifyStackoffset g1g2(0x394,0x3EC) + 0xC
         jnz     .back
 
 .compareVersions:
@@ -441,7 +462,7 @@ parser_verify_lego_version:
         lea     edx, [eax+edi*0x4]
         mov     eax, [edx+0x8]
         test    eax, eax
-    verifyStackoffset g1g2(0x394,0x3EC) + 0x10
+    verifyStackoffset g1g2(0x394,0x3EC) + 0xC
         jz      .back
 
         reportToSpy "NINJA: Comparing LeGo versions"
@@ -449,7 +470,7 @@ parser_verify_lego_version:
         call    ninja_parseVersionString
     addStack 4
         test    eax, eax
-    verifyStackoffset g1g2(0x394,0x3EC) + 0x10
+    verifyStackoffset g1g2(0x394,0x3EC) + 0xC
         jl      .back
         mov     ebx, eax
         mov     eax, [esp+stackoffset+g1g2(-0x340,-0x394)+0x8]             ; str->ptr
@@ -457,7 +478,7 @@ parser_verify_lego_version:
         call    ninja_parseVersionString
     addStack 4
         cmp     eax, ebx
-    verifyStackoffset g1g2(0x394,0x3EC) + 0x10
+    verifyStackoffset g1g2(0x394,0x3EC) + 0xC
         jge     .back
 
         push    edi
@@ -496,16 +517,35 @@ parser_verify_lego_version:
         add     esp, 0x4
         pop     edi
 
+.skip:
+        sub     esp, 0x14
+        mov     ecx, esp
+        push    NINJA_SKIPPING
+        call    zSTRING__zSTRING
+    addStack 4
+        push    DWORD [ebp+0x8]                                            ; symbol->name->ptr
+        call    zSTRING__operator_plusEq
+    addStack 4
+        push    ecx
+        call    ninja_debugMessage
+    addStack 4
+        mov     ecx, esp
+        call    zSTRING___zSTRING
+        add     esp, 0x14
+        mov     ecx, [ebp+zCPar_Symbol_content_offset]
+        jmp     .backClean
+
 .back:
+        lea     ecx, [esp+stackoffset+g1g2(-0x340,-0x394)]
+
+.backClean:
         pop     ebx
         pop     edx
         pop     eax
-        pop     ecx
     verifyStackoffset g1g2(0x394,0x3EC)
 
         ; Jump back
         push    edi
-        lea     ecx, [esp+stackoffset+g1g2(-0x340,-0x394)]
         jmp     g1g2(0x6F24B1,0x79BE30)
 
 

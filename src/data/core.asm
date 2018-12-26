@@ -21,7 +21,10 @@ keep_func_symbol_start   db   'INIT_GLOBAL', 0
                          db   'BW_SAVEGAME', 0
 keep_func_symbol_end     db   'BR_SAVEGAME', 0
 keep_string_symbol_start db   'CURSOR_TEXTURE', 0
-keep_string_symbol_end   db   'PF_FONT', 0
+                         db   'PF_FONT', 0
+                         db   'PRINT_LINESEPERATOR', 0
+                         db   'DIAG_PREFIX', 0
+keep_string_symbol_end   db   'DIAG_SUFFIX', 0
 keep_int_symbol_start    db   'AIV_TALENT', 0
                          db   'PF_PRINTX', 0
                          db   'PF_PRINTY', 0
