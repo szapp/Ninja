@@ -28,65 +28,45 @@ parser_check_func:
 global linker_replace_func
 linker_replace_func:
     resetStackoffset g1g2(0xA8,0xE4)
+        %assign var_symb_content  0x4
+        %assign var_parser        0x0
+        push    edi
         push    ecx                                                        ; symbol
         push    eax                                                        ; Calculated stack position
         mov     eax, [ecx+zCPar_Symbol_content_offset]
         test    eax, eax
-    verifyStackoffset g1g2(0xA8,0xE4) + 0x8
+    verifyStackoffset g1g2(0xA8,0xE4) + 0xC
         jz      .rf_back
 
         push    eax                                                        ; symbol->content
         push    ebp                                                        ; parser
         mov     ebp, [ecx+8]                                               ; symbol->name->ptr
 
-        push    char_initglobal
-        push    ebp
-        call    DWORD [ds_lstrcmpiA]
-    addStack 2*4
-        test    eax, eax
-    verifyStackoffset g1g2(0xA8,0xE4) + 0x10
-        jz      .no_rf_back
-        push    char_initperceptions
-        push    ebp
-        call    DWORD [ds_lstrcmpiA]
-    addStack 2*4
-        test    eax, eax
-    verifyStackoffset g1g2(0xA8,0xE4) + 0x10
-        jz      .no_rf_back
-        push    char_repeat
-        push    ebp
-        call    DWORD [ds_lstrcmpiA]
-    addStack 2*4
-        test    eax, eax
-    verifyStackoffset g1g2(0xA8,0xE4) + 0x10
-        jz      .no_rf_back
-        push    char_while
-        push    ebp
-        call    DWORD [ds_lstrcmpiA]
-    addStack 2*4
-        test    eax, eax
-    verifyStackoffset g1g2(0xA8,0xE4) + 0x10
-        jz      .no_rf_back
-        push    char_mem_label
-        push    ebp
-        call    DWORD [ds_lstrcmpiA]
-    addStack 2*4
-        test    eax, eax
-    verifyStackoffset g1g2(0xA8,0xE4) + 0x10
-        jz      .no_rf_back
-        push    char_mem_goto
-        push    ebp
-        call    DWORD [ds_lstrcmpiA]
-    addStack 2*4
-        test    eax, eax
-    verifyStackoffset g1g2(0xA8,0xE4) + 0x10
-        jz      .no_rf_back
+        mov     edi, keep_func_symbol_start
 
-        mov     ebp, [esp+stackoffset+g1g2(-0xB8,-0xF4)]                   ; parser
-        mov     ecx, [ebp+zCParser_stackpos_offset]
-        mov     eax, [esp+stackoffset+g1g2(-0xB4,-0xF0)]                   ; symbol->content
-        cmp     BYTE [eax+ecx*1], zPAR_TOK_RET
-    verifyStackoffset g1g2(0xA8,0xE4) + 0x10
+.preserveSymbols:
+        cmp     edi, keep_func_symbol_end
+        jg      .checkEmpty
+        push    edi
+        push    ebp
+        call    DWORD [ds_lstrcmpiA]
+    addStack 2*4
+        test    eax, eax
+    verifyStackoffset g1g2(0xA8,0xE4) + 0x14
+        jz      .no_rf_back
+        push    edi
+        call    DWORD [ds_lstrlenA]
+    addStack 4
+        add     edi, eax
+        inc     edi
+        jmp     .preserveSymbols
+
+.checkEmpty:
+        mov     ecx, [esp+var_parser]                                      ; parser
+        mov     ecx, [ecx+zCParser_stackpos_offset]
+        mov     eax, [esp+var_symb_content]                                ; symbol->content
+        cmp     BYTE [eax+ecx], zPAR_TOK_RET
+    verifyStackoffset g1g2(0xA8,0xE4) + 0x14
         jz      .no_rf_back
 
         pop     ebp                                                        ; parser
@@ -97,16 +77,31 @@ linker_replace_func:
         mov     BYTE [eax], zPAR_TOK_JUMP
         mov     [eax+1], ecx
         sub     esp, 0x4
-    verifyStackoffset g1g2(0xA8,0xE4) + 0x8
+    verifyStackoffset g1g2(0xA8,0xE4) + 0xC
 
 .rf_back:
         add     esp, 0x4
         pop     ecx
+        pop     edi
         call    zCPar_Symbol__SetStackPos
         jmp     g1g2(0x6E8269,0x7915CC)
 
 .no_rf_back:
-        add     esp, 0x18
+        sub     esp, 0x14
+        mov     ecx, esp
+        push    NINJA_SKIPPING
+        call    zSTRING__zSTRING
+    addStack 4
+        push    ebp
+        call    zSTRING__operator_plusEq
+    addStack 4
+        push    ecx
+        call    ninja_debugMessage
+    addStack 4
+        add     esp, 0x14
+        pop     ebp
+        add     esp, 0x14
+        pop     edi
         jmp     g1g2(0x6E8269,0x7915CC)
 
 

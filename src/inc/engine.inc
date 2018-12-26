@@ -93,7 +93,6 @@
 
         %define     char_NUL                                  0x85E104     ; 0
         %define     char_space                                0x831600     ; ' ', 0
-        %define     char_indent                               0x852E48     ; '    ', 0
         %define     char_model                                0x840908     ; 'MODEL', 0
         %define     char_mds                                  0x833534     ; '.MDS', 0
         %define     char_bin                                  0x82B0B0     ; '.bin', 0
@@ -271,7 +270,6 @@
 
         %define     char_NUL                                  0x8C1ED0     ; 0
         %define     char_space                                0x8951AC     ; ' ', 0
-        %define     char_indent                               0x8BC904     ; '    ', 0
         %define     char_model                                0x8A44CC     ; 'MODEL', 0
         %define     char_mds                                  0x8970E0     ; '.MDS', 0
         %define     char_bin                                  0x88F308     ; '.bin', 0

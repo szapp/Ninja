@@ -346,11 +346,8 @@ createVdfArray:
 
         sub     esp, 0x14
         mov     ecx, esp
-        push    NINJA_AUTHOR_PREFIX
+        push    NINJA_LOADING_PREFIX
         call    zSTRING__zSTRING
-    addStack 4
-        push    char_indent
-        call    zSTRING__operator_plusEq
     addStack 4
         mov     esi, [NINJA_PATCH_ARRAY+zCArray.array]
         mov     esi, [esi+edi*0x4]
