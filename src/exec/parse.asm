@@ -96,7 +96,7 @@ linker_replace_func:
         call    zSTRING__operator_plusEq
     addStack 4
         push    ecx
-        call    ninja_debugMessage
+        call    zERROR__Message
     addStack 4
         mov     ecx, esp
         call    zSTRING___zSTRING
@@ -256,7 +256,7 @@ parser_verify_ikarus_version:
         call    zSTRING__operator_plusEq
     addStack 4
         push    ecx
-        call    ninja_debugMessage
+        call    zERROR__Message
     addStack 4
         mov     ecx, esp
         call    zSTRING___zSTRING
@@ -537,7 +537,7 @@ parser_verify_lego_version:
         call    zSTRING__operator_plusEq
     addStack 4
         push    ecx
-        call    ninja_debugMessage
+        call    zERROR__Message
     addStack 4
         mov     ecx, esp
         call    zSTRING___zSTRING
