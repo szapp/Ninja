@@ -109,12 +109,16 @@ EXEC_BASE		:=	createVdfArray								\
 					init										\
 					parse										\
 					misc
+DATA_BASE		:=	symbols										\
+					console										\
+					io											\
+					messages
 
 BINARIES_G1		:=	$(BIN_BASE:%=$(BINDIR)%_g1)
 BINARIES_G2		:=	$(BIN_BASE:%=$(BINDIR)%_g2) $(BIN_BASE_G2:%=$(BINDIR)%_g2)
 FUNC			:=	$(FUNC_BASE:%=$(FUNCDIR)%$(ASMEXT))
 EXEC			:=	$(EXEC_BASE:%=$(EXECDIR)%$(ASMEXT))
-DATA			:=	$(DATADIR)core$(ASMEXT)
+DATA			:=	$(DATA_BASE:%=$(DATADIR)%$(ASMEXT))
 
 
 # Phony rules

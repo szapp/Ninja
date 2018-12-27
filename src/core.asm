@@ -41,4 +41,7 @@ section .text
 
 section .data   align=1                                                    ; Prevent auto-alignment
 
-%include "data/core.asm"
+%include "data/symbols.asm"
+%include "data/io.asm"
+%include "data/console.asm"
+%include "data/messages.asm"
