@@ -22,10 +22,11 @@ setVobToTransient:
     addStack 4
         push    ecx
         mov     ecx, zCParser_parser
-        call    zCParser__GetIndex
+        call    zCParser__GetSymbol_str
     addStack 4
         test    eax, eax
-        jl      .cleanup
+        jz      .cleanup
+        mov     eax, [eax+zCPar_Symbol_content_offset]
         cmp     esi, eax
         jl      .cleanup
 
@@ -34,6 +35,20 @@ setVobToTransient:
     %elif GOTHIC_BASE_VERSION == 2
         or      BYTE [ebp+0x114], 0x10                                     ; zCVob.dontwritetoarchive = True
     %endif
+
+        mov     ecx, esp
+        call    zSTRING___zSTRING
+        mov     ecx, esp
+        push    NINJA_IGNORING
+        call    zSTRING__zSTRING
+    addStack 4
+        mov     eax, [esp+0x18]                                            ; zCObject->objectname
+        push    DWORD [eax+0x8]                                            ; str->ptr
+        call    zSTRING__operator_plusEq
+    addStack 4
+        push    ecx
+        call    zERROR__Message
+    addStack 4
 
 .cleanup:
         mov     ecx, esp
