@@ -56,6 +56,7 @@
         %define     zCPar_SymbolTable__cur_table              0x8DE174     ; zCPar_SymbolTable *
         %define     zCPar_Symbol__zCPar_Symbol                0x6F7D20     ; void
         %define     zCPar_Symbol__SetFlag                     0x6F8450     ; int
+        %define     zCPar_Symbol__GetValue                    0x6F86E0     ; int &, int
         %define     zCPar_Symbol__SetValue                    0x6F8530     ; int, int
         %define     zCPar_Symbol__SetStackPos                 0x6F8520     ; int, int
         %define     zCMusicSys_DirectMusic__musicParser       0x86D6A8     ; zCParser *
@@ -233,6 +234,7 @@
         %define     zCPar_SymbolTable__cur_table              0xAB6428     ; zCPar_SymbolTable *
         %define     zCPar_Symbol__zCPar_Symbol                0x7A1690     ; void
         %define     zCPar_Symbol__SetFlag                     0x7A1D50     ; int
+        %define     zCPar_Symbol__GetValue                    0x7A1FE0     ; int &, int
         %define     zCPar_Symbol__SetValue                    0x7A1E30     ; int, int
         %define     zCPar_Symbol__SetStackPos                 0x7A1E20     ; int, int
         %define     zCMusicSys_DirectMusic__musicParser       0x8D2140     ; zCParser *
