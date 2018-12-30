@@ -45,7 +45,11 @@ ninja_armParser:
         mov     ecx, DWORD [zCPar_SymbolTable__cur_table]
         mov     ecx, [ecx+0x10]                                            ; zCPar_SymbolTable->table->numInArray
         dec     ecx
-        mov     DWORD [eax+zCPar_Symbol_content_offset], ecx
+        push    0x0
+        push    ecx
+        mov     ecx, eax
+        call    zCPar_Symbol__SetValue
+    addStack 2*4
 
         cmp     DWORD [esp+stackoffset+arg_2], NINJA_PATH_CONTENT
         jnz     .dispatch
@@ -57,12 +61,20 @@ ninja_armParser:
         %substr .nversion1 NINJA_VERSION 2,1                               ; Convert version string into integer
         %substr .nversion2 NINJA_VERSION 4,1
         %assign .nversion (.nversion1-48)*10 + (.nversion2-48)
-        mov     DWORD [eax+zCPar_Symbol_content_offset], .nversion
+        push    0x0
+        push    .nversion
+        mov     ecx, eax
+        call    zCPar_Symbol__SetValue
+    addStack 2*4
 
         push    char_narray_symb
         call    ninja_createSymbol
     addStack 4
-        mov     DWORD [eax+zCPar_Symbol_content_offset], NINJA_PATCH_ARRAY
+        push    0x0
+        push    NINJA_PATCH_ARRAY
+        mov     ecx, eax
+        call    zCPar_Symbol__SetValue
+    addStack 2*4
 
 .dispatch:
         push    DWORD [esp+stackoffset+arg_3]

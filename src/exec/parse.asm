@@ -225,12 +225,11 @@ parser_verify_ikarus_version:
         %assign var_newvalue  0x04
         push    eax
         push    ebx
-        mov     ebx, eax                                                   ; New value of symbol (content)
 
         mov     ecx, [esi+zCParser_mergemode_offset]
         test    ecx, ecx
     verifyStackoffset g1g2(0x398,0x3F0) + 0x8
-        jz      .back
+        jz      .backClean
 
         mov     ebx, keep_int_symbol_start
 
@@ -347,6 +346,15 @@ parser_verify_ikarus_version:
         pop     edi
 
 .skip:
+        mov     ebx, DWORD [esp+var_newvalue]                              ; New value of symbol (content)
+        push    ebp
+        mov     ecx, esi
+        call    zCParser__GetIndex                                         ; Check if new symbol or overwriting
+    addStack 4
+        mov     ecx, [esi+0x20]                                            ; zCParser->table->numInArray
+        dec     ecx
+        cmp     ecx, eax
+        jz      .back
         sub     esp, 0x14
         mov     ecx, esp
         push    NINJA_SKIPPING
@@ -536,6 +544,11 @@ parser_verify_lego_version:
         pop     edi
 
 .skip:
+        mov     ecx, [ebp+zCPar_Symbol_content_offset]
+        lea     ecx, [ecx+edi*0x4]
+        mov     eax, [ecx+0x8]
+        test    eax, eax
+        jz      .back
         sub     esp, 0x14
         mov     ecx, esp
         push    NINJA_SKIPPING
@@ -551,6 +564,7 @@ parser_verify_lego_version:
         call    zSTRING___zSTRING
         add     esp, 0x14
         mov     ecx, [ebp+zCPar_Symbol_content_offset]
+        lea     ecx, [ecx+edi*0x4]
         jmp     .backClean
 
 .back:

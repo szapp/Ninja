@@ -26,7 +26,14 @@ setVobToTransient:
     addStack 4
         test    eax, eax
         jz      .cleanup
-        mov     eax, [eax+zCPar_Symbol_content_offset]
+        mov     ecx, eax
+        sub     esp, 0x4
+        mov     eax, esp
+        push    0x0
+        push    eax
+        call    zCPar_Symbol__GetValue
+    addStack 2*4
+        pop     eax
         cmp     esi, eax
         jl      .cleanup
 
