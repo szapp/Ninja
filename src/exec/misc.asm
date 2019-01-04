@@ -38,10 +38,11 @@ setVobToTransient:
         jl      .cleanup
 
     %if GOTHIC_BASE_VERSION == 1
-        or      BYTE [ebp+0xF5], 0x1                                       ; zCVob.dontwritetoarchive = True
+        test    BYTE [ebp+0xF5], 0x1                                       ; zCVob.dontwritetoarchive
     %elif GOTHIC_BASE_VERSION == 2
-        or      BYTE [ebp+0x114], 0x10                                     ; zCVob.dontwritetoarchive = True
+        test    BYTE [ebp+0x114], 0x10                                     ; zCVob.dontwritetoarchive
     %endif
+        jnz     .cleanup
 
         mov     ecx, esp
         call    zSTRING___zSTRING
@@ -56,6 +57,12 @@ setVobToTransient:
         push    ecx
         call    zERROR__Message
     addStack 4
+
+    %if GOTHIC_BASE_VERSION == 1
+        or      BYTE [ebp+0xF5], 0x1                                       ; zCVob.dontwritetoarchive = True
+    %elif GOTHIC_BASE_VERSION == 2
+        or      BYTE [ebp+0x114], 0x10                                     ; zCVob.dontwritetoarchive = True
+    %endif
 
 .cleanup:
         mov     ecx, esp
