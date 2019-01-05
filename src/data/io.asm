@@ -2,6 +2,8 @@ char_ikarus              db   'IKARUS', 0
 char_lego                db   'LEGO', 0
 char_rb                  db   'rb', 0
 char_g1g2                db   '_G', g1g2('1','2'), 0
+char_bin                 db   '.BIN', 0
+char_csl                 db   '.CSL', 0
 char_zOPT_ignorePatches  db   'IncompatibleNinjaPatches', 0
 char_prevDir             db   '\..', 0
 NINJA_PATH               db   '\NINJA\', 0
