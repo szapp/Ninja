@@ -20,6 +20,15 @@ createVdfArray:
         push    esi
         push    edi
 
+        mov     ecx, zERROR_zerr
+        call    zERROR__SearchForSpy
+        test    eax, eax
+        jz      .start
+        cmp     BYTE [zERROR_zerr+0x20], 0x5                               ; zerr.filter_level
+        jge     .start
+        mov     BYTE [zERROR_zerr+0x20], 0x5
+
+.start:
         reportToSpy {" NINJA: Loading Ninja ", NINJA_VERSION}
         reportToSpy " NINJA: Registering console command"
 

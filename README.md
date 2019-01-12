@@ -50,7 +50,14 @@ make gothic1
 make gothic2
 ```
 
+# Legal
+
+Ninja is free software and released under The MIT License (MIT).
+
 # Changelog
+
+### v2.0: TBA
+- ...
 
 ### v1.2: Mar 23, 2018
 - Fix rare bug in animation ninja
