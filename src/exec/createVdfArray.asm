@@ -29,7 +29,26 @@ createVdfArray:
         mov     BYTE [zERROR_zerr+0x20], 0x5
 
 .start:
-        reportToSpy {" NINJA: Loading Ninja ", NINJA_VERSION}
+        sub     esp, 0x14
+        mov     ecx, esp
+        push    NINJA_LOADING_MSG
+        call    zSTRING__zSTRING
+    addStack 4
+        sub     esp, 0x80
+        push    esp
+        call    ninja_Y3JjMzI
+    addStack 4
+        push    eax
+        call    zSTRING__operator_plusEq
+    addStack 4
+        push    ecx
+        call    zERROR__Message
+    addStack 4
+        add     esp, 0x80
+        mov     ecx, esp
+        call    zSTRING___zSTRING
+        add     esp, 0x14
+
         reportToSpy " NINJA: Registering console command"
 
         sub     esp, 0x14

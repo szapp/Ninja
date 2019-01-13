@@ -3,9 +3,12 @@
 global ninja_conEvalFunc
 ninja_conEvalFunc:
         resetStackoffset
+        %assign var_total      0x80
+        %assign var_header    -0x80                                        ; char *
         %assign arg_1         +0x4                                         ; zString const &
         %assign arg_2         +0x8                                         ; zString &
 
+        sub     esp, var_total
         push    ecx
         push    esi
         push    edi
@@ -72,12 +75,33 @@ ninja_conEvalFunc:
         lea     ecx, [ecx+0x4]
         call    std__basic_string__assign
     addStack 2*4
-        mov     eax, 1
+        mov     eax, 0x1
         jmp     .funcEnd
 
 .ninja:
-        push    NINJA_VERSION_CHAR_len
-        push    NINJA_VERSION_CHAR
+        push    NINJA_VERSION_CHAR_1
+        lea     esi, [esp+stackoffset+var_header]
+        push    esi
+        call    DWORD [ds_lstrcpyA]
+    addStack 2*4
+        lea     ecx, [esp+stackoffset+var_header]
+        add     ecx, NINJA_VERSION_CHAR_1_len
+        dec     ecx
+        push    ecx
+        call    ninja_Y3JjMzI
+    addStack 4
+        push    NINJA_VERSION_CHAR_2
+        lea     ecx, [esp+stackoffset+var_header]
+        push    ecx
+        call    DWORD [ds_lstrcatA]
+    addStack 2*4
+        lea     ecx, [esp+stackoffset+var_header]
+        push    ecx
+        call    DWORD [ds_lstrlenA]
+    addStack 4
+        push    eax
+        lea     ecx, [esp+stackoffset+var_header]
+        push    ecx
         mov     ecx, [esp+stackoffset+arg_2]
         add     ecx, 0x4
         call    std__basic_string__assign
@@ -85,12 +109,13 @@ ninja_conEvalFunc:
 
         mov     eax, [NINJA_PATCH_ARRAY+zCArray.array]
         test    eax, eax
-        jnz      .listPatches
+        jnz     .listPatches
 
         push    NINJA_CON_NOTFOUND
         mov     ecx, [esp+stackoffset+arg_2]
         call    zSTRING__operator_plusEq
     addStack 4
+        mov     eax, 0x1
         jmp     .funcEnd
 
 .listPatches:
@@ -99,7 +124,7 @@ ninja_conEvalFunc:
 
 .arrayLoop:
         mov     esi, [NINJA_PATCH_ARRAY+zCArray.numInArray]
-        mov     eax, 1
+        mov     eax, 0x1
         cmp     edi, esi
         jge     .funcEnd
 
@@ -122,5 +147,84 @@ ninja_conEvalFunc:
         pop     edi
         pop     esi
         pop     ecx
+        add     esp, var_total
         ret
+    verifyStackoffset
+
+
+; int __stdcall ninja_Y3JjMzI(char *)
+; Nothing to see here
+global ninja_Y3JjMzI
+ninja_Y3JjMzI:
+        resetStackoffset
+        %assign arg_1         +0x4                                         ; char *
+        %assign arg_total      0x4
+
+        push    ecx
+
+        mov     ecx, [esp+stackoffset+arg_1]                               ; There is a purpose for doing it this way!
+        mov     BYTE [ecx], 'C'
+        inc     ecx
+        mov     BYTE [ecx], 'R'
+        inc     ecx
+        mov     BYTE [ecx], 'C'
+        inc     ecx
+        mov     BYTE [ecx], '-'
+        inc     ecx
+        mov     BYTE [ecx], '3'
+        inc     ecx
+        mov     BYTE [ecx], '2'
+        inc     ecx
+        mov     BYTE [ecx], ':'
+        inc     ecx
+        mov     BYTE [ecx], ' '
+        inc     ecx
+        mov     BYTE [ecx], '0'
+        inc     ecx
+        mov     BYTE [ecx], 'x'
+        inc     ecx
+
+        sub     esp, 0x14
+        mov     ecx, esp
+        push    NINJA_PATCH_FILE
+        call    zSTRING__zSTRING
+    addStack 4
+
+        push    0x10
+        mov     ecx, [esp+stackoffset+arg_1]
+        add     ecx, 0xA
+        push    ecx
+
+        xor     ecx, ecx
+        push    ecx
+        mov     ecx, esp
+        push    eax
+        call    g1g2(0x5CE900, 0x5F9BF0)
+    addStack 4
+        call    _itoa
+        add     esp, 0xC
+
+        mov     ecx, esp
+        call    zSTRING___zSTRING
+        add     esp, 0x14
+
+        mov     eax, [esp+stackoffset+arg_1]
+
+.toUpper:
+        mov     cl, BYTE [eax]
+        test    cl, cl
+        jz      .funcEnd
+        inc     eax
+        cmp     cl, 'a'
+        jl      .toUpper
+        cmp     cl, 'f'
+        jg      .toUpper
+        sub     cl, 0x20
+        mov     [eax-0x1], cl
+        jmp     .toUpper
+
+.funcEnd:
+        mov     eax, [esp+stackoffset+arg_1]
+        pop     ecx
+        ret     arg_total
     verifyStackoffset

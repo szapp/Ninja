@@ -1,4 +1,5 @@
 NINJA_AUTHOR_PREFIX      db   AUTHOR_PREFIX, ':', 0
+NINJA_LOADING_MSG        db   AUTHOR_PREFIX, ': NINJA: Loading Ninja ', NINJA_VERSION, ' ', 0
 NINJA_LOADING_PREFIX     db   AUTHOR_PREFIX, ': NINJA:   ', 0
 NINJA_IGNORING           db   AUTHOR_PREFIX, ': NINJA:   Ignoring ', 0
 NINJA_LOOKING_FOR        db   AUTHOR_PREFIX, ':NINJA: Checking if file exists: ', 0

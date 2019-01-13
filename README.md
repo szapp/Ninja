@@ -52,7 +52,7 @@ make gothic2
 
 # Legal
 
-Ninja is free software and released under The MIT License (MIT).
+Ninja is free software and released under the MIT License (MIT).
 
 # Changelog
 
