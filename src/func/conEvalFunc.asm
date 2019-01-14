@@ -163,26 +163,9 @@ ninja_Y3JjMzI:
         push    ecx
 
         mov     ecx, [esp+stackoffset+arg_1]                               ; There is a purpose for doing it this way!
-        mov     BYTE [ecx], 'C'
-        inc     ecx
-        mov     BYTE [ecx], 'R'
-        inc     ecx
-        mov     BYTE [ecx], 'C'
-        inc     ecx
-        mov     BYTE [ecx], '-'
-        inc     ecx
-        mov     BYTE [ecx], '3'
-        inc     ecx
-        mov     BYTE [ecx], '2'
-        inc     ecx
-        mov     BYTE [ecx], ':'
-        inc     ecx
-        mov     BYTE [ecx], ' '
-        inc     ecx
-        mov     BYTE [ecx], '0'
-        inc     ecx
-        mov     BYTE [ecx], 'x'
-        inc     ecx
+        mov     DWORD [ecx], 0x2D435243
+        mov     DWORD [ecx+0x4], 0x203A3233
+        mov     WORD [ecx+0x8], 0x7830
 
         sub     esp, 0x14
         mov     ecx, esp
