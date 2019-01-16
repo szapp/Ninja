@@ -79,3 +79,195 @@ setVobToTransient:
         mov     esi, [eax+0xC]
         mov     ecx, ebp
         jmp     g1g2(0x5F638D,0x62485D)
+
+
+global ninja_injectInfo
+ninja_injectInfo:
+        resetStackoffset ; 0xBC
+        %assign var_total      0x2C
+        %assign var_buffer    -0x2C                                        ; char[0x8]
+        %assign var_before    -0x24                                        ; DWORD
+        %assign var_info      -0x20                                        ; oCInfo *
+        %assign var_infoList  -0x1C                                        ; zCListSort *
+        %assign var_string    -0x18                                        ; zString
+        %assign var_classID   -0x04                                        ; DWORD
+
+        reportToSpy " NINJA: Injecting infos"
+
+        sub     esp, var_total
+        push    esi
+
+        push    char_ndivider_symb
+        lea     ecx, [esp+stackoffset+var_string]
+        call    zSTRING__zSTRING
+    addStack 4
+        push    ecx
+        mov     ecx, zCParser_parser
+        call    zCParser__GetSymbol_str
+    addStack 4
+        test    eax, eax
+    verifyStackoffset var_total + 4 ; + 0xBC
+        jz      .back
+        mov     ecx, eax
+        sub     esp, 0x4
+        mov     eax, esp
+        push    0x0
+        push    eax
+        call    zCPar_Symbol__GetValue
+    addStack 2*4
+        pop     esi
+
+        push    zSTRING_infoClass
+        mov     ecx, zCParser_parser
+        call    zCParser__GetIndex
+    addStack 4
+        mov     [esp+stackoffset+var_classID], eax
+        mov     ecx, DWORD [oCGame_ogame]
+        call    oCGame__GetInfoManager
+        add     eax, 0x4
+        mov     [esp+stackoffset+var_infoList], eax
+        mov     ecx, eax
+        call    zCListSort__GetNumInList
+        mov     [esp+stackoffset+var_before], eax
+
+.next:
+        inc     esi
+        push    esi
+        push    DWORD [esp+stackoffset+var_classID]
+        mov     ecx, zCParser_parser
+        call    zCParser__GetInstance
+    addStack 2*4
+        test    eax, eax
+    verifyStackoffset var_total + 4 ; + 0xBC
+        jl      .report
+        mov     esi, eax
+
+        lea     ecx, [esp+stackoffset+var_string]
+        call    zSTRING___zSTRING
+        sub     esp, 0x8
+        push    esp
+        lea     ecx, [esp+0x4]
+        push    ecx
+        push    esi
+        lea     ecx, [esp+stackoffset+var_string]
+        push    ecx
+        mov     ecx, zCParser_parser
+        call    zCParser__GetSymbolInfo
+    addStack 4*4
+        add     esp, 0x8
+        mov     eax, [esp+stackoffset+var_infoList]
+
+.inlist:
+        test    eax, eax
+        jz      .insert
+        mov     ecx, [eax+0x4]                                             ; zCListSort->data
+        mov     eax, [eax+0x8]                                             ; zCListSort->next
+        test    ecx, ecx
+        jz      .inlist
+        push    eax
+        add     ecx, 0x8                                                   ; oCInfo->name
+        mov     ecx, [ecx+0x8]
+        push    ecx
+        push    DWORD [esp+stackoffset+var_string+0x8]
+        call    DWORD [ds_lstrcmpiA]
+    addStack 2*4
+        test    eax, eax
+        pop     eax
+        jz      .next
+        jmp     .inlist
+
+.insert:
+        sub     esp, 0x14
+        mov     ecx, esp
+        push    NIJNA_INFO_ADD
+        call    zSTRING__zSTRING
+    addStack 4
+        push    DWORD [esp+stackoffset+var_string+0x8]
+        call    zSTRING__operator_plusEq
+    addStack 4
+        push    ecx
+        call    ninja_debugMessage
+    addStack 4
+        mov     ecx, esp
+        call    zSTRING___zSTRING
+        add     esp, 0x14
+
+        push    0x5C                                                       ; sizeof(oCInfo)
+        call    operator_new
+        add     esp, 0x4
+        mov     [esp+stackoffset+var_info], eax
+        mov     ecx, eax
+        call    oCInfo__oCInfo
+        mov     eax, [esp+stackoffset+var_info]
+        add     eax, 0x1C                                                  ; oCInfo->script
+        push    eax
+        push    esi
+        mov     ecx, zCParser_parser
+        call    zCParser__CreateInstance
+    addStack 2*4
+        push    esi
+        mov     ecx, [esp+stackoffset+var_info]
+        call    oCInfo__SetInstance
+    addStack 4
+        mov     ecx, [esp+stackoffset+var_info]
+        call    oCInfo__DoCheck
+        push    DWORD [esp+stackoffset+var_info]
+        mov     ecx, [esp+stackoffset+var_infoList]
+        call    zCListSort__InsertSort
+    addStack 4
+        jmp     .next
+
+.report:
+        lea     ecx, [esp+stackoffset+var_string]
+        call    zSTRING___zSTRING
+        lea     ecx, [esp+stackoffset+var_string]
+        push    NINJA_INFO_BEFORE
+        call    zSTRING__zSTRING
+    addStack 4
+        push    0xA
+        lea     ecx, [esp+stackoffset+var_buffer]
+        push    ecx
+        push    DWORD [esp+stackoffset+var_before]
+        call    _itoa
+        add     esp, 0xC
+        push    eax
+        lea     ecx, [esp+stackoffset+var_string]
+        call    zSTRING__operator_plusEq
+    addStack 4
+        push    ecx
+        call    zERROR__Message
+    addStack 4
+
+        lea     ecx, [esp+stackoffset+var_string]
+        call    zSTRING___zSTRING
+        lea     ecx, [esp+stackoffset+var_string]
+        push    NINJA_INFO_AFTER
+        call    zSTRING__zSTRING
+    addStack 4
+        push    0xA
+        lea     ecx, [esp+stackoffset+var_buffer]
+        push    ecx
+        mov     ecx, [esp+stackoffset+var_infoList]
+        call    zCListSort__GetNumInList
+        push    eax
+        call    _itoa
+        add     esp, 0xC
+        push    eax
+        lea     ecx, [esp+stackoffset+var_string]
+        call    zSTRING__operator_plusEq
+    addStack 4
+        push    ecx
+        call    zERROR__Message
+    addStack 4
+
+.back:
+        lea     ecx, [esp+stackoffset+var_string]
+        call    zSTRING___zSTRING
+        pop     esi
+        add     esp, var_total
+    verifyStackoffset ; 0xBC
+
+        ; Jump back
+        push    esi
+        mov     ecx, oCMissionManager_misMan
+        jmp     g1g2(0x63C7F4,0x6C6D24)

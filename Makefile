@@ -37,6 +37,10 @@ FLAGS			:=	-I$(SRCDIR)
 TARGETS_G1		:=	$(BUILDDIR)code_1C47577B$(PATCHEXT) $(BUILDDIR)code_CB86CAC3$(PATCHEXT)
 TARGETS_G2		:=	$(BUILDDIR)code_EFD8A07B$(PATCHEXT)
 
+# Included files
+INC_G1			:=	$(INCDIR)macros$(INCEXT) $(INCDIR)engine$(INCEXT) $(INCDIR)engine_g1$(INCEXT)
+INC_G2			:=	$(INCDIR)macros$(INCEXT) $(INCDIR)engine$(INCEXT) $(INCDIR)engine_g2$(INCEXT)
+
 # Intermediate files
 BIN_BASE		:=	core										\
 					hook_createVdfArray							\
@@ -62,6 +66,7 @@ BIN_BASE		:=	core										\
 					hook_parserParseSource						\
 					hook_parserParseFile						\
 					hook_zCPar_Symbol__GetNext					\
+					hook_unarchiveInfoMan						\
 					hook_setVobToTransient						\
 					ow_ani										\
 					ow_aniAlias									\
@@ -147,17 +152,17 @@ $(TARGETS_G2) : $(BINARIES_G2)
 	@$(call mkdir,$(BUILDDIR))
 	$(WRITEPATCH) $(call FixPath,$@) 2 $(SRCDIR) $(call FixPath,$(RSCDIR)$(@F))
 
-$(BINDIR)core_g% : $(SRCDIR)core$(ASMEXT) $(FUNC) $(EXEC) $(DATA) $(INCDIR)macros$(INCEXT) $(INCDIR)engine$(INCEXT)
+$(BINDIR)core_g% : $(SRCDIR)core$(ASMEXT) $(FUNC) $(EXEC) $(DATA) $(INC_G%)
 	@$(call mkdir,$(BINDIR))
 	$(NASM) -DGOTHIC_BASE_VERSION=$* $(FLAGS) -o $@ $<
 
 $(INCDIR)symbols_g%$(INCEXT) : $(SRCDIR)core$(ASMEXT) $(FUNC) $(EXEC) $(DATA)
 	$(EXTRACTSYM) $@ $* $<
 
-$(BINDIR)%_g1 : $(SRCDIR)%$(ASMEXT) $(INCDIR)symbols_g1$(INCEXT) $(INCDIR)engine$(INCEXT) $(INCDIR)macros$(INCEXT)
+$(BINDIR)%_g1 : $(SRCDIR)%$(ASMEXT) $(INCDIR)symbols_g1$(INCEXT) $(INC_G1)
 	@$(call mkdir,$(BINDIR))
 	$(NASM) -DGOTHIC_BASE_VERSION=1 $(FLAGS) -o $@ $<
 
-$(BINDIR)%_g2 : $(SRCDIR)%$(ASMEXT) $(INCDIR)symbols_g2$(INCEXT) $(INCDIR)engine$(INCEXT) $(INCDIR)macros$(INCEXT)
+$(BINDIR)%_g2 : $(SRCDIR)%$(ASMEXT) $(INCDIR)symbols_g2$(INCEXT) $(INC_G2)
 	@$(call mkdir,$(BINDIR))
 	$(NASM) -DGOTHIC_BASE_VERSION=2 $(FLAGS) -o $@ $<
