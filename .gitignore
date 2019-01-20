@@ -1,2 +1,6 @@
 /bin/
 /build/
+/src/dll/resource.rc
+/src/dll/resource.res
+/src/inc/injections.inc
+/src/inc/symbols_g*.inc

@@ -2,7 +2,7 @@
 ; Verify correct script file path
 global ninja_scriptPathInvalid
 ninja_scriptPathInvalid:
-        %assign .stackoffset_local stackoffset                             ; Do not interfere with previous stack offset
+        resetStackoffset
         %assign arg_1      +0x4                                            ; zCParser *
         %assign arg_2      +0x8                                            ; char *
         %assign arg_total   0x8
@@ -11,7 +11,7 @@ ninja_scriptPathInvalid:
         push    ecx
 
         reportToSpy "NINJA: Verifying script file path"
-        mov     esi, [esp+stackoffset-.stackoffset_local+arg_1]
+        mov     esi, [esp+stackoffset+arg_1]
 
         mov     eax, [esi+zCParser_file_offset+zCArray.numInArray]
         dec     eax
@@ -21,7 +21,7 @@ ninja_scriptPathInvalid:
         test    eax, eax
         jz      .funcEnd
 
-        push    DWORD [esp+stackoffset-.stackoffset_local+arg_2]
+        push    DWORD [esp+stackoffset+arg_2]
         push    eax
         call    DWORD [ds_lstrcmpiA]
     addStack 2*4
@@ -44,5 +44,5 @@ ninja_scriptPathInvalid:
 .funcEnd:
         pop     ecx
         pop     esi
-        verifyStackoffset .stackoffset_local
+        verifyStackoffset
         ret     arg_total

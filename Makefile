@@ -14,32 +14,54 @@ endif
 # Directories
 BUILDDIR		:=	build/
 BINDIR			:=	bin/
-RSCDIR			:=	rsc/
 SRCDIR			:=	src/
 INCDIR			:=	$(SRCDIR)inc/
 FUNCDIR			:=	$(SRCDIR)func/
 EXECDIR			:=	$(SRCDIR)exec/
 DATADIR			:=	$(SRCDIR)data/
+DLLDIR			:=	$(SRCDIR)dll/
 
 # File extensions
 ASMEXT			:=	.asm
 INCEXT			:=	.inc
-PATCHEXT		:=	.patch
+DLLEXT			:=	.dll
+RCEXT			:=	.rc
+RESEXT			:=	.res
+DLLEXT			:=	.dll
+OBJEXT			:=	.obj
 
 # Assemblers/builders
 NASM			:=	nasm
-WRITEPATCH		:=	$(call FixPath,./writePatch)$(SCRIPTEXT)
+GOLINK			:=	golink
+GORC			:=	gorc
+WRITEHEX		:=	$(call FixPath,./writeHex)$(SCRIPTEXT)
 EXTRACTSYM		:=	$(call FixPath,./extractSymbols)$(SCRIPTEXT)
 
-FLAGS			:=	-I$(SRCDIR)
+FLAGS_C			:=	-I$(SRCDIR)
+FLAGS_A			:=	-f win32 $(FLAGS_C)
+FLAGS_L			:=	/dll /entry DllMain /largeaddressaware /nxcompat /dynamicbase /ni
+FLAGS_RC		:=	/ni
 
-# Targets
-TARGETS_G1		:=	$(BUILDDIR)code_1C47577B$(PATCHEXT) $(BUILDDIR)code_CB86CAC3$(PATCHEXT)
-TARGETS_G2		:=	$(BUILDDIR)code_EFD8A07B$(PATCHEXT)
+# Meta data
+META			:=	metadata
+
+# TARGET
+TARGET			:=	$(BUILDDIR)sensapi$(DLLEXT)
+OBJ				:=	$(BINDIR)sensapi$(OBJEXT)
+RC				:=	$(DLLDIR)resource$(RCEXT)
+RSC				:=	$(DLLDIR)resource$(RESEXT)
+SRCDLL			:=	$(DLLDIR)sensapi$(ASMEXT)
+
+# System dependencies
+SYSDEP			:=	User32.dll Kernel32.dll NtDll.dll
+
+# Content
+CONTENT			:=	$(INCDIR)injections$(INCEXT)
 
 # Included files
-INC_G1			:=	$(INCDIR)macros$(INCEXT) $(INCDIR)engine$(INCEXT) $(INCDIR)engine_g1$(INCEXT)
-INC_G2			:=	$(INCDIR)macros$(INCEXT) $(INCDIR)engine$(INCEXT) $(INCDIR)engine_g2$(INCEXT)
+INC				:=	$(INCDIR)stackops$(INCEXT) $(INCDIR)macros$(INCEXT) $(INCDIR)engine$(INCEXT)
+INC_G1			:=	$(INC) $(INCDIR)engine_g1$(INCEXT)
+INC_G2			:=	$(INC) $(INCDIR)engine_g2$(INCEXT)
 
 # Intermediate files
 BIN_BASE		:=	core										\
@@ -126,43 +148,81 @@ EXEC			:=	$(EXEC_BASE:%=$(EXECDIR)%$(ASMEXT))
 DATA			:=	$(DATA_BASE:%=$(DATADIR)%$(ASMEXT))
 
 
+# Include meta data
+include $(META)
+export VERSION=$(VBASE).$(VMAJOR)
+
 # Phony rules
-all : gothic1 gothic2
-
-gothic1 : $(TARGETS_G1)
-
-gothic2 : $(TARGETS_G2)
+all : $(TARGET)
 
 clean :
 	$(RM) $(call FixPath,$(BUILDDIR)*)
 	$(RM) $(call FixPath,$(BINDIR)*)
+	$(RM) $(call FixPath,$(CONTENT))
 	$(RM) $(call FixPath,$(INCDIR)symbols_g*$(INCEXT))
+	$(RM) $(call FixPath,$(RSC))
+	$(RM) $(call FixPath,$(RC))
 
 remake: clean all
 
-.PHONY: all clean remake gothic1 gothic2
+.PHONY: all clean remake
 
 
 # Build dependencies
-$(TARGETS_G1) : $(BINARIES_G1)
+$(TARGET) : $(OBJ) $(RSC)
 	@$(call mkdir,$(BUILDDIR))
-	$(WRITEPATCH) $(call FixPath,$@) 1 $(SRCDIR) $(call FixPath,$(RSCDIR)$(@F))
+	golink $(FLAGS_L) /fo $@ $^ $(SYSDEP)
 
-$(TARGETS_G2) : $(BINARIES_G2)
-	@$(call mkdir,$(BUILDDIR))
-	$(WRITEPATCH) $(call FixPath,$@) 2 $(SRCDIR) $(call FixPath,$(RSCDIR)$(@F))
-
-$(BINDIR)core_g% : $(SRCDIR)core$(ASMEXT) $(FUNC) $(EXEC) $(DATA) $(INC_G%)
+$(OBJ) : $(SRCDLL) $(CONTENT)
 	@$(call mkdir,$(BINDIR))
-	$(NASM) -DGOTHIC_BASE_VERSION=$* $(FLAGS) -o $@ $<
+	$(NASM) $(FLAGS_A) -o $@ $<
+
+$(RSC) : $(RC)
+	gorc $(FLAGS_RC) /fo $@ /r $^
+
+$(CONTENT) : $(BINARIES_G1) $(BINARIES_G2)
+	$(WRITEHEX) $(call FixPath,$@) $(SRCDIR)
+
+$(BINDIR)core_g% : $(SRCDIR)core$(ASMEXT) $(FUNC) $(EXEC) $(DATA) $(INC_G%) $(META)
+	@$(call mkdir,$(BINDIR))
+	$(NASM) -DGOTHIC_BASE_VERSION=$* $(FLAGS_C) -o $@ $<
 
 $(INCDIR)symbols_g%$(INCEXT) : $(SRCDIR)core$(ASMEXT) $(FUNC) $(EXEC) $(DATA)
 	$(EXTRACTSYM) $@ $* $<
 
-$(BINDIR)%_g1 : $(SRCDIR)%$(ASMEXT) $(INCDIR)symbols_g1$(INCEXT) $(INC_G1)
+$(BINDIR)%_g1 : $(SRCDIR)%$(ASMEXT) $(INCDIR)symbols_g1$(INCEXT) $(INC_G1) $(META)
 	@$(call mkdir,$(BINDIR))
-	$(NASM) -DGOTHIC_BASE_VERSION=1 $(FLAGS) -o $@ $<
+	$(NASM) -DGOTHIC_BASE_VERSION=1 $(FLAGS_C) -o $@ $<
 
-$(BINDIR)%_g2 : $(SRCDIR)%$(ASMEXT) $(INCDIR)symbols_g2$(INCEXT) $(INC_G2)
+$(BINDIR)%_g2 : $(SRCDIR)%$(ASMEXT) $(INCDIR)symbols_g2$(INCEXT) $(INC_G2) $(META)
 	@$(call mkdir,$(BINDIR))
-	$(NASM) -DGOTHIC_BASE_VERSION=2 $(FLAGS) -o $@ $<
+	$(NASM) -DGOTHIC_BASE_VERSION=2 $(FLAGS_C) -o $@ $<
+
+$(RC) : $(META)
+	@ECHO/>                                                                       "$(call FixPath,$@)"
+	@ECHO 1 VERSIONINFO>>                                                         "$(call FixPath,$@)"
+	@ECHO FILEVERSION $(VBASE),$(VMAJOR),0,^0>>                                   "$(call FixPath,$@)"
+	@ECHO PRODUCTVERSION $(VBASE),$(VMAJOR),0,^0>>                                "$(call FixPath,$@)"
+	@ECHO FILEOS 0x4>>                                                            "$(call FixPath,$@)"
+	@ECHO FILETYPE 0x2>>                                                          "$(call FixPath,$@)"
+	@ECHO {>>                                                                     "$(call FixPath,$@)"
+	@ECHO BLOCK "StringFileInfo">>                                                "$(call FixPath,$@)"
+	@ECHO {>>                                                                     "$(call FixPath,$@)"
+	@ECHO     BLOCK "000004B0">>                                                  "$(call FixPath,$@)"
+	@ECHO     {>>                                                                 "$(call FixPath,$@)"
+	@ECHO         VALUE "CompanyName", "mud-freak (@szapp)">>                     "$(call FixPath,$@)"
+	@ECHO         VALUE "FileDescription", "Ninja <$(NINJA_WEBSITE)>">>           "$(call FixPath,$@)"
+	@ECHO         VALUE "FileVersion", "$(VBASE).$(VMAJOR)">>                     "$(call FixPath,$@)"
+	@ECHO         VALUE "InternalName", "SensAPI">>                               "$(call FixPath,$@)"
+	@ECHO         VALUE "LegalCopyright", "(C) $(RYEARS)  mud-freak (@szapp)">>   "$(call FixPath,$@)"
+	@ECHO         VALUE "OriginalFilename", "SensAPI.dll">>                       "$(call FixPath,$@)"
+	@ECHO         VALUE "ProductName", "Ninja">>                                  "$(call FixPath,$@)"
+	@ECHO         VALUE "ProductVersion", "$(VBASE).$(VMAJOR)">>                  "$(call FixPath,$@)"
+	@ECHO     }>>                                                                 "$(call FixPath,$@)"
+	@ECHO }>>                                                                     "$(call FixPath,$@)"
+	@ECHO/>>                                                                      "$(call FixPath,$@)"
+	@ECHO BLOCK "VarFileInfo">>                                                   "$(call FixPath,$@)"
+	@ECHO {>>                                                                     "$(call FixPath,$@)"
+	@ECHO     VALUE "Translation", 0x0000 0x04B^0>>                               "$(call FixPath,$@)"
+	@ECHO }>>                                                                     "$(call FixPath,$@)"
+	@ECHO }>>                                                                     "$(call FixPath,$@)"

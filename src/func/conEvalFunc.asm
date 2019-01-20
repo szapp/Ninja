@@ -169,7 +169,7 @@ ninja_Y3JjMzI:
 
         sub     esp, 0x14
         mov     ecx, esp
-        push    NINJA_PATCH_FILE
+        push    NINJA_FILE
         call    zSTRING__zSTRING
     addStack 4
 

@@ -16,12 +16,21 @@ only version and main repository.**
 
 # Requirements
 
-Assembling this project is possible under \*nix and Windows. To do so, the following software is required.
+Because of linking a Windows DLL, assembling this project is no longer possible under \*nix but is exclusive to Windows.
+(All \*nix shell scripts have been stripped from this project, but may still be found in the git history.) For linking
+the final DLL the following libraries are required on your system.
+
+- User32.dll
+- Kernel32.dll
+- NtDll.dll
+
+For assembling and building, the following software is required.
 
 - [NASM (The Netwide Assembler)](https://nasm.us)
+- [GoLink (Go Tools for Windows)](http://godevtool.com)
+- [GoRC (Go Tools fro Windows)](http://godevtool.com)
 
-On Windows, additionally install the following *GNU Win32* packages and add their binaries to your `PATH` (same for
-NASM).
+Additionally, you'll need various *GNU Win32* packages:
 
 - [Make](http://gnuwin32.sourceforge.net/packages/make.htm)
 - [Grep](http://gnuwin32.sourceforge.net/packages/grep.htm)
@@ -29,25 +38,18 @@ NASM).
 - [Util-Linux](http://gnuwin32.sourceforge.net/packages/util-linux-ng.htm) for `hexdump`
 - [CoreUtils](http://gnuwin32.sourceforge.net/packages/coreutils.htm) for `head`
 
+All binaries of the listed software must be added to your `PATH`.
+
 # Assembling
 
 I trust that you build Ninja only out of personal interest or to contribute, but not with the goal of distributing
 modified versions.  
 Please read the note at the top of this readme and respect this request.
 
+Assembling the core, writing hex files, assembling the wrapper and linking the DLL is all done with
+
 ```bash
 make
-```
-
-This will assemble and bundle the project into SystemPack patch files in the `./build/` directory. The respective files
-can also be created separately for Gothic and Gothic 2 NotR.
-
-```bash
-make gothic1
-```
-
-```bash
-make gothic2
 ```
 
 # Legal
