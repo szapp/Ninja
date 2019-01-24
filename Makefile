@@ -46,11 +46,11 @@ FLAGS_RC		:=	/ni
 META			:=	metadata
 
 # TARGET
-TARGET			:=	$(BUILDDIR)sensapi$(DLLEXT)
-OBJ				:=	$(BINDIR)sensapi$(OBJEXT)
+TARGET			:=	$(BUILDDIR)dciman32$(DLLEXT)
+OBJ				:=	$(BINDIR)dciman32$(OBJEXT)
 RC				:=	$(DLLDIR)resource$(RCEXT)
 RSC				:=	$(DLLDIR)resource$(RESEXT)
-SRCDLL			:=	$(DLLDIR)sensapi$(ASMEXT)
+SRCDLL			:=	$(DLLDIR)dciman32$(ASMEXT)
 
 # System dependencies
 SYSDEP			:=	User32.dll Kernel32.dll NtDll.dll
@@ -213,9 +213,9 @@ $(RC) : $(META)
 	@ECHO         VALUE "CompanyName", "mud-freak (@szapp)">>                     "$(call FixPath,$@)"
 	@ECHO         VALUE "FileDescription", "Ninja <$(NINJA_WEBSITE)>">>           "$(call FixPath,$@)"
 	@ECHO         VALUE "FileVersion", "$(VBASE).$(VMAJOR)">>                     "$(call FixPath,$@)"
-	@ECHO         VALUE "InternalName", "SensAPI">>                               "$(call FixPath,$@)"
+	@ECHO         VALUE "InternalName", "DCIMAN32">>                              "$(call FixPath,$@)"
 	@ECHO         VALUE "LegalCopyright", "(C) $(RYEARS)  mud-freak (@szapp)">>   "$(call FixPath,$@)"
-	@ECHO         VALUE "OriginalFilename", "SensAPI.dll">>                       "$(call FixPath,$@)"
+	@ECHO         VALUE "OriginalFilename", "DCIMAN32.DLL">>                      "$(call FixPath,$@)"
 	@ECHO         VALUE "ProductName", "Ninja">>                                  "$(call FixPath,$@)"
 	@ECHO         VALUE "ProductVersion", "$(VBASE).$(VMAJOR)">>                  "$(call FixPath,$@)"
 	@ECHO     }>>                                                                 "$(call FixPath,$@)"

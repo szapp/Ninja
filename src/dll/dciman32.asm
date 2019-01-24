@@ -30,20 +30,42 @@ MB_SETFOREGROUND        equ  0x10000
 extern MessageBoxA
 extern VirtualProtect
 extern memcpy
+extern GetSystemDirectoryA
+extern LoadLibraryA
+extern GetProcAddress
 
-export IsDestinationReachableA
-export IsDestinationReachableW
-export IsNetworkAlive
 export DllMain
+export DCIOpenProvider
+export DCIBeginAccess
+export DCIEndAccess
+export DCICloseProvider
+export DCIDestroy
+export DCICreatePrimary
 
 section .bss
         gBase                   resb 1
+        DLLhndl                 resd 1
+        DCIOpenProvider         resd 1
+        DCIBeginAccess          resd 1
+        DCIEndAccess            resd 1
+        DCICloseProvider        resd 1
+        DCIDestroy              resd 1
+        DCICreatePrimary        resd 1
 
 section .data
 
-        MessageBoxCaption       db   'Ninja', 0
-        MessageBoxError         db   'Ninja failed to initialize!', 0
-        MessageBoxError2        db   'Invalid Gothic version', 0
+        msgCaption              db   'Ninja', 0
+        msgGeneralFail          db   'Ninja failed to initialize!', 0
+        msgInvalidGothicVersion db   'Invalid Gothic version.', 0
+        msgFailedToFindSysDir   db   'Failed to find system directory.', 0
+        msgFailedToLoadDLL      db   'Failed to load DCIMAN32.DLL.', 0
+
+        char_DCIOpenProvider    db   'DCIOpenProvider', 0
+        char_DCIBeginAccess     db   'DCIBeginAccess', 0
+        char_DCIEndAccess       db   'DCIEndAccess', 0
+        char_DCICloseProvider   db   'DCICloseProvider', 0
+        char_DCIDestroy         db   'DCIDestroy', 0
+        char_DCICreatePrimary   db   'DCICreatePrimary', 0
 
         verify_addr_g1          equ  0x82C0C0
         verify_addr_g2          equ  0x89A7FC
@@ -100,8 +122,8 @@ inject:
 
 .failed:
         push    MB_OK | MB_ICONERROR | MB_TASKMODAL | MB_SETFOREGROUND
-        push    MessageBoxCaption
-        push    MessageBoxError
+        push    msgCaption
+        push    msgGeneralFail
         push    0x0
         call    MessageBoxA
     addStack 4*4
@@ -121,8 +143,8 @@ injectAll:
         jz      .g1
 
         push    MB_OK | MB_ICONERROR | MB_TASKMODAL | MB_SETFOREGROUND
-        push    MessageBoxCaption
-        push    MessageBoxError2
+        push    msgCaption
+        push    msgInvalidGothicVersion
         push    0x0
         call    MessageBoxA
     addStack 4*4
@@ -213,9 +235,80 @@ injectAll:
         ret
 
 
+redirectDLL:
+        resetStackoffset
+        %assign var_total   0x100
+        %assign var_path   -0x100                                          ; char[0x100]
+
+        sub     esp, var_total
+
+        lea     eax, [esp+stackoffset+var_path]
+        push    0x100
+        push    eax
+        call    GetSystemDirectoryA
+    addStack 2*4
+        test    eax, eax
+        jnz     .loadDLL
+        mov     eax, msgFailedToFindSysDir
+        jmp     .failed
+
+.loadDLL:
+        lea     ecx, [esp+stackoffset+var_path]
+        mov     BYTE [eax+ecx+0x1], '\'
+        mov     DWORD [eax+ecx+0x2], 'DCIM'
+        mov     DWORD [eax+ecx+0x6], 'AN32'
+        mov     DWORD [eax+ecx+0xA], '.DLL'
+        mov     BYTE [eax+ecx+0xE], 0
+        push    eax
+        call    LoadLibraryA
+    addStack 4
+        test    eax, eax
+        jnz     .getProcAddr
+        mov     eax, msgFailedToLoadDLL
+        jmp     .failed
+
+.getProcAddr:
+        mov     DWORD [DLLhndl], eax
+
+    %macro loadProcAddr 2
+        push    %1
+        push    DWORD [DLLhndl]
+        call    GetProcAddress
+        mov     DWORD [%2], eax
+    addStack 2*4
+    %endmacro
+
+        loadProcAddr char_DCIOpenProvider,DCIOpenProvider
+        loadProcAddr char_DCIBeginAccess,DCIBeginAccess
+        loadProcAddr char_DCIEndAccess,DCIEndAccess
+        loadProcAddr char_DCICloseProvider,DCICloseProvider
+        loadProcAddr char_DCIDestroy,DCIDestroy
+        loadProcAddr char_DCICreatePrimary,DCICreatePrimary
+
+        jmp     .funcEnd
+
+.failed:
+        push    MB_OK | MB_ICONERROR | MB_TASKMODAL | MB_SETFOREGROUND
+        push    msgCaption
+        push    eax
+        push    0x0
+        call    MessageBoxA
+    addStack 4*4
+        xor     eax, eax
+        jmp     .funcEnd
+
+.funcEnd:
+        add     esp, var_total
+        verifyStackoffset
+        ret
+
+
 DllMain:
         mov     eax, [esp+0x8]
         cmp     eax, DLL_PROCESS_ATTACH
+        jnz     .endFunc
+        call    redirectDLL
+        test    eax, eax
         jnz     .endFunc
         call    injectAll
         ret     0xC
@@ -223,18 +316,3 @@ DllMain:
 .endFunc:
         mov     eax, DWORD 0x1
         ret     0xC
-
-
-IsDestinationReachableA:
-        xor     eax, eax
-        ret     0x8
-
-
-IsDestinationReachableW:
-        xor     eax, eax
-        ret     0x8
-
-
-IsNetworkAlive:
-        xor     eax, eax
-        ret     0x4
