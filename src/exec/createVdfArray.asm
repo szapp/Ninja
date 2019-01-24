@@ -52,6 +52,20 @@ createVdfArray:
         call    zSTRING___zSTRING
         add     esp, 0x14
 
+        ; Partial version string for main menu in case of SystemPack
+        %substr .nversion1 NINJA_VERSION 2,1
+        %substr .nversion2 NINJA_VERSION 4,1
+        %strcat .nversion .nversion1 '.' .nversion2 ' '
+
+        mov     eax, SystemPack_version_info
+        mov     ecx, [eax+g1g2(0xD,0xB)]
+        mov     DWORD [eax], g1g2('1.08','2.6f')
+        mov     DWORD [eax+0x4], g1g2('k-S ','x-S ')
+        mov     DWORD [eax+0x7], ecx
+        mov     WORD [eax+0xA], '-N'
+        mov     DWORD [eax+0xC], .nversion
+        mov     BYTE [eax+0xF], 0
+
         reportToSpy " NINJA: Registering console command"
 
         sub     esp, 0x14

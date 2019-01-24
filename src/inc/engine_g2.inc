@@ -66,7 +66,7 @@
     %define     zCMenu__menuParser                        0x8D1E68     ; zCParser *
     %define     zCAICamera__cameraParser                  0x8CEAC8     ; zCParser *
     %define     zCSoundSystem_zsound                      0x99B03C     ; zCSoundSystem *
-    %assign     oCGame_ogame                              0xAB0884     ; oCGame *
+    %define     oCGame_ogame                              0xAB0884     ; oCGame *
     %define     oCGame__GetInfoManager                    0x6C2C90     ; void
     %define     oCMissionManager_misMan                   0xAB1384     ; oCMissionManager*
     %define     zCConsole_zcon                            0xAB3860     ; zCConsole *
@@ -87,10 +87,10 @@
     %define     zCModelAni__deleting_destructor           0x5852D0     ; uint
     %define     zCArchiverFactory__CreateArchiverRead     0x51A0B0     ; zFILE *, int
     %define     zCArchiverFactory_zarcFactory             0x8D472C     ; zCArchiverFactory
-    %assign     zCCSManager__LibValidateOU                0x41C3E0     ; zString *
-    %assign     zCCSManager__LibAddOU                     0x41BF50     ; zCCSBlock *
+    %define     zCCSManager__LibValidateOU                0x41C3E0     ; zString *
+    %define     zCCSManager__LibAddOU                     0x41BF50     ; zCCSBlock *
     %define     zCCSLib___CreateNewInstance               0x418A00     ; void
-    %assign     zCCSLib__deleting_destructor              0x419400     ; uint
+    %define     zCCSLib__deleting_destructor              0x419400     ; uint
     %define     zCCSBlock__deleting_destructor            0x40D300     ; uint
     %define     zCListSort__GetNumInList                  0x711120     ; void
     %define     zCListSort__InsertSort                    0x781480     ; void *
@@ -98,6 +98,7 @@
     %define     oCInfo__SetInstance                       0x703540     ; int
     %define     oCInfo__DoCheck                           0x7036F0     ; void
 
+    %define     SystemPack_version_info                   0x82D48F     ; char
     %define     NINJA_PATCH_ARRAY                         0x894155     ; zCArray
 
     %define     char_NUL                                  0x8C1ED0     ; 0

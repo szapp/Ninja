@@ -66,7 +66,7 @@
     %define     zCMenu__menuParser                        0x86D3D8     ; zCParser *
     %define     zCAICamera__cameraParser                  0x86A1E0     ; zCParser *
     %define     zCSoundSystem_zsound                      0x8CEE4C     ; zCSoundSystem *
-    %assign     oCGame_ogame                              0x8DA6BC     ; oCGame *
+    %define     oCGame_ogame                              0x8DA6BC     ; oCGame *
     %define     oCGame__GetInfoManager                    0x638AE0     ; void
     %define     oCMissionManager_misMan                   0x8DAB2C     ; oCMissionManager*
     %define     zCConsole_zcon                            0x8DC5A0     ; zCConsole *
@@ -87,16 +87,17 @@
     %define     zCModelAni__deleting_destructor           0x56AA20     ; uint
     %define     zCArchiverFactory__CreateArchiverRead     0x50A240     ; zFILE *, int
     %define     zCArchiverFactory_zarcFactory             0x86F9AC     ; zCArchiverFactory
-    %assign     zCCSManager__LibValidateOU                0x41BE50     ; zString *
-    %assign     zCCSManager__LibAddOU                     0x41BA60     ; zCCSBlock *
+    %define     zCCSManager__LibValidateOU                0x41BE50     ; zString *
+    %define     zCCSManager__LibAddOU                     0x41BA60     ; zCCSBlock *
     %define     zCCSLib___CreateNewInstance               0x418530     ; void
-    %assign     zCCSLib__deleting_destructor              0x418EB0     ; uint
+    %define     zCCSLib__deleting_destructor              0x418EB0     ; uint
     %define     zCCSBlock__deleting_destructor            0x40CF10     ; uint
     %define     zCListSort__GetNumInList                  0x670C60     ; void
     %define     zCListSort__InsertSort                    0x6D8260     ; void *
     %define     oCInfo__oCInfo                            0x6654C0     ; void
     %define     oCInfo__SetInstance                       0x665650     ; int
     %define     oCInfo__DoCheck                           0x665800     ; void
+    %define     SystemPack_version_info                   0x7CF576     ; char
 
     %define     NINJA_PATCH_ARRAY                         0x830391     ; zCArray
 

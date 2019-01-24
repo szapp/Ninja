@@ -2,8 +2,6 @@
 
 %include "inc/stackops.inc"
 
-BITS 32
-
 %assign inject_g1_count 0
 %macro add_inject_g1 2
         injectObj_g1_%[inject_g1_count]_addr   equ   %1
@@ -20,12 +18,14 @@ BITS 32
     %assign inject_g2_count inject_g2_count + 1
 %endmacro
 
-DLL_PROCESS_ATTACH      equ  0x1
-PAGE_READWRITE          equ  0x4
-MB_OK                   equ  0x0
-MB_ICONERROR            equ  0x10
-MB_TASKMODAL            equ  0x2000
-MB_SETFOREGROUND        equ  0x10000
+bits 32
+
+DLL_PROCESS_ATTACH                     equ  0x1
+PAGE_READWRITE                         equ  0x4
+MB_OK                                  equ  0x0
+MB_ICONERROR                           equ  0x10
+MB_TASKMODAL                           equ  0x2000
+MB_SETFOREGROUND                       equ  0x10000
 
 extern MessageBoxA
 extern VirtualProtect
@@ -35,43 +35,64 @@ extern LoadLibraryA
 extern GetProcAddress
 
 export DllMain
-export DCIOpenProvider
-export DCIBeginAccess
-export DCIEndAccess
-export DCICloseProvider
-export DCIDestroy
-export DCICreatePrimary
 
 section .bss
-        gBase                   resb 1
-        DLLhndl                 resd 1
-        DCIOpenProvider         resd 1
-        DCIBeginAccess          resd 1
-        DCIEndAccess            resd 1
-        DCICloseProvider        resd 1
-        DCIDestroy              resd 1
-        DCICreatePrimary        resd 1
+        DLLhndl                        resd 1
+        _DCIBeginAccess                resd 1
+        _DCICloseProvider              resd 1
+        _DCICreateOffscreen            resd 1
+        _DCICreateOverlay              resd 1
+        _DCICreatePrimary              resd 1
+        _DCIDestroy                    resd 1
+        _DCIDraw                       resd 1
+        _DCIEndAccess                  resd 1
+        _DCIEnum                       resd 1
+        _DCIOpenProvider               resd 1
+        _DCISetClipList                resd 1
+        _DCISetDestination             resd 1
+        _DCISetSrcDestClip             resd 1
+        _GetDCRegionData               resd 1
+        _GetWindowRegionData           resd 1
+        _WinWatchClose                 resd 1
+        _WinWatchDidStatusChange       resd 1
+        _WinWatchGetClipList           resd 1
+        _WinWatchNotify                resd 1
+        _WinWatchOpen                  resd 1
 
 section .data
 
-        msgCaption              db   'Ninja', 0
-        msgGeneralFail          db   'Ninja failed to initialize!', 0
-        msgInvalidGothicVersion db   'Invalid Gothic version.', 0
-        msgFailedToFindSysDir   db   'Failed to find system directory.', 0
-        msgFailedToLoadDLL      db   'Failed to load DCIMAN32.DLL.', 0
+        msgCaption                     db   'Ninja', 0
+        msgGeneralFail                 db   'Ninja failed to initialize!', 0
+        msgInvalidGothicVersion        db   'Invalid Gothic version.', 0
+        msgFailedToFindSysDir          db   'Failed to find system directory.', 0
+        msgFailedToLoadDLL             db   'Failed to load DCIMAN32.DLL.', 0
 
-        char_DCIOpenProvider    db   'DCIOpenProvider', 0
-        char_DCIBeginAccess     db   'DCIBeginAccess', 0
-        char_DCIEndAccess       db   'DCIEndAccess', 0
-        char_DCICloseProvider   db   'DCICloseProvider', 0
-        char_DCIDestroy         db   'DCIDestroy', 0
-        char_DCICreatePrimary   db   'DCICreatePrimary', 0
+        char_DCIBeginAccess            db   'DCIBeginAccess', 0
+        char_DCICloseProvider          db   'DCICloseProvider', 0
+        char_DCICreateOffscreen        db   'DCICreateOffscreen', 0
+        char_DCICreateOverlay          db   'DCICreateOverlay', 0
+        char_DCICreatePrimary          db   'DCICreatePrimary', 0
+        char_DCIDestroy                db   'DCIDestroy', 0
+        char_DCIDraw                   db   'DCIDraw', 0
+        char_DCIEndAccess              db   'DCIEndAccess', 0
+        char_DCIEnum                   db   'DCIEnum', 0
+        char_DCIOpenProvider           db   'DCIOpenProvider', 0
+        char_DCISetClipList            db   'DCISetClipList', 0
+        char_DCISetDestination         db   'DCISetDestination', 0
+        char_DCISetSrcDestClip         db   'DCISetSrcDestClip', 0
+        char_GetDCRegionData           db   'GetDCRegionData', 0
+        char_GetWindowRegionData       db   'GetWindowRegionData', 0
+        char_WinWatchClose             db   'WinWatchClose', 0
+        char_WinWatchDidStatusChange   db   'WinWatchDidStatusChange', 0
+        char_WinWatchGetClipList       db   'WinWatchGetClipList', 0
+        char_WinWatchNotify            db   'WinWatchNotify', 0
+        char_WinWatchOpen              db   'WinWatchOpen', 0
 
-        verify_addr_g1          equ  0x82C0C0
-        verify_addr_g2          equ  0x89A7FC
+        verify_addr_g1                 equ  0x82C0C0
+        verify_addr_g2                 equ  0x89A7FC
 
-        version_sp_g1           equ  0x7CF576
-        version_sp_g2           equ  0x82D48F
+        version_sp_g1                  equ  0x7CF576
+        version_sp_g2                  equ  0x82D48F
 
         %include "inc/injections.inc"
 
@@ -121,12 +142,6 @@ inject:
         jmp     .funcEnd
 
 .failed:
-        push    MB_OK | MB_ICONERROR | MB_TASKMODAL | MB_SETFOREGROUND
-        push    msgCaption
-        push    msgGeneralFail
-        push    0x0
-        call    MessageBoxA
-    addStack 4*4
         xor     eax, eax
 
 .funcEnd:
@@ -136,6 +151,7 @@ inject:
     verifyStackoffset
 
 
+; __cdecl injectAll(voir)
 injectAll:
         cmp     DWORD [verify_addr_g2], 'Goth'
         jz      .g2
@@ -153,14 +169,7 @@ injectAll:
         xor     eax, eax
         ret
 
-    ; Partial version string for main menu
-    %defstr NINJA_VERSION v%!VERSION
-    %substr .nversion1 NINJA_VERSION 2,1
-    %substr .nversion2 NINJA_VERSION 4,1
-    %strcat .nversion .nversion1 '.' .nversion2 ' '
-
 .g1:
-        mov     BYTE [gBase], 0x1
     %assign it 0
     %rep inject_g1_count
         push    injectObj_g1_%[it]_new
@@ -173,33 +182,23 @@ injectAll:
         %assign it it + 1
     %endrep
 
-        ; Set version info if SP is installed
-        lea     eax, [version_sp_g1+0xA]
-        cmp     WORD [eax], 'SP'
-        jnz     .success
-        sub     esp, 0x10
-        mov     DWORD [esp], '1.08'
-        mov     DWORD [esp+0x4], 'k-S '
-        mov     eax, [version_sp_g1+0xD]
-        mov     DWORD [esp+0x7], eax
-        mov     WORD [esp+0xA], '-N'
-        mov     DWORD [esp+0xC], .nversion
-        mov     BYTE [esp+0xF], 0
+        xor     eax, eax
+        push    eax
         push    esp
+        push    PAGE_READWRITE
         push    0x10
         push    version_sp_g1
-        call    inject
+        call    VirtualProtect
     addStack 4*4
-       add     esp, 0x10
-       test    eax, eax
-       jz      .failed
+        test    eax, eax
+        pop     eax
+        jz      .failed
 
 .success:
         mov     eax, DWORD 0x1
         ret
 
 .g2:
-        mov     BYTE [gBase], 0x2
     %assign it 0
     %rep inject_g2_count
         push    injectObj_g2_%[it]_new
@@ -211,36 +210,28 @@ injectAll:
         %assign it it + 1
     %endrep
 
-        ; Set version info if SP is installed
-        lea     eax, [version_sp_g2+0x8]
-        cmp     WORD [eax], 'SP'
-        jnz     .success
-        sub     esp, 0x10
-        mov     DWORD [esp], '2.6f'
-        mov     DWORD [esp+0x4], 'x-S '
-        mov     eax, [version_sp_g2+0xB]
-        mov     DWORD [esp+0x7], eax
-        mov     WORD [esp+0xA], '-N'
-        mov     DWORD [esp+0xC], .nversion
-        mov     BYTE [esp+0xF], 0
+        xor     eax, eax
+        push    eax
         push    esp
+        push    PAGE_READWRITE
         push    0x10
         push    version_sp_g2
-        call    inject
+        call    VirtualProtect
     addStack 4*4
-        add     esp, 0x10
         test    eax, eax
+        pop     eax
         jz      .failed
-        mov     eax, DWORD 0x1
-        ret
+        jmp     .success
 
 
+; __cdecl redirectDLL(void)
 redirectDLL:
         resetStackoffset
         %assign var_total   0x100
         %assign var_path   -0x100                                          ; char[0x100]
 
         sub     esp, var_total
+        push    ecx
 
         lea     eax, [esp+stackoffset+var_path]
         push    0x100
@@ -254,12 +245,12 @@ redirectDLL:
 
 .loadDLL:
         lea     ecx, [esp+stackoffset+var_path]
-        mov     BYTE [eax+ecx+0x1], '\'
-        mov     DWORD [eax+ecx+0x2], 'DCIM'
-        mov     DWORD [eax+ecx+0x6], 'AN32'
-        mov     DWORD [eax+ecx+0xA], '.DLL'
-        mov     BYTE [eax+ecx+0xE], 0
-        push    eax
+        mov     BYTE [eax+ecx], '\'
+        mov     DWORD [eax+ecx+0x1], 'DCIM'
+        mov     DWORD [eax+ecx+0x5], 'AN32'
+        mov     DWORD [eax+ecx+0x9], '.DLL'
+        mov     BYTE [eax+ecx+0xD], 0
+        push    ecx
         call    LoadLibraryA
     addStack 4
         test    eax, eax
@@ -270,20 +261,34 @@ redirectDLL:
 .getProcAddr:
         mov     DWORD [DLLhndl], eax
 
-    %macro loadProcAddr 2
-        push    %1
+    %macro fillAPI 1
+        push    char_%1
         push    DWORD [DLLhndl]
         call    GetProcAddress
-        mov     DWORD [%2], eax
+        mov     DWORD [_%1], eax
     addStack 2*4
     %endmacro
 
-        loadProcAddr char_DCIOpenProvider,DCIOpenProvider
-        loadProcAddr char_DCIBeginAccess,DCIBeginAccess
-        loadProcAddr char_DCIEndAccess,DCIEndAccess
-        loadProcAddr char_DCICloseProvider,DCICloseProvider
-        loadProcAddr char_DCIDestroy,DCIDestroy
-        loadProcAddr char_DCICreatePrimary,DCICreatePrimary
+        fillAPI DCIBeginAccess
+        fillAPI DCICloseProvider
+        fillAPI DCICreateOffscreen
+        fillAPI DCICreateOverlay
+        fillAPI DCICreatePrimary
+        fillAPI DCIDestroy
+        fillAPI DCIDraw
+        fillAPI DCIEndAccess
+        fillAPI DCIEnum
+        fillAPI DCIOpenProvider
+        fillAPI DCISetClipList
+        fillAPI DCISetDestination
+        fillAPI DCISetSrcDestClip
+        fillAPI GetDCRegionData
+        fillAPI GetWindowRegionData
+        fillAPI WinWatchClose
+        fillAPI WinWatchDidStatusChange
+        fillAPI WinWatchGetClipList
+        fillAPI WinWatchNotify
+        fillAPI WinWatchOpen
 
         jmp     .funcEnd
 
@@ -295,24 +300,92 @@ redirectDLL:
         call    MessageBoxA
     addStack 4*4
         xor     eax, eax
-        jmp     .funcEnd
 
 .funcEnd:
+        pop     ecx
         add     esp, var_total
         verifyStackoffset
         ret
 
 
+; bool __stdcall DLLMain(DWORD hinstDLL, DWORD fdwReason, void *lpvReserved)
 DllMain:
+        resetStackoffset
         mov     eax, [esp+0x8]
         cmp     eax, DLL_PROCESS_ATTACH
-        jnz     .endFunc
-        call    redirectDLL
-        test    eax, eax
-        jnz     .endFunc
+        jnz     .succeeded
+
+    %macro initAPI 1
+        mov     DWORD [_%1], %1.init
+    %endmacro
+
+        initAPI DCIBeginAccess
+        initAPI DCICloseProvider
+        initAPI DCICreateOffscreen
+        initAPI DCICreateOverlay
+        initAPI DCICreatePrimary
+        initAPI DCIDestroy
+        initAPI DCIDraw
+        initAPI DCIEndAccess
+        initAPI DCIEnum
+        initAPI DCIOpenProvider
+        initAPI DCISetClipList
+        initAPI DCISetDestination
+        initAPI DCISetSrcDestClip
+        initAPI GetDCRegionData
+        initAPI GetWindowRegionData
+        initAPI WinWatchClose
+        initAPI WinWatchDidStatusChange
+        initAPI WinWatchGetClipList
+        initAPI WinWatchNotify
+        initAPI WinWatchOpen
+
         call    injectAll
+        test    eax, eax
+        jnz     .succeeded
+
+        push    MB_OK | MB_ICONERROR | MB_TASKMODAL | MB_SETFOREGROUND
+        push    msgCaption
+        push    msgGeneralFail
+        push    0x0
+        call    MessageBoxA
+    addStack 4*4
+        xor     eax, eax
         ret     0xC
 
-.endFunc:
+.succeeded:
         mov     eax, DWORD 0x1
         ret     0xC
+    verifyStackoffset
+
+
+; Load library on very first call, after that jump to function directly
+%macro setupAPI 1
+export %1
+%1:
+        jmp     DWORD [_%1]
+.init:
+        call    redirectDLL
+        jmp     %1
+%endmacro
+
+setupAPI DCIBeginAccess
+setupAPI DCICloseProvider
+setupAPI DCICreateOffscreen
+setupAPI DCICreateOverlay
+setupAPI DCICreatePrimary
+setupAPI DCIDestroy
+setupAPI DCIDraw
+setupAPI DCIEndAccess
+setupAPI DCIEnum
+setupAPI DCIOpenProvider
+setupAPI DCISetClipList
+setupAPI DCISetDestination
+setupAPI DCISetSrcDestClip
+setupAPI GetDCRegionData
+setupAPI GetWindowRegionData
+setupAPI WinWatchClose
+setupAPI WinWatchDidStatusChange
+setupAPI WinWatchGetClipList
+setupAPI WinWatchNotify
+setupAPI WinWatchOpen
