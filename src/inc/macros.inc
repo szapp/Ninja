@@ -46,7 +46,7 @@
         pop     ecx
     %endmacro
 
-    %macro reportToSpyReg 1
+    %macro reportToSpyReg 1-2
         push    ecx
         push    eax
         push    edx
@@ -57,9 +57,27 @@
         push    NINJA_AUTHOR_PREFIX
         call    zSTRING__zSTRING
     addStack 4
+%if %2 > 0
+        sub     esp, 0x80
+        mov     eax, esp
+        push    ecx
+
+        push    %2
+        push    eax
         push    edi
+        call    _itoa
+        add     esp, 0xC
+
+        pop     ecx
+        push    eax
+%else
+        push    edi
+%endif
         call    zSTRING__operator_plusEq
     addStack 4
+%if %2 > 0
+        add     esp, 0x80
+%endif
         push    ecx
         call    zERROR__Message
     addStack 4
