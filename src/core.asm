@@ -16,6 +16,12 @@ bits    32
 
 section .text
 
+%include "exec/createVdfArray.asm"
+%include "exec/deploy.asm"
+%include "exec/init.asm"
+%include "exec/parse.asm"
+%include "exec/misc.asm"
+
 %include "func/freeVdfArray.asm"
 %include "func/dispatch.asm"
 %include "func/parseVersionString.asm"
@@ -31,12 +37,6 @@ section .text
 %include "func/initMenu.asm"
 %include "func/initContent.asm"
 %include "func/conEvalFunc.asm"
-
-%include "exec/createVdfArray.asm"
-%include "exec/deploy.asm"
-%include "exec/init.asm"
-%include "exec/parse.asm"
-%include "exec/misc.asm"
 
 
 section .data   align=1                                                    ; Prevent auto-alignment

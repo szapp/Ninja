@@ -57,6 +57,23 @@ createVdfArray:
         %substr .nversion2 NINJA_VERSION 4,1
         %strcat .nversion .nversion1 '.' .nversion2 ' '
 
+        mov     al, [SystemPack_version_info+0xB]
+        cmp     al, 'N'
+        jnz     .setVersionInfo
+
+        sub     esp, 0x14
+        mov     ecx, esp
+        push    NINJA_OUTDATED_PATCH
+        call    zSTRING__zSTRING
+    addStack 4
+        push    ecx
+        call    zERROR__Fatal
+    addStack 4
+        mov     ecx, esp
+        call    zSTRING___zSTRING
+        add     esp, 0x14
+
+.setVersionInfo:
         mov     eax, SystemPack_version_info
         mov     ecx, [eax+g1g2(0xD,0xB)]
         mov     DWORD [eax], g1g2('1.08','2.6f')

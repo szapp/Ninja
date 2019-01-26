@@ -14,6 +14,7 @@ NINJA_INFO_BEFORE        db   AUTHOR_PREFIX, ':  NINJA: Infos before: ', 0
 NINJA_INFO_AFTER         db   AUTHOR_PREFIX, ':  NINJA: Infos after:  ', 0
 NINJA_SYMBOL_FAILED      db   AUTHOR_PREFIX, ':NINJA: Failed to add helper symbol to symbol table!', 0
 NINJA_SKIPPING           db   AUTHOR_PREFIX, ':NINJA: Skipping : ', 0
+NINJA_OUTDATED_PATCH     db   AUTHOR_PREFIX, ':NINJA: One of the loaded patches is outdated (Ninja <= 1.2)', 0
 NINJA_PARSER_FAILED      db   AUTHOR_PREFIX, ':NINJA: Ninja patch uses an invalid ', 0
 NINJA_PARSER_FAILED_2    db   ' version. ', 10, 13
                          db   'Please use the version specifically for Ninja ', 10, 13
