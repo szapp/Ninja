@@ -3,11 +3,11 @@
 global ninja_injectOU
 ninja_injectOU:
         resetStackoffset
-        %assign var_total     0x32
-        %assign var_buffer   -0x32                                         ; char[0x8]
-        %assign var_before   -0x2A                                         ; int
-        %assign var_blocks   -0x26                                         ; zCArraySort
-        %assign var_lib      -0x22                                         ; zCCSLib *
+        %assign var_total     0x2C
+        %assign var_buffer   -0x2C                                         ; char[0x8]
+        %assign var_before   -0x24                                         ; int
+        %assign var_blocks   -0x20                                         ; zCArraySort *
+        %assign var_lib      -0x1C                                         ; zCCSLib *
         %assign var_file     -0x18                                         ; zFILE *
         %assign var_string   -0x14                                         ; zString
         %assign arg_1        +0x4                                          ; char *
@@ -27,8 +27,8 @@ ninja_injectOU:
 
         push    ecx
         mov     ecx, DWORD [zCObjectFactory_zfactory]
-        mov     ecx, [ecx]
-        call    DWORD [ecx+zCObjectFactory__CreateZFile_offset]
+        mov     eax, [ecx]
+        call    DWORD [eax+zCObjectFactory__CreateZFile_offset]
     addStack 4
         mov     [esp+stackoffset+var_file], eax
         mov     ecx, eax

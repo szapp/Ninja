@@ -21,8 +21,8 @@ ninja_injectMds:
 
         push    ecx
         mov     ecx, DWORD [zCObjectFactory_zfactory]
-        mov     ecx, [ecx]
-        call    DWORD [ecx+zCObjectFactory__CreateZFile_offset]
+        mov     eax, [ecx]
+        call    DWORD [eax+zCObjectFactory__CreateZFile_offset]
     addStack 4
         mov     esi, eax
         mov     eax, [esi]

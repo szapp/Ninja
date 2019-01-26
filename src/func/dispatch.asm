@@ -91,7 +91,7 @@ ninja_dispatch:
         call    zFILE_VDFS__UnlockCriticalSection
         pop     eax
         test    eax, eax
-        jnz     .deploy
+        jg      .deploy
 
         test    ebx, ebx
         jg      .arrayLoop
