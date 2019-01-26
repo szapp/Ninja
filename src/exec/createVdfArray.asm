@@ -3,14 +3,16 @@
 global createVdfArray
 createVdfArray:
         resetStackoffset
-        %assign var_total       0x470
-        %assign var_retstr     -0x470                                      ; zString
-        %assign var_ignoreList -0x45C                                      ; zString
-        %assign var_comment    -0x448                                      ; char[0x100]         0x100
-        %assign var_timestamp  -0x348                                      ; int
-        %assign var_filehndl   -0x344                                      ; FILE *
-        %assign var_filevdf    -0x340                                      ; char[MAX_PATH]      0x104
-        %assign var_patchname  -0x23C                                      ; char[MAX_PATH+28]   0x120
+        %assign var_total       0x284
+        %assign var_retstr     -0x284                                      ; zString             0x014
+        %assign var_ignoreList -0x270                                      ; zString             0x014
+        %assign var_nameSpaced -0x25C                                      ; char *
+        %assign var_inNinjaDir -0x258                                      ; bool
+        %assign var_root       -0x254                                      ; char *
+        %assign var_header     -0x250                                      ; VDFheader           0x128
+        %assign var_filehndl   -0x128                                      ; FILE *
+        %assign var_filevdf    -0x124                                      ; char *
+        %assign var_patchname  -0x120                                      ; char *
         %assign var_filedata   -0x11C                                      ; finddata_t          0x118
         %assign var_findhndl   -0x4                                        ; HANDLE
 
@@ -20,7 +22,7 @@ createVdfArray:
         push    esi
         push    edi
 
-        mov     ecx, zERROR_zerr
+        mov     ecx, zERROR_zerr                                           ; Turn on logging if zSpy is running
         call    zERROR__SearchForSpy
         test    eax, eax
         jz      .start
@@ -29,7 +31,7 @@ createVdfArray:
         mov     BYTE [zERROR_zerr+0x20], 0x5
 
 .start:
-        sub     esp, 0x14
+        sub     esp, 0x14                                                  ; Send information to zSpy
         mov     ecx, esp
         push    NINJA_LOADING_MSG
         call    zSTRING__zSTRING
@@ -52,12 +54,11 @@ createVdfArray:
         call    zSTRING___zSTRING
         add     esp, 0x14
 
-        ; Partial version string for main menu in case of SystemPack
-        %substr .nversion1 NINJA_VERSION 2,1
+        %substr .nversion1 NINJA_VERSION 2,1                               ; Update version string in case of SystemPack
         %substr .nversion2 NINJA_VERSION 4,1
         %strcat .nversion .nversion1 '.' .nversion2 ' '
 
-        mov     al, [SystemPack_version_info+0xB]
+        mov     al, [SystemPack_version_info+g1g2(0xD,0xB)]
         cmp     al, 'N'
         jnz     .setVersionInfo
 
@@ -137,7 +138,7 @@ createVdfArray:
         test    eax, eax
         jz      .ignoreListEmpty
 
-        push    char_space
+        push    char_space                                                 ; Pad with spaces
         lea     ecx, [esp+stackoffset+var_ignoreList]
         call    zSTRING__zSTRING
     addStack 4
@@ -159,14 +160,26 @@ createVdfArray:
     addStack 4
 
 .detect:
-        reportToSpy " NINJA: Detecting and sorting Ninja patches (VDF)"
+        reportToSpy " NINJA: Detecting and sorting patches (VDF) that use Ninja"
         lea     ecx, [NINJA_PATCH_ARRAY-0x1]
-        mov     [ecx], BYTE 0                                              ; Null terminated char string
+        mov     [ecx], BYTE 0x0                                            ; Null terminated char string
         mov     ecx, NINJA_PATCH_ARRAY
         call    zCArray_int___zCArray_int_
 
-        lea     esi, [esp+stackoffset+var_filedata]
+        push    0x120                                                      ; Allocate data
+        call    operator_new
+        add     esp, 0x4
+        mov     [esp+stackoffset+var_patchname], eax
+        push    0x104
+        call    operator_new
+        add     esp, 0x4
+        mov     [esp+stackoffset+var_filevdf], eax
+        push    0x41
+        call    operator_new
+        add     esp, 0x4
+        mov     [esp+stackoffset+var_nameSpaced], eax
 
+        lea     esi, [esp+stackoffset+var_filedata]                        ; Open the actual VDF
         push    esi
         push    NINJA_PATH_VDF
         call    _findfirst
@@ -178,20 +191,44 @@ createVdfArray:
         mov     [esp+stackoffset+var_findhndl], eax
 
 .fileLoopStart:
-        push    NINJA_PATH_DATA
-        lea     esi, [esp+stackoffset+var_filevdf]
+        lea     esi, [esp+stackoffset+var_filedata+finddata_t.name]        ; Construct patch name from VDF file name
         push    esi
+        push    DWORD [esp+stackoffset+var_patchname]
         call    DWORD [ds_lstrcpyA]
-    addStack 8
+    addStack 2*4
+        mov     esi, eax
+        xor     edi, edi
+
+.toUpper:
+        mov     al, BYTE [esi+edi]
+        test    al, al
+        jz      .removeExtension
+
+        inc     edi
+
+        cmp     al, 'a'
+        jl      .toUpper
+        cmp     al, 'z'
+        jg      .toUpper
+        sub     al, 0x20
+        mov     [esi+edi-0x1], al
+        jmp     .toUpper
+
+.removeExtension:
+        sub     edi, 0x4
+        mov     BYTE [esi+edi], 0x0
+
+        push    NINJA_PATH_DATA                                            ; Read the actual VDF
+        push    DWORD [esp+stackoffset+var_filevdf]
+        call    DWORD [ds_lstrcpyA]
+    addStack 2*4
         lea     esi, [esp+stackoffset+var_filedata+finddata_t.name]
         push    esi
         push    eax
         call    DWORD [ds_lstrcatA]
-    addStack 8
-        mov     esi, eax
-
+    addStack 2*4
         push    char_rb
-        push    esi
+        push    eax
         call    _fopen
         add     esp, 0x8
         test    eax, eax
@@ -199,39 +236,112 @@ createVdfArray:
 
         mov     [esp+stackoffset+var_filehndl], eax
 
-        push    SEEK_SET
-        push    VDFheader.timestamp
-        push    DWORD [esp+stackoffset+var_filehndl]
-        call    _fseek
-        add     esp, 0xC
-
         push    DWORD [esp+stackoffset+var_filehndl]
         push    0x1
-        push    0x4                                                        ; sizeof(VDFheader.timestamp)
-        lea     eax, [esp+stackoffset+var_timestamp]
+        push    0x128                                                      ; sizeof(VDFheader)
+        lea     eax, [esp+stackoffset+var_header]
         push    eax
         call    _fread
         add     esp, 0x10
 
-        push    SEEK_SET
-        push    VDFheader.comment
+        push    SEEK_SET                                                   ; Start of in root directory of VDF map
+        push    DWORD [esp+stackoffset+var_header+VDFheader.rootOffset]
         push    DWORD [esp+stackoffset+var_filehndl]
         call    _fseek
         add     esp, 0xC
 
+        mov     eax, [esp+stackoffset+var_header+VDFheader.numEntries]     ; Read VDF map
+        mul     DWORD [esp+stackoffset+var_header+VDFheader.entrySize]
+        push    eax
+        push    eax
+        call    operator_new
+        add     esp, 0x4
+        mov     DWORD [esp+stackoffset+var_root], eax
+        pop     eax
         push    DWORD [esp+stackoffset+var_filehndl]
         push    0x1
-        push    0x100                                                      ; sizeof(VDFheader.comment)
-        lea     eax, [esp+stackoffset+var_comment]
         push    eax
+        push    DWORD [esp+stackoffset+var_root]
         call    _fread
         add     esp, 0x10
 
+        push    0x40                                                       ; Create patch name padded with spaces to 64
+        push    ' '
+        push    DWORD [esp+stackoffset+var_nameSpaced]
+        call    _memset
+        add     esp, 0xC
+        mov     eax, [esp+stackoffset+var_nameSpaced]
+        mov     BYTE [eax+0x40], 0x0                                       ; Null-terminated
+        push    DWORD [esp+stackoffset+var_patchname]
+        push    DWORD [esp+stackoffset+var_nameSpaced]
+        call    DWORD [ds_lstrcpyA]
+    addStack 2*4
+        push    DWORD [esp+stackoffset+var_nameSpaced]
+        call    DWORD [ds_lstrlenA]
+    addStack 4
+        mov     ecx, [esp+stackoffset+var_nameSpaced]
+        mov     BYTE [ecx+eax], ' '                                        ; Overwrite null
+
+        mov     edi, [esp+stackoffset+var_root]
+        mov     BYTE [esp+stackoffset+var_inNinjaDir], 0x0
+        xor     esi, esi
+
+.findDirLoop:
+        mov     eax, [edi+VDFentry.type]                                   ; Loop over VDF map to find the Ninja dir
+        and     eax, VDF_TYPE_DIR
+        test    eax, eax
+        jz      .dirLoopNext
+
+        mov     al, [esp+stackoffset+var_inNinjaDir]
+        test    al, al
+        jnz     .inNinjaDir
+
+        push    0x40                                                       ; In root "directory" of the VDF
+        lea     eax, [edi+VDFentry.name]
+        push    eax
+        push    NINJA_VDF_DIR_NAME
+        call    _strncmp
+        add     esp, 0xC
+        test    eax, eax
+        jnz     .dirLoopNext
+        mov     BYTE [esp+stackoffset+var_inNinjaDir], 0x1
+        mov     eax, [edi+VDFentry.offset]
+        mul     DWORD [esp+stackoffset+var_header+VDFheader.entrySize]
+        add     eax, [esp+stackoffset+var_root]
+        mov     edi, eax
+        jmp     .findDirLoop
+
+.inNinjaDir:
+        push    0x40                                                       ; In the Ninja "directory" of the VDF
+        lea     eax, [edi+VDFentry.name]
+        push    eax
+        push    DWORD [esp+stackoffset+var_nameSpaced]
+        call    _strncmp
+        add     esp, 0xC
+        test    eax, eax
+        jnz     .dirLoopNext
+        mov     esi, 0x1
+        jmp     .findDirEnd                                                ; This patch is based on Ninja: confirmed
+
+.dirLoopNext:
+        mov     ecx, [edi+VDFentry.type]                                   ; Advance to next entry if not last one
+        and     ecx, VDF_TYPE_LAST
+        add     edi, DWORD [esp+stackoffset+var_header+VDFheader.entrySize]
+        test    ecx, ecx
+        jz      .findDirLoop
+
+.findDirEnd:
+        push    DWORD [esp+stackoffset+var_root]
+        call    operator_delete
+        add     esp, 0x4
         push    DWORD [esp+stackoffset+var_filehndl]
         call    _fclose
         add     esp, 0x4
 
-        lea     eax, [esp+stackoffset+var_comment]
+        test    esi, esi
+        jz      .nextFile
+
+        lea     eax, [esp+stackoffset+var_header+VDFheader.comment]        ; Replace SEP padding with null character
         xor     edi, edi
 
 .replaceSEP:
@@ -247,41 +357,12 @@ createVdfArray:
 .setNullByte:
         mov     [eax], BYTE 0                                              ; Terminate char properly
 
-        lea     esi, [esp+stackoffset+var_filedata+finddata_t.name+0x6]    ; Cut off 'NINJA_'
-        push    esi
-        lea     esi, [esp+stackoffset+var_patchname]
-        push    esi
-        call    DWORD [ds_lstrcpyA]
-    addStack 8
-        mov     esi, eax
-        xor     edi, edi
-
-.toUpper:
-        mov     al, BYTE [esi+edi*1]
-        test    al, al
-        jz      .removeExtension
-
-        inc     edi
-
-        cmp     al, 'a'
-        jl      .toUpper
-        cmp     al, 'z'
-        jg      .toUpper
-        sub     al, 0x20
-        mov     [esi+edi-0x1], al
-        jmp     .toUpper
-
-.removeExtension:
-        sub     edi, 4
-        mov     BYTE [esi+edi], 0
-
-        sub     esp, 0x14
+        sub     esp, 0x14                                                  ; Find match in ignore list
         mov     ecx, esp
         push    char_space
         call    zSTRING__zSTRING
     addStack 4
-        lea     eax, [esp+stackoffset+var_patchname]
-        push    eax
+        push    DWORD [esp+stackoffset+var_patchname]
         call    zSTRING__operator_plusEq
     addStack 4
         push    char_space
@@ -305,8 +386,7 @@ createVdfArray:
         push    NINJA_IGNORING
         call    zSTRING__zSTRING
     addStack 4
-        lea     eax, [esp+stackoffset+var_patchname]
-        push    eax
+        push    DWORD [esp+stackoffset+var_patchname]
         call    zSTRING__operator_plusEq
     addStack 4
         push    ecx
@@ -317,7 +397,7 @@ createVdfArray:
         add     esp, 0x14
         jmp     .nextFile
 
-.addToConsole:
+.addToConsole:                                                             ; Add auto-completion for console
         sub     esp, 0x14
         mov     ecx, esp
         push    NINJA_CON_COMMAND
@@ -326,8 +406,7 @@ createVdfArray:
         push    char_space
         call    zSTRING__operator_plusEq
     addStack 4
-        lea     eax, [esp+stackoffset+var_patchname]
-        push    eax
+        push    DWORD [esp+stackoffset+var_patchname]
         call    zSTRING__operator_plusEq
     addStack 4
         push    zSTRING_empty
@@ -344,17 +423,16 @@ createVdfArray:
         add     esp, 0x4
         mov     edi, eax
 
-        mov     eax, [esp+stackoffset+var_timestamp]
+        mov     eax, [esp+stackoffset+var_header+VDFheader.timestamp]
         mov     [edi], eax
 
-        lea     eax, [esp+stackoffset+var_patchname]
-        push    eax
+        push    DWORD [esp+stackoffset+var_patchname]
         lea     eax, [edi+0x4]
         push    eax
         call    DWORD [ds_lstrcpyA]
     addStack 8
 
-        lea     eax, [esp+stackoffset+var_comment]
+        lea     eax, [esp+stackoffset+var_header+VDFheader.comment]
         push    eax
         lea     eax, [edi+0x4+0x120]
         push    eax
@@ -365,7 +443,7 @@ createVdfArray:
         mov     [esp], edi
         push    esp
         mov     ecx, NINJA_PATCH_ARRAY
-        call    zCArray_int___InsertEnd
+        call    zCArray_int___InsertEnd                                    ; Finally add to the approved-patches array
         add     esp, 0x4
     addStack 4
 
@@ -386,7 +464,7 @@ createVdfArray:
         test    eax, eax
         jz      .back
 
-        push    zCModel__AniAttachmentCompare                              ; Abuse convenient comparator
+        push    zCModel__AniAttachmentCompare                              ; Abuse convenient comparator to sort array
         push    0x4
         push    DWORD [NINJA_PATCH_ARRAY+zCArray.numInArray]
         push    DWORD [NINJA_PATCH_ARRAY+zCArray.array]
@@ -402,7 +480,7 @@ createVdfArray:
         xor     edi, edi
 
 .arrayLoop:
-        mov     eax, [NINJA_PATCH_ARRAY+zCArray.numInArray]
+        mov     eax, [NINJA_PATCH_ARRAY+zCArray.numInArray]                ; Finally list all patches in zSpy
         cmp     edi, eax
         jge     .back
 
@@ -428,8 +506,18 @@ createVdfArray:
         jmp     .arrayLoop
 
 .back:
+        push    DWORD [esp+stackoffset+var_patchname]                      ; Free the data
+        call    operator_delete
+        add     esp, 0x4
+        push    DWORD [esp+stackoffset+var_filevdf]
+        call    operator_delete
+        add     esp, 0x4
+        push    DWORD [esp+stackoffset+var_nameSpaced]
+        call    operator_delete
+        add     esp, 0x4
         lea     ecx, [esp+stackoffset+var_ignoreList]
         call    zSTRING___zSTRING
+
         pop     edi
         pop     esi
         pop     ecx

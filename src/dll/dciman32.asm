@@ -99,7 +99,7 @@ section .data
 
 section .text
 
-; void __stdcall inject(void *, DWORD, DWORD *)
+; void __stdcall inject(void *, DWORD, void *)
 inject:
         resetStackoffset
         %assign var_total   0x4

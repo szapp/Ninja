@@ -37,6 +37,7 @@
     %define     ds_lstrcpyA                               0x7D0288     ; LPTSTR, LPTSTR
     %define     ds_lstrlenA                               0x7D0274     ; LPCSTR
     %define     ds_lstrcmpiA                              0x7D02C4     ; LPCSTR, LPCSTR
+    %define     _strncmp                                  0x7859F0     ; char *, char *, int
     %define     ds_vdf_fexists                            0x7D04D0     ; const char*, long
     %define     zCParser_parser                           0x8DCE08     ; zCParser
     %define     zCParser__CallFunc                        0x6E9670     ; zSTRING const &
@@ -151,6 +152,8 @@
     %define     VDF_VIRTUAL                               1
     %define     VDF_PHYSICAL                              2
     %define     VDF_PHYSICALFIRST                         4
+    %define     VDF_TYPE_DIR                              0x80000000
+    %define     VDF_TYPE_LAST                             0x40000000
 
     %define     DIR_ANIMS                                 4
 
@@ -187,6 +190,14 @@
         .datasize         resd 0x1                                     ; 0x11C int
         .rootOffset       resd 0x1                                     ; 0x120 int
         .entrySize        resd 0x1                                     ; 0x124 int
+    endstruc
+
+    struc VDFentry
+        .name             resb 0x40                                    ; 0x00 char[]
+        .offset           resd 0x1                                     ; 0x40 int
+        .size             resd 0x1                                     ; 0x44 int
+        .type             resd 0x1                                     ; 0x48 int
+        .attrib           resd 0x1                                     ; 0x4C int
     endstruc
 
 %endif

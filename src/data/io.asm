@@ -17,8 +17,10 @@ NINJA_PATH_FIGHT         db   'FIGHT', 0
 NINJA_PATH_MENU          db   'MENU', 0
 NINJA_PATH_CAMERA        db   'CAMERA', 0
 NINJA_PATH_DATA          db   'DATA\', 0
-NINJA_PATH_VDF           db   'DATA\NINJA_*.VDF', 0
+NINJA_PATH_VDF           db   'DATA\*.VDF', 0
 NINJA_PATH_IKARUS        db   '\NINJA\IKARUS\IKARUS.D', 0
 NINJA_PATH_LEGO          db   '\NINJA\LEGO\LEGO.D', 0
 NINJA_MDS_PREFIX         db   'ANIMS_', 0
 NINJA_FILE               db   '\SYSTEM\DCIMAN32.DLL', 0
+NINJA_VDF_DIR_NAME       db   'NINJA'
+                times 61 db   ' '
