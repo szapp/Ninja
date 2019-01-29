@@ -81,6 +81,73 @@ setVobToTransient:
         jmp     g1g2(0x5F638D,0x62485D)
 
 
+global removeInvalidNpcs
+removeInvalidNpcs:
+    resetStackoffset g1g2(0x58,0x8C)
+        push    ebx
+        push    edx
+
+        test    esi, esi
+        jz      .back
+
+        push    ecx
+        mov     eax, [esi]
+        mov     ecx, esi
+        call    DWORD [eax]
+        push    eax
+        push    oCNpc__classDef
+        call    zCObject__CheckInheritance
+        add     esp, 0x8
+        test    eax, eax
+        pop     ecx
+        jz      .back
+
+        mov     eax, [esi+g1g2(0x7B0,0x770)]                               ; oCNpc.instance
+        test    eax, eax
+        jge     .back
+
+        reportToSpy "NINJA: Removing invalid NPC"
+        push    char_meatbug_mds
+        lea     ecx, [esi+g1g2(0x07B4,0x774)]                              ; oCNpc.mds_name
+        call    zSTRING__zSTRING
+    addStack 4
+        mov     ecx, [esp+stackoffset+g1g2(-0x48,-0x7C)]
+        mov     edx, esi
+        call    oCWorld__RemoveFromLists
+
+        mov     eax, [esi+4]                                               ; Decrease ref counter and possibly destruct
+        dec     eax
+        test    eax, eax
+        mov     [esi+4], eax
+        jg      .refGTzero
+        mov     eax, [esi]
+        push    0x1
+        mov     ecx, esi
+        call    DWORD [eax+0xC]
+    addStack 4
+
+.refGTzero:
+        mov     ecx, 0x1
+        xor     esi, esi
+
+.back:
+        pop     edx
+        pop     ebx
+    verifyStackoffset g1g2(0x58,0x8C)
+
+        ; Jump back
+%if GOTHIC_BASE_VERSION == 1
+        test    ebx, ebx
+        jnz     0x5F81A2
+        test    ecx, ecx
+        jmp     0x5F814F
+%elif GOTHIC_BASE_VERSION == 2
+        mov     eax, [esp+stackoffset-0x78]
+        test    eax, eax
+        jmp     0x626790
+%endif
+
+
 global ninja_injectInfo
 ninja_injectInfo:
         resetStackoffset ; 0xBC

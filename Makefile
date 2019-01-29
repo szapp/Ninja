@@ -89,6 +89,7 @@ BIN_BASE		:=	core										\
 					hook_parserParseFile						\
 					hook_zCPar_Symbol__GetNext					\
 					hook_unarchiveInfoMan						\
+					hook_unarchiveVobs							\
 					hook_setVobToTransient						\
 					ow_ani										\
 					ow_aniAlias									\

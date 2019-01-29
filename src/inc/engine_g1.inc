@@ -70,6 +70,9 @@
     %define     oCGame_ogame                              0x8DA6BC     ; oCGame *
     %define     oCGame__GetInfoManager                    0x638AE0     ; void
     %define     oCMissionManager_misMan                   0x8DAB2C     ; oCMissionManager*
+    %define     oCNpc__classDef                           0x8DB408     ; zCClassDef
+    %define     zCObject__CheckInheritance                0x470130     ; zCClassDef const *, zCClassDef const *
+    %define     oCWorld__RemoveFromLists                  0x6D7750     ; zCVob *
     %define     zCConsole_zcon                            0x8DC5A0     ; zCConsole *
     %define     zCConsole__AddEvalFunc                    0x6DBCA0     ; int (*)(zSTRING const &, zSTRING &)
     %define     zCConsole__Register                       0x6D9940     ; zSTRING const &, zSTRING const &
@@ -114,6 +117,7 @@
     %define     char_lf                                   0x82D200     ; 0xA, 0
     %define     char_zStartupWindowed                     0x846978     ; 'zStartupWindowed', 0
     %define     char_settings                             0x82BD98     ; 'SETTINGS', 0
+    %define     char_meatbug_mds                          0x84E358     ; 'Meatbug.mds', 0
     %define     zSTRING_mdlBuffer                         0x873C60     ; zSTRING *
     %define     zSTRING_infoClass                         0x8DA88C     ; zSTRING
     %define     zSTRING_empty                             0x869978     ; zSTRING const
