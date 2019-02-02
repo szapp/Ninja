@@ -1,4 +1,4 @@
-; Hook zCWorld::VobAddedToWorld to set dontWriteToArchive flag for instances from Ninja patches
+; Hook zCWorld::VobAddedToWorld to set dontWriteToArchive flag for instances from patches
 
 %include "inc/macros.inc"
 

@@ -3,16 +3,8 @@
 The purpose of this repository is to provide insight into the inner workings of Ninja.
 
 For more information on the Ninja patching framework visit the [documentation](https://tiny.cc/GothicNinja).  
-If you are interested in developing Ninja patches, please visit the Ninja Patch repository:
+If you are interested in developing patches with Ninja, please visit the patch template repository:
 [szapp/NinjaPatchTemplate](https://github.com/szapp/NinjaPatchTemplate).
-
-# Important Note
-
-:warning: **Please understand that maintaining compatibility of Ninja patches is demanding enough as is. For that
-reason, please do not modify and redistribute your own versions of Ninja. Please contribute here instead by suggesting
-changes via the issue tracker or create pull requests to keep the Ninja patch landscape clean with this here being the
-only version and main repository.**
-                            <!-- Let's see what idiot doesn't read this paragraph -->
 
 # Requirements
 
@@ -28,7 +20,7 @@ For assembling and building, the following software is required.
 
 - [NASM (The Netwide Assembler)](https://nasm.us)
 - [GoLink (Go Tools for Windows)](http://godevtool.com)
-- [GoRC (Go Tools fro Windows)](http://godevtool.com)
+- [GoRC (Go Tools for Windows)](http://godevtool.com)
 
 Additionally, you'll need various *GNU Win32* packages:
 
@@ -42,11 +34,18 @@ All binaries of the listed software must be added to your `PATH`.
 
 # Assembling
 
-I trust that you build Ninja only out of personal interest or to contribute, but not with the goal of distributing
-modified versions.  
-Please read the note at the top of this readme and respect this request.
+**This is purely for people who want to contribute to this project. There is otherwise *no need to assemble Ninja
+yourself* as the latest build is always available for download.**
 
-Assembling the core, writing hex files, assembling the wrapper and linking the DLL is all done with
+Building Ninja consists of a cascade of assembling the core and assembling the DLL wrapper.  
+First, the core is assembled into binary files. These are then read and included as hexadecimal 'strings' when
+assembling the wrapper which is finally linked into a DLL.
+
+The reason for this compartmentalization is to separate core and wrapper and to avoid slow absolute (eax) jumps within
+the executed code by injecting it into the executable at fixed addresses to make use of relative jumps to addresses
+known at time of assembling.
+
+All the steps above are performed simply with
 
 ```bash
 make
