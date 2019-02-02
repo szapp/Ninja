@@ -91,6 +91,7 @@ BIN_BASE		:=	core										\
 					hook_unarchiveInfoMan						\
 					hook_unarchiveVobs							\
 					hook_setVobToTransient						\
+					hook_Hlp_GetNpc								\
 					ow_ani										\
 					ow_aniAlias									\
 					ow_aniBatch									\

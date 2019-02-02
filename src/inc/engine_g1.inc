@@ -101,12 +101,14 @@
     %define     oCInfo__oCInfo                            0x6654C0     ; void
     %define     oCInfo__SetInstance                       0x665650     ; int
     %define     oCInfo__DoCheck                           0x665800     ; void
-    %define     SystemPack_version_info                   0x7CF576     ; char
+    %define     oCNpc_RTTI_Type_Descriptor                0x82D0B4     ; TypeDescriptor
 
+    %define     SystemPack_version_info                   0x7CF576     ; char
     %define     NINJA_PATCH_ARRAY                         0x830391     ; zCArray
 
     %define     char_NUL                                  0x85E104     ; 0
     %define     char_space                                0x831600     ; ' ', 0
+    %define     char_cnpc                                 0x849088     ; 'C_NPC', 0
     %define     char_model                                0x840908     ; 'MODEL', 0
     %define     char_mds                                  0x833534     ; '.MDS', 0
     %define     char_src                                  0x8373EC     ; '.SRC', 0
@@ -145,11 +147,13 @@
 
     %define     zCPar_Symbol_content_offset               0x18
     %define     zCPar_Symbol_bitfield_offset              0x20
+    %define     zCPar_Symbol_parent_offset                0x38
 
     %define     zPAR_TOK_RET                              0x3C
     %define     zPAR_TOK_JUMP                             0x4B
 
     %define     zPAR_TYPE_INT                             2<<12
+    %define     zPAR_TYPE_PROTOTYPE                       6<<12
 
     %define     char_sep                                  0x1A
     %define     INVALID_HANDLE_VALUE                      0xFFFFFFFF

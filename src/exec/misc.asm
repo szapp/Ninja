@@ -338,3 +338,29 @@ ninja_injectInfo:
         push    esi
         mov     ecx, oCMissionManager_misMan
         jmp     g1g2(0x63C7F4,0x6C6D24)
+
+
+global fix_Hlp_GetNpc
+fix_Hlp_GetNpc:
+        resetStackoffset 0x10
+        mov    eax, [esi+zCPar_Symbol_parent_offset]
+        mov    edx, [eax+zCPar_Symbol_bitfield_offset]
+        and    edx, 0xF000
+        cmp    edx, zPAR_TYPE_PROTOTYPE
+        jnz    .checkClass
+        mov    eax, [eax+zCPar_Symbol_parent_offset]
+
+.checkClass:
+        mov    edx, [eax+0x8]
+        push   edx
+        push   char_cnpc
+        call   DWORD [ds_lstrcmpiA]
+    addStack 2*4
+        test   eax, eax
+        jnz    g1g2(0x65880E,0x6EEE6E)
+    verifyStackoffset 0x10
+
+        ; Jump back
+        push   edi
+        push   oCNpc_RTTI_Type_Descriptor
+        jmp    g1g2(0x6587F2,0x6EEE52)
