@@ -364,3 +364,23 @@ fix_Hlp_GetNpc:
         push   edi
         push   oCNpc_RTTI_Type_Descriptor
         jmp    g1g2(0x6587F2,0x6EEE52)
+
+
+global fix_Hlp_IsValidNpc
+fix_Hlp_IsValidNpc:
+        resetStackoffset 0x18
+
+        test   eax, eax
+        jz     .back
+        mov    eax, [eax]
+        cmp    eax, oCNpc__vftable
+        jz     .back
+        xor    eax, eax
+        jmp    .backClean
+    verifyStackoffset 0x18
+
+.back:
+        ; Jump back
+        call   dynamic_cast
+.backClean:
+        jmp    g1g2(0x658883,0x6EEEE3)

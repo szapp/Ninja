@@ -6,6 +6,7 @@
 
     %define     operator_delete                           0x565F60     ; void *
     %define     _memset                                   0x7DCA90     ; void *, int, size_t
+    %define     dynamic_cast                              0x7D0A3A     ; void **, int, TypeDescriptor *, TypeDescriptor *, int
     %define     operator_StrPlusChar                      0x404880     ; zSTRING const &, char const *
     %define     zCArray_int___zCArray_int_                0x560690     ; void
     %define     zCArray_int___InsertEnd                   0x4D5A30     ; int const &
@@ -71,6 +72,7 @@
     %define     oCGame__GetInfoManager                    0x6C2C90     ; void
     %define     oCMissionManager_misMan                   0xAB1384     ; oCMissionManager*
     %define     oCNpc__classDef                           0xAB1E20     ; zCClassDef
+    %define     oCNpc__vftable                            0x83D724     ; const
     %define     zCObject__CheckInheritance                0x476E30     ; zCClassDef const *, zCClassDef const *
     %define     oCWorld__RemoveFromLists                  0x780990     ; zCVob *
     %define     zCConsole_zcon                            0xAB3860     ; zCConsole *
