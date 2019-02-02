@@ -39,6 +39,7 @@ keep_int_symbol_start    db   'BLOODSPLAT_NUM', 0
                          db   'PF_FADEOUTTIME', 0
                          db   'PF_MOVEYTIME', 0
                          db   'PF_WAITTIME', 0
+                         db   'AIV_TALENT_INDEX', 0
                          db   'AIV_TALENT', 0
 
 ; Ninja helper symbols
