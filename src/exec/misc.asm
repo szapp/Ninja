@@ -384,3 +384,23 @@ fix_Hlp_IsValidNpc:
         call   dynamic_cast
 .backClean:
         jmp    g1g2(0x658883,0x6EEEE3)
+
+
+global fix_Hlp_IsValidItem
+fix_Hlp_IsValidItem:
+        resetStackoffset 0x18
+
+        test   eax, eax
+        jz     .back
+        mov    eax, [eax]
+        cmp    eax, oCItem__vftable
+        jz     .back
+        xor    eax, eax
+        jmp    .backClean
+    verifyStackoffset 0x18
+
+.back:
+        ; Jump back
+        call   dynamic_cast
+.backClean:
+        jmp    g1g2(0x658B43,0x6EF1D3)

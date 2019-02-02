@@ -93,6 +93,7 @@ BIN_BASE		:=	core										\
 					hook_setVobToTransient						\
 					hook_Hlp_GetNpc								\
 					hook_Hlp_IsValidNpc							\
+					hook_Hlp_IsValidItem						\
 					ow_ani										\
 					ow_aniAlias									\
 					ow_aniBatch									\

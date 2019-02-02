@@ -73,6 +73,7 @@
     %define     oCMissionManager_misMan                   0x8DAB2C     ; oCMissionManager*
     %define     oCNpc__classDef                           0x8DB408     ; zCClassDef
     %define     oCNpc__vftable                            0x7DDF34     ; const
+    %define     oCItem__vftable                           0x7DD0CC     ; const
     %define     zCObject__CheckInheritance                0x470130     ; zCClassDef const *, zCClassDef const *
     %define     oCWorld__RemoveFromLists                  0x6D7750     ; zCVob *
     %define     zCConsole_zcon                            0x8DC5A0     ; zCConsole *
