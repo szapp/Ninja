@@ -34,7 +34,7 @@ OBJEXT			:=	.obj
 NASM			:=	nasm
 GOLINK			:=	golink
 GORC			:=	gorc
-WRITEHEX		:=	$(call FixPath,./writeHex)$(SCRIPTEXT)
+GETBINLIST		:=	$(call FixPath,./getBinList)$(SCRIPTEXT)
 EXTRACTSYM		:=	$(call FixPath,./extractSymbols)$(SCRIPTEXT)
 
 FLAGS_C			:=	-I$(SRCDIR)
@@ -185,7 +185,7 @@ $(RSC) : $(RC)
 	gorc $(FLAGS_RC) /fo $@ /r $^
 
 $(CONTENT) : $(BINARIES_G1) $(BINARIES_G2)
-	$(WRITEHEX) $(call FixPath,$@) $(SRCDIR)
+	$(GETBINLIST) $(call FixPath,$@) $(SRCDIR)
 
 $(BINDIR)core_g% : $(SRCDIR)core$(ASMEXT) $(FUNC) $(EXEC) $(DATA) $(INC_G%) $(META)
 	@$(call mkdir,$(BINDIR))

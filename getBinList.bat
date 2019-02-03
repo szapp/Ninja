@@ -1,5 +1,5 @@
 ::
-:: Write formatted hex file from all binary files
+:: Write formatted list of all binary files
 ::
 :: Arguments: OUTFILE SOURCEDIR
 ::
@@ -63,9 +63,7 @@ FOR /F "tokens=*" %%a IN ('%getAddress% %filefull% %gothic%') DO (
 IF NOT DEFINED address ECHO %filename%: %getAddress% failed to execute.&& EXIT /B 5
 
 :: Write to output file
-ECHO add_inject_g%gothic% %address%,{| head -c -2 >>       "%outfile%"
-hexdump -v -e "/1 \"0x%%02X,"" "%fileobin%"| head -c -1 >> "%outfile%"
-ECHO }>>                                                   "%outfile%"
+ECHO add_inject_g%gothic% %address%,"../bin/%filebase%_g%gothic%">> "%outfile%"
 
 EXIT /B 0
 

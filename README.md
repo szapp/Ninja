@@ -27,8 +27,6 @@ Additionally, you'll need various *GNU Win32* packages:
 - [Make](http://gnuwin32.sourceforge.net/packages/make.htm)
 - [Grep](http://gnuwin32.sourceforge.net/packages/grep.htm)
 - [BinUtils](https://sourceforge.net/projects/mingw/files/MinGW/Base/binutils/) for `objdump`
-- [Util-Linux](http://gnuwin32.sourceforge.net/packages/util-linux-ng.htm) for `hexdump`
-- [CoreUtils](http://gnuwin32.sourceforge.net/packages/coreutils.htm) for `head`
 
 All binaries of the listed software must be added to your `PATH`.
 
@@ -38,8 +36,8 @@ All binaries of the listed software must be added to your `PATH`.
 yourself* as the latest build is always available for download.**
 
 Building Ninja consists of a cascade of assembling the core and assembling the DLL wrapper.  
-First, the core is assembled into binary files. These are then read and included as hexadecimal 'strings' when
-assembling the wrapper which is finally linked into a DLL.
+First, the core is assembled into binary files. These are then read and included when assembling the wrapper which is
+then finally linked into a DLL.
 
 The reason for this compartmentalization is to separate core and wrapper and to avoid slow absolute (eax) jumps within
 the executed code by injecting it into the executable at fixed addresses to make use of relative jumps to addresses

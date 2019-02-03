@@ -4,17 +4,17 @@
 
 %assign inject_g1_count 0
 %macro add_inject_g1 2
-        injectObj_g1_%[inject_g1_count]_addr   equ   %1
-        injectObj_g1_%[inject_g1_count]_new    db    %2
-        injectObj_g1_%[inject_g1_count]_size   equ   $-injectObj_g1_%[inject_g1_count]_new
+        injectObj_g1_%[inject_g1_count]_addr   equ    %1
+        injectObj_g1_%[inject_g1_count]_new:   incbin %2
+        injectObj_g1_%[inject_g1_count]_size   equ    $-injectObj_g1_%[inject_g1_count]_new
     %assign inject_g1_count inject_g1_count + 1
 %endmacro
 
 %assign inject_g2_count 0
 %macro add_inject_g2 2
-        injectObj_g2_%[inject_g2_count]_addr   equ   %1
-        injectObj_g2_%[inject_g2_count]_new    db    %2
-        injectObj_g2_%[inject_g2_count]_size   equ   $-injectObj_g2_%[inject_g2_count]_new
+        injectObj_g2_%[inject_g2_count]_addr   equ    %1
+        injectObj_g2_%[inject_g2_count]_new    incbin %2
+        injectObj_g2_%[inject_g2_count]_size   equ    $-injectObj_g2_%[inject_g2_count]_new
     %assign inject_g2_count inject_g2_count + 1
 %endmacro
 
@@ -36,30 +36,29 @@ extern GetProcAddress
 
 export DllMain
 
-section .bss
-        DLLhndl                        resd 1
-        _DCIBeginAccess                resd 1
-        _DCICloseProvider              resd 1
-        _DCICreateOffscreen            resd 1
-        _DCICreateOverlay              resd 1
-        _DCICreatePrimary              resd 1
-        _DCIDestroy                    resd 1
-        _DCIDraw                       resd 1
-        _DCIEndAccess                  resd 1
-        _DCIEnum                       resd 1
-        _DCIOpenProvider               resd 1
-        _DCISetClipList                resd 1
-        _DCISetDestination             resd 1
-        _DCISetSrcDestClip             resd 1
-        _GetDCRegionData               resd 1
-        _GetWindowRegionData           resd 1
-        _WinWatchClose                 resd 1
-        _WinWatchDidStatusChange       resd 1
-        _WinWatchGetClipList           resd 1
-        _WinWatchNotify                resd 1
-        _WinWatchOpen                  resd 1
-
 section .data
+
+        DLLhndl                        dd   0x0
+        _DCIBeginAccess                dd   DCIBeginAccess.init
+        _DCICloseProvider              dd   DCICloseProvider.init
+        _DCICreateOffscreen            dd   DCICreateOffscreen.init
+        _DCICreateOverlay              dd   DCICreateOverlay.init
+        _DCICreatePrimary              dd   DCICreatePrimary.init
+        _DCIDestroy                    dd   DCIDestroy.init
+        _DCIDraw                       dd   DCIDraw.init
+        _DCIEndAccess                  dd   DCIEndAccess.init
+        _DCIEnum                       dd   DCIEnum.init
+        _DCIOpenProvider               dd   DCIOpenProvider.init
+        _DCISetClipList                dd   DCISetClipList.init
+        _DCISetDestination             dd   DCISetDestination.init
+        _DCISetSrcDestClip             dd   DCISetSrcDestClip.init
+        _GetDCRegionData               dd   GetDCRegionData.init
+        _GetWindowRegionData           dd   GetWindowRegionData.init
+        _WinWatchClose                 dd   WinWatchClose.init
+        _WinWatchDidStatusChange       dd   WinWatchDidStatusChange.init
+        _WinWatchGetClipList           dd   WinWatchGetClipList.init
+        _WinWatchNotify                dd   WinWatchNotify.init
+        _WinWatchOpen                  dd   WinWatchOpen.init
 
         msgCaption                     db   'Ninja', 0
         msgGeneralFail                 db   'Ninja failed to initialize!', 0
@@ -151,7 +150,7 @@ inject:
     verifyStackoffset
 
 
-; __cdecl injectAll(voir)
+; int __cdecl injectAll(void)
 injectAll:
         cmp     DWORD [verify_addr_g2], 'Goth'
         jz      .g2
@@ -224,7 +223,7 @@ injectAll:
         jmp     .success
 
 
-; __cdecl redirectDLL(void)
+; void __cdecl redirectDLL(void)
 redirectDLL:
         resetStackoffset
         %assign var_total   0x100
@@ -314,31 +313,6 @@ DllMain:
         mov     eax, [esp+0x8]
         cmp     eax, DLL_PROCESS_ATTACH
         jnz     .succeeded
-
-    %macro initAPI 1
-        mov     DWORD [_%1], %1.init
-    %endmacro
-
-        initAPI DCIBeginAccess
-        initAPI DCICloseProvider
-        initAPI DCICreateOffscreen
-        initAPI DCICreateOverlay
-        initAPI DCICreatePrimary
-        initAPI DCIDestroy
-        initAPI DCIDraw
-        initAPI DCIEndAccess
-        initAPI DCIEnum
-        initAPI DCIOpenProvider
-        initAPI DCISetClipList
-        initAPI DCISetDestination
-        initAPI DCISetSrcDestClip
-        initAPI GetDCRegionData
-        initAPI GetWindowRegionData
-        initAPI WinWatchClose
-        initAPI WinWatchDidStatusChange
-        initAPI WinWatchGetClipList
-        initAPI WinWatchNotify
-        initAPI WinWatchOpen
 
         call    injectAll
         test    eax, eax
