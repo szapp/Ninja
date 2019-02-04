@@ -30,8 +30,11 @@ ninja_scriptPathInvalid:
 
         sub     esp, 0x14
         mov     ecx, esp
-        push    NINJA_PATH_INVALID
+        push    NINJA_LOADING_PREFIX
         call    zSTRING__zSTRING
+    addStack 4
+        push    NINJA_PATH_INVALID
+        call    zSTRING__operator_plusEq
     addStack 4
         push    eax
         call    zERROR__Fatal

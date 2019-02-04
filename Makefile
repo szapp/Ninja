@@ -51,6 +51,7 @@ OBJ				:=	$(BINDIR)dciman32$(OBJEXT)
 RC				:=	$(DLLDIR)resource$(RCEXT)
 RSC				:=	$(DLLDIR)resource$(RESEXT)
 SRCDLL			:=	$(DLLDIR)dciman32$(ASMEXT)
+IKLG			:=	$(INCDIR)iklg.data
 
 # System dependencies
 SYSDEP			:=	User32.dll Kernel32.dll NtDll.dll
@@ -86,7 +87,6 @@ BIN_BASE		:=	core										\
 					hook_parserDeclareVar_constInt				\
 					hook_parserDeclareVar_constString			\
 					hook_parserParseSource						\
-					hook_parserParseFile						\
 					hook_zCPar_Symbol__GetNext					\
 					hook_unarchiveInfoMan						\
 					hook_unarchiveVobs							\
@@ -124,7 +124,6 @@ FUNC_BASE		:=	freeVdfArray								\
 					dispatch									\
 					parseVersionString							\
 					scriptPathInvalid							\
-					resolvePath									\
 					debugMessage								\
 					zCPar_Symbol__GetNext_fix					\
 					createSymbol								\
@@ -177,7 +176,7 @@ $(TARGET) : $(OBJ) $(RSC)
 	@$(call mkdir,$(BUILDDIR))
 	golink $(FLAGS_L) /fo $@ $^ $(SYSDEP)
 
-$(OBJ) : $(SRCDLL) $(CONTENT)
+$(OBJ) : $(SRCDLL) $(CONTENT) $(IKLG)
 	@$(call mkdir,$(BINDIR))
 	$(NASM) $(FLAGS_A) -o $@ $<
 

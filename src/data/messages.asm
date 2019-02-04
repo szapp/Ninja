@@ -15,18 +15,16 @@ NINJA_INFO_AFTER         db   AUTHOR_PREFIX, ':  NINJA: Infos after:  ', 0
 NINJA_SYMBOL_FAILED      db   AUTHOR_PREFIX, ':NINJA: Failed to add helper symbol to symbol table!', 0
 NINJA_SKIPPING           db   AUTHOR_PREFIX, ':NINJA: Skipping : ', 0
 NINJA_OUTDATED_PATCH     db   AUTHOR_PREFIX, ':NINJA: One of your patches is outdated (Ninja <= 1.2)', 0
-NINJA_PARSER_FAILED      db   AUTHOR_PREFIX, ':NINJA: One of your patches uses an invalid ', 0
-NINJA_PARSER_FAILED_2    db   ' version. ', 10, 13
-                         db   'Please use the version specifically for Ninja ', 10, 13
-                         db   'found at <', NINJA_TEMPLATE, '>', 0
-NINJA_PATH_INVALID       db   AUTHOR_PREFIX, ':NINJA: The directory \NINJA\ is reserved for Ikarus and LeGo. ', 10, 13
-                         db   'Please keep Ikarus and LeGo in \NINJA\IKARUS\ and \NINJA\LEGO\ and ', 10, 13
-                         db   'all other files within the patch directory \NINJA\[PATCHNAME]\. ', 10, 13
-                         db   'For more information on creating patches, ', 10, 13
+NINJA_PARSER_FAILED      db   AUTHOR_PREFIX, ':NINJA: Version mismatch of ', 0
+NINJA_PARSER_FAILED_2    db   '. ', 10, 13
+NINJA_PATH_INVALID       db   'One of your patches contains Ikarus or LeGo. ', 10, 13
+                         db   'This is not allowed. Ninja already provides the latest ', 10, 13
+                         db   'versions of both - including necessary adjustments. ', 10, 13
+                         db   'For more information on creating patches with Ninja, ', 10, 13
                          db   'visit <', NINJA_TEMPLATE, '>', 0
-NINJA_LEGO_END           db   AUTHOR_PREFIX, ':NINJA: LeGo version not understood (onset not found)', 0
-NINJA_LEGO_BMM           db   AUTHOR_PREFIX, ':NINJA: LeGo version not understood (base-major-minor incomplete)', 0
-NINJA_VERSION_INVALID    db   AUTHOR_PREFIX, ':NINJA: The %s version of the game is newer than the patch. ', 10, 13
-                         db   'Game: %09d, patch: %09d ', 10, 13
-                         db   'Please update your patches or report outdated patches at ', 10, 13
+NINJA_LEGO_END           db   AUTHOR_PREFIX, ':NINJA: LeGo version not understood: onset not found.', 0
+NINJA_LEGO_BMM           db   AUTHOR_PREFIX, ':NINJA: LeGo version not understood: base-major-minor incomplete.', 0
+NINJA_VERSION_INVALID    db   AUTHOR_PREFIX, ':NINJA: The %s version of the game is newer than that of Ninja. ', 10, 13
+                         db   'Game: %09d, Ninja: %09d ', 10, 13
+                         db   'Please update your version of Ninja or report this error at ', 10, 13
                          db   '<', NINJA_WEBSITE, '>', 0

@@ -1,4 +1,4 @@
-; Resolve '..\' in SRC file paths when parsing
+; Resolve 'Ikarus' and 'LeGo' in SRC files when parsing
 
 %include "inc/macros.inc"
 
@@ -9,7 +9,7 @@
 %endif
 
 %ifidn __OUTPUT_FORMAT__, bin
-    org     g1g2(0x6E5C57,0x78EED3)
+    org     g1g2(0x6E5F19,0x78F199)
 %endif
 
 bits    32

@@ -584,26 +584,42 @@ parser_verify_lego_version:
 global parser_resolve_path_src
 parser_resolve_path_src:
     resetStackoffset 0x250
-        push    ebp
-        call    ninja_resolvePath
+        mov     ecx, [ecx+0x8]
+        push    ecx
+        push    char_ikarus
+        call    DWORD [ds_lstrcmpiA]
+    addStack 2*4
+        test    eax, eax
+        jnz     .checkLeGo
+        lea     ecx, [esp+stackoffset-0x240]
+        call    zSTRING___zSTRING
+        lea     ecx, [esp+stackoffset-0x240]
+        push    NINJA_PATH_IKARUSSRC
+        call    zSTRING__zSTRING
     addStack 4
+        jmp     g1g2(0x6E6100,0x78F380)
     verifyStackoffset 0x250
 
-        ; Jump back
-        sub     esp, 0x14
-        test    ebp, ebp
-        jmp     g1g2(0x6E5C5C,0x78EED8)
-
-
-global parser_resolve_path_d
-parser_resolve_path_d:
-    resetStackoffset 0xC0
-        push    g1g2(ebx,ebp)
-        call    ninja_resolvePath
+.checkLeGo:
+        lea     ecx, [esp+stackoffset-0x240]
+        mov     ecx, [ecx+0x8]
+        push    ecx
+        push    char_lego
+        call    DWORD [ds_lstrcmpiA]
+    addStack 2*4
+        test    eax, eax
+        jnz     .back
+        lea     ecx, [esp+stackoffset-0x240]
+        call    zSTRING___zSTRING
+        lea     ecx, [esp+stackoffset-0x240]
+        push    NINJA_PATH_LEGOSRC
+        call    zSTRING__zSTRING
     addStack 4
-    verifyStackoffset 0xC0
+        jmp     g1g2(0x6E6100,0x78F380)
+    verifyStackoffset 0x250
 
+.back:
         ; Jump back
-        push    g1g2(ebx,ebp)
-        mov     [esp+stackoffset+g1g2(-0xA0,-0x74)], g1g2(ebp,ebx)
-        jmp     g1g2(0x6E6659,0x78F87D)
+        lea     ecx, [esp+stackoffset-0x240]
+        call    zSTRING__Upper
+        jmp     g1g2(0x6E5F1E,0x78F19E)
