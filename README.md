@@ -33,7 +33,9 @@ All binaries of the listed software must be added to your `PATH`.
 # Assembling
 
 **This is purely for people who want to contribute to this project. There is otherwise *no need to assemble Ninja
-yourself* as the latest build is always available for download.**
+yourself* as the latest build is always available for download.**  
+Nevertheless, the required resource file `iklg.data` is not included in this repository. Without it building is not
+possible.
 
 Building Ninja consists of a cascade of assembling the core and assembling the DLL wrapper.  
 First, the core is assembled into binary files. These are then read and included when assembling the wrapper which is
