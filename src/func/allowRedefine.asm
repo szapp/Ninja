@@ -46,7 +46,7 @@ ninja_allowRedefine:
         push    char_line                                                  ; Add line in file for extra information
         call    zSTRING__operator_plusEq
     addStack 4
-        sub     esp, 0x4
+        sub     esp, 0xC
         mov     ecx, esp
         push    eax
 
@@ -62,7 +62,7 @@ ninja_allowRedefine:
         push    esp
         call    zSTRING__operator_plusEq
     addStack 4
-        add     esp, 0x4
+        add     esp, 0xC
         push    char_spaceClosingParanthesis
         call    zSTRING__operator_plusEq
     addStack 4
