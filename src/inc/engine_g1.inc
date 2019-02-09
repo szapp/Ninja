@@ -12,7 +12,6 @@
     %define     zCArray_int___InsertEnd                   0x530010     ; int const &
     %define     zCArray_int____zCArray_int_               0x52FF50     ; void
     %define     _qsort                                    0x77757F     ; void *, size_t, size_t, int (__cdecl *)(const void *, const void *)
-    %define     zCModel__AniAttachmentCompare             0x568AC0     ; void const *,void const *
     %define     _fopen                                    0x778672     ; const char *, const char *
     %define     _fseek                                    0x778588     ; FILE *, __int32, int
     %define     _fread                                    0x778A51     ; void *, size_t, size_t, FILE *

@@ -464,7 +464,7 @@ createVdfArray:
         test    eax, eax
         jz      .back
 
-        push    zCModel__AniAttachmentCompare                              ; Abuse convenient comparator to sort array
+        push    ninja_compareTimestampsUnsigned                            ; Unsigned timestamp comparator to sort array
         push    0x4
         push    DWORD [NINJA_PATCH_ARRAY+zCArray.numInArray]
         push    DWORD [NINJA_PATCH_ARRAY+zCArray.array]
@@ -527,3 +527,35 @@ createVdfArray:
 
         push    char_zStartupWindowed
         jmp     g1g2(0x6019C6,0x630B61)
+
+
+; int __cdecl ninja_compareTimestampsUnsigned(void const *, void const *)
+; Inspired by zCModel::AniAttachmentCompare but with unsigned compare (jae instead of jge)
+ninja_compareTimestampsUnsigned:
+        resetStackoffset
+        %assign arg_1      +0x4                                            ; void const *
+        %assign arg_2      +0x8                                            ; void const *
+        %assign arg_total   0x8                                            ; Unused: is __cdecl
+
+        mov     eax, [esp+stackoffset+arg_1]
+        mov     ecx, [eax]
+        mov     eax, [ecx]
+        mov     edx, [esp+stackoffset+arg_2]
+        mov     ecx, [edx]
+        mov     ecx, [ecx]
+        cmp     eax, ecx
+        ; jge     .arg1GEQ                                                 ; signed
+        jae     .arg1GEQ                                                   ; unsigned
+        or      eax, 0xFFFFFFFF
+        ret
+    verifyStackoffset
+
+.arg1GEQ:
+        xor     edx, edx
+        ; cmp     eax, ecx                                                 ; signed
+        ; setg    dl
+        cmp     ecx, eax                                                   ; unsigned
+        setbe   dl
+        mov     eax, edx
+        ret
+    verifyStackoffset
