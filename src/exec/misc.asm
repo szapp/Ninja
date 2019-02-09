@@ -3,9 +3,7 @@
 global setVobToTransient
 setVobToTransient:
     resetStackoffset 0x14
-        push    ecx
-        push    eax
-        push    esi
+        pusha
 
         push    eax
         mov     ecx, zCParser_parser
@@ -70,9 +68,7 @@ setVobToTransient:
         add     esp, 0x14
 
 .back:
-        pop     esi
-        pop     eax
-        pop     ecx
+        popa
     verifyStackoffset 0x14
 
         ; Jump back
@@ -343,22 +339,12 @@ ninja_injectInfo:
 global fix_Hlp_GetNpc
 fix_Hlp_GetNpc:
         resetStackoffset 0x10
-        mov    eax, [esi+zCPar_Symbol_parent_offset]
-        mov    edx, [eax+zCPar_Symbol_bitfield_offset]
-        and    edx, 0xF000
-        cmp    edx, zPAR_TYPE_PROTOTYPE
-        jnz    .checkClass
-        mov    eax, [eax+zCPar_Symbol_parent_offset]
-
-.checkClass:
-        mov    edx, [eax+0x8]
-        push   edx
-        push   char_cnpc
-        call   DWORD [ds_lstrcmpiA]
-    addStack 2*4
+        mov    eax, [esi+zCPar_Symbol_offset_offset]
         test   eax, eax
+        jz     g1g2(0x65880E,0x6EEE6E)
+        mov    eax, [eax]
+        cmp    eax, oCNpc__vftable
         jnz    g1g2(0x65880E,0x6EEE6E)
-    verifyStackoffset 0x10
 
         ; Jump back
         push   edi

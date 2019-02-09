@@ -14,11 +14,7 @@ ninja_injectOU:
         %assign arg_total     0x4
 
         sub     esp, var_total
-        push    eax
-        push    ecx
-        push    esi
-        push    edi
-        push    edx
+        pusha
 
         push    DWORD [esp+stackoffset+arg_1]
         lea     ecx, [esp+stackoffset+var_string]
@@ -135,7 +131,7 @@ ninja_injectOU:
         lea     ecx, [esp+stackoffset+var_string]
         call    zSTRING___zSTRING
         lea     ecx, [esp+stackoffset+var_string]
-        push    NINJA_OU_OVERWRITE
+        push    NINJA_OVERWRITING
         call    zSTRING__zSTRING
     addStack 4
         mov     edx, [esp]
@@ -267,11 +263,7 @@ ninja_injectOU:
         lea     ecx, [esp+stackoffset+var_string]
         call    zSTRING___zSTRING
 
-        pop     edx
-        pop     edi
-        pop     esi
-        pop     ecx
-        pop     eax
+        popa
         add     esp, var_total
         ret     arg_total
     verifyStackoffset

@@ -27,9 +27,7 @@
         jmp     %%print
         %%msg:  db  AUTHOR_PREFIX, ':', %1, 0
     %%print:
-        push    ecx
-        push    eax
-        push    edx
+        pusha
         sub     esp, 0x14
         mov     ecx, esp
         push    %%msg
@@ -41,16 +39,11 @@
         mov     ecx, esp
         call    zSTRING___zSTRING
         add     esp, 0x14
-        pop     edx
-        pop     eax
-        pop     ecx
+        popa
     %endmacro
 
     %macro reportToSpyReg 1-2
-        push    ecx
-        push    eax
-        push    edx
-        push    edi
+        pusha
         mov     edi, %1
         sub     esp, 0x14
         mov     ecx, esp
@@ -84,10 +77,7 @@
         mov     ecx, esp
         call    zSTRING___zSTRING
         add     esp, 0x14
-        pop     edi
-        pop     edx
-        pop     eax
-        pop     ecx
+        popa
     %endmacro
 
 %endif

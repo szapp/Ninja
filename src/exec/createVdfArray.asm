@@ -17,18 +17,16 @@ createVdfArray:
         %assign var_findhndl   -0x4                                        ; HANDLE
 
         sub     esp, var_total
-        push    eax
-        push    ecx
-        push    esi
-        push    edi
+        pusha
 
         mov     ecx, zERROR_zerr                                           ; Turn on logging if zSpy is running
         call    zERROR__SearchForSpy
         test    eax, eax
         jz      .start
-        cmp     BYTE [zERROR_zerr+0x20], 0x5                               ; zerr.filter_level
+        mov     al,0x5
+        cmp     BYTE [zERROR_zerr+0x20], al                                ; zerr.filter_level
         jge     .start
-        mov     BYTE [zERROR_zerr+0x20], 0x5
+        mov     BYTE [zERROR_zerr+0x20], al
 
 .start:
         sub     esp, 0x14                                                  ; Send information to zSpy
@@ -160,7 +158,7 @@ createVdfArray:
     addStack 4
 
 .detect:
-        reportToSpy " NINJA: Detecting and sorting patches (VDF) that use Ninja"
+        reportToSpy " NINJA: Detecting/sorting patches that use Ninja"
         lea     ecx, [NINJA_PATCH_ARRAY-0x1]
         mov     [ecx], BYTE 0x0                                            ; Null terminated char string
         mov     ecx, NINJA_PATCH_ARRAY
@@ -296,7 +294,7 @@ createVdfArray:
         test    al, al
         jnz     .inNinjaDir
 
-        push    0x40                                                       ; In root "directory" of the VDF
+        push    0x9                                                        ; In root "directory" of the VDF
         lea     eax, [edi+VDFentry.name]
         push    eax
         push    NINJA_VDF_DIR_NAME
@@ -518,10 +516,7 @@ createVdfArray:
         lea     ecx, [esp+stackoffset+var_ignoreList]
         call    zSTRING___zSTRING
 
-        pop     edi
-        pop     esi
-        pop     ecx
-        pop     eax
+        popa
         add     esp, var_total
     verifyStackoffset
 

@@ -152,8 +152,8 @@
     %define     zCParser_mergemode_offset                 0x209C
 
     %define     zCPar_Symbol_content_offset               0x18
+    %define     zCPar_Symbol_offset_offset                0x1C
     %define     zCPar_Symbol_bitfield_offset              0x20
-    %define     zCPar_Symbol_parent_offset                0x38
 
     %define     zPAR_TOK_RET                              0x3C
     %define     zPAR_TOK_JUMP                             0x4B

@@ -24,4 +24,4 @@ NINJA_PATH_LEGOSRC       db   '\NINJA\_INTERN\LEGO\HEADER_G', g1g2('1','2'),'.SR
 NINJA_MDS_PREFIX         db   'ANIMS_', 0
 NINJA_FILE               db   '\SYSTEM\DCIMAN32.DLL', 0
 NINJA_VDF_DIR_NAME       db   'NINJA'
-                times 61 db   ' '
+                 times 5 db   ' '

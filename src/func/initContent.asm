@@ -9,9 +9,7 @@ ninja_initContent:
         %assign arg_total   0x4
 
         sub     esp, var_total
-        push    eax
-        push    ecx
-        push    esi
+        pusha
 
         push    DWORD [esp+stackoffset+arg_1]
         call    DWORD [ds_lstrlenA]
@@ -71,9 +69,7 @@ ninja_initContent:
         lea     ecx, [esp+stackoffset+var_string]
         call    zSTRING___zSTRING
 
-        pop     esi
-        pop     ecx
-        pop     eax
+        popa
         add     esp, var_total
         ret     arg_total
     verifyStackoffset

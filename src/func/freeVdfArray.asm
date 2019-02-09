@@ -3,9 +3,7 @@
 global ninja_freeVdfArray
 ninja_freeVdfArray:
     resetStackoffset
-        push    ecx
-        push    eax
-        push    edi
+        pusha
 
         reportToSpy " NINJA: Releasing array"
 
@@ -34,8 +32,6 @@ ninja_freeVdfArray:
         call    zCArray_int____zCArray_int_
 
 .funcEnd:
-        pop     edi
-        pop     eax
-        pop     ecx
+        popa
         ret
     verifyStackoffset

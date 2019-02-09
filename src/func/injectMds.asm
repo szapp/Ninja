@@ -9,10 +9,7 @@ ninja_injectMds:
         %assign arg_total     0x4
 
         sub     esp, var_total
-        push    eax
-        push    ecx
-        push    esi
-        push    edi
+        pusha
 
         push    DWORD [esp+stackoffset+arg_1]
         lea     ecx, [esp+stackoffset+var_string]
@@ -122,10 +119,7 @@ ninja_injectMds:
         lea     ecx, [esp+stackoffset+var_string]
         call    zSTRING___zSTRING
 
-        pop     edi
-        pop     esi
-        pop     ecx
-        pop     eax
+        popa
         add     esp, var_total
         ret     arg_total
     verifyStackoffset

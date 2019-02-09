@@ -11,11 +11,7 @@ ninja_dispatch:
         %assign arg_total      0xC
 
         sub     esp, var_total
-        push    eax
-        push    ecx
-        push    esi
-        push    edi
-        push    ebx
+        pusha
 
         mov     eax, [NINJA_PATCH_ARRAY+zCArray.array]
         test    eax, eax
@@ -138,11 +134,7 @@ ninja_dispatch:
         jmp     .arrayLoop
 
 .funcEnd:
-        pop     ebx
-        pop     edi
-        pop     esi
-        pop     ecx
-        pop     eax
+        popa
         add     esp, var_total
         ret     arg_total
     verifyStackoffset

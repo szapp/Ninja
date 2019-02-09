@@ -10,9 +10,7 @@ ninja_allowRedefine:
         %assign arg_total   0x8
 
         sub     esp, var_total
-        push    ecx
-        push    esi
-        push    ebx
+        pusha
 
         xor     ebx, ebx
         mov     ecx, [esp+stackoffset+arg_1]
@@ -20,7 +18,7 @@ ninja_allowRedefine:
         mov     eax, char_redefinedIdentifier
         test    esi, esi
         jnz     .createString
-        mov     eax, NINJA_D_OVERWRITING
+        mov     eax, NINJA_OVERWRITING
 
 .createString:
         push    eax
@@ -74,9 +72,7 @@ ninja_allowRedefine:
 .funcEnd:
         lea     ecx, [esp+stackoffset+var_string]
         call    zSTRING___zSTRING
-        pop     ebx
-        pop     esi
-        pop     ecx
+        popa
         add     esp, var_total
         ret     arg_total
     verifyStackoffset
