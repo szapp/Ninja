@@ -9,7 +9,7 @@
 %endif
 
 %ifidn __OUTPUT_FORMAT__, bin
-    org     g1g2(0x6F3766,0x79D017)
+    org     g1g2(0x6F3753,0x79D004)
 %endif
 
 bits    32
@@ -18,9 +18,10 @@ bits    32
 section .text   align=1                                                    ; Prevent auto-alignment
 
     resetStackoffset 0xB8
-        push    esi
-        nop
+        mov     eax, [eax+0x8]
         push    eax
-        mov     BYTE [esp+stackoffset-0x4], 0x9
-        call    ninja_debugMessage
-        pop     esi
+        push    esi
+        call    ninja_allowRedefine
+    addStack 2*4
+    verifyStackoffset 0xB8
+        jmp     g1g2(0x6F3794,0x79D045)

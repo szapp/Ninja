@@ -30,6 +30,7 @@ section .text
 %include "func/zCPar_Symbol__GetNext_fix.asm"
 %include "func/createSymbol.asm"
 %include "func/armParser.asm"
+%include "func/allowRedefine.asm"
 %include "func/injectSrc.asm"
 %include "func/injectMds.asm"
 %include "func/injectOU.asm"
@@ -38,7 +39,7 @@ section .text
 %include "func/conEvalFunc.asm"
 
 
-section .data   align=1                                                    ; Prevent auto-alignment
+section .data
 
 %include "data/symbols.asm"
 %include "data/io.asm"

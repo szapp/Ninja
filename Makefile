@@ -101,7 +101,6 @@ BIN_BASE		:=	core										\
 					ow_aniComb									\
 					ow_aniDisable								\
 					ow_aniSync									\
-					ow_data_redef_char							\
 					ow_parserDeclareClass_showOverwrite			\
 					ow_parserDeclareFunc_showOverwrite			\
 					ow_parserDeclarePrototype_showOverwrite		\
@@ -129,6 +128,7 @@ FUNC_BASE		:=	freeVdfArray								\
 					zCPar_Symbol__GetNext_fix					\
 					createSymbol								\
 					armParser									\
+					allowRedefine								\
 					injectSrc									\
 					injectMds									\
 					injectOU									\

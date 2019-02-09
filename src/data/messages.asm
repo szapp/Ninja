@@ -4,6 +4,7 @@ NINJA_LOADING_PREFIX     db   AUTHOR_PREFIX, ': NINJA:   ', 0
 NINJA_IGNORING           db   AUTHOR_PREFIX, ': NINJA:   Ignoring ', 0
 NINJA_LOOKING_FOR        db   AUTHOR_PREFIX, ':NINJA: Checking if file exists: ', 0
 NINJA_INJECT             db   AUTHOR_PREFIX, ':NINJA: Injecting ', 0
+NINJA_D_OVERWRITING      db   AUTHOR_PREFIX, ':NINJA: Overwriting : ', 0
 NINJA_CALL_FUNC          db   AUTHOR_PREFIX, ': NINJA: Calling function ', 0
 NINJA_OU_OVERWRITE       db   AUTHOR_PREFIX, ':   NINJA: Overwriting OU: ', 0
 NINJA_OU_ADD             db   AUTHOR_PREFIX, ':   NINJA: Adding OU:      ', 0

@@ -13,8 +13,4 @@ section .data   align=1                                                    ; Pre
 
     %substr .version NINJA_VERSION 2,3
 
-    %if GOTHIC_BASE_VERSION == 1
-        db  '1.08k-N', .version, 0
-    %elif GOTHIC_BASE_VERSION == 2
-        db  '2.6fx-N', .version, 0
-    %endif
+    db  g1g2('1.08k-N','2.6fx-N'), .version, 0

@@ -42,6 +42,7 @@
     %define     ds_vdf_fexists                            0x7D04D0     ; const char*, long
     %define     zCParser_parser                           0x8DCE08     ; zCParser
     %define     zCParser__CallFunc                        0x6E9670     ; zSTRING const &
+    %define     zCParser__Error                           0x6E5040     ; zSTRING &, int
     %define     zCParser__MergeFile                       0x6E82F0     ; zSTRING &
     %define     zCParser__GetIndex                        0x6EA0C0     ; zSTRING const &
     %define     zCParser__GetSymbol_str                   0x6EA520     ; zSTRING const &
@@ -120,9 +121,12 @@
     %define     char_BSlash                               0x82DDA4     ; '\', 0
     %define     char_doubleFSlash                         0x82EDAC     ; '//', 0
     %define     char_lf                                   0x82D200     ; 0xA, 0
+    %define     char_line                                 0x8520AC     ; ' ( line ', 0
+    %define     char_spaceClosingParanthesis              0x8520A8     ; ' )', 0
     %define     char_zStartupWindowed                     0x846978     ; 'zStartupWindowed', 0
     %define     char_settings                             0x82BD98     ; 'SETTINGS', 0
     %define     char_meatbug_mds                          0x84E358     ; 'Meatbug.mds', 0
+    %define     char_redefinedIdentifier                  0x8525C8     ; 'Redefined identifier : ', 0
     %define     zSTRING_mdlBuffer                         0x873C60     ; zSTRING *
     %define     zSTRING_infoClass                         0x8DA88C     ; zSTRING
     %define     zSTRING_empty                             0x869978     ; zSTRING const
