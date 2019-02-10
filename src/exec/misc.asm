@@ -2,9 +2,14 @@
 
 global setVobToTransient
 setVobToTransient:
-    resetStackoffset 0x14
+        resetStackoffset 0x14
+        %assign var_total   0x4
+        %assign var_object -0x4                                            ; zCObject *
+
+        sub     esp, var_total
         pusha
 
+        mov     [esp+stackoffset+var_object], eax
         push    eax
         mov     ecx, zCParser_parser
         call    zCParser__GetIndex
@@ -48,7 +53,7 @@ setVobToTransient:
         push    NINJA_IGNORING
         call    zSTRING__zSTRING
     addStack 4
-        mov     eax, [esp+0x18]                                            ; zCObject->objectname
+        mov     eax, [esp+stackoffset+var_object]                          ; zCObject->objectname, originally at eax
         push    DWORD [eax+0x8]                                            ; str->ptr
         call    zSTRING__operator_plusEq
     addStack 4
@@ -69,6 +74,7 @@ setVobToTransient:
 
 .back:
         popa
+        add     esp, var_total
     verifyStackoffset 0x14
 
         ; Jump back

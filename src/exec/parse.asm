@@ -584,16 +584,13 @@ parser_verify_lego_version:
 global parser_resolve_path_src
 parser_resolve_path_src:
     resetStackoffset 0x250
-        mov     ecx, [ecx+0x8]
-        push    ecx
+        push    DWORD [ecx+0x8]
         push    char_ikarus
         call    DWORD [ds_lstrcmpiA]
     addStack 2*4
         test    eax, eax
         jnz     .checkLeGo
-        lea     ecx, [esp+stackoffset-0x240]
-        call    zSTRING___zSTRING
-        lea     ecx, [esp+stackoffset-0x240]
+        lea     ecx, [esp+stackoffset-0x138]                               ; Stack variable later expecting a zString
         push    NINJA_PATH_IKARUSSRC
         call    zSTRING__zSTRING
     addStack 4
@@ -601,17 +598,13 @@ parser_resolve_path_src:
     verifyStackoffset 0x250
 
 .checkLeGo:
-        lea     ecx, [esp+stackoffset-0x240]
-        mov     ecx, [ecx+0x8]
-        push    ecx
+        push    DWORD [esp+stackoffset-0x240+0x8]                          ; str.ptr
         push    char_lego
         call    DWORD [ds_lstrcmpiA]
     addStack 2*4
         test    eax, eax
         jnz     .back
-        lea     ecx, [esp+stackoffset-0x240]
-        call    zSTRING___zSTRING
-        lea     ecx, [esp+stackoffset-0x240]
+        lea     ecx, [esp+stackoffset-0x138]                               ; Stack variable later expecting a zString
         push    NINJA_PATH_LEGOSRC
         call    zSTRING__zSTRING
     addStack 4
