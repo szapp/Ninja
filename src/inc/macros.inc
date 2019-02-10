@@ -15,6 +15,7 @@
     %defstr NINJA_TEMPLATE  %!NINJA_TEMPLATE
     %define IKARUS_VERSION  %!IKARUS_VERSION
     %define LEGO_N_VERSION  %!LEGO_N_VERSION
+    %define MAX_VDF_TIME    0x7F9FBF7D                                     ; 2043-12-23 23:59:58
     %if GOTHIC_BASE_VERSION == 1
         %define g1g2(g1,g2) g1
     %elif GOTHIC_BASE_VERSION == 2

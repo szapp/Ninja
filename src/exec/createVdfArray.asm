@@ -377,7 +377,7 @@ createVdfArray:
         call    zSTRING___zSTRING
         add     esp, 0x14
         test    esi, esi
-        jl      .addToConsole
+        jl      .validateTimestamp
 
         sub     esp, 0x14
         mov     ecx, esp
@@ -394,6 +394,12 @@ createVdfArray:
         call    zSTRING___zSTRING
         add     esp, 0x14
         jmp     .nextFile
+
+.validateTimestamp:
+        mov     eax, [esp+stackoffset+var_header+VDFheader.timestamp]      ; Do not allow certain timestamps
+        mov     ecx, MAX_VDF_TIME
+        cmp     eax, ecx
+        jae     .nextFile
 
 .addToConsole:                                                             ; Add auto-completion for console
         sub     esp, 0x14
