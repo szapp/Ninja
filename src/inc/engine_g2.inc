@@ -86,6 +86,7 @@
     %define     zERROR__Fatal                             0x44DA80     ; zSTRING const &
     %define     zCOption_zoptions                         0x8CD988     ; zCOption *
     %define     zCOption_zgameoptions                     0x8CD98C     ; zCOption *
+    %define     zCOption__AddParameters                   0x463B00     ; zSTRING
     %define     zCOption__ReadString                      0x4627E0     ; zSTRING const &, char const *, char const *
     %define     zCOption__GetDirString                    0x465260     ; zTOptionPaths
     %define     zCObjectFactory_zfactory                  0x8D8DF0     ; zCObjectFactory *
@@ -123,6 +124,7 @@
     %define     char_line                                 0x8BBD34     ; ' line ( ', 0
     %define     char_spaceClosingParanthesis              0x8BBD30     ; ' )', 0
     %define     char_zStartupWindowed                     0x8AA930     ; 'zStartupWindowed', 0
+    %define     char_zNoFastExit                          0x890140     ; 'ZNOFASTEXIT', 0
     %define     char_settings                             0x8948A0     ; 'SETTINGS', 0
     %define     char_meatbug_mds                          0x8B85F8     ; 'Meatbug.mds', 0
     %define     char_redefinedIdentifier                  0x8BC220     ; 'Redefined identifier : ', 0
