@@ -2,6 +2,7 @@
     %define ENGINE_G2_INC
 
     %define     _atexit                                   0x7CFFC5     ; void (__cdecl *)()
+    %define     _exit                                     0x7D12BA     ; void
     %define     operator_new                              0x565F50     ; uint
 
     %define     operator_delete                           0x565F60     ; void *
@@ -22,6 +23,7 @@
     %define     zFILE_VDFS__LockCriticalSection           0x44B7E0     ; void
     %define     zFILE_VDFS__UnlockCriticalSection         0x44B800     ; void
     %define     zFILE_cur_mds_file                        0x8D8BCC     ; zFILE *
+    %define     zFILE_VDFS__DeinitFileSystem              0x44B440     ; void
     %define     std__basic_string__assign                 0x402FC0     ; char const *, uint
     %define     _atol                                     0x7D113D     ; const char *
     %define     _itoa                                     0x7E2E57     ; int, char *, int
@@ -86,7 +88,6 @@
     %define     zERROR__Fatal                             0x44DA80     ; zSTRING const &
     %define     zCOption_zoptions                         0x8CD988     ; zCOption *
     %define     zCOption_zgameoptions                     0x8CD98C     ; zCOption *
-    %define     zCOption__AddParameters                   0x463B00     ; zSTRING
     %define     zCOption__ReadString                      0x4627E0     ; zSTRING const &, char const *, char const *
     %define     zCOption__GetDirString                    0x465260     ; zTOptionPaths
     %define     zCObjectFactory_zfactory                  0x8D8DF0     ; zCObjectFactory *
@@ -124,7 +125,6 @@
     %define     char_line                                 0x8BBD34     ; ' line ( ', 0
     %define     char_spaceClosingParanthesis              0x8BBD30     ; ' )', 0
     %define     char_zStartupWindowed                     0x8AA930     ; 'zStartupWindowed', 0
-    %define     char_zNoFastExit                          0x890140     ; 'ZNOFASTEXIT', 0
     %define     char_settings                             0x8948A0     ; 'SETTINGS', 0
     %define     char_meatbug_mds                          0x8B85F8     ; 'Meatbug.mds', 0
     %define     char_redefinedIdentifier                  0x8BC220     ; 'Redefined identifier : ', 0

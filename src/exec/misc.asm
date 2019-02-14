@@ -344,7 +344,7 @@ ninja_injectInfo:
 
 global fix_Hlp_GetNpc
 fix_Hlp_GetNpc:
-        resetStackoffset 0x10
+    resetStackoffset 0x10
         mov    eax, [esi+zCPar_Symbol_offset_offset]
         test   eax, eax
         jz     g1g2(0x65880E,0x6EEE6E)
@@ -360,8 +360,7 @@ fix_Hlp_GetNpc:
 
 global fix_Hlp_IsValidNpc
 fix_Hlp_IsValidNpc:
-        resetStackoffset 0x18
-
+    resetStackoffset 0x18
         test   eax, eax
         jz     .back
         mov    eax, [eax]
@@ -380,8 +379,7 @@ fix_Hlp_IsValidNpc:
 
 global fix_Hlp_IsValidItem
 fix_Hlp_IsValidItem:
-        resetStackoffset 0x18
-
+    resetStackoffset 0x18
         test   eax, eax
         jz     .back
         mov    eax, [eax]
@@ -396,3 +394,10 @@ fix_Hlp_IsValidItem:
         call   dynamic_cast
 .backClean:
         jmp    g1g2(0x658B43,0x6EF1D3)
+
+
+; Deinitialize VDFS on fast exit to ensure release of data file
+global fastexit_deinit_vdfs
+fastexit_deinit_vdfs:
+        call    zFILE_VDFS__DeinitFileSystem
+        call    _exit                                                      ; Never returns

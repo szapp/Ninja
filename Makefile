@@ -91,6 +91,7 @@ BIN_BASE		:=	core										\
 					hook_unarchiveInfoMan						\
 					hook_unarchiveVobs							\
 					hook_setVobToTransient						\
+					hook_fastexit								\
 					hook_Hlp_GetNpc								\
 					hook_Hlp_IsValidNpc							\
 					hook_Hlp_IsValidItem						\

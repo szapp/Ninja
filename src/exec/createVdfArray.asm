@@ -73,30 +73,6 @@ createVdfArray:
         add     esp, 0x14
 
 .setVersionInfo:
-
-%if GOTHIC_BASE_VERSION == 1
-        mov     al, [SystemPack_version_info+0xA]
-        cmp     al, 'S'
-        jnz     .noSysPack
-
-        sub    esp, 0x14                                                   ; Force "no fast exit" in Gothic 1 if
-        mov    ecx, esp                                                    ; SystemPack is installed to ensure proper
-        mov    eax, '-'                                                    ; deletion of temporary data file, i.e.
-        push   eax                                                         ; unloading of DLL
-        push   esp
-        call   zSTRING__zSTRING
-    addStack 4
-        add    esp, 0x4
-        push   char_zNoFastExit
-        call   zSTRING__operator_plusEq
-    addStack 4
-        mov    ecx, DWORD [zCOption_zoptions]
-        call   zCOption__AddParameters
-    addStack 20
-
-.noSysPack:
-%endif
-
         mov     eax, SystemPack_version_info
         mov     ecx, [eax+g1g2(0xD,0xB)]
         mov     DWORD [eax], g1g2('1.08','2.6f')
