@@ -12,7 +12,6 @@
     %defstr NINJA_VERSION   v%!VERSION
     %define AUTHOR_PREFIX   'J'
     %defstr NINJA_WEBSITE   %!NINJA_WEBSITE
-    %defstr NINJA_TEMPLATE  %!NINJA_TEMPLATE
     %define IKARUS_VERSION  %!IKARUS_VERSION
     %define LEGO_N_VERSION  %!LEGO_N_VERSION
     %define MAX_VDF_TIME    0x7F9FBF7D                                     ; 2043-12-23 23:59:58

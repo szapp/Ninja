@@ -1,12 +1,25 @@
 ![Ninja](https://user-images.githubusercontent.com/20203034/42415261-92bed2ae-8248-11e8-875c-5f7408588af8.png)
 
-The purpose of this repository is to provide insight into the inner workings of Ninja.
+This repository contains the source code of the Ninja patching framework for Gothic 1 and Gothic 2 NotR.
 
-For more information on the Ninja patching framework visit the [documentation](https://tiny.cc/GothicNinja).  
-If you are interested in developing patches with Ninja, please visit the patch template repository:
-[szapp/NinjaPatchTemplate](https://github.com/szapp/NinjaPatchTemplate).
+For more information on Ninja, visit the [documentation](https://tiny.cc/GothicNinja).  
+If you are interested in developing patches with Ninja, please follow the instructions in the relevant chapters of the
+documentation.
 
-# Requirements
+# Usage
+
+To use Ninja, download and install the [latest release](../../releases/latest). If you run into issues or need further
+instructions, please consult the [documentation](https://tiny.cc/GothicNinja).
+
+# Building from Source
+
+There is absolutely no need to assemble Ninja yourself as the latest build is always available for download.
+
+Nevertheless, not all resources necessary for building are supplied in this repository and you'll not be able to
+successfully building it anyway. The purpose of this repository is merely to provide *insight* into the source code. The
+additional resources may be provided upon request.
+
+## Requirements
 
 Because of linking a Windows DLL, assembling this project is no longer possible under \*nix but is exclusive to Windows.
 (All \*nix shell scripts have been stripped from this project, but may still be found in the git history.) For linking
@@ -28,18 +41,13 @@ Additionally, you'll need various *GNU Win32* packages:
 - [Grep](http://gnuwin32.sourceforge.net/packages/grep.htm)
 - [BinUtils](https://sourceforge.net/projects/mingw/files/MinGW/Base/binutils/) for `objdump`
 
-All binaries of the listed software must be added to your `PATH`.
+All binaries of the listed software must be added to your `PATH` environment variable.
 
-# Assembling
-
-**This is purely for people who want to contribute to this project. There is otherwise *no need to assemble Ninja
-yourself* as the latest build is always available for download.**  
-Nevertheless, the required resource file `iklg.data` is not included in this repository. Without it building is not
-possible.
+## Assembling
 
 Building Ninja consists of a cascade of assembling the core and assembling the DLL wrapper.  
-First, the core is assembled into binary files. These are then read and included when assembling the wrapper which is
-then finally linked into a DLL.
+First, the core is assembled into binary files. These are then included when assembling the wrapper which is then
+finally linked into a DLL.
 
 The reason for this compartmentalization is to separate core and wrapper and to avoid slow absolute (eax) jumps within
 the executed code by injecting it into the executable at fixed addresses to make use of relative jumps to addresses

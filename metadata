@@ -2,6 +2,5 @@ export VBASE=1
 export VMAJOR=2
 export RYEARS=2018-2019
 export NINJA_WEBSITE=http://tiny.cc/GothicNinja
-export NINJA_TEMPLATE=http://tiny.cc/GothicNinjaTemplate
 export IKARUS_VERSION=10201
 export LEGO_N_VERSION=001
