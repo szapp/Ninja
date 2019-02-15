@@ -401,3 +401,31 @@ global fastexit_deinit_vdfs
 fastexit_deinit_vdfs:
         call    zFILE_VDFS__DeinitFileSystem
         call    _exit                                                      ; Never returns
+
+
+; Deinitialize VDFS on improper CGameManager destruction (access violation)
+global CGameMananager_destruction_deinit_vdfs
+CGameMananager_destruction_deinit_vdfs:
+    resetStackoffset 0x3C
+        pusha
+        call    zFILE_VDFS__DeinitFileSystem
+        popa
+    verifyStackoffset 0x3C
+
+        ; Jump back
+        mov     BYTE [esp+stackoffset-0x4], 0x4
+        jmp     g1g2(0x423BE1,0x4247D1)
+
+
+; Deinitialize VDFS on libExit (fatal error)
+global libExit_deinit_vdfs
+libExit_deinit_vdfs:
+    resetStackoffset
+        pusha
+        call    zFILE_VDFS__DeinitFileSystem
+        popa
+    verifyStackoffset
+
+        ; Jump back
+        mov     eax, g1g2(0x86F51C,0x8D4294)
+        jmp     g1g2(0x4F3C35,0x502AB5)
