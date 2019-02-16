@@ -2,7 +2,7 @@
 
 global setVobToTransient
 setVobToTransient:
-        resetStackoffset 0x14
+        resetStackoffset                                                   ; 0x14
         %assign var_total   0x4
         %assign var_object -0x4                                            ; zCObject *
 
@@ -75,7 +75,7 @@ setVobToTransient:
 .back:
         popa
         add     esp, var_total
-    verifyStackoffset 0x14
+    verifyStackoffset                                                      ; 0x14
 
         ; Jump back
         mov     esi, [eax+0xC]
