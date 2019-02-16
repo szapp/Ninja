@@ -170,9 +170,14 @@ clean :
 	$(RM) $(call FixPath,$(RSC))
 	$(RM) $(call FixPath,$(RC))
 
-remake: clean all
+cleanDLL :
+	$(RM) $(call FixPath,$(TARGET))
 
-.PHONY: all clean remake
+remake : clean all
+
+relink : cleanDLL all
+
+.PHONY : all clean remake relink
 
 
 # Build dependencies

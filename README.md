@@ -16,7 +16,7 @@ instructions, please consult the [documentation](https://tiny.cc/GothicNinja).
 There is absolutely no need to assemble Ninja yourself as the latest build is always available for download.
 
 Nevertheless, not all resources necessary for building are supplied in this repository and you'll not be able to
-successfully building it anyway. The purpose of this repository is merely to provide *insight* into the source code. The
+successfully build it anyway. The purpose of this repository is merely to provide *insight* into the source code. The
 additional resources may be provided upon request.
 
 ## Requirements

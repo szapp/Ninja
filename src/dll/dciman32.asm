@@ -79,8 +79,9 @@ section .data
         msgInvalidGothicVersion        db   'Invalid Gothic version.', 0
         msgFailedToFindSysDir          db   'Failed to find system directory.', 0
         msgFailedToLoadDLL             db   'Failed to load DCIMAN32.DLL.', 0
+        %define scriptsFileName             '_delete_me.vdf'
         msgScriptsCreatingFailed       db   'IO operations failed. Try starting the application with administrative '
-                                       db   'privileges and/or delete the hidden file \Data\_delete_me.vdf', 0
+                                       db   'privileges and/or delete the hidden file \Data\', scriptsFileName, 0
 
         char_DCIBeginAccess            db   'DCIBeginAccess', 0
         char_DCICloseProvider          db   'DCICloseProvider', 0
@@ -112,7 +113,7 @@ section .data
         %include "inc/injections.inc"
 
         scriptsPathCreate              db   '..\'
-        scriptsPathDelete              db   'DATA\_delete_me.vdf', 0
+        scriptsPathDelete              db   'DATA\', scriptsFileName, 0
         scriptsData:                   incbin "inc/iklg.data"
         scriptsData_len                equ  $-scriptsData
 
