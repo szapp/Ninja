@@ -1,5 +1,7 @@
 NINJA_AUTHOR_PREFIX      db   AUTHOR_PREFIX, ':', 0
-NINJA_LOADING_MSG        db   AUTHOR_PREFIX, ': NINJA: Loading Ninja ', NINJA_VERSION, ' ', 0
+NINJA_LOADING_MSG        db   AUTHOR_PREFIX, ': NINJA: Loading '
+NINJA_VERSION_CHAR_1     db   'Ninja ', NINJA_VERSION, ', built ', __UTC_DATE__, ' ', __UTC_TIME__, ', ', 0
+NINJA_VERSION_CHAR_1_len equ  $-NINJA_VERSION_CHAR_1
 NINJA_LOADING_PREFIX     db   AUTHOR_PREFIX, ': NINJA:   ', 0
 NINJA_IGNORING           db   AUTHOR_PREFIX, ': NINJA:   Ignoring ', 0
 NINJA_LOOKING_FOR        db   AUTHOR_PREFIX, ':NINJA: Checking if file exists: ', 0
@@ -21,7 +23,7 @@ NINJA_PATH_INVALID       db   'One of your patches contains Ikarus or LeGo. ', 1
                          db   'This is not allowed. Ninja already provides the latest ', 10, 13
                          db   'versions of both - including necessary adjustments.', 0
 NINJA_LEGO_END           db   AUTHOR_PREFIX, ':NINJA: LeGo version not understood: onset not found.', 0
-NINJA_LEGO_BMM           db   AUTHOR_PREFIX, ':NINJA: LeGo version not understood: base-major-minor incomplete.', 0
+NINJA_LEGO_BMM           db   AUTHOR_PREFIX, ':NINJA: LeGo version not understood: BMM incomplete.', 0
 NINJA_VERSION_INVALID    db   AUTHOR_PREFIX, ':NINJA: The %s version of the game is newer than that of Ninja. ', 10, 13
                          db   'Game: %09d, Ninja: %09d ', 10, 13
                          db   'Please update your version of Ninja or report this error at ', 10, 13

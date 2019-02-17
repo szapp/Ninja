@@ -34,9 +34,6 @@ createVdfArray:
         push    NINJA_LOADING_MSG
         call    zSTRING__zSTRING
     addStack 4
-        push    NINJA_VERSION_CHAR_built
-        call    zSTRING__operator_plusEq
-    addStack 4
         sub     esp, 0x80
         push    esp
         call    ninja_Y3JjMzI

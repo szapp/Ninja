@@ -46,7 +46,7 @@ ninja_injectMds:
         call    zSTRING___zSTRING
         add     esp, 0x14
 
-        push    0
+        push    0x0
         mov     eax, [esi]
         mov     ecx, esi
         call    DWORD [eax+zFILE_VDFS__Open_offset]
@@ -55,8 +55,10 @@ ninja_injectMds:
         push    DWORD [zFILE_cur_mds_file]
         mov     DWORD [zFILE_cur_mds_file], esi
 
+%if GOTHIC_BASE_VERSION == 2
         sub     esp, 0xC                                                   ; Create fake zCFileBIN
         mov     DWORD [esp], 0xFFFFFFFF                                    ; -1
+%endif
 
 .mds_loop_start:
         mov     eax, [esi]
@@ -74,7 +76,7 @@ ninja_injectMds:
         call    zSTRING__Upper
         push    0x1
         push    char_doubleFSlash
-        push    0
+        push    0x0
         mov     ecx, zSTRING_mdlBuffer
         call    zSTRING__Search
     addStack 3*4
@@ -82,14 +84,14 @@ ninja_injectMds:
         jnz     .mds_loop_start
         push    0x1
         push    char_model
-        push    0
+        push    0x0
         mov     ecx, zSTRING_mdlBuffer
         call    zSTRING__Search
     addStack 3*4
         cmp     eax, 0xFFFFFFFF
         jz      .mds_loop_start
-        mov     ecx, esp                                                   ; zCFileBIN * (ignored in Gothic 1)
 %if GOTHIC_BASE_VERSION == 2
+        mov     ecx, esp                                                   ; zCFileBIN * (ignored in Gothic 1)
         push    ecx
 %endif
         mov     ecx, ebp
@@ -100,7 +102,9 @@ ninja_injectMds:
         jnz     .mds_loop_start
 
 .eof:
+%if GOTHIC_BASE_VERSION == 2
         add     esp, 0xC
+%endif
 
         pop     eax
         mov     DWORD [zFILE_cur_mds_file], eax                            ; Restore
