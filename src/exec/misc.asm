@@ -152,7 +152,7 @@ removeInvalidNpcs:
 
 global ninja_injectInfo
 ninja_injectInfo:
-        resetStackoffset ; 0xBC
+        resetStackoffset                                                   ; 0xBC
         %assign var_total      0x2C
         %assign var_buffer    -0x2C                                        ; char[0x8]
         %assign var_before    -0x24                                        ; DWORD
@@ -334,7 +334,7 @@ ninja_injectInfo:
         call    zSTRING___zSTRING
         pop     esi
         add     esp, var_total
-    verifyStackoffset ; 0xBC
+    verifyStackoffset                                                      ; 0xBC
 
         ; Jump back
         push    esi
@@ -342,58 +342,100 @@ ninja_injectInfo:
         jmp     g1g2(0x63C7F4,0x6C6D24)
 
 
+global createGlobalVarIfNotExist
+createGlobalVarIfNotExist:
+%if GOTHIC_BASE_VERSION == 1                                               ; zCParser::LoadGlobalVars differs for g1/g2
+    resetStackoffset 0xC4
+        jz      .createSymb
+        mov     eax, [esi+0x20]                                            ; Rewritten what has been overwritten
+        jmp     0x6EDADA
+
+.createSymb:
+        push    0x1
+        push    0x0
+        lea     ecx, [esp+stackoffset-0x8C]
+        push    DWORD [ecx+0x4]
+        call    ninja_createSymbol
+    addStack 3*4
+        mov     esi, eax
+    verifyStackoffset 0xC4
+
+        ; Jump back
+        jmp    0x6EDAF7
+
+%elif GOTHIC_BASE_VERSION == 2
+    resetStackoffset 0x1F0
+        jle     0x797608
+        mov     ecx, [esp+stackoffset-0x1B0]                               ; zCPar_Symbol *
+        test    ecx, ecx
+        jnz     0x7973E7
+
+        push    eax
+        push    0x0
+        lea     ecx, [esp+stackoffset-0x170]
+        push    DWORD [ecx+0x8]
+        call    ninja_createSymbol
+    addStack 3*4
+        mov     [esp+stackoffset-0x1B0], eax
+    verifyStackoffset 0x1F0
+
+        ; Jump back
+        jmp    0x7973E7
+%endif
+
+
 global fix_Hlp_GetNpc
 fix_Hlp_GetNpc:
     resetStackoffset 0x10
-        mov    eax, [esi+zCPar_Symbol_offset_offset]
-        test   eax, eax
-        jz     g1g2(0x65880E,0x6EEE6E)
-        mov    eax, [eax]
-        cmp    eax, oCNpc__vftable
-        jnz    g1g2(0x65880E,0x6EEE6E)
+        mov     eax, [esi+zCPar_Symbol_offset_offset]
+        test    eax, eax
+        jz      g1g2(0x65880E,0x6EEE6E)
+        mov     eax, [eax]
+        cmp     eax, oCNpc__vftable
+        jnz     g1g2(0x65880E,0x6EEE6E)
 
         ; Jump back
-        push   edi
-        push   oCNpc_RTTI_Type_Descriptor
-        jmp    g1g2(0x6587F2,0x6EEE52)
+        push    edi
+        push    oCNpc_RTTI_Type_Descriptor
+        jmp     g1g2(0x6587F2,0x6EEE52)
 
 
 global fix_Hlp_IsValidNpc
 fix_Hlp_IsValidNpc:
     resetStackoffset 0x18
-        test   eax, eax
-        jz     .back
-        mov    eax, [eax]
-        cmp    eax, oCNpc__vftable
-        jz     .back
-        xor    eax, eax
-        jmp    .backClean
+        test    eax, eax
+        jz      .back
+        mov     eax, [eax]
+        cmp     eax, oCNpc__vftable
+        jz      .back
+        xor     eax, eax
+        jmp     .backClean
     verifyStackoffset 0x18
 
 .back:
         ; Jump back
-        call   dynamic_cast
+        call    dynamic_cast
 .backClean:
-        jmp    g1g2(0x658883,0x6EEEE3)
+        jmp     g1g2(0x658883,0x6EEEE3)
 
 
 global fix_Hlp_IsValidItem
 fix_Hlp_IsValidItem:
     resetStackoffset 0x18
-        test   eax, eax
-        jz     .back
-        mov    eax, [eax]
-        cmp    eax, oCItem__vftable
-        jz     .back
-        xor    eax, eax
-        jmp    .backClean
+        test    eax, eax
+        jz      .back
+        mov     eax, [eax]
+        cmp     eax, oCItem__vftable
+        jz      .back
+        xor     eax, eax
+        jmp     .backClean
     verifyStackoffset 0x18
 
 .back:
         ; Jump back
-        call   dynamic_cast
+        call    dynamic_cast
 .backClean:
-        jmp    g1g2(0x658B43,0x6EF1D3)
+        jmp     g1g2(0x658B43,0x6EF1D3)
 
 
 ; Deinitialize VDFS on fast exit to ensure release of data file

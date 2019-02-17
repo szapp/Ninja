@@ -39,9 +39,11 @@ ninja_armParser:
         mov     DWORD [ecx+0x1C], eax                                      ; Fix zCParser->tablesort->numInArray
 
         reportToSpy "NINJA: Adding divider symbol to symbol table"
+        push    0x1
+        push    zPAR_FLAG_CONST
         push    char_ndivider_symb
         call    ninja_createSymbol
-    addStack 4
+    addStack 3*4
         mov     ecx, DWORD [zCPar_SymbolTable__cur_table]
         mov     ecx, [ecx+0x10]                                            ; zCPar_SymbolTable->table->numInArray
         dec     ecx
@@ -55,9 +57,11 @@ ninja_armParser:
         jnz     .dispatch
 
         reportToSpy "NINJA: Adding helper symbols to symbol table"
+        push    0x1
+        push    zPAR_FLAG_CONST
         push    char_nversion_symb
         call    ninja_createSymbol
-    addStack 4
+    addStack 3*4
         %substr .nversion1 NINJA_VERSION 2,1                               ; Convert version string into integer
         %substr .nversion2 NINJA_VERSION 4,1
         %assign .nversion (.nversion1-48)*10 + (.nversion2-48)
@@ -67,9 +71,11 @@ ninja_armParser:
         call    zCPar_Symbol__SetValue
     addStack 2*4
 
+        push    0x1
+        push    zPAR_FLAG_CONST
         push    char_narray_symb
         call    ninja_createSymbol
-    addStack 4
+    addStack 3*4
         push    0x0
         push    NINJA_PATCH_ARRAY
         mov     ecx, eax

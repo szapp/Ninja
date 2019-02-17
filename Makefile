@@ -88,6 +88,7 @@ BIN_BASE		:=	core										\
 					hook_parserDeclareVar_constString			\
 					hook_parserParseSource						\
 					hook_zCPar_Symbol__GetNext					\
+					hook_zCParser__LoadGlobalVars				\
 					hook_unarchiveInfoMan						\
 					hook_unarchiveVobs							\
 					hook_setVobToTransient						\
@@ -110,7 +111,8 @@ BIN_BASE		:=	core										\
 					ow_parserDeclareVar_showOverwrite			\
 					ow_reopenFileWarning						\
 					ow_version
-BIN_BASE_G2		:=	skip_writeAniBinFile_ModelTag				\
+BIN_BASE_G2		:=	ow_zCParser__LoadGlobalVars					\
+					skip_writeAniBinFile_ModelTag				\
 					skip_writeAniBinFile_ReadMeshAndTree		\
 					skip_writeAniBinFile_RegisterMesh			\
 					skip_writeAniBinFile_ani					\
