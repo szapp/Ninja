@@ -38,7 +38,7 @@ ninja_armParser:
         mov     eax, [ecx+0x10]
         mov     DWORD [ecx+0x1C], eax                                      ; Fix zCParser->tablesort->numInArray
 
-        reportToSpy "NINJA: Adding divider symbol to symbol table"
+        reportToSpy "NINJA: Adding divider symbol"
         push    0x1
         push    zPAR_FLAG_CONST
         push    char_ndivider_symb
@@ -50,13 +50,13 @@ ninja_armParser:
         push    0x0
         push    ecx
         mov     ecx, eax
-        call    zCPar_Symbol__SetValue
+        call    zCPar_Symbol__SetValue_int
     addStack 2*4
 
         cmp     DWORD [esp+stackoffset+arg_2], NINJA_PATH_CONTENT
         jnz     .dispatch
 
-        reportToSpy "NINJA: Adding helper symbols to symbol table"
+        reportToSpy "NINJA: Adding helper symbols"
         push    0x1
         push    zPAR_FLAG_CONST
         push    char_nversion_symb
@@ -68,7 +68,7 @@ ninja_armParser:
         push    0x0
         push    .nversion
         mov     ecx, eax
-        call    zCPar_Symbol__SetValue
+        call    zCPar_Symbol__SetValue_int
     addStack 2*4
 
         push    0x1
@@ -79,8 +79,38 @@ ninja_armParser:
         push    0x0
         push    NINJA_PATCH_ARRAY
         mov     ecx, eax
-        call    zCPar_Symbol__SetValue
+        call    zCPar_Symbol__SetValue_int
     addStack 2*4
+
+        push    0x1 | zPAR_TYPE_STRING
+        push    zPAR_FLAG_CONST
+        push    char_modname_symb
+        call    ninja_createSymbol
+    addStack 3*4
+        mov     esi, eax
+        sub     esp, 0x14
+        mov     ecx, esp
+        push    zOPT_SEC_GAME
+        push    ecx
+        mov     ecx, DWORD [zCOption_zoptions]
+        call    zCOption__ParmValue
+    addStack 2*4
+        mov     ecx, [eax+0x8]
+        test    ecx, ecx
+        jz      .modnameDone
+        add     ecx, [eax+0xC]
+        mov     BYTE [ecx-0x4], 0x0                                        ; Trim trailing '.INI'
+        mov     ecx, esp
+        push    0x0
+        push    ecx
+        mov     ecx, esi
+        call    zCPar_Symbol__SetValue_str
+    addStack 2*4
+
+.modnameDone:
+        mov     ecx, esp
+        call    zSTRING___zSTRING
+        add     esp, 0x14
 
 .dispatch:
         push    DWORD [esp+stackoffset+arg_3]

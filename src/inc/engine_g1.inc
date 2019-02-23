@@ -61,7 +61,8 @@
     %define     zCPar_Symbol__zCPar_Symbol                0x6F7D20     ; void
     %define     zCPar_Symbol__SetFlag                     0x6F8450     ; int
     %define     zCPar_Symbol__GetValue                    0x6F86E0     ; int &, int
-    %define     zCPar_Symbol__SetValue                    0x6F8530     ; int, int
+    %define     zCPar_Symbol__SetValue_int                0x6F8530     ; int, int
+    %define     zCPar_Symbol__SetValue_str                0x6F8590     ; zSTRING &, int
     %define     zCPar_Symbol__SetStackPos                 0x6F8520     ; int, int
     %define     zCMusicSys_DirectMusic__musicParser       0x86D6A8     ; zCParser *
     %define     zCSndSys_MSS__sfxParser                   0x86DCFC     ; zCParser *
@@ -90,6 +91,7 @@
     %define     zCOption_zgameoptions                     0x869698     ; zCOption *
     %define     zCOption__ReadString                      0x45D080     ; zSTRING const &, char const *, char const *
     %define     zCOption__GetDirString                    0x45FC00     ; zTOptionPaths
+    %define     zCOption__ParmValue                       0x45FD20     ; zSTRING const &
     %define     zCObjectFactory_zfactory                  0x873F88     ; zCObjectFactory *
     %define     zCModelPrototype__ReadModel               0x57E410     ; void
     %define     zCModelPrototype__SearchAniIndex          0x56F850     ; zSTRING const &
@@ -131,6 +133,7 @@
     %define     zSTRING_mdlBuffer                         0x873C60     ; zSTRING *
     %define     zSTRING_infoClass                         0x8DA88C     ; zSTRING
     %define     zSTRING_empty                             0x869978     ; zSTRING const
+    %define     zOPT_SEC_GAME                             0x869388     ; zSTRING const
 
     %define     zCObjectFactory__CreateZFile_offset       0x14         ; zSTRING const &
     %define     zFILE_VDFS__Exists_offset                 0x94         ; void
@@ -161,6 +164,7 @@
     %define     zPAR_TOK_JUMP                             0x4B
 
     %define     zPAR_TYPE_INT                             2<<12
+    %define     zPAR_TYPE_STRING                          3<<12
     %define     zPAR_TYPE_PROTOTYPE                       6<<12
 
     %define     zPAR_FLAG_CONST                           0x1

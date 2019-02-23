@@ -46,3 +46,4 @@ keep_int_symbol_start    db   'BLOODSPLAT_NUM', 0
 char_ndivider_symb       db   'NINJA_SYMBOLS_START', 0
 char_nversion_symb       db   'NINJA_VERSION', 0
 char_narray_symb         db   'NINJA_PATCHES', 0
+char_modname_symb        db   'NINJA_MODNAME', 0

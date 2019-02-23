@@ -35,9 +35,7 @@ ninja_createSymbol:
         call    zCPar_SymbolTable__Insert
     addStack 4
         test    eax, eax
-        jz      .failedRelease
-        mov     eax, esi
-        jmp     .funcEnd
+        jnz     .funcEnd
 
 .failedRelease:
         push    esi
@@ -55,28 +53,30 @@ ninja_createSymbol:
         call    zCPar_SymbolTable__GetSymbol_str
     addStack 4
         mov     esi, eax
+        test    esi, esi
+        jnz     .failedCleanup
+
         mov     ecx, esp
         call    zSTRING___zSTRING
-        add     esp, 0x14
-        mov     eax, esi
-        jnz     .funcEnd
-
-        sub     esp, 0x14
         mov     ecx, esp
         push    NINJA_SYMBOL_FAILED
         call    zSTRING__zSTRING
     addStack 4
+        push    DWORD [esp+stackoffset+arg_1]
+        call    zSTRING__operator_plusEq
+    addStack 4
         push    ecx
         call    zERROR__Fatal
     addStack 4
+        xor     esi, esi
+
+.failedCleanup:
         mov     ecx, esp
         call    zSTRING___zSTRING
         add     esp, 0x14
 
-        xor     eax, eax
-        dec     eax
-
 .funcEnd:
+        mov     eax, esi
         pop     esi
         pop     ecx
         ret     arg_total

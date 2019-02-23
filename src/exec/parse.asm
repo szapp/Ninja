@@ -390,7 +390,7 @@ parser_verify_ikarus_version:
         ; Jump back
         push    eax
         mov     ecx, ebp
-        call    zCPar_Symbol__SetValue
+        call    zCPar_Symbol__SetValue_int
         jmp     g1g2(0x6F2459,0x79BDD8)
 
 

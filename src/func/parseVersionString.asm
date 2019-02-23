@@ -42,7 +42,7 @@ ninja_parseVersionString:
         mov     eax, edi
 
 .collectNum:
-        cmp     BYTE [esi+edi], 0
+        cmp     BYTE [esi+edi], 0x0
         jz      .done
 
         cmp     BYTE [esi+edi], '0'
@@ -54,7 +54,7 @@ ninja_parseVersionString:
         jmp     .collectNum
 
 .foundOffset:
-        mov     BYTE [esi+edi], 0
+        mov     BYTE [esi+edi], 0x0
         add     eax, esi
         push    eax
         call    _atol
@@ -86,17 +86,20 @@ ninja_parseVersionString:
         jmp     .funcEnd
 
 .failed1:
-        mov     eax, NINJA_LEGO_END
+        mov     esi, NINJA_LEGO_END
         jmp     .reportError
 
 .failed2:
-        mov     eax, NINJA_LEGO_BMM
+        mov     esi, NINJA_LEGO_BMM
 
 .reportError:
         sub     esp, 0x14
         mov     ecx, esp
-        push    eax
+        push    NINJA_LEGO_VER_ERROR
         call    zSTRING__zSTRING
+    addStack 4
+        push    esi
+        call    zSTRING__operator_plusEq
     addStack 4
         push    eax
         call    zERROR__Fatal
