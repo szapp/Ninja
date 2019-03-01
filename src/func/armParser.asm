@@ -98,8 +98,11 @@ ninja_armParser:
         mov     ecx, [eax+0x8]
         test    ecx, ecx
         jz      .modnameDone
-        add     ecx, [eax+0xC]
-        mov     BYTE [ecx-0x4], 0x0                                        ; Trim trailing '.INI'
+        mov     ecx, esp
+        push    0x4
+        call    zSTRING__DeleteRight                                       ; Trim trailing '.INI'
+    addStack 4
+
         mov     ecx, esp
         push    0x0
         push    ecx

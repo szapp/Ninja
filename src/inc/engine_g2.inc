@@ -34,6 +34,7 @@
     %define     zSTRING__Search                           0x46C920     ; int, char const *, uint
     %define     zSTRING__TrimRight                        0x46C770     ; char
     %define     zSTRING__Delete                           0x46BAA0     ; uint, ulong
+    %define     zSTRING__DeleteRight                      0x46B990     ; uint
     %define     zSTRING__operator_plusEq                  0x67A7B0     ; char const *
     %define     ds_lstrcatA                               0x82E1E0     ; LPTSTR, LPTSTR
     %define     ds_lstrcpyA                               0x82E1E4     ; LPTSTR, LPTSTR
