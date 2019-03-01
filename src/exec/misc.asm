@@ -4,10 +4,14 @@ global setVobToTransient
 setVobToTransient:
         resetStackoffset                                                   ; 0x14
         %assign var_total   0x4
-        %assign var_object -0x4                                            ; zCObject *
+        %assign var_object -0x4                                            ; zString *
 
         sub     esp, var_total
         pusha
+
+        mov     ecx, [ebp]
+        cmp     ecx, oCNpc__vftable
+        jnz     .back
 
         mov     [esp+stackoffset+var_object], eax
         push    eax
