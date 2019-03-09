@@ -14,6 +14,8 @@ keep_func_symbol_start   db   'INIT_GLOBAL', 0
 
 ; Preserved misc. symbols
                          db   'ALLOWSAVING', 0
+                         db   'ONALLOWSAVING', 0
+                         db   'ONDISALLOWSAVING', 0
 
 ; Preserved LeGo symbols
                          db   'FOCUSNAMES_COLOR_FRIENDLY', 0
