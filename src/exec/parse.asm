@@ -260,7 +260,7 @@ parser_verify_ikarus_version:
     verifyStackoffset g1g2(0x398,0x3F0) + 0x8
         jnz     .back
 
-        reportToSpy "NINJA: Verifying Ikarus version"
+        reportToSpy NINJA_VERIFY_VERSION
         cmp     ebx, IKARUS_VERSION
         jge     .verifyFilePath
 
@@ -305,7 +305,7 @@ parser_verify_ikarus_version:
     verifyStackoffset g1g2(0x398,0x3F0) + 0x8
         jz      .back
 
-        reportToSpy "NINJA: Comparing Ikarus versions"
+        reportToSpy NINJA_COMPARE_VERSIONS
         cmp     ebx, eax
     verifyStackoffset g1g2(0x398,0x3F0) + 0x8
         jge     .back
@@ -434,7 +434,7 @@ parser_verify_lego_version:
     verifyStackoffset g1g2(0x394,0x3EC) + 0xC
         jnz     .back
 
-        reportToSpy "NINJA: Verifying LeGo version"
+        reportToSpy NINJA_VERIFY_VERSION
         mov     ecx, [esp+stackoffset+g1g2(-0x340,-0x394)+0x8]             ; str->ptr
         push    ecx
         call    DWORD [ds_lstrlenA]
@@ -492,7 +492,7 @@ parser_verify_lego_version:
     verifyStackoffset g1g2(0x394,0x3EC) + 0xC
         jz      .back
 
-        reportToSpy "NINJA: Comparing LeGo versions"
+        reportToSpy NINJA_COMPARE_VERSIONS
         push    DWORD [edx+0x8]
         call    ninja_parseVersionString
     addStack 4

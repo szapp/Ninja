@@ -112,7 +112,7 @@ removeInvalidNpcs:
         test    eax, eax
         jge     .back
 
-        reportToSpy "NINJA: Removing invalid NPC"
+        reportToSpy NINJA_REMOVE_NPC
         push    char_meatbug_mds
         lea     ecx, [esi+g1g2(0x07B4,0x774)]                              ; oCNpc.mds_name
         call    zSTRING__zSTRING
@@ -165,7 +165,7 @@ ninja_injectInfo:
         %assign var_string    -0x18                                        ; zString
         %assign var_classID   -0x04                                        ; DWORD
 
-        reportToSpy " NINJA: Injecting infos"
+        reportToSpy NINJA_INFO_INJECT
 
         sub     esp, var_total
         push    esi

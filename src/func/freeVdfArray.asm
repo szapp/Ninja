@@ -5,7 +5,7 @@ ninja_freeVdfArray:
     resetStackoffset
         pusha
 
-        reportToSpy " NINJA: Releasing array"
+        reportToSpy NINJA_RELEASE_ARRAY
 
         mov     eax, [NINJA_PATCH_ARRAY+zCArray.array]
         test    eax, eax

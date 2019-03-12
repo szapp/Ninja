@@ -38,7 +38,7 @@ ninja_armParser:
         mov     eax, [ecx+0x10]
         mov     DWORD [ecx+0x1C], eax                                      ; Fix zCParser->tablesort->numInArray
 
-        reportToSpy "NINJA: Adding divider symbol"
+        reportToSpy NINJA_SYMBOL_ADD_DIV
         push    0x1
         push    zPAR_FLAG_CONST
         push    char_ndivider_symb
@@ -56,7 +56,7 @@ ninja_armParser:
         cmp     DWORD [esp+stackoffset+arg_2], NINJA_PATH_CONTENT
         jnz     .dispatch
 
-        reportToSpy "NINJA: Adding helper symbols"
+        reportToSpy NINJA_SYMBOL_ADD_HLP
         push    0x1
         push    zPAR_FLAG_CONST
         push    char_nversion_symb

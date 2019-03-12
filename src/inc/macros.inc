@@ -24,13 +24,10 @@
     %include "inc/stackops.inc"
 
     %macro reportToSpy 1
-        jmp     %%print
-        %%msg:  db  AUTHOR_PREFIX, ':', %1, 0
-    %%print:
         pusha
         sub     esp, 0x14
         mov     ecx, esp
-        push    %%msg
+        push    %1
         call    zSTRING__zSTRING
     addStack 4
         push    ecx

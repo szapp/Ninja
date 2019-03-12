@@ -79,7 +79,7 @@ createVdfArray:
         mov     DWORD [eax+0xC], .nversion
         mov     BYTE [eax+0xF], 0
 
-        reportToSpy " NINJA: Registering console command"
+        reportToSpy NINJA_REGISTER_CONSOLE
 
         sub     esp, 0x14
         mov     ecx, esp
@@ -109,7 +109,7 @@ createVdfArray:
         call    zCConsole__AddEvalFunc
     addStack 4
 
-        reportToSpy " NINJA: Reading ignore list from ini"
+        reportToSpy NINJA_READING_INI
         mov     esi, DWORD [zCOption_zgameoptions]
         test    esi, esi
         jz      .ignoreListEmpty
@@ -155,7 +155,7 @@ createVdfArray:
     addStack 4
 
 .detect:
-        reportToSpy " NINJA: Detecting/sorting patches that use Ninja"
+        reportToSpy NINJA_DETECTING_SORTING
         lea     ecx, [NINJA_PATCH_ARRAY-0x1]
         mov     [ecx], BYTE 0x0                                            ; Null terminated char string
         mov     ecx, NINJA_PATCH_ARRAY
@@ -476,7 +476,7 @@ createVdfArray:
         call    _atexit
         add     esp, 0x4
 
-        reportToSpy " NINJA: Patches found (sorted):"
+        reportToSpy NINJA_PATCHES_FOUND
 
         xor     edi, edi
 

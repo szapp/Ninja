@@ -10,7 +10,7 @@ ninja_scriptPathInvalid:
         push    esi
         push    ecx
 
-        reportToSpy "NINJA: Verifying script file path"
+        reportToSpy NINJA_VERIFY_PATH
         mov     esi, [esp+stackoffset+arg_1]
 
         mov     eax, [esi+zCParser_file_offset+zCArray.numInArray]
