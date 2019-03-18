@@ -2,9 +2,26 @@
 
 This repository contains the source code of the Ninja patching framework for Gothic 1 and Gothic 2 NotR.
 
-For more information on Ninja, visit the [documentation](https://tiny.cc/GothicNinja).  
 If you are interested in developing patches with Ninja, please follow the instructions in the relevant chapters of the
-documentation.
+[documentation](https://tiny.cc/GothicNinja).
+
+# About
+
+Modifications of the video games *Gothic* and *Gothic 2 Night of the Raven* have succeeded to impress for well over a
+decade. Graphical changes may be deployed as modular patches running independently side-by-side. However, other aspects
+of the games, such as the story, may only be replaced as a whole. This has limited such modifications of the game to be
+exclusive, resulting in the term "modification" (in short "mod") to refer to a self-contained set of changes, that
+constitutes a new playable game (as opposed to a modular "patch"). To the frustration of many players, this does not
+allow combining their favorite mods and even the smallest improvement or bug fix to the original games demands an
+entirely independent mod incompatible with any other mods.
+
+Ninja lifts this constraint by extending the scope of the aforementioned, familiar modular patches to include *any*
+aspect of the game, instead of only mere graphical enhancements. This empowers them to the extent of mods, while
+retaining their modular behavior. Different from mods, they may to be stacked and combined at will, enriching the
+modding landscape for players and raising it to a new level. Nevertheless, they are not to be understood to replace
+mods, but to complement them with small, independent features and enhancements.
+
+For more information on the Ninja patching framework, visit the [documentation](https://tiny.cc/GothicNinja).
 
 # Usage
 
@@ -13,11 +30,11 @@ instructions, please consult the [documentation](https://tiny.cc/GothicNinja).
 
 # Building from Source
 
-There is absolutely no need to assemble Ninja yourself as the latest build is always available for download.
+There is **absolutely no need to assemble Ninja yourself** as the latest build is always available for download.
 
-Nevertheless, not all resources necessary for building are supplied in this repository and you'll not be able to
-successfully build it anyway. The purpose of this repository is merely to provide *insight* into the source code. The
-additional resources may be provided upon request.
+Nevertheless, if you wish to do so anyway, not all resources necessary for building are supplied in this repository and
+you'll not be able to successfully build it. The purpose of this repository is merely to provide *insight* into the
+source code. The additional resources may be provided upon request.
 
 ## Requirements
 
