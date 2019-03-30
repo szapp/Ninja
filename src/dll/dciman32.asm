@@ -39,6 +39,8 @@ INVALID_HANDLE_VALUE                   equ  0xFFFFFFFF
 extern MessageBoxA
 extern VirtualProtect
 extern memcpy
+extern lstrlenA
+extern GetModuleFileNameA
 extern GetSystemDirectoryA
 extern LoadLibraryA
 extern GetProcAddress
@@ -245,6 +247,57 @@ injectAll:
         jmp     .success
 
 
+; int __cdecl verifyModuleName(void)
+verifyModuleName:
+        resetStackoffset
+        %assign var_total   0x104
+        %assign var_name   -0x104                                          ; char[0x104]
+
+        sub     esp, var_total
+        push    ecx
+        push    edx
+
+        lea     eax, [esp+stackoffset+var_name]
+        push    0x104
+        push    eax
+        push    0x0
+        call    GetModuleFileNameA
+    addStack 3*4
+
+        lea     eax, [esp+stackoffset+var_name]
+        push    eax
+        call    lstrlenA
+    addStack 4
+        lea     edx, [esp+stackoffset+var_name]
+        add     eax, edx
+
+.findBaseName:
+        cmp     eax, edx
+        jb      .baseName
+        mov     cl, [eax]
+        cmp     cl, '\'
+        jz      .baseName
+        cmp     cl, '/'
+        jz      .baseName
+        dec     eax
+        jmp     .findBaseName
+
+.baseName:
+        mov     ecx, eax
+        xor     eax, eax
+        inc     ecx
+        cmp     DWORD [ecx], 'Goth'
+        jnz     .funcEnd
+        inc     eax
+
+.funcEnd:
+        pop     edx
+        pop     ecx
+        add     esp, var_total
+        verifyStackoffset
+        ret
+
+
 ; void __cdecl redirectDLL(void)
 redirectDLL:
         resetStackoffset
@@ -406,6 +459,10 @@ DllMain:
 .attach:
         cmp     eax, DLL_PROCESS_ATTACH
         jnz     .succeeded
+
+        call    verifyModuleName
+        test    eax, eax
+        jz      .succeeded                                                 ; Ignore on invalid module file name
 
         call    injectAll
         test    eax, eax
