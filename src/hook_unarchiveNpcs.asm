@@ -9,7 +9,7 @@
 %endif
 
 %ifidn __OUTPUT_FORMAT__, bin
-    org     g1g2(0x6A3333,0x747386)
+    org     g1g2(0x6D6823,0x77F9BB)
 %endif
 
 bits    32
@@ -18,4 +18,3 @@ bits    32
 section .text   align=1                                                    ; Prevent auto-alignment
 
         jmp     removeInvalidNpcs2
-        nop

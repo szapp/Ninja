@@ -79,6 +79,7 @@
     %define     oCNpc__vftable                            0x7DDF34     ; const
     %define     oCItem__vftable                           0x7DD0CC     ; const
     %define     zCObject__CheckInheritance                0x470130     ; zCClassDef const *, zCClassDef const *
+    %define     oCWorld__InsertInLists                    0x6D7670     ; zCVob *
     %define     oCWorld__RemoveFromLists                  0x6D7750     ; zCVob *
     %define     zCConsole_zcon                            0x8DC5A0     ; zCConsole *
     %define     zCConsole__AddEvalFunc                    0x6DBCA0     ; int (*)(zSTRING const &, zSTRING &)

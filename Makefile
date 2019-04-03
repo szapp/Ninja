@@ -91,7 +91,7 @@ BIN_BASE		:=	core										\
 					hook_zCParser__LoadGlobalVars				\
 					hook_unarchiveInfoMan						\
 					hook_unarchiveVobs							\
-					hook_unarchiveNpc							\
+					hook_unarchiveNpcs							\
 					hook_setVobToTransient						\
 					hook_fastexit								\
 					hook_CGameManager_destructor				\

@@ -156,17 +156,26 @@ removeInvalidNpcs:
 
 global removeInvalidNpcs2
 removeInvalidNpcs2:
-    resetStackoffset g1g2(0x10C,0x158)
+    resetStackoffset g1g2(0x5C,0x98)
+        test    esi, esi
+        jz      .back
+
+        mov     eax, [esi+g1g2(0x7B0,0x770)]                               ; oCNpc.instance
+        test    eax, eax
+        jl      .remove
+        call    oCWorld__InsertInLists
+        jmp     .back
+
+.remove:
         reportToSpy NINJA_REMOVE_NPC
         push    char_meatbug_mds
-        lea     ecx, [ebp+g1g2(0x07B4,0x774)]                              ; oCNpc.mds_name
+        lea     ecx, [esi+g1g2(0x07B4,0x774)]                              ; oCNpc.mds_name
         call    zSTRING__zSTRING
     addStack 4
 
-    verifyStackoffset g1g2(0x10C,0x158)
-        push    0x1
-        lea     ecx, [esp+stackoffset+g1g2(-0xE0,-0x134)]
-        jmp     g1g2(0x6A3339,0x74738C)
+.back:
+    verifyStackoffset g1g2(0x5C,0x98)
+        jmp     g1g2(0x6D6828,0x77F9C0)
 
 
 global ninja_injectInfo
