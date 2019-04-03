@@ -154,6 +154,21 @@ removeInvalidNpcs:
 %endif
 
 
+global removeInvalidNpcs2
+removeInvalidNpcs2:
+    resetStackoffset g1g2(0x10C,0x158)
+        reportToSpy NINJA_REMOVE_NPC
+        push    char_meatbug_mds
+        lea     ecx, [ebp+g1g2(0x07B4,0x774)]                              ; oCNpc.mds_name
+        call    zSTRING__zSTRING
+    addStack 4
+
+    verifyStackoffset g1g2(0x10C,0x158)
+        push    0x1
+        lea     ecx, [esp+stackoffset+g1g2(-0xE0,-0x134)]
+        jmp     g1g2(0x6A3339,0x74738C)
+
+
 global ninja_injectInfo
 ninja_injectInfo:
         resetStackoffset                                                   ; 0xBC
