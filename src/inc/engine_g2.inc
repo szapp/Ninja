@@ -168,8 +168,9 @@
     %define     zPAR_TYPE_INT                             2<<12
     %define     zPAR_TYPE_STRING                          3<<12
     %define     zPAR_TYPE_PROTOTYPE                       6<<12
+    %define     zPAR_TYPE_INSTANCE                        7<<12
 
-    %define     zPAR_FLAG_CONST                           0x1
+    %define     zPAR_FLAG_CONST                           1<<16
 
     %define     char_sep                                  0x1A
     %define     INVALID_HANDLE_VALUE                      0xFFFFFFFF

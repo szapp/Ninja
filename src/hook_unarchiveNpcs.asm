@@ -1,4 +1,4 @@
-; Hook oCNpc::Unarchive to catch invalid oCNpc objects
+; Hook oCWorld::Unarchive to catch invalid oCNpc objects
 
 %include "inc/macros.inc"
 

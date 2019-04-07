@@ -379,12 +379,11 @@ createGlobalVarIfNotExist:
         jmp     0x6EDADA
 
 .createSymb:
-        push    0x1
-        push    0x0
+        push    zPAR_TYPE_INT | 0x1
         lea     ecx, [esp+stackoffset-0x8C]
         push    DWORD [ecx+0x4]
         call    ninja_createSymbol
-    addStack 3*4
+    addStack 2*4
         mov     esi, eax
     verifyStackoffset 0xC4
 
@@ -398,12 +397,12 @@ createGlobalVarIfNotExist:
         test    ecx, ecx
         jnz     0x7973E7
 
+        or      eax, zPAR_TYPE_INT
         push    eax
-        push    0x0
         lea     ecx, [esp+stackoffset-0x170]
         push    DWORD [ecx+0x8]
         call    ninja_createSymbol
-    addStack 3*4
+    addStack 2*4
         mov     [esp+stackoffset-0x1B0], eax
     verifyStackoffset 0x1F0
 

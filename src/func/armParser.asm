@@ -39,29 +39,19 @@ ninja_armParser:
         mov     DWORD [ecx+0x1C], eax                                      ; Fix zCParser->tablesort->numInArray
 
         reportToSpy NINJA_SYMBOL_ADD_DIV
-        push    0x1
-        push    zPAR_FLAG_CONST
+        push    zPAR_TYPE_INSTANCE
         push    char_ndivider_symb
         call    ninja_createSymbol
-    addStack 3*4
-        mov     ecx, DWORD [zCPar_SymbolTable__cur_table]
-        mov     ecx, [ecx+0x10]                                            ; zCPar_SymbolTable->table->numInArray
-        dec     ecx
-        push    0x0
-        push    ecx
-        mov     ecx, eax
-        call    zCPar_Symbol__SetValue_int
     addStack 2*4
 
         cmp     DWORD [esp+stackoffset+arg_2], NINJA_PATH_CONTENT
         jnz     .dispatch
 
         reportToSpy NINJA_SYMBOL_ADD_HLP
-        push    0x1
-        push    zPAR_FLAG_CONST
+        push    zPAR_TYPE_INT | zPAR_FLAG_CONST | 0x1
         push    char_nversion_symb
         call    ninja_createSymbol
-    addStack 3*4
+    addStack 2*4
         %substr .nversion1 NINJA_VERSION 2,1                               ; Convert version string into integer
         %substr .nversion2 NINJA_VERSION 4,1
         %assign .nversion (.nversion1-48)*10 + (.nversion2-48)
@@ -71,22 +61,20 @@ ninja_armParser:
         call    zCPar_Symbol__SetValue_int
     addStack 2*4
 
-        push    0x1
-        push    zPAR_FLAG_CONST
+        push    zPAR_TYPE_INT | zPAR_FLAG_CONST | 0x1
         push    char_narray_symb
         call    ninja_createSymbol
-    addStack 3*4
+    addStack 2*4
         push    0x0
         push    NINJA_PATCH_ARRAY
         mov     ecx, eax
         call    zCPar_Symbol__SetValue_int
     addStack 2*4
 
-        push    0x1 | zPAR_TYPE_STRING
-        push    zPAR_FLAG_CONST
+        push    zPAR_TYPE_STRING | zPAR_FLAG_CONST | 0x1
         push    char_modname_symb
         call    ninja_createSymbol
-    addStack 3*4
+    addStack 2*4
         mov     esi, eax
         sub     esp, 0x14
         mov     ecx, esp

@@ -1,12 +1,11 @@
-; zCPar_Symbol *__stdcall ninja_createSymbol(const char *, int, int)
-; Create integer symbol with specified name and add it to current symbol table (fatal error on fail)
+; zCPar_Symbol *__stdcall ninja_createSymbol(const char *, int)
+; Create symbol with specified name and add it to current symbol table (fatal error on fail)
 global ninja_createSymbol
 ninja_createSymbol:
         resetStackoffset
         %assign arg_1         +0x4                                         ; const char *
         %assign arg_2         +0x8                                         ; int
-        %assign arg_3         +0xC                                         ; int
-        %assign arg_total      0xC
+        %assign arg_total      0x8
 
         push    ecx
         push    esi
@@ -22,12 +21,7 @@ ninja_createSymbol:
         push    DWORD [esp+stackoffset+arg_1]
         call    zSTRING__zSTRING
     addStack 4
-        push    DWORD [esp+stackoffset+arg_2]
-        call    zCPar_Symbol__SetFlag
-    addStack 4
-        mov     eax, [ecx+zCPar_Symbol_bitfield_offset]
-        or      eax, zPAR_TYPE_INT
-        or      eax, DWORD [esp+stackoffset+arg_3]                         ; Number of elements
+        mov     eax, DWORD [esp+stackoffset+arg_2]                         ; Type, flags, number of elements, ...
         mov     DWORD [ecx+zCPar_Symbol_bitfield_offset], eax
 
         push    ecx
