@@ -22,6 +22,6 @@ NINJA_PATH_LEGO          db   '\NINJA\_INTERN\LEGO\LEGO.D', 0
 NINJA_PATH_IKARUSSRC     db   '\NINJA\_INTERN\IKARUS\IKARUS_G', g1g2('1','2'), '.SRC', 0
 NINJA_PATH_LEGOSRC       db   '\NINJA\_INTERN\LEGO\HEADER_G', g1g2('1','2'),'.SRC', 0
 NINJA_MDS_PREFIX         db   'ANIMS_', 0
-NINJA_FILE               db   '\SYSTEM\DCIMAN32.DLL', 0
+NINJA_FILE               db   '\SYSTEM\BUGSLAYERUTIL.DLL', 0
 NINJA_VDF_DIR_NAME       db   'NINJA'
                  times 5 db   ' '

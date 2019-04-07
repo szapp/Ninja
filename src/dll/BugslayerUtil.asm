@@ -35,13 +35,13 @@ FILE_SHARE_WRITE                       equ  0x2
 FILE_SHARE_DELETE                      equ  0x4
 FILE_ATTRIBUTE_HIDDEN                  equ  0x2
 INVALID_HANDLE_VALUE                   equ  0xFFFFFFFF
+EXCEPTION_EXECUTE_HANDLER              equ  0x1
 
 extern MessageBoxA
 extern VirtualProtect
 extern memcpy
 extern lstrlenA
 extern GetModuleFileNameA
-extern GetSystemDirectoryA
 extern LoadLibraryA
 extern GetProcAddress
 extern SetFileAttributesA
@@ -49,62 +49,40 @@ extern CreateFileA
 extern WriteFile
 extern CloseHandle
 extern DeleteFileA
+extern SetUnhandledExceptionFilter
 
 export DllMain
 
 section .data
 
         DLLhndl                        dd   0x0
-        _DCIBeginAccess                dd   DCIBeginAccess.init
-        _DCICloseProvider              dd   DCICloseProvider.init
-        _DCICreateOffscreen            dd   DCICreateOffscreen.init
-        _DCICreateOverlay              dd   DCICreateOverlay.init
-        _DCICreatePrimary              dd   DCICreatePrimary.init
-        _DCIDestroy                    dd   DCIDestroy.init
-        _DCIDraw                       dd   DCIDraw.init
-        _DCIEndAccess                  dd   DCIEndAccess.init
-        _DCIEnum                       dd   DCIEnum.init
-        _DCIOpenProvider               dd   DCIOpenProvider.init
-        _DCISetClipList                dd   DCISetClipList.init
-        _DCISetDestination             dd   DCISetDestination.init
-        _DCISetSrcDestClip             dd   DCISetSrcDestClip.init
-        _GetDCRegionData               dd   GetDCRegionData.init
-        _GetWindowRegionData           dd   GetWindowRegionData.init
-        _WinWatchClose                 dd   WinWatchClose.init
-        _WinWatchDidStatusChange       dd   WinWatchDidStatusChange.init
-        _WinWatchGetClipList           dd   WinWatchGetClipList.init
-        _WinWatchNotify                dd   WinWatchNotify.init
-        _WinWatchOpen                  dd   WinWatchOpen.init
+        _GetFaultReason                dd   GetFaultReason.init
+        _GetFirstStackTraceString      dd   GetFirstStackTraceString.init
+        _GetNextStackTraceString       dd   GetNextStackTraceString.init
+        _GetRegisterString             dd   GetRegisterString.init
+        _SetCrashHandlerFilter         dd   SetCrashHandlerFilter.init
+
+        %define scriptsFileName             '_delete_me.vdf'
+        %define DLLFileName                 'BUGSLAYERUTILG.DLL'
 
         msgCaption                     db   'Ninja', 0
         msgGeneralFail                 db   'Ninja failed to initialize!', 0
         msgInvalidGothicVersion        db   'Invalid Gothic version.', 0
-        msgFailedToFindSysDir          db   'Failed to find system directory.', 0
-        msgFailedToLoadDLL             db   'Failed to load DCIMAN32.DLL.', 0
-        %define scriptsFileName             '_delete_me.vdf'
         msgScriptsCreatingFailed       db   'IO operations failed. Try starting the application with administrative '
                                        db   'privileges and/or delete the hidden file \Data\', scriptsFileName, 0
+        msgFaultReasonDLLNotFound      db   'Fault reason could not be determined, because ', DLLFileName,' was not '
+                                       db   'found.', 0
+        msgStackTraceDLLNotFound       db   'Stack trace could not be determined, because ', DLLFileName,' was not '
+                                       db   'found.', 0
+        msgRegisterDLLNotFound         db   'Registers could not be determined, because ', DLLFileName,' was not '
+                                       db   'found.', 0
 
-        char_DCIBeginAccess            db   'DCIBeginAccess', 0
-        char_DCICloseProvider          db   'DCICloseProvider', 0
-        char_DCICreateOffscreen        db   'DCICreateOffscreen', 0
-        char_DCICreateOverlay          db   'DCICreateOverlay', 0
-        char_DCICreatePrimary          db   'DCICreatePrimary', 0
-        char_DCIDestroy                db   'DCIDestroy', 0
-        char_DCIDraw                   db   'DCIDraw', 0
-        char_DCIEndAccess              db   'DCIEndAccess', 0
-        char_DCIEnum                   db   'DCIEnum', 0
-        char_DCIOpenProvider           db   'DCIOpenProvider', 0
-        char_DCISetClipList            db   'DCISetClipList', 0
-        char_DCISetDestination         db   'DCISetDestination', 0
-        char_DCISetSrcDestClip         db   'DCISetSrcDestClip', 0
-        char_GetDCRegionData           db   'GetDCRegionData', 0
-        char_GetWindowRegionData       db   'GetWindowRegionData', 0
-        char_WinWatchClose             db   'WinWatchClose', 0
-        char_WinWatchDidStatusChange   db   'WinWatchDidStatusChange', 0
-        char_WinWatchGetClipList       db   'WinWatchGetClipList', 0
-        char_WinWatchNotify            db   'WinWatchNotify', 0
-        char_WinWatchOpen              db   'WinWatchOpen', 0
+        dllFileName                    db   DLLFileName, 0
+        char_GetFaultReason            db   'GetFaultReason', 0
+        char_GetFirstStackTraceString  db   'GetFirstStackTraceString', 0
+        char_GetNextStackTraceString   db   'GetNextStackTraceString', 0
+        char_GetRegisterString         db   'GetRegisterString', 0
+        char_SetCrashHandlerFilter     db   'SetCrashHandlerFilter', 0
 
         verify_addr_g1                 equ  0x82C0C0
         verify_addr_g2                 equ  0x89A7FC
@@ -301,36 +279,13 @@ verifyModuleName:
 ; void __cdecl redirectDLL(void)
 redirectDLL:
         resetStackoffset
-        %assign var_total   0x100
-        %assign var_path   -0x100                                          ; char[0x100]
 
-        sub     esp, var_total
-        push    ecx
-
-        lea     eax, [esp+stackoffset+var_path]
-        push    0x100
-        push    eax
-        call    GetSystemDirectoryA
-    addStack 2*4
-        test    eax, eax
-        jnz     .loadDLL
-        mov     eax, msgFailedToFindSysDir
-        jmp     .failed
-
-.loadDLL:
-        lea     ecx, [esp+stackoffset+var_path]
-        mov     BYTE [eax+ecx], '\'
-        mov     DWORD [eax+ecx+0x1], 'DCIM'
-        mov     DWORD [eax+ecx+0x5], 'AN32'
-        mov     DWORD [eax+ecx+0x9], '.DLL'
-        mov     BYTE [eax+ecx+0xD], 0
-        push    ecx
+        push    dllFileName
         call    LoadLibraryA
     addStack 4
         test    eax, eax
         jnz     .getProcAddr
-        mov     eax, msgFailedToLoadDLL
-        jmp     .failed
+        ret
 
 .getProcAddr:
         mov     DWORD [DLLhndl], eax
@@ -339,46 +294,22 @@ redirectDLL:
         push    char_%1
         push    DWORD [DLLhndl]
         call    GetProcAddress
+        test    eax, eax
+        jnz     %%succ
+        ret
+    %%succ:
         mov     DWORD [_%1], eax
     addStack 2*4
     %endmacro
 
-        fillAPI DCIBeginAccess
-        fillAPI DCICloseProvider
-        fillAPI DCICreateOffscreen
-        fillAPI DCICreateOverlay
-        fillAPI DCICreatePrimary
-        fillAPI DCIDestroy
-        fillAPI DCIDraw
-        fillAPI DCIEndAccess
-        fillAPI DCIEnum
-        fillAPI DCIOpenProvider
-        fillAPI DCISetClipList
-        fillAPI DCISetDestination
-        fillAPI DCISetSrcDestClip
-        fillAPI GetDCRegionData
-        fillAPI GetWindowRegionData
-        fillAPI WinWatchClose
-        fillAPI WinWatchDidStatusChange
-        fillAPI WinWatchGetClipList
-        fillAPI WinWatchNotify
-        fillAPI WinWatchOpen
+        fillAPI GetFaultReason
+        fillAPI GetFirstStackTraceString
+        fillAPI GetNextStackTraceString
+        fillAPI GetRegisterString
+        fillAPI SetCrashHandlerFilter
 
-        jmp     .funcEnd
-
-.failed:
-        push    MB_OK | MB_ICONERROR | MB_TASKMODAL | MB_SETFOREGROUND
-        push    msgCaption
-        push    eax
-        push    0x0
-        call    MessageBoxA
-    addStack 4*4
-        xor     eax, eax
-
-.funcEnd:
-        pop     ecx
-        add     esp, var_total
-        verifyStackoffset
+    verifyStackoffset
+        mov     eax, [DLLhndl]
         ret
 
 
@@ -448,7 +379,7 @@ createScripts:
 ; bool __stdcall DLLMain(DWORD hinstDLL, DWORD fdwReason, void *lpvReserved)
 DllMain:
         resetStackoffset
-        mov     eax, [esp+0x8]
+        mov     eax, [esp+stackoffset+0x8]                                 ; fdwReason
         cmp     eax, DLL_PROCESS_DETACH
         jnz     .attach
         push    scriptsPathDelete
@@ -491,32 +422,35 @@ DllMain:
 
 
 ; Load library on very first call, after that jump to function directly
-%macro setupAPI 1
+%macro setupAPI 3
 export %1
 %1:
         jmp     DWORD [_%1]
 .init:
         call    redirectDLL
-        jmp     %1
+        test    eax, eax
+        jnz     %1
+
+        mov     eax, %3
+        ret     %2
 %endmacro
 
-setupAPI DCIBeginAccess
-setupAPI DCICloseProvider
-setupAPI DCICreateOffscreen
-setupAPI DCICreateOverlay
-setupAPI DCICreatePrimary
-setupAPI DCIDestroy
-setupAPI DCIDraw
-setupAPI DCIEndAccess
-setupAPI DCIEnum
-setupAPI DCIOpenProvider
-setupAPI DCISetClipList
-setupAPI DCISetDestination
-setupAPI DCISetSrcDestClip
-setupAPI GetDCRegionData
-setupAPI GetWindowRegionData
-setupAPI WinWatchClose
-setupAPI WinWatchDidStatusChange
-setupAPI WinWatchGetClipList
-setupAPI WinWatchNotify
-setupAPI WinWatchOpen
+setupAPI GetFaultReason,0x4,msgFaultReasonDLLNotFound
+setupAPI GetFirstStackTraceString,0x8,msgStackTraceDLLNotFound             ; Must always return a valid string pointer
+setupAPI GetNextStackTraceString,0x8,0                                     ; May always return zero (do-while condition)
+setupAPI GetRegisterString,0x4,msgRegisterDLLNotFound
+
+
+; int __stdcall SetCrashHandlerFilter(int (__stdcall *lpTopLevelExceptionFilter)())
+export SetCrashHandlerFilter
+SetCrashHandlerFilter:
+        jmp     DWORD [_SetCrashHandlerFilter]
+.init:
+        call    redirectDLL
+        test    eax, eax
+        jnz     SetCrashHandlerFilter
+
+        push    DWORD [esp+0x4]                                            ; If DLL not found, set manually
+        call    SetUnhandledExceptionFilter
+        xor     eax, eax
+        ret     0x4

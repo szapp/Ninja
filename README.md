@@ -3,16 +3,16 @@
 This repository contains the source code of the Ninja extension for Gothic 1 and Gothic 2 NotR.
 
 If you are interested in developing patches with Ninja, please follow the instructions in the relevant chapters of the
-[documentation](https://tiny.cc/GothicNinja).
+[documentation](https://github.com/szapp/Ninja/wiki).
 
 # About
 
-For information on Ninja, please visit the [documentation](https://tiny.cc/GothicNinja).
+For information on Ninja, please visit the [documentation](https://github.com/szapp/Ninja/wiki).
 
 # Usage
 
 To use Ninja, download and install the [latest release](../../releases/latest). If you run into issues or need further
-instructions, please consult the [documentation](https://tiny.cc/GothicNinja).
+instructions, please consult the [documentation](https://github.com/szapp/Ninja/wiki).
 
 ---
 
@@ -63,6 +63,9 @@ All the steps above are performed simply with
 ```bash
 make
 ```
+
+Note: To run properly, the original BugslayerUtil.dll is expected in the same directory with the name
+BugslayerUtilG.dll.
 
 # Legal
 

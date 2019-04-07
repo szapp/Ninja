@@ -46,11 +46,11 @@ FLAGS_RC		:=	/ni
 META			:=	metadata
 
 # TARGET
-TARGET			:=	$(BUILDDIR)dciman32$(DLLEXT)
-OBJ				:=	$(BINDIR)dciman32$(OBJEXT)
+TARGET			:=	$(BUILDDIR)BugslayerUtil$(DLLEXT)
+OBJ				:=	$(BINDIR)BugslayerUtil$(OBJEXT)
 RC				:=	$(DLLDIR)resource$(RCEXT)
 RSC				:=	$(DLLDIR)resource$(RESEXT)
-SRCDLL			:=	$(DLLDIR)dciman32$(ASMEXT)
+SRCDLL			:=	$(DLLDIR)BugslayerUtil$(ASMEXT)
 IKLG			:=	$(INCDIR)iklg.data
 
 # System dependencies
@@ -225,12 +225,11 @@ $(RC) : $(META)
 	@ECHO {>>                                                                     "$(call FixPath,$@)"
 	@ECHO     BLOCK "000004B0">>                                                  "$(call FixPath,$@)"
 	@ECHO     {>>                                                                 "$(call FixPath,$@)"
-	@ECHO         VALUE "CompanyName", "mud-freak (@szapp)">>                     "$(call FixPath,$@)"
 	@ECHO         VALUE "FileDescription", "Ninja <$(NINJA_WEBSITE)>">>           "$(call FixPath,$@)"
 	@ECHO         VALUE "FileVersion", "$(VBASE).$(VMAJOR)">>                     "$(call FixPath,$@)"
-	@ECHO         VALUE "InternalName", "DCIMAN32">>                              "$(call FixPath,$@)"
-	@ECHO         VALUE "LegalCopyright", "(C) $(RYEARS)  mud-freak (@szapp)">>   "$(call FixPath,$@)"
-	@ECHO         VALUE "OriginalFilename", "DCIMAN32.DLL">>                      "$(call FixPath,$@)"
+	@ECHO         VALUE "InternalName", "BugslayerUtil">>                         "$(call FixPath,$@)"
+	@ECHO         VALUE "LegalCopyright", "Copyright © $(RYEARS) szapp">>         "$(call FixPath,$@)"
+	@ECHO         VALUE "OriginalFilename", "BugslayerUtil.DLL">>                 "$(call FixPath,$@)"
 	@ECHO         VALUE "ProductName", "Ninja">>                                  "$(call FixPath,$@)"
 	@ECHO         VALUE "ProductVersion", "$(VBASE).$(VMAJOR)">>                  "$(call FixPath,$@)"
 	@ECHO     }>>                                                                 "$(call FixPath,$@)"
