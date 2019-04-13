@@ -11,8 +11,8 @@ For information on Ninja, please visit the [documentation](https://github.com/sz
 
 # Usage
 
-To use Ninja, download and install the [latest release](../../releases/latest). If you run into issues or need further
-instructions, please consult the [documentation](https://github.com/szapp/Ninja/wiki).
+To use Ninja, download and install the [latest release](https://github.com/szapp/Ninja/releases/latest). If you run into
+issues or need further instructions, please consult the [documentation](https://github.com/szapp/Ninja/wiki).
 
 ---
 
@@ -63,9 +63,6 @@ All the steps above are performed simply with
 ```bash
 make
 ```
-
-Note: To run properly, the original BugslayerUtil.dll is expected in the same directory with the name
-BugslayerUtilG.dll.
 
 # Legal
 
