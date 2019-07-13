@@ -34,6 +34,7 @@ keep_int_symbol_start    db   'BLOODSPLAT_NUM', 0
                          db   'BLOODSPLAT_TEX', 0
                          db   'BLOODSPLAT_DAM', 0
                          db   'BUFFS_DISPLAYFORHERO', 0
+                         db   'BUFF_FADEOUT', 0
                          db   'PF_PRINTX', 0
                          db   'PF_PRINTY', 0
                          db   'PF_TEXTHEIGHT', 0
