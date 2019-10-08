@@ -67,8 +67,8 @@ section .data
 
         %include "inc/injections.inc"
 
-        scriptsPathCreate              db   ''                             ; '..\'
-        scriptsPathDelete              db   'DATA\', scriptsFileName, 0
+        scriptsPathRel                 db   '..\'
+        scriptsPathBase                db   'DATA\', scriptsFileName, 0
         scriptsData:                   incbin "inc/iklg.data"
         scriptsData_len                equ  $-scriptsData
 
@@ -261,7 +261,11 @@ createScripts:
         push    ecx
 
         push    FILE_ATTRIBUTE_HIDDEN                                      ; If already exists, needs same attributes
-        push    scriptsPathCreate
+        push    scriptsPathRel
+        call    SetFileAttributesA
+    addStack 2*4
+        push    FILE_ATTRIBUTE_HIDDEN
+        push    scriptsPathBase
         call    SetFileAttributesA
     addStack 2*4
         push    0x0
@@ -270,7 +274,19 @@ createScripts:
         push    0x0
         push    FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE
         push    GENERIC_READ | GENERIC_WRITE
-        push    scriptsPathCreate
+        push    scriptsPathRel
+        call    CreateFileA
+    addStack 7*4
+        cmp     eax, INVALID_HANDLE_VALUE
+        jnz     .created
+
+        push    0x0
+        push    FILE_ATTRIBUTE_HIDDEN
+        push    CREATE_ALWAYS
+        push    0x0
+        push    FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE
+        push    GENERIC_READ | GENERIC_WRITE
+        push    scriptsPathBase
         call    CreateFileA
     addStack 7*4
         cmp     eax, INVALID_HANDLE_VALUE
@@ -320,7 +336,10 @@ DllMain:
         mov     eax, [esp+stackoffset+0x8]                                 ; fdwReason
         cmp     eax, DLL_PROCESS_DETACH
         jnz     .attach
-        push    scriptsPathDelete
+        push    scriptsPathRel
+        call    DeleteFileA
+    addStack 4
+        push    scriptsPathBase
         call    DeleteFileA
     addStack 4
         jmp    .succeeded
