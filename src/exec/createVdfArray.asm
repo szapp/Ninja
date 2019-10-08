@@ -49,13 +49,9 @@ createVdfArray:
         call    zSTRING___zSTRING
         add     esp, 0x14
 
-        %substr .nversion1 NINJA_VERSION 2,1                               ; Update version string in case of SystemPack
-        %substr .nversion2 NINJA_VERSION 4,1
-        %strcat .nversion .nversion1 '.' .nversion2 ' '
-
-        mov     al, [SystemPack_version_info+g1g2(0xD,0xB)]
+        mov     al, [SystemPack_version_info+g1g2(0xD,0xB)]                ; Check for old Ninja system
         cmp     al, 'N'
-        jnz     .setVersionInfo
+        jnz     .registerConsole
 
         sub     esp, 0x14
         mov     ecx, esp
@@ -69,16 +65,7 @@ createVdfArray:
         call    zSTRING___zSTRING
         add     esp, 0x14
 
-.setVersionInfo:
-        mov     eax, SystemPack_version_info
-        mov     ecx, [eax+g1g2(0xD,0xB)]
-        mov     DWORD [eax], g1g2('1.08','2.6f')
-        mov     DWORD [eax+0x4], g1g2('k-S ','x-S ')
-        mov     DWORD [eax+0x7], ecx
-        mov     WORD [eax+0xA], '-N'
-        mov     DWORD [eax+0xC], .nversion
-        mov     BYTE [eax+0xF], 0
-
+.registerConsole:
         reportToSpy NINJA_REGISTER_CONSOLE
 
         sub     esp, 0x14
