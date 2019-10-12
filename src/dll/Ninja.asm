@@ -274,7 +274,7 @@ createScripts:
         push    0x0
         push    FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE
         push    GENERIC_READ | GENERIC_WRITE
-        push    scriptsPathRel
+        push    scriptsPathBase
         call    CreateFileA
     addStack 7*4
         cmp     eax, INVALID_HANDLE_VALUE
@@ -286,7 +286,7 @@ createScripts:
         push    0x0
         push    FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE
         push    GENERIC_READ | GENERIC_WRITE
-        push    scriptsPathBase
+        push    scriptsPathRel
         call    CreateFileA
     addStack 7*4
         cmp     eax, INVALID_HANDLE_VALUE
