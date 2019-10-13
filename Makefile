@@ -53,8 +53,14 @@ RSC				:=	$(DLLDIR)resource$(RESEXT)
 SRCDLL			:=	$(DLLDIR)Ninja$(ASMEXT)
 IKLG			:=	$(INCDIR)iklg.data
 
+# WRAPPER
+WRAPPER			:=	$(BUILDDIR)BugslayerUtil$(DLLEXT)
+WRAPPER_OBJ		:=	$(BINDIR)BugslayerUtil$(OBJEXT)
+WRAPPER_SRC		:=	$(DLLDIR)BugslayerUtil$(ASMEXT)
+
 # System dependencies
-SYSDEP			:=	User32.dll Kernel32.dll NtDll.dll
+SYSDEP			:=	User32$(DLLEXT) Kernel32$(DLLEXT) NtDll$(DLLEXT)
+WRAPPER_SYSDEP	:=	Kernel32$(DLLEXT)
 
 # Content
 CONTENT			:=	$(INCDIR)injections$(INCEXT)
@@ -162,7 +168,7 @@ include $(META)
 export VERSION=$(VBASE).$(VMAJOR)
 
 # Phony rules
-all : $(TARGET)
+all : $(WRAPPER)
 
 clean :
 	$(RM) $(call FixPath,$(BUILDDIR)*)
@@ -174,6 +180,7 @@ clean :
 
 cleanDLL :
 	$(RM) $(call FixPath,$(TARGET))
+	$(RM) $(call FixPath,$(WRAPPER))
 
 remake : clean all
 
@@ -183,9 +190,17 @@ relink : cleanDLL all
 
 
 # Build dependencies
+$(WRAPPER) : $(WRAPPER_OBJ) $(TARGET)
+	@$(call mkdir,$(BUILDDIR))
+	golink $(FLAGS_L) /fo $(call FixPath,$@) $^ $(WRAPPER_SYSDEP)
+
 $(TARGET) : $(OBJ) $(RSC)
 	@$(call mkdir,$(BUILDDIR))
-	golink $(FLAGS_L) /fo $@ $^ $(SYSDEP)
+	golink $(FLAGS_L) /fo $(call FixPath,$@) $^ $(SYSDEP)
+
+$(WRAPPER_OBJ) : $(WRAPPER_SRC)
+	@$(call mkdir,$(BINDIR))
+	$(NASM) $(FLAGS_A) -o $@ $<
 
 $(OBJ) : $(SRCDLL) $(CONTENT) $(IKLG)
 	@$(call mkdir,$(BINDIR))

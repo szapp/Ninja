@@ -48,6 +48,7 @@ extern CloseHandle
 extern DeleteFileA
 
 export DllMain
+export Ninja
 
 section .data
 
@@ -74,6 +75,9 @@ section .data
 
 
 section .text
+
+Ninja:
+        ret
 
 ; int __stdcall inject(void *, DWORD, void *)
 inject:
