@@ -26,6 +26,7 @@ NINJA_SYMBOL_ADD_HLP     db   AUTHOR_PREFIX, ':NINJA: Adding helper symbols', 0
 NINJA_SYMBOL_FAILED      db   AUTHOR_PREFIX, ':NINJA: Failed to add symbol: ', 0
 NINJA_SKIPPING           db   AUTHOR_PREFIX, ':NINJA: Skipping : ', 0
 NINJA_OUTDATED_PATCH     db   AUTHOR_PREFIX, ':NINJA: One of your patches is outdated (Ninja <= 1.2)', 0
+NINJA_MOUNTFAIL          db   AUTHOR_PREFIX, ':NINJA: Ninja was attached too late (after VDFS)', 0
 NINJA_VERIFY_PATH        db   AUTHOR_PREFIX, ':NINJA: Verifying file path', 0
 NINJA_VERIFY_VERSION     db   AUTHOR_PREFIX, ':NINJA: Verifying version', 0
 NINJA_COMPARE_VERSIONS   db   AUTHOR_PREFIX, ':NINJA: Comparing versions', 0

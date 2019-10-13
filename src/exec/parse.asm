@@ -278,8 +278,8 @@ parser_verify_ikarus_version:
         push    eax
         call    zERROR__Fatal
     addStack 4
-        mov     ecx, esp
-        call    zSTRING___zSTRING
+        ; mov     ecx, esp                                                 ; Never reached: Safe some space
+        ; call    zSTRING___zSTRING
         add     esp, 0x14
     verifyStackoffset g1g2(0x398,0x3F0) + 0x8
         jmp     .back
@@ -337,8 +337,8 @@ parser_verify_ikarus_version:
         push    esp
         call    zERROR__Fatal
     addStack 4
-        mov     ecx, esp
-        call    zSTRING___zSTRING
+        ; mov     ecx, esp                                                 ; Never reached: Safe some space
+        ; call    zSTRING___zSTRING
         add     esp, 0x14
         push    esp
         call    operator_delete
@@ -469,8 +469,8 @@ parser_verify_lego_version:
         push    eax
         call    zERROR__Fatal
     addStack 4
-        mov     ecx, esp
-        call    zSTRING___zSTRING
+        ; mov     ecx, esp                                                 ; Never reached: Safe some space
+        ; call    zSTRING___zSTRING
         add     esp, 0x14
     verifyStackoffset g1g2(0x394,0x3EC) + 0xC
         jmp     .back
@@ -535,12 +535,13 @@ parser_verify_lego_version:
         push    esp
         call    zERROR__Fatal
     addStack 4
-        mov     ecx, esp
-        call    zSTRING___zSTRING
+        ; mov     ecx, esp                                                 ; Never reached: Safe some space
+        ; call    zSTRING___zSTRING
         add     esp, 0x14
-        push    esp
-        call    operator_delete
-        add     esp, 0x8
+        ; push    esp                                                      ; Never reached: Safe some space
+        ; call    operator_delete
+        ; add     esp, 0x4
+        add     esp, 0x4
         pop     edi
 
 .skip:

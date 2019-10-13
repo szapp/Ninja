@@ -39,8 +39,8 @@ ninja_scriptPathInvalid:
         push    eax
         call    zERROR__Fatal
     addStack 4
-        mov     ecx, esp
-        call    zSTRING___zSTRING
+        ; mov     ecx, esp                                                 ; Never reached: Safe some space
+        ; call    zSTRING___zSTRING
         add     esp, 0x14
         mov     eax, 0x1
 

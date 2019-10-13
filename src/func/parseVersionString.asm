@@ -104,8 +104,8 @@ ninja_parseVersionString:
         push    eax
         call    zERROR__Fatal
     addStack 4
-        mov     esp, ecx
-        call    zSTRING___zSTRING
+        ; mov     esp, ecx                                                 ; Never reached: Safe some space
+        ; call    zSTRING___zSTRING
         add     esp, 0x14
         xor     eax, eax
         dec     eax                                                        ; Return -1
