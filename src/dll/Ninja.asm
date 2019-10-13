@@ -63,9 +63,6 @@ section .data
         verify_addr_g1                 equ  0x82C0C0
         verify_addr_g2                 equ  0x89A7FC
 
-        version_sp_g1                  equ  0x7CF576
-        version_sp_g2                  equ  0x82D48F
-
         %include "inc/injections.inc"
 
         scriptsPathRel                 db   '..\'
@@ -162,18 +159,6 @@ injectAll:
         %assign it it + 1
     %endrep
 
-        xor     eax, eax
-        push    eax
-        push    esp
-        push    PAGE_READWRITE
-        push    0x10
-        push    version_sp_g1
-        call    VirtualProtect
-    addStack 4*4
-        test    eax, eax
-        pop     eax
-        jz      .failed
-
 .success:
         mov     eax, DWORD 0x1
         ret
@@ -190,17 +175,6 @@ injectAll:
         %assign it it + 1
     %endrep
 
-        xor     eax, eax
-        push    eax
-        push    esp
-        push    PAGE_READWRITE
-        push    0x10
-        push    version_sp_g2
-        call    VirtualProtect
-    addStack 4*4
-        test    eax, eax
-        pop     eax
-        jz      .failed
         jmp     .success
 
 
