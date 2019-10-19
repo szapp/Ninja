@@ -1,5 +1,6 @@
 export VBASE=1
 export VMAJOR=2
+export VMINOR=01
 export RYEARS=2018-2019
 export NINJA_WEBSITE=http://tiny.cc/GothicNinja
 export IKARUS_VERSION=10201

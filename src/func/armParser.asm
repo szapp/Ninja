@@ -54,7 +54,9 @@ ninja_armParser:
     addStack 2*4
         %substr .nversion1 NINJA_VERSION 2,1                               ; Convert version string into integer
         %substr .nversion2 NINJA_VERSION 4,1
-        %assign .nversion (.nversion1-48)*10 + (.nversion2-48)
+        %substr .nversion3 NINJA_VERSION 6,1
+        %substr .nversion4 NINJA_VERSION 7,1
+        %assign .nversion (.nversion1-48)*1000 + (.nversion2-48)*100 + (.nversion3-48)*10 + (.nversion4-48)
         push    0x0
         push    .nversion
         mov     ecx, eax

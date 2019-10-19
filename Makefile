@@ -165,7 +165,7 @@ DATA			:=	$(DATA_BASE:%=$(DATADIR)%$(ASMEXT))
 
 # Include meta data
 include $(META)
-export VERSION=$(VBASE).$(VMAJOR)
+export VERSION=$(VBASE).$(VMAJOR).$(VMINOR)
 
 # Phony rules
 all : $(WRAPPER)
@@ -181,6 +181,7 @@ clean :
 cleanDLL :
 	$(RM) $(call FixPath,$(TARGET))
 	$(RM) $(call FixPath,$(WRAPPER))
+	$(RM) $(call FixPath,$(RC))
 
 remake : clean all
 
@@ -230,8 +231,8 @@ $(BINDIR)%_g2 : $(SRCDIR)%$(ASMEXT) $(INCDIR)symbols_g2$(INCEXT) $(INC_G2) $(MET
 $(RC) : $(META)
 	@ECHO/>                                                                       "$(call FixPath,$@)"
 	@ECHO 1 VERSIONINFO>>                                                         "$(call FixPath,$@)"
-	@ECHO FILEVERSION $(VBASE),$(VMAJOR),0,^0>>                                   "$(call FixPath,$@)"
-	@ECHO PRODUCTVERSION $(VBASE),$(VMAJOR),0,^0>>                                "$(call FixPath,$@)"
+	@ECHO FILEVERSION $(VBASE),$(VMAJOR),$(VMINOR),^0>>                           "$(call FixPath,$@)"
+	@ECHO PRODUCTVERSION $(VBASE),$(VMAJOR),$(VMINOR),^0>>                        "$(call FixPath,$@)"
 	@ECHO FILEOS 0x4>>                                                            "$(call FixPath,$@)"
 	@ECHO FILETYPE 0x2>>                                                          "$(call FixPath,$@)"
 	@ECHO {>>                                                                     "$(call FixPath,$@)"
@@ -240,12 +241,12 @@ $(RC) : $(META)
 	@ECHO     BLOCK "000004B0">>                                                  "$(call FixPath,$@)"
 	@ECHO     {>>                                                                 "$(call FixPath,$@)"
 	@ECHO         VALUE "FileDescription", "Ninja <$(NINJA_WEBSITE)>">>           "$(call FixPath,$@)"
-	@ECHO         VALUE "FileVersion", "$(VBASE).$(VMAJOR)">>                     "$(call FixPath,$@)"
+	@ECHO         VALUE "FileVersion", "$(VBASE).$(VMAJOR).$(VMINOR)">>           "$(call FixPath,$@)"
 	@ECHO         VALUE "InternalName", "Ninja">>                                 "$(call FixPath,$@)"
 	@ECHO         VALUE "LegalCopyright", "Copyright © $(RYEARS) szapp">>         "$(call FixPath,$@)"
 	@ECHO         VALUE "OriginalFilename", "Ninja.dll">>                         "$(call FixPath,$@)"
 	@ECHO         VALUE "ProductName", "Ninja">>                                  "$(call FixPath,$@)"
-	@ECHO         VALUE "ProductVersion", "$(VBASE).$(VMAJOR)">>                  "$(call FixPath,$@)"
+	@ECHO         VALUE "ProductVersion", "$(VBASE).$(VMAJOR).$(VMINOR)">>        "$(call FixPath,$@)"
 	@ECHO     }>>                                                                 "$(call FixPath,$@)"
 	@ECHO }>>                                                                     "$(call FixPath,$@)"
 	@ECHO/>>                                                                      "$(call FixPath,$@)"
