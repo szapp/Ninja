@@ -29,18 +29,11 @@ setVobToTransient:
     addStack 4
         push    ecx
         mov     ecx, zCParser_parser
-        call    zCParser__GetSymbol_str
+        call    zCParser__GetIndex
     addStack 4
         test    eax, eax
-        jz      .cleanup
-        mov     ecx, eax
-        sub     esp, 0x4
-        mov     eax, esp
-        push    0x0
-        push    eax
-        call    zCPar_Symbol__GetValue
-    addStack 2*4
-        pop     eax
+        jl      .cleanup
+
         cmp     esi, eax
         jl      .cleanup
 
@@ -200,19 +193,12 @@ ninja_injectInfo:
     addStack 4
         push    ecx
         mov     ecx, zCParser_parser
-        call    zCParser__GetSymbol_str
+        call    zCParser__GetIndex
     addStack 4
         test    eax, eax
     verifyStackoffset var_total + 4 ; + 0xBC
-        jz      .back
-        mov     ecx, eax
-        sub     esp, 0x4
-        mov     eax, esp
-        push    0x0
-        push    eax
-        call    zCPar_Symbol__GetValue
-    addStack 2*4
-        pop     esi
+        jl      .back
+        mov     esi, eax
 
         push    zSTRING_infoClass
         mov     ecx, zCParser_parser
