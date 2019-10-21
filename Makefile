@@ -11,8 +11,13 @@ else ifeq ($(shell uname), Linux)
 	SCRIPTEXT	:=	.sh
 endif
 
+# Include meta data
+include $(META)
+export VERSION=$(VBASE).$(VMAJOR).$(VMINOR)
+
 # Directories
 BUILDDIR		:=	build/
+SETUPDIR		:=	setup/
 BINDIR			:=	bin/
 SRCDIR			:=	src/
 INCDIR			:=	$(SRCDIR)inc/
@@ -22,6 +27,7 @@ DATADIR			:=	$(SRCDIR)data/
 DLLDIR			:=	$(SRCDIR)dll/
 
 # File extensions
+EXEEXT			:=	.exe
 ASMEXT			:=	.asm
 INCEXT			:=	.inc
 DLLEXT			:=	.dll
@@ -29,8 +35,10 @@ RCEXT			:=	.rc
 RESEXT			:=	.res
 DLLEXT			:=	.dll
 OBJEXT			:=	.obj
+NSIEXT			:=	.nsi
 
 # Assemblers/builders
+NSIS			:=	makensis
 NASM			:=	nasm
 GOLINK			:=	golink
 GORC			:=	gorc
@@ -57,6 +65,10 @@ IKLG			:=	$(INCDIR)iklg.data
 WRAPPER			:=	$(BUILDDIR)BugslayerUtil$(DLLEXT)
 WRAPPER_OBJ		:=	$(BINDIR)BugslayerUtil$(OBJEXT)
 WRAPPER_SRC		:=	$(DLLDIR)BugslayerUtil$(ASMEXT)
+
+# SETUP
+SETUP			:=	$(BUILDDIR)Ninja-$(VERSION)$(EXE)
+SETUPSCR		:=	$(SETUPDIR)Ninja$(NSIEXT)
 
 # System dependencies
 SYSDEP			:=	User32$(DLLEXT) Kernel32$(DLLEXT) NtDll$(DLLEXT)
@@ -163,12 +175,12 @@ EXEC			:=	$(EXEC_BASE:%=$(EXECDIR)%$(ASMEXT))
 DATA			:=	$(DATA_BASE:%=$(DATADIR)%$(ASMEXT))
 
 
-# Include meta data
+# Include meta data (re-include for environment variables)
 include $(META)
 export VERSION=$(VBASE).$(VMAJOR).$(VMINOR)
 
 # Phony rules
-all : $(WRAPPER)
+all : $(SETUP)
 
 clean :
 	$(RM) $(call FixPath,$(BUILDDIR)*)
@@ -191,6 +203,9 @@ relink : cleanDLL all
 
 
 # Build dependencies
+$(SETUP) : $(WRAPPER) $(TARGET) LICENSE $(SETUPSCR)
+	$(NSIS) /X"SetCompressor /FINAL lzma" $(SETUPSCR)
+
 $(WRAPPER) : $(WRAPPER_OBJ) $(TARGET)
 	@$(call mkdir,$(BUILDDIR))
 	golink $(FLAGS_L) /fo $(call FixPath,$@) $^ $(WRAPPER_SYSDEP)

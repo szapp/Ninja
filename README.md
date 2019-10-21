@@ -39,6 +39,7 @@ For assembling and building, the following software is required.
 - [NASM (The Netwide Assembler)](https://nasm.us)
 - [GoLink (Go Tools for Windows)](http://godevtool.com)
 - [GoRC (Go Tools for Windows)](http://godevtool.com)
+- [NSIS (Nullsoft Scriptable Install System)](https://nsis.sourceforge.io)
 
 Additionally, you'll need various *GNU Win32* packages:
 
