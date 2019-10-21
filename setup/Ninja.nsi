@@ -109,7 +109,7 @@ VIAddVersionKey /LANG=1200 "ProductName"      "${APP_NAME}"
 VIAddVersionKey /LANG=1200 "ProductVersion"   "${VER_TEXT}"
 VIAddVersionKey /LANG=1200 "FileVersion"      "${VER_TEXT}"
 VIAddVersionKey /LANG=1200 "LegalCopyright"   "${APP_COPY}"
-VIAddVersionKey /LANG=1200 "FileDescription"  "${APP_NAME} <${APP_LINK}>"
+VIAddVersionKey /LANG=1200 "FileDescription"  "${APP_NAME} Setup <${APP_LINK}>"
 VIAddVersionKey /LANG=1200 "OriginalFilename" "${APP_FILE}-${VER_FILE}.exe"
 
 
