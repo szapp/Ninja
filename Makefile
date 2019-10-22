@@ -11,6 +11,9 @@ else ifeq ($(shell uname), Linux)
 	SCRIPTEXT	:=	.sh
 endif
 
+# Meta data
+META			:=	metadata
+
 # Include meta data
 include $(META)
 export VERSION=$(VBASE).$(VMAJOR).$(VMINOR)
@@ -50,9 +53,6 @@ FLAGS_A			:=	-f win32 $(FLAGS_C)
 FLAGS_L			:=	/dll /entry DllMain /largeaddressaware /nxcompat /dynamicbase /ni
 FLAGS_RC		:=	/ni
 
-# Meta data
-META			:=	metadata
-
 # TARGET
 TARGET			:=	$(BUILDDIR)Ninja$(DLLEXT)
 OBJ				:=	$(BINDIR)Ninja$(OBJEXT)
@@ -67,7 +67,7 @@ WRAPPER_OBJ		:=	$(BINDIR)BugslayerUtil$(OBJEXT)
 WRAPPER_SRC		:=	$(DLLDIR)BugslayerUtil$(ASMEXT)
 
 # SETUP
-SETUP			:=	$(BUILDDIR)Ninja-$(VERSION)$(EXE)
+SETUP			:=	$(BUILDDIR)Ninja-$(VERSION)$(EXEEXT)
 SETUPSCR		:=	$(SETUPDIR)Ninja$(NSIEXT)
 
 # System dependencies
@@ -174,10 +174,6 @@ FUNC			:=	$(FUNC_BASE:%=$(FUNCDIR)%$(ASMEXT))
 EXEC			:=	$(EXEC_BASE:%=$(EXECDIR)%$(ASMEXT))
 DATA			:=	$(DATA_BASE:%=$(DATADIR)%$(ASMEXT))
 
-
-# Include meta data (re-include for environment variables)
-include $(META)
-export VERSION=$(VBASE).$(VMAJOR).$(VMINOR)
 
 # Phony rules
 all : $(SETUP)
