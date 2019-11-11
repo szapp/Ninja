@@ -47,6 +47,61 @@ ninja_armParser:
         cmp     DWORD [esp+stackoffset+arg_2], NINJA_PATH_CONTENT
         jnz     .dispatch
 
+        sub     esp, 0x14                                                  ; Rename _while/_repeat to while/repeat
+        mov     ecx, esp
+        call    zSTRING__zSTRING_void
+
+        xor     edi, edi
+        dec     edi
+
+.checkunderscore:
+        inc     edi
+        cmp     edi, 0x1
+        jg      .sortTable
+
+        mov     ecx, esp
+        mov     eax, edi
+        imul    eax, char__repeat_len
+        add     eax, char__repeat
+        push    eax
+        call    zSTRING__operator_eq
+    addStack 4
+        push    ecx
+        mov     ecx, [esp+stackoffset+arg_1]
+        call    zCParser__GetSymbol_str
+    addStack 4
+        test    eax, eax
+        jz      .checkunderscore
+        mov     esi, eax
+
+        mov     ecx, esp                                                   ; Check if while already exists
+        mov     edx, edi
+        imul    edx, char_repeat_len
+        add     edx, char_repeat
+        push    edx
+        call    zSTRING__operator_eq
+    addStack 4
+        push    ecx
+        mov     ecx, [esp+stackoffset+arg_1]
+        call    zCParser__GetSymbol_str
+    addStack 4
+        test    eax, eax
+        jnz     .checkunderscore
+
+        reportToSpy NINJA_RENAME_SYMB
+        mov     ecx, esi
+        push    edx
+        call    zSTRING__operator_eq
+    addStack 4
+        jmp     .checkunderscore
+
+.sortTable:
+        add     esp, 0x14
+
+        mov     ecx, DWORD [zCPar_SymbolTable__cur_table]                  ; Resort zCParser.symtab.tablesort
+        add     ecx, 0x14
+        call    zCArraySort_int___QuickSort
+
         reportToSpy NINJA_SYMBOL_ADD_HLP
         push    zPAR_TYPE_INT | zPAR_FLAG_CONST | 0x1
         push    char_nversion_symb

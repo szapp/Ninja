@@ -192,12 +192,7 @@ ninja_injectOU:
 
 .loopBlocksEnd:
         mov     ecx, [esp+stackoffset+var_blocks]
-        push    DWORD [ecx+zCArraySort.compare]
-        push    0x4
-        push    DWORD [ecx+zCArraySort.numInArray]
-        push    DWORD [ecx+zCArraySort.array]
-        call    _qsort
-        add     esp, 0x10
+        call    zCArraySort_int___QuickSort
 
         mov     ecx, [esp+stackoffset+var_lib]
         mov     eax, [ecx+0x4]

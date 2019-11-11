@@ -2,13 +2,18 @@
 char_ikarus_symb         db   'IKARUS_VERSION', 0
 char_lego_symb           db   'LEGO_VERSION', 0
 
+char__repeat             db   '_REPEAT', 0
+char__repeat_len         equ  $-char__repeat
+char__while              db   '_WHILE', 0
+
 ; Preserved Gothic symbols
 keep_func_symbol_start   db   'INIT_GLOBAL', 0
                          db   'INITPERCEPTIONS', 0
 
 ; Preserved Ikarus symbols
-                         db   'REPEAT', 0
-                         db   'WHILE', 0
+char_repeat              db   'REPEAT', 0
+char_repeat_len          equ  $-char_repeat
+char_while               db   'WHILE', 0
                          db   'MEM_LABEL', 0
                          db   'MEM_GOTO', 0
 

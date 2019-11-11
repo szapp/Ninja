@@ -12,6 +12,7 @@
     %define     zCArray_int___zCArray_int_                0x5499D0     ; void
     %define     zCArray_int___InsertEnd                   0x530010     ; int const &
     %define     zCArray_int____zCArray_int_               0x52FF50     ; void
+    %define     zCArraySort_int___QuickSort               0x60F100     ; void
     %define     _qsort                                    0x77757F     ; void *, size_t, size_t, int (__cdecl *)(const void *, const void *)
     %define     _fopen                                    0x778672     ; const char *, const char *
     %define     _fseek                                    0x778588     ; FILE *, __int32, int
@@ -28,6 +29,7 @@
     %define     _atol                                     0x77774D     ; const char *
     %define     _itoa                                     0x789587     ; int, char *, int
     %define     zSTRING__zSTRING                          0x4013A0     ; char const *
+    %define     zSTRING__zSTRING_void                     0x402B30     ; void
     %define     zSTRING___zSTRING                         0x401260     ; void
     %define     zSTRING__Sprintf                          0x467A90     ; char const *, ...
     %define     zSTRING__Upper                            0x465390     ; void
@@ -35,6 +37,7 @@
     %define     zSTRING__TrimRight                        0x4675A0     ; char
     %define     zSTRING__Delete                           0x4668D0     ; uint, ulong
     %define     zSTRING__DeleteRight                      0x4667C0     ; uint
+    %define     zSTRING__operator_eq                      0x4C5820     ; char const *
     %define     zSTRING__operator_plusEq                  0x644ED0     ; char const *
     %define     ds_lstrcatA                               0x7D02D8     ; LPTSTR, LPTSTR
     %define     ds_lstrcpyA                               0x7D0288     ; LPTSTR, LPTSTR
