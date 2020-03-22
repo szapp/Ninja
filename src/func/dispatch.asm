@@ -3,7 +3,9 @@
 global ninja_dispatch
 ninja_dispatch:
         resetStackoffset
-        %assign var_total      0x120
+        %assign var_total      0x138
+        %assign var_msg       -0x138
+        %assign var_patchname -0x124                                       ; char *
         %assign var_fullname  -0x120                                       ; char[MAX_PATH+28]   0x120
         %assign arg_1         +0x4                                         ; char *
         %assign arg_2         +0x8                                         ; char *
@@ -12,6 +14,9 @@ ninja_dispatch:
 
         sub     esp, var_total
         pusha
+
+        lea     ecx, [esp+stackoffset+var_msg]
+        call    zSTRING__zSTRING_void
 
         mov     eax, [NINJA_PATCH_ARRAY+zCArray.array]
         test    eax, eax
@@ -32,6 +37,7 @@ ninja_dispatch:
         mov     esi, [NINJA_PATCH_ARRAY+zCArray.array]
         mov     esi, [esi+edi*0x4]
         add     esi, 0x4
+        mov     DWORD [esp+stackoffset+var_patchname], esi
         push    esi
         push    eax
         call    DWORD [ds_lstrcatA]
@@ -63,10 +69,9 @@ ninja_dispatch:
         sub     ebx, 0x2                                                   ; Four filenames to check
 
 .fileExist:
-        sub     esp, 0x14
-        mov     ecx, esp
+        lea     ecx, [esp+stackoffset+var_msg]
         push    NINJA_LOOKING_FOR
-        call    zSTRING__zSTRING
+        call    zSTRING__operator_eq
     addStack 4
         push    esi
         call    zSTRING__operator_plusEq
@@ -74,9 +79,6 @@ ninja_dispatch:
         push    eax
         call    ninja_debugMessage
     addStack 4
-        mov     ecx, esp
-        call    zSTRING___zSTRING
-        add     esp, 0x14
 
         call    zFILE_VDFS__LockCriticalSection
         push    VDF_VIRTUAL | VDF_PHYSICAL | VDF_PHYSICALFIRST
@@ -128,12 +130,22 @@ ninja_dispatch:
         jmp     .fileExist
 
 .deploy:
+        mov     eax, DWORD [esp+stackoffset+arg_3]
+        cmp     eax, ninja_injectSrc
+        jnz     .deploycall
+
+        push    DWORD [esp+stackoffset+var_patchname]                      ; ninja_injectSrc takes one more parameter
+
+.deploycall:
         push    esi
-        call    [esp+stackoffset+arg_3]
-    addStack 4
+        call    eax
+    addStack 2*4
         jmp     .arrayLoop
 
 .funcEnd:
+        lea     ecx, [esp+stackoffset+var_msg]
+        call    zSTRING___zSTRING
+
         popa
         add     esp, var_total
         ret     arg_total
