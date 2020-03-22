@@ -47,6 +47,7 @@ GOLINK			:=	golink
 GORC			:=	gorc
 GETBINLIST		:=	$(call FixPath,./getBinList)$(SCRIPTEXT)
 EXTRACTSYM		:=	$(call FixPath,./extractSymbols)$(SCRIPTEXT)
+VERIFYSIZE		:=	$(call FixPath,./verifySize)$(SCRIPTEXT)
 
 FLAGS_C			:=	-I$(SRCDIR)
 FLAGS_A			:=	-f win32 $(FLAGS_C)
@@ -227,6 +228,7 @@ $(CONTENT) : $(BINARIES_G1) $(BINARIES_G2)
 $(BINDIR)core_g% : $(SRCDIR)core$(ASMEXT) $(FUNC) $(EXEC) $(DATA) $(INC_G%) $(META)
 	@$(call mkdir,$(BINDIR))
 	$(NASM) -DGOTHIC_BASE_VERSION=$* $(FLAGS_C) -o $@ $<
+	$(VERIFYSIZE) $@ $*
 
 $(INCDIR)symbols_g%$(INCEXT) : $(SRCDIR)core$(ASMEXT) $(FUNC) $(EXEC) $(DATA)
 	$(EXTRACTSYM) $@ $* $<
