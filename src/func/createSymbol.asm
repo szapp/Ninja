@@ -51,10 +51,8 @@ ninja_createSymbol:
         jnz     .failedCleanup
 
         mov     ecx, esp
-        call    zSTRING___zSTRING
-        mov     ecx, esp
         push    NINJA_SYMBOL_FAILED
-        call    zSTRING__zSTRING
+        call    zSTRING__operator_eq
     addStack 4
         push    DWORD [esp+stackoffset+arg_1]
         call    zSTRING__operator_plusEq

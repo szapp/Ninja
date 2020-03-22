@@ -129,10 +129,8 @@ ninja_injectOU:
         push    eax
         push    edx
         lea     ecx, [esp+stackoffset+var_string]
-        call    zSTRING___zSTRING
-        lea     ecx, [esp+stackoffset+var_string]
         push    NINJA_OVERWRITING
-        call    zSTRING__zSTRING
+        call    zSTRING__operator_eq
     addStack 4
         mov     edx, [esp]
         lea     eax, [edx+0x30]
@@ -167,10 +165,8 @@ ninja_injectOU:
 .addBlock:
         push    edx
         lea     ecx, [esp+stackoffset+var_string]
-        call    zSTRING___zSTRING
-        lea     ecx, [esp+stackoffset+var_string]
         push    NINJA_OU_ADD
-        call    zSTRING__zSTRING
+        call    zSTRING__operator_eq
     addStack 4
         mov     edx, [esp]
         lea     eax, [edx+0x30]
@@ -206,10 +202,8 @@ ninja_injectOU:
 
 .reportChanges:
         lea     ecx, [esp+stackoffset+var_string]
-        call    zSTRING___zSTRING
-        lea     ecx, [esp+stackoffset+var_string]
         push    NINJA_OU_BEFORE
-        call    zSTRING__zSTRING
+        call    zSTRING__operator_eq
     addStack 4
 
         push    0xA
@@ -227,10 +221,8 @@ ninja_injectOU:
     addStack 4
 
         lea     ecx, [esp+stackoffset+var_string]
-        call    zSTRING___zSTRING
-        lea     ecx, [esp+stackoffset+var_string]
         push    NINJA_OU_AFTER
-        call    zSTRING__zSTRING
+        call    zSTRING__operator_eq
     addStack 4
 
         push    0xA

@@ -45,10 +45,8 @@ setVobToTransient:
         jnz     .cleanup
 
         mov     ecx, esp
-        call    zSTRING___zSTRING
-        mov     ecx, esp
         push    NINJA_IGNORING
-        call    zSTRING__zSTRING
+        call    zSTRING__operator_eq
     addStack 4
         mov     eax, [esp+stackoffset+var_object]                          ; zCObject->objectname, originally at eax
         push    DWORD [eax+0x8]                                            ; str->ptr
@@ -302,10 +300,8 @@ ninja_injectInfo:
 
 .report:
         lea     ecx, [esp+stackoffset+var_string]
-        call    zSTRING___zSTRING
-        lea     ecx, [esp+stackoffset+var_string]
         push    NINJA_INFO_BEFORE
-        call    zSTRING__zSTRING
+        call    zSTRING__operator_eq
     addStack 4
         push    0xA
         lea     ecx, [esp+stackoffset+var_buffer]
@@ -322,10 +318,8 @@ ninja_injectInfo:
     addStack 4
 
         lea     ecx, [esp+stackoffset+var_string]
-        call    zSTRING___zSTRING
-        lea     ecx, [esp+stackoffset+var_string]
         push    NINJA_INFO_AFTER
-        call    zSTRING__zSTRING
+        call    zSTRING__operator_eq
     addStack 4
         push    0xA
         lea     ecx, [esp+stackoffset+var_buffer]

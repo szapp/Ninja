@@ -15,22 +15,15 @@ ninja_initMenu:
         call    DWORD [ds_lstrlenA]
     addStack 4
 
-        mov     ecx, [esp+stackoffset+arg_1]
+        add     eax, [esp+stackoffset+arg_1]
         sub     eax, 0xA                                                   ; Cut off/overwrite '\CONTENT_G*.SRC'
-        mov     BYTE [ecx+eax], 0
-        dec     eax
-        mov     BYTE [ecx+eax], 'U'
-        dec     eax
-        mov     BYTE [ecx+eax], 'N'
-        dec     eax
-        mov     BYTE [ecx+eax], 'E'
-        dec     eax
-        mov     BYTE [ecx+eax], 'M'
-        dec     eax
-        mov     BYTE [ecx+eax], '_'
-        mov     BYTE [ecx+0x6], '_'                                        ; Overwrite second '\'
+        mov     BYTE [eax], 0x0
+        sub     eax, 0x4
+        mov     DWORD [eax], 'MENU'
+        mov     BYTE [eax-0x1], '_'
         mov     ecx, [esp+stackoffset+arg_1]
-        add     ecx, 0x1                                                   ; Cut off first '\'
+        mov     BYTE [ecx+0x6], '_'                                        ; Overwrite second '\'
+        inc     ecx                                                        ; Cut off first '\'
         push    ecx
         lea     ecx, [esp+stackoffset+var_string]
         call    zSTRING__zSTRING
