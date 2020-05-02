@@ -10,6 +10,13 @@ ninja_armParser:
 
         pusha
 
+        mov     eax, DWORD [zCParser__ParseBlock]                          ; Workaround for reckless "ParserExtender"
+        push    eax
+        mov     eax, DWORD [zCParser__ParseBlock+4]
+        push    eax
+        mov     DWORD [zCParser__ParseBlock], g1g2(0xC868FF6A,0x0868FF6A)
+        mov     DWORD [zCParser__ParseBlock+4], g1g2(0x64007C4A,0x640082A6)
+
         mov     eax, DWORD [zCParser__cur_parser]
         push    eax
         mov     eax, DWORD [zCPar_SymbolTable__cur_table]
@@ -178,6 +185,11 @@ ninja_armParser:
         mov     DWORD [zCPar_SymbolTable__cur_table], esi
         pop     esi
         mov     DWORD [zCParser__cur_parser], esi
+
+        pop     esi                                                        ; Workaround for reckless "ParserExtender"
+        mov     DWORD [zCParser__ParseBlock+4], esi
+        pop     esi
+        mov     DWORD [zCParser__ParseBlock], esi
 
         popa
         ret     arg_total

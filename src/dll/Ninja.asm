@@ -63,6 +63,9 @@ section .data
         verify_addr_g1                 equ  0x82C0C0
         verify_addr_g2                 equ  0x89A7FC
 
+        zCParser__ParseBlock_g1        equ  0x6E6C00
+        zCParser__ParseBlock_g2        equ  0x78FE30
+
         %include "inc/injections.inc"
 
         scriptsPathRel                 db   '..\'
@@ -75,6 +78,38 @@ section .text
 
 Ninja:
         ret
+
+; int __stdcall clearAccess(void *, DWORD)
+clearAccess:
+        resetStackoffset
+        %assign var_total   0x4
+        %assign var_before -0x4                                            ; DWORD
+        %assign arg_1      +0x4                                            ; void *
+        %assign arg_2      +0x8                                            ; DWORD
+        %assign arg_total   0x8
+
+        sub     esp, var_total
+        push    ecx
+
+        mov     DWORD [esp+stackoffset+var_before], 0x0
+        lea     ecx, [esp+stackoffset+var_before]
+        push    ecx
+        push    PAGE_READWRITE
+        push    DWORD [esp+stackoffset+arg_2]
+        push    DWORD [esp+stackoffset+arg_1]
+        call    VirtualProtect
+    addStack 4*4
+        test    eax, eax
+        jz      .funcEnd
+
+        mov     eax, 0x1
+
+.funcEnd:
+        pop     ecx
+        add     esp, var_total
+        ret     arg_total
+    verifyStackoffset
+
 
 ; int __stdcall inject(void *, DWORD, void *)
 inject:
@@ -159,6 +194,13 @@ injectAll:
         %assign it it + 1
     %endrep
 
+        push    0x8
+        push    zCParser__ParseBlock_g1
+        call    clearAccess
+    addStack 2*4
+        test    eax, eax
+        jz      .failed
+
 .success:
         mov     eax, DWORD 0x1
         ret
@@ -174,6 +216,13 @@ injectAll:
         jz      .failed
         %assign it it + 1
     %endrep
+
+        push    0x8
+        push    zCParser__ParseBlock_g2
+        call    clearAccess
+    addStack 2*4
+        test    eax, eax
+        jz      .failed
 
         jmp     .success
 

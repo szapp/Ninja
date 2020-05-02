@@ -47,6 +47,7 @@
     %define     ds_vdf_fexists                            0x82E66C     ; const char*, long
     %define     zCParser_parser                           0xAB40C0     ; zCParser
     %define     zCParser__CallFunc                        0x7929D0     ; zSTRING const &
+    %define     zCParser__ParseBlock                      0x78FE30     ; void
     %define     zCParser__Error                           0x78E270     ; zSTRING &, int
     %define     zCParser__MergeFile                       0x791650     ; zSTRING &
     %define     zCParser__GetIndex                        0x793470     ; zSTRING const &
