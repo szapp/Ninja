@@ -1,7 +1,7 @@
 export VBASE=2
-export VMAJOR=0
+export VMAJOR=1
 export VMINOR=01
-export RYEARS=2018-2019
+export RYEARS=2018-2020
 export NINJA_WEBSITE=http://tiny.cc/GothicNinja
 export IKARUS_VERSION=10201
 export LEGO_N_VERSION=001
