@@ -174,6 +174,7 @@ LangString TextSecAppFiles ${LANG_GERMAN} "Installiere ${APP_NAME}..."
 LangString NameRemoveApp ${LANG_ENGLISH} "Remove ${APP_NAME}"
 LangString NameRemoveApp ${LANG_GERMAN} "${APP_NAME} entfernen"
 
+Var IniFile
 
 Section !$(NameSecAppFiles) SecAppFiles
 
@@ -226,11 +227,17 @@ Section !$(NameSecAppFiles) SecAppFiles
   union:
   StrCmp          $OUTDIR "$INSTDIR\System" +2
     SetOutPath    "$INSTDIR\System"
-  IfFileExists    "Union.ini" unionadd
   IfFileExists    "Union.patch" "" noloader
-    DetailPrint   "Union detected"
-    DetailPrint   "Create file: Union.ini..."
-    FileOpen  $4  "Union.ini" w
+  DetailPrint     "Union detected"
+  StrCpy $IniFile "Union.ini"
+  IfFileExists    "$IniFile" unionadd
+
+  unionsp:
+  StrCpy $IniFile "SystemPack.ini"
+  IfFileExists    "$IniFile" unionadd
+    DetailPrint   "Assuming 1.0h or higher"
+    DetailPrint   "Create file: $IniFile..."
+    FileOpen  $4  "$IniFile" w
     FileWrite $4  "[PLUGINS]"
     FileWrite $4  "$\r$\n"
     FileWrite $4  "PluginList = Ninja.dll**"
@@ -239,8 +246,7 @@ Section !$(NameSecAppFiles) SecAppFiles
     Goto main
 
   unionadd:
-    DetailPrint   "Union detected"
-    ${ConfigRead} "Union.ini" "PluginList" $4
+    ${ConfigRead} "$IniFile" "PluginList" $4
     ${TrimNewLines} "$4" $4
 
     ; Check if already existing
@@ -253,11 +259,11 @@ Section !$(NameSecAppFiles) SecAppFiles
       StrCpy $4 "$4 ,"
 
     ; Append to list
-    DetailPrint "Add Ninja.dll to PluginList (Union.ini)..."
+    DetailPrint "Add Ninja.dll to PluginList ($IniFile)..."
     ${WordAdd}  "$4" " " "+Ninja.dll**" $5
     StrCmp      "$4" "$5" main
-      ${ConfigWrite} "Union.ini" "PluginList" "$5" $0
-    Goto main
+      ${ConfigWrite} "$IniFile" "PluginList" "$5" $0
+    StrCmp      "$IniFile" "SystemPack.ini" main unionsp
 
 
   ; No DLL loader
@@ -314,8 +320,6 @@ Section !un.$(NameSecAppFiles) unSecAppFiles
     SetOutPath   "$INSTDIR\System"
   IfFileExists   "pre.load" "" union
 
-  DetailPrint    "Detected SystemPack"
-
   ; Searching the existing file
   StrCpy        $3 ""
   FileOpen      $4 "pre.load" r
@@ -347,25 +351,33 @@ Section !un.$(NameSecAppFiles) unSecAppFiles
   union:
   StrCmp          $OUTDIR "$INSTDIR\System" +2
     SetOutPath    "$INSTDIR\System"
-  IfFileExists    "Union.ini" "" loaderhelper
-    DetailPrint   "Union detected"
-    ${ConfigRead} "Union.ini" "PluginList" $4
-    ${TrimNewLines} "$4" $4
+  StrCpy $IniFile "Union.ini"
+  IfFileExists    "$IniFile" removeini
 
-    DetailPrint   "Remove Ninja.dll from PluginList (Union.ini)..."
+  removesp:
+  StrCpy $IniFile "SystemPack.ini"
+  IfFileExists    "$IniFile" "" loaderhelper
 
-    ; Remove from list (many combinations of commas and spaces to be sure)
-    ${WordAdd}  "$4" "," "-Ninja.dll**," $4  ; Comma front and end
-    ${WordAdd}  "$4" " " "-Ninja.dll**," $4  ; Comma end
-    ${WordAdd}  "$4" "," "-Ninja.dll**"  $4  ; Comma front
-    ${WordAdd}  "$4" " " "-Ninja.dll**"  $4  ; No comma
+  removeini:
+  ${ConfigRead} "$IniFile" "PluginList" $4
+  ${TrimNewLines} "$4" $4
 
-    ${WordAdd}  "$4" "," "-Ninja.dll," $4  ; Comma front and end
-    ${WordAdd}  "$4" " " "-Ninja.dll," $4  ; Comma end
-    ${WordAdd}  "$4" "," "-Ninja.dll"  $4  ; Comma front
-    ${WordAdd}  "$4" " " "-Ninja.dll"  $4  ; No comma
+  DetailPrint   "Remove Ninja.dll from PluginList ($IniFile)..."
 
-    ${ConfigWrite} "Union.ini" "PluginList" "$4" $0
+  ; Remove from list (many combinations of commas and spaces to be sure)
+  ${WordAdd}  "$4" "," "-Ninja.dll**," $4  ; Comma front and end
+  ${WordAdd}  "$4" " " "-Ninja.dll**," $4  ; Comma end
+  ${WordAdd}  "$4" "," "-Ninja.dll**"  $4  ; Comma front
+  ${WordAdd}  "$4" " " "-Ninja.dll**"  $4  ; No comma
+
+  ${WordAdd}  "$4" "," "-Ninja.dll," $4  ; Comma front and end
+  ${WordAdd}  "$4" " " "-Ninja.dll," $4  ; Comma end
+  ${WordAdd}  "$4" "," "-Ninja.dll"  $4  ; Comma front
+  ${WordAdd}  "$4" " " "-Ninja.dll"  $4  ; No comma
+
+  ${ConfigWrite} "$IniFile" "PluginList" "$4" $0
+
+  StrCmp      "$IniFile" "SystemPack.ini" "" removesp
 
 
   loaderhelper:
