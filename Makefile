@@ -112,6 +112,9 @@ BIN_BASE		:=	core										\
 					hook_unarchiveVobs							\
 					hook_unarchiveNpcs							\
 					hook_setVobToTransient						\
+					hook_archiveWorldCountLogicalNpc			\
+					hook_archiveWorldWriteLogicalNpc			\
+					hook_oCSpawnManager__Archive				\
 					hook_fastexit								\
 					hook_CGameManager_destructor				\
 					hook_libExit								\

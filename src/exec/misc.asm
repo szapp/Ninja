@@ -78,6 +78,46 @@ setVobToTransient:
         jmp     g1g2(0x5F638D,0x62485D)
 
 
+global checkNpcTransient1
+checkNpcTransient1:
+    resetStackoffset g1g2(0x5C,0x94)
+        call    DWORD [edx+0x104]                                          ; oCNpc.IsSelfPlayer(void)
+        test    eax, eax
+        jnz     .back
+
+    %if GOTHIC_BASE_VERSION == 1
+        test    BYTE [ecx+0xF5], 0x1                                       ; zCVob.dontwritetoarchive
+    %elif GOTHIC_BASE_VERSION == 2
+        test    BYTE [ecx+0x114], 0x10                                     ; zCVob.dontwritetoarchive
+    %endif
+        jz      .back
+        mov     eax, 0x1
+    verifyStackoffset g1g2(0x5C,0x94)
+
+.back:
+        jmp     g1g2(0x6D652A,0x77F66A)+6
+
+
+global checkNpcTransient2
+checkNpcTransient2:
+    resetStackoffset g1g2(0x5C,0x94)
+        call    DWORD [eax+0x104]                                          ; oCNpc.IsSelfPlayer(void)
+        test    eax, eax
+        jnz     .back
+
+    %if GOTHIC_BASE_VERSION == 1
+        test    BYTE [ecx+0xF5], 0x1                                       ; zCVob.dontwritetoarchive
+    %elif GOTHIC_BASE_VERSION == 2
+        test    BYTE [ecx+0x114], 0x10                                     ; zCVob.dontwritetoarchive
+    %endif
+        jz      .back
+        mov     eax, 0x1
+    verifyStackoffset g1g2(0x5C,0x94)
+
+.back:
+        jmp     g1g2(0x6D65A3,0x77F6E1)+6
+
+
 global removeInvalidNpcs
 removeInvalidNpcs:
     resetStackoffset g1g2(0x58,0x8C)

@@ -37,6 +37,7 @@ section .text
 %include "func/initMenu.asm"
 %include "func/initContent.asm"
 %include "func/conEvalFunc.asm"
+%include "func/oCSpawnManager__Archive_fix.asm"
 %include "func/zCPlayerInfo__GetName_empty.asm"
 
 

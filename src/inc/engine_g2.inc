@@ -132,6 +132,12 @@
     %define     char_lf                                   0x89150C     ; 0xA, 0
     %define     char_line                                 0x8BBD34     ; ' line ( ', 0
     %define     char_spaceClosingParanthesis              0x8BBD30     ; ' )', 0
+    %define     char_npc                                  0x8BAE5C     ; 'npc', 0
+    %define     char_spawnPos                             0x8BAE50     ; 'spawnPos', 0
+    %define     char_timer                                0x8BAE48     ; 'timer', 0
+    %define     char_noOfEntries                          0x8BAE60     ; 'NoOfEntries', 0
+    %define     char_spawningEnabled                      0x8BAE38     ; 'spawningEnabled', 0
+    %define     char_spawnFlags                           0x8BAE2C     ; 'spawnFlags', 0
     %define     char_zStartupWindowed                     0x8AA930     ; 'zStartupWindowed', 0
     %define     char_settings                             0x8948A0     ; 'SETTINGS', 0
     %define     char_meatbug_mds                          0x8B85F8     ; 'Meatbug.mds', 0
