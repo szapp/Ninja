@@ -2,8 +2,8 @@ NINJA_AUTHOR_PREFIX      db   AUTHOR_PREFIX, ':', 0
 NINJA_LOADING_MSG        db   AUTHOR_PREFIX, ': NINJA: Loading '
 NINJA_VERSION_CHAR_1     db   'Ninja ', NINJA_VERSION, ', built ', __UTC_DATE__, ' ', __UTC_TIME__, ', ', 0
 NINJA_VERSION_CHAR_1_len equ  $-NINJA_VERSION_CHAR_1
-NINJA_REGISTER_CONSOLE   db   AUTHOR_PREFIX, ': NINJA: Registering console command', 0
-NINJA_READING_INI        db   AUTHOR_PREFIX, ': NINJA: Reading ignore list from ini', 0
+NINJA_REGISTER_CONSOLE   db   AUTHOR_PREFIX, ': NINJA: Adding console command', 0
+NINJA_READING_INI        db   AUTHOR_PREFIX, ': NINJA: Reading ini ignore list', 0
 NINJA_LOADING_PREFIX     db   AUTHOR_PREFIX, ': NINJA:   ', 0
 NINJA_IGNORING           db   AUTHOR_PREFIX, ': NINJA:   Ignoring ', 0
 NINJA_DETECTING_SORTING  db   AUTHOR_PREFIX, ': NINJA: Detecting/sorting patches', 0
@@ -34,7 +34,7 @@ NINJA_COMPARE_VERSIONS   db   AUTHOR_PREFIX, ':NINJA: Comparing versions', 0
 NINJA_PARSER_FAILED      db   AUTHOR_PREFIX, ':NINJA: Version mismatch of ', 0
 NINJA_PARSER_FAILED_2    db   '. ', 10, 13
 NINJA_PATH_INVALID       db   'Ikarus/LeGo must not be contained in any patch.', 0
-NINJA_LEGO_VER_ERROR     db   AUTHOR_PREFIX, ':NINJA: LeGo version not understood: ', 0
+NINJA_LEGO_VER_ERROR     db   AUTHOR_PREFIX, ':NINJA: LeGo version invalid: ', 0
 NINJA_LEGO_END           db   'No onset.', 0
 NINJA_LEGO_BMM           db   'BMM incomplete.', 0
 NINJA_VERSION_INVALID    db   AUTHOR_PREFIX, ':NINJA: Version mismatch of %s. ', 10, 13

@@ -20,8 +20,8 @@ SET filename=%~nx1
 IF NOT EXIST %filefull% ECHO File '%filefull%' not found.&& EXIT /B 1
 
 :: Set size limits in bytes corresponding to the available address range
-IF %gothic% == 1 SET SIZELIMIT=10160
-IF %gothic% == 2 SET SIZELIMIT=10736
+IF %gothic% == 1 SET SIZELIMIT=11280
+IF %gothic% == 2 SET SIZELIMIT=11904
 
 :: Check file size against limit
 SET FILESIZE=%~z1

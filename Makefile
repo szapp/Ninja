@@ -129,7 +129,12 @@ BIN_BASE		:=	core										\
 					ow_parserDeclareFunc_showOverwrite			\
 					ow_parserDeclarePrototype_showOverwrite		\
 					ow_parserDeclareVar_showOverwrite			\
-					ow_reopenFileWarning
+					ow_reopenFileWarning						\
+					ow_playerInfoName1							\
+					ow_playerInfoName2							\
+					ow_playerInfoName3							\
+					ow_playerInfoName4							\
+					ow_playerInfoName5
 BIN_BASE_G2		:=	ow_zCParser__LoadGlobalVars					\
 					skip_writeAniBinFile_ModelTag				\
 					skip_writeAniBinFile_ReadMeshAndTree		\
