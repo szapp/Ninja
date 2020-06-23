@@ -254,9 +254,8 @@ Section !$(NameSecAppFiles) SecAppFiles
     IfErrors "" main
 
     ; Add comma if necessary
-    ${WordFind}   "$4" "." "E#" $3
-    IfErrors +2
-      StrCpy $4 "$4 ,"
+    StrCmp  "$4" "" +2
+      StrCpy $4 "$4,"
 
     ; Append to list
     DetailPrint "Add Ninja.dll to PluginList ($IniFile)..."
