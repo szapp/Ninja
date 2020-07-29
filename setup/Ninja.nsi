@@ -31,6 +31,46 @@
 !include "TextFunc.nsh"
 !include "WordFunc.nsh"
 
+; TrimRight
+;   Removes trailing whitespace from a string
+; Author
+;   https://nsis.sourceforge.io/User:Iceman_K
+!macro Trim un
+  Function ${un}Trim
+      Exch $R1 ; Original string
+      Push $R2
+  Loop2:
+      StrCpy $R2 "$R1" 1 -1
+      StrCmp "$R2" " " TrimRight
+      StrCmp "$R2" "$\r" TrimRight
+      StrCmp "$R2" "$\n" TrimRight
+      StrCmp "$R2" "$\t" TrimRight
+      GoTo Done
+  TrimRight:
+      StrCpy $R1 "$R1" -1
+      Goto Loop2
+  Done:
+      Pop $R2
+      Exch $R1
+  FunctionEnd
+!macroend
+
+!insertmacro Trim ""
+!insertmacro Trim "un."
+
+!define TrimRight "!insertmacro TrimRight"
+ !macro TrimRight ResultVar String
+  Push "${String}"
+  Call Trim
+  Pop "${ResultVar}"
+!macroend
+!define un.TrimRight "!insertmacro un.TrimRight"
+ !macro un.TrimRight ResultVar String
+  Push "${String}"
+  Call un.Trim
+  Pop "${ResultVar}"
+!macroend
+
 
 ;===============================================================================
 ;
@@ -247,14 +287,15 @@ Section !$(NameSecAppFiles) SecAppFiles
 
   unionadd:
     ${ConfigRead} "$IniFile" "PluginList" $4
-    ${TrimNewLines} "$4" $4
+    ${TrimRight} $4 $4
 
     ; Check if already existing
     ${WordFind}   "$4" "Ninja.dll**" "E#" $3
     IfErrors "" main
 
     ; Add comma if necessary
-    StrCmp  "$4" "" +2
+    StrCpy $5 $4 1 -1
+    StrCmp  "$5" "=" +2
       StrCpy $4 "$4,"
 
     ; Append to list
@@ -359,20 +400,24 @@ Section !un.$(NameSecAppFiles) unSecAppFiles
 
   removeini:
   ${ConfigRead} "$IniFile" "PluginList" $4
-  ${TrimNewLines} "$4" $4
+  ${un.TrimRight} $4 $4
 
   DetailPrint   "Remove Ninja.dll from PluginList ($IniFile)..."
 
   ; Remove from list (many combinations of commas and spaces to be sure)
-  ${WordAdd}  "$4" "," "-Ninja.dll**," $4  ; Comma front and end
-  ${WordAdd}  "$4" " " "-Ninja.dll**," $4  ; Comma end
-  ${WordAdd}  "$4" "," "-Ninja.dll**"  $4  ; Comma front
-  ${WordAdd}  "$4" " " "-Ninja.dll**"  $4  ; No comma
+  ${WordAdd}  "$4" "," "- Ninja.dll**," $4  ; Comma front (space) and end
+  ${WordAdd}  "$4" "," "-Ninja.dll**,"  $4  ; Comma front and end
+  ${WordAdd}  "$4" " " "-Ninja.dll**,"  $4  ; Comma end
+  ${WordAdd}  "$4" "," "- Ninja.dll**"  $4  ; Comma front (space)
+  ${WordAdd}  "$4" "," "-Ninja.dll**"   $4  ; Comma front
+  ${WordAdd}  "$4" " " "-Ninja.dll**"   $4  ; No comma
 
-  ${WordAdd}  "$4" "," "-Ninja.dll," $4  ; Comma front and end
-  ${WordAdd}  "$4" " " "-Ninja.dll," $4  ; Comma end
-  ${WordAdd}  "$4" "," "-Ninja.dll"  $4  ; Comma front
-  ${WordAdd}  "$4" " " "-Ninja.dll"  $4  ; No comma
+  ${WordAdd}  "$4" "," "- Ninja.dll,"   $4  ; Comma front (space) and end
+  ${WordAdd}  "$4" "," "-Ninja.dll,"    $4  ; Comma front and end
+  ${WordAdd}  "$4" " " "-Ninja.dll,"    $4  ; Comma end
+  ${WordAdd}  "$4" "," "- Ninja.dll"    $4  ; Comma (space) front
+  ${WordAdd}  "$4" "," "-Ninja.dll"     $4  ; Comma front
+  ${WordAdd}  "$4" " " "-Ninja.dll"     $4  ; No comma
 
   ${ConfigWrite} "$IniFile" "PluginList" "$4" $0
 
