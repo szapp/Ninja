@@ -15,8 +15,9 @@ ninja_allowRedefine:
         xor     ebx, ebx
         mov     ecx, [esp+stackoffset+arg_1]
         mov     esi, [ecx+zCParser_datsave_offset]
+        add     esi, DWORD [zCParser__enableParsing]                       ; Check if wrapped by Ninja
         mov     eax, char_redefinedIdentifier
-        test    esi, esi
+        cmp     ecx, 0x2A
         jnz     .createString
         mov     eax, NINJA_OVERWRITING
 
@@ -28,7 +29,7 @@ ninja_allowRedefine:
         push    DWORD [esp+stackoffset+arg_2]
         call    zSTRING__operator_plusEq
     addStack 4
-        test    esi, esi
+        cmp     esi, 0x2A
         jz      .noteOnly
         push    ebx
         push    eax

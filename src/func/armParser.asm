@@ -38,7 +38,7 @@ ninja_armParser:
         mov     [esi], eax                                                 ; parser->datsave = 0
         mov     [esi-zCParser_datsave_offset+zCParser_lastsym_offset], eax ; parser->lastsym = 0
 
-        inc     eax
+        mov     eax, 0x2A
         mov     DWORD [zCParser__enableParsing], eax
 
         mov     ecx, DWORD [zCPar_SymbolTable__cur_table]

@@ -3,6 +3,11 @@
 global parser_check_func
 parser_check_func:
     resetStackoffset 0xA4
+        xor     eax, eax
+        mov     ecx, DWORD [zCParser__enableParsing]                       ; Check if wrapped by Ninja
+        cmp     ecx, 0x2A
+        jnz     .back
+
         lea     ecx, [esp+stackoffset-0x7C]
         push    ecx
         lea     ecx, [esi+0x10]
@@ -10,7 +15,7 @@ parser_check_func:
     addStack 4
     verifyStackoffset 0xA4
 
-        ; Jump back
+.back:
         test    eax, eax
         mov     ebp, eax
         jnz     g1g2(0x6F4980,0x79E1D1)
@@ -33,6 +38,11 @@ linker_replace_func:
         push    edi
         push    ecx                                                        ; symbol
         push    eax                                                        ; Calculated stack position
+
+        mov     eax, DWORD [zCParser__enableParsing]                       ; Check if wrapped by Ninja
+        cmp     eax, 0x2A
+        jnz     .rf_back
+
         mov     eax, [ecx+zCPar_Symbol_content_offset]
         test    eax, eax
     verifyStackoffset g1g2(0xA8,0xE4) + 0xC
@@ -110,6 +120,11 @@ linker_replace_func:
 global parser_check_var
 parser_check_var:
     resetStackoffset g1g2(0x394,0x3EC)
+        xor     g1g2(edi,ebp), g1g2(edi,ebp)
+        mov     eax, DWORD [zCParser__enableParsing]                       ; Check if wrapped by Ninja
+        cmp     eax, 0x2A
+        jnz     .check_sym
+
         mov     eax, DWORD [esi+zCParser_in_func_offset]                   ; parser->in_func->name
         test    eax, eax
         jnz     .sub_var
@@ -170,6 +185,10 @@ parser_check_class:
 %if GOTHIC_BASE_VERSION == 2
         pop     ecx
 %endif
+        mov     ecx, DWORD [zCParser__enableParsing]                       ; Check if wrapped by Ninja
+        cmp     ecx, 0x2A
+        jnz     .pcc_new
+
         lea     ecx, [esp+stackoffset-0x34]
         push    ecx
         lea     ecx, [esi+0x10]
@@ -189,6 +208,8 @@ parser_check_class:
         jmp     0x6F2B26
 %elif GOTHIC_BASE_VERSION == 2
         jnz     0x79C452
+
+    .pcc_new:
         push    0x3C
         call    operator_new
         jmp     0x79C437
@@ -198,15 +219,21 @@ parser_check_class:
 global parser_check_prototype
 parser_check_prototype:
     resetStackoffset 0xB8
+        xor     eax, eax
+        mov     ecx, DWORD [zCParser__enableParsing]                       ; Check if wrapped by Ninja
+        cmp     ecx, 0x2A
+        jnz     .back
+
         lea     ecx, [esp+stackoffset-0x90]
         push    ecx
         lea     ecx, [esi+0x10]
         call    zCPar_SymbolTable__GetSymbol_str
     addStack 4
+
+.back:
         test    eax, eax
     verifyStackoffset 0xB8
 
-        ; Jump back
 %if GOTHIC_BASE_VERSION == 1
         jnz     0x6F36E6
         push    0x4DF
@@ -225,6 +252,10 @@ parser_verify_ikarus_version:
         %assign var_newvalue  0x04
         push    eax
         push    ebx
+
+        mov     ecx, DWORD [zCParser__enableParsing]                       ; Check if wrapped by Ninja
+        cmp     ecx, 0x2A
+        jnz     .backClean
 
         mov     ecx, [esi+zCParser_mergemode_offset]
         test    ecx, ecx
@@ -400,6 +431,10 @@ parser_verify_lego_version:
         push    eax
         push    edx
         push    ebx
+
+        mov     ecx, DWORD [zCParser__enableParsing]                       ; Check if wrapped by Ninja
+        cmp     ecx, 0x2A
+        jnz     .back
 
         mov     ecx, [esi+zCParser_mergemode_offset]
         test    ecx, ecx
