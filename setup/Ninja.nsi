@@ -72,6 +72,46 @@
 !macroend
 
 
+; StrRep
+;   String replacement
+; Author:
+;   http://forums.winamp.com/member.php?u=103051
+Function un.StrRep
+  Exch $R4 ; $R4 = Replacement String
+  Exch
+  Exch $R3 ; $R3 = String to replace (needle)
+  Exch 2
+  Exch $R1 ; $R1 = String to do replacement in (haystack)
+  Push $R2 ; Replaced haystack
+  Push $R5 ; Len (needle)
+  Push $R6 ; len (haystack)
+  Push $R7 ; Scratch reg
+  StrCpy $R2 ""
+  StrLen $R5 $R3
+  StrLen $R6 $R1
+loop:
+  StrCpy $R7 $R1 $R5
+  StrCmp $R7 $R3 found
+  StrCpy $R7 $R1 1 ; - optimization can be removed if U know len needle=1
+  StrCpy $R2 "$R2$R7"
+  StrCpy $R1 $R1 $R6 1
+  StrCmp $R1 "" done loop
+found:
+  StrCpy $R2 "$R2$R4"
+  StrCpy $R1 $R1 $R6 $R5
+  StrCmp $R1 "" done loop
+done:
+  StrCpy $R3 $R2
+  Pop $R7
+  Pop $R6
+  Pop $R5
+  Pop $R2
+  Pop $R1
+  Pop $R4
+  Exch $R3
+FunctionEnd
+
+
 ;===============================================================================
 ;
 ;   MUI
@@ -292,6 +332,8 @@ Section !$(NameSecAppFiles) SecAppFiles
     ; Check if already existing
     ${WordFind}   "$4" "Ninja.dll**" "E#" $3
     IfErrors "" main
+    ${WordFind}   "$4" "Ninja**"     "E#" $3
+    IfErrors "" main
 
     ; Add comma if necessary
     StrCpy $5 $4 1 -1
@@ -404,20 +446,35 @@ Section !un.$(NameSecAppFiles) unSecAppFiles
 
   DetailPrint   "Remove Ninja.dll from PluginList ($IniFile)..."
 
-  ; Remove from list (many combinations of commas and spaces to be sure)
-  ${WordAdd}  "$4" "," "- Ninja.dll**," $4  ; Comma front (space) and end
-  ${WordAdd}  "$4" "," "-Ninja.dll**,"  $4  ; Comma front and end
-  ${WordAdd}  "$4" " " "-Ninja.dll**,"  $4  ; Comma end
-  ${WordAdd}  "$4" "," "- Ninja.dll**"  $4  ; Comma front (space)
-  ${WordAdd}  "$4" "," "-Ninja.dll**"   $4  ; Comma front
-  ${WordAdd}  "$4" " " "-Ninja.dll**"   $4  ; No comma
+  ; Remove spaces
+  Push "$4"
+  Push " "
+  Push ""
+  Call un.StrRep
+  Pop  $4
 
-  ${WordAdd}  "$4" "," "- Ninja.dll,"   $4  ; Comma front (space) and end
-  ${WordAdd}  "$4" "," "-Ninja.dll,"    $4  ; Comma front and end
-  ${WordAdd}  "$4" " " "-Ninja.dll,"    $4  ; Comma end
-  ${WordAdd}  "$4" "," "- Ninja.dll"    $4  ; Comma (space) front
-  ${WordAdd}  "$4" "," "-Ninja.dll"     $4  ; Comma front
-  ${WordAdd}  "$4" " " "-Ninja.dll"     $4  ; No comma
+  ; Remove equal sign
+  Push "$4"
+  Push "="
+  Push ""
+  Call un.StrRep
+  Pop  $4
+
+  ; Remove Ninja from list
+  ${WordAdd}  "$4" "," "-Ninja.dll**" $4
+  ${WordAdd}  "$4" "," "-Ninja.dll"   $4
+  ${WordAdd}  "$4" "," "-Ninja**"     $4
+  ${WordAdd}  "$4" "," "-Ninja"       $4
+
+  ; Re-add the leading equal sign
+  StrCpy       $4 " = $4"
+
+  ; Re-add proper spacing
+  Push "$4"
+  Push ","
+  Push ", "
+  Call un.StrRep
+  Pop  $4
 
   ${ConfigWrite} "$IniFile" "PluginList" "$4" $0
 
