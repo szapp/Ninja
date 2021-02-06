@@ -162,6 +162,7 @@
     %define     zCParser_table_offset                     0x10
     %define     zCParser_lastsym_offset                   0x34
     %define     zCParser_stackpos_offset                  0x48
+    %define     zCParser_stringcount_offset               0x10D0
     %define     zCParser_in_func_offset                   0x10D4       ; zCPar_Symbol *
     %define     zCParser_in_class_offset                  0x10D8       ; zCPar_Symbol *
     %define     zCParser_datsave_offset                   0x1090

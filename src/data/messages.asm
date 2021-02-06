@@ -25,6 +25,8 @@ NINJA_RENAME_SYMB        db   AUTHOR_PREFIX, ':NINJA: Renaming symbol', 0
 NINJA_SYMBOL_ADD_DIV     db   AUTHOR_PREFIX, ':NINJA: Adding divider symbol', 0
 NINJA_SYMBOL_ADD_HLP     db   AUTHOR_PREFIX, ':NINJA: Adding helper symbols', 0
 NINJA_SYMBOL_FAILED      db   AUTHOR_PREFIX, ':NINJA: Failed to add symbol: ', 0
+NINJA_STRINGCOUNT_APPLY  db   AUTHOR_PREFIX, ':NINJA: Adjusting string count to ', 0
+NINJA_STRINGCOUNT_FAILED db   AUTHOR_PREFIX, ':NINJA: Failed to adjust string count', 0
 NINJA_SKIPPING           db   AUTHOR_PREFIX, ':NINJA: Skipping : ', 0
 NINJA_OUTDATED_PATCH     db   AUTHOR_PREFIX, ':NINJA: Outdated patch found (Ninja < 2)', 0
 NINJA_MOUNTFAIL          db   AUTHOR_PREFIX, ':NINJA: Ninja was attached too late (after VDFS)', 0

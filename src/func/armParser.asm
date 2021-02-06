@@ -52,7 +52,7 @@ ninja_armParser:
     addStack 2*4
 
         cmp     DWORD [esp+stackoffset+arg_2], NINJA_PATH_CONTENT
-        jnz     .dispatch
+        jnz     .adjustStringCount
 
         sub     esp, 0x14                                                  ; Rename _while/_repeat to while/repeat
         mov     ecx, esp
@@ -166,6 +166,64 @@ ninja_armParser:
         mov     ecx, esp
         call    zSTRING___zSTRING
         add     esp, 0x14
+
+.adjustStringCount:
+        xor     esi, esi
+        mov     ecx, DWORD [zCPar_SymbolTable__cur_table]                  ; Attempt to adjust zCParser.stringcount
+        add     ecx, 0x14
+        mov     eax, [ecx+zCArraySort.numInArray]
+        dec     eax                                                        ; -1 (last element)
+        dec     eax                                                        ; -1 (skip instance_help)
+        cmp     eax, esi
+        jle     .failedStringCount
+
+        mov     ecx, [ecx+zCArraySort.array]                               ; Get symbol index
+        mov     ecx, [ecx+0x4*eax]
+        cmp     ecx, esi
+        jle     .failedStringCount
+
+        push    ecx                                                        ; Get symbol by index
+        mov     ecx, DWORD [zCPar_SymbolTable__cur_table]
+        call    zCPar_SymbolTable__GetSymbol_int
+    addStack 4
+        cmp     eax, esi
+        jz      .failedStringCount
+
+        mov     ecx, [eax+0x8]                                             ; Compare first character of symbol name
+        cmp     ecx, esi
+        jz      .failedStringCount
+        cmp     BYTE [ecx], 0xFF
+        jnz     .failedStringCount
+        inc     ecx
+        mov     edi, ecx
+        push    ecx
+        call    _atol                                                      ; Attempt to convert to integer
+        add     esp, 0x4
+
+        mov     esi, DWORD [zCParser__cur_parser]                          ; Compare to zCParser.stringcount
+        mov     ecx, [esi+zCParser_stringcount_offset]
+        cmp     ecx, eax
+        jg      .failedStringCount
+        mov     [esi+zCParser_stringcount_offset], eax                     ; Update zCParser.stringcount
+
+        sub     esp, 0x14                                                  ; Send information to zSpy
+        mov     ecx, esp
+        push    NINJA_STRINGCOUNT_APPLY
+        call    zSTRING__zSTRING
+    addStack 4
+        push    edi
+        call    zSTRING__operator_plusEq
+    addStack 4
+        push    ecx
+        call    zERROR__Message
+    addStack 4
+        mov     ecx, esp
+        call    zSTRING___zSTRING
+        add     esp, 0x14
+        jmp     .dispatch
+
+.failedStringCount:
+    reportToSpy NINJA_STRINGCOUNT_FAILED
 
 .dispatch:
         push    DWORD [esp+stackoffset+arg_3]
