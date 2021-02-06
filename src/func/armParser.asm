@@ -199,6 +199,7 @@ ninja_armParser:
         push    ecx
         call    _atol                                                      ; Attempt to convert to integer
         add     esp, 0x4
+        inc     eax                                                        ; Index of latest string + 1
 
         mov     esi, DWORD [zCParser__cur_parser]                          ; Compare to zCParser.stringcount
         mov     ecx, [esi+zCParser_stringcount_offset]
