@@ -37,6 +37,20 @@ setVobToTransient:
         cmp     esi, eax
         jl      .cleanup
 
+        mov     ecx, esp                                                   ; Same for ending divider
+        push    char_ndivider2_symb
+        call    zSTRING__zSTRING
+    addStack 4
+        push    ecx
+        mov     ecx, zCParser_parser
+        call    zCParser__GetIndex
+    addStack 4
+        test    eax, eax
+        jl      .cleanup
+
+        cmp     esi, eax
+        jg      .cleanup
+
     %if GOTHIC_BASE_VERSION == 1
         test    BYTE [ebp+0xF5], 0x1                                       ; zCVob.dontwritetoarchive
     %elif GOTHIC_BASE_VERSION == 2
@@ -224,6 +238,7 @@ ninja_injectInfo:
 
         sub     esp, var_total
         push    esi
+        push    edi
 
         push    char_ndivider_symb
         lea     ecx, [esp+stackoffset+var_string]
@@ -234,9 +249,22 @@ ninja_injectInfo:
         call    zCParser__GetIndex
     addStack 4
         test    eax, eax
-    verifyStackoffset var_total + 4 ; + 0xBC
+    verifyStackoffset var_total + 2*4
         jl      .back
         mov     esi, eax
+
+        push    char_ndivider2_symb                                        ; Same for ending divider
+        lea     ecx, [esp+stackoffset+var_string]
+        call    zSTRING__operator_eq
+    addStack 4
+        push    ecx
+        mov     ecx, zCParser_parser
+        call    zCParser__GetIndex
+    addStack 4
+        test    eax, eax
+    verifyStackoffset var_total + 2*4
+        jl      .back
+        mov     edi, eax
 
         push    zSTRING_infoClass
         mov     ecx, zCParser_parser
@@ -259,9 +287,12 @@ ninja_injectInfo:
         call    zCParser__GetInstance
     addStack 2*4
         test    eax, eax
-    verifyStackoffset var_total + 4 ; + 0xBC
+    verifyStackoffset var_total + 2*4
         jl      .report
         mov     esi, eax
+
+        cmp     esi, edi                                                   ; Do not go beyond ending divider
+        jg      .report
 
         lea     ecx, [esp+stackoffset+var_string]
         call    zSTRING___zSTRING
@@ -380,6 +411,7 @@ ninja_injectInfo:
 .back:
         lea     ecx, [esp+stackoffset+var_string]
         call    zSTRING___zSTRING
+        pop     edi
         pop     esi
         add     esp, var_total
     verifyStackoffset                                                      ; 0xBC
