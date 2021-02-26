@@ -233,6 +233,12 @@ ninja_armParser:
         call    ninja_dispatch
     addStack 3*4
 
+        reportToSpy NINJA_SYMBOL_ADD_DIV
+        push    zPAR_TYPE_INSTANCE
+        push    char_ndivider2_symb
+        call    ninja_createSymbol
+    addStack 2*4
+
         pop     eax
         mov     DWORD [zCParser__enableParsing], eax
 
