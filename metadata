@@ -1,5 +1,5 @@
 export VBASE=2
-export VMAJOR=4
+export VMAJOR=5
 export VMINOR=09
 export RYEARS=2018-2021
 export NINJA_WEBSITE=http://tiny.cc/GothicNinja
