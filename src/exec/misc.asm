@@ -2,25 +2,17 @@
 
 global setVobToTransient
 setVobToTransient:
-        resetStackoffset                                                   ; 0x14
-        %assign var_total   0x4
-        %assign var_object -0x4                                            ; zString *
-
-        sub     esp, var_total
+        resetStackoffset 0x68
         pusha
 
-        mov     ecx, [ebp]
+        mov     ecx, [esi]
         cmp     ecx, oCNpc__vftable
         jnz     .back
 
-        mov     [esp+stackoffset+var_object], eax
-        push    eax
-        mov     ecx, zCParser_parser
-        call    zCParser__GetIndex
-    addStack 4
+        mov     eax, [esi+g1g2(0x7B0,0x770)]                               ; oCNpc.instanz
         test    eax, eax
         jl      .back
-        mov     esi, eax
+        mov     edi, eax
 
         sub     esp, 0x14
         mov     ecx, esp
@@ -34,7 +26,7 @@ setVobToTransient:
         test    eax, eax
         jl      .cleanup
 
-        cmp     esi, eax
+        cmp     edi, eax
         jl      .cleanup
 
         mov     ecx, esp                                                   ; Same for ending divider
@@ -48,13 +40,13 @@ setVobToTransient:
         test    eax, eax
         jl      .cleanup
 
-        cmp     esi, eax
+        cmp     edi, eax
         jg      .cleanup
 
     %if GOTHIC_BASE_VERSION == 1
-        test    BYTE [ebp+0xF5], 0x1                                       ; zCVob.dontwritetoarchive
+        test    BYTE [esi+0xF5], 0x1                                       ; zCVob.dontwritetoarchive
     %elif GOTHIC_BASE_VERSION == 2
-        test    BYTE [ebp+0x114], 0x10                                     ; zCVob.dontwritetoarchive
+        test    BYTE [esi+0x114], 0x10                                     ; zCVob.dontwritetoarchive
     %endif
         jnz     .cleanup
 
@@ -62,7 +54,7 @@ setVobToTransient:
         push    NINJA_IGNORING
         call    zSTRING__operator_eq
     addStack 4
-        mov     eax, [esp+stackoffset+var_object]                          ; zCObject->objectname, originally at eax
+        lea     eax, [esp+stackoffset-0x20]                                ; zCObject.objectname
         push    DWORD [eax+0x8]                                            ; str->ptr
         call    zSTRING__operator_plusEq
     addStack 4
@@ -71,9 +63,9 @@ setVobToTransient:
     addStack 4
 
     %if GOTHIC_BASE_VERSION == 1
-        or      BYTE [ebp+0xF5], 0x1                                       ; zCVob.dontwritetoarchive = True
+        or      BYTE [esi+0xF5], 0x1                                       ; zCVob.dontwritetoarchive = True
     %elif GOTHIC_BASE_VERSION == 2
-        or      BYTE [ebp+0x114], 0x10                                     ; zCVob.dontwritetoarchive = True
+        or      BYTE [esi+0x114], 0x10                                     ; zCVob.dontwritetoarchive = True
     %endif
 
 .cleanup:
@@ -83,13 +75,11 @@ setVobToTransient:
 
 .back:
         popa
-        add     esp, var_total
-    verifyStackoffset                                                      ; 0x14
+    verifyStackoffset 0x68
 
         ; Jump back
-        mov     esi, [eax+0xC]
-        mov     ecx, ebp
-        jmp     g1g2(0x5F638D,0x62485D)
+        mov     eax, [esi+g1g2(0x214,0x25C)]
+        jmp     g1g2(0x68CB37,0x72F167)
 
 
 global checkNpcTransient1
