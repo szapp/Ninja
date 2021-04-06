@@ -250,6 +250,30 @@ createVdfArray:
         call    _fread
         add     esp, 0x10
 
+        xor     esi, esi
+        push    0x10                                                       ; Verify VDF signature (G1)
+        lea     eax, [esp+stackoffset+var_header+VDFheader.signature]
+        push    eax
+        push    NINJA_VDF_VERSION1
+        call    _strncmp
+        add     esp, 0xC
+        test    eax, eax
+        jz      .verifyEntrySize
+
+        push    0x10                                                       ; Verify VDF signature (G2)
+        lea     eax, [esp+stackoffset+var_header+VDFheader.signature]
+        push    eax
+        push    NINJA_VDF_VERSION2
+        call    _strncmp
+        add     esp, 0xC
+        test    eax, eax
+        jnz     .findClose
+
+.verifyEntrySize:
+        mov     eax, [esp+stackoffset+var_header+VDFheader.entrySize]      ; Verify the VDF header entry size
+        cmp     eax, 0x50
+        jnz     .findClose
+
         push    SEEK_SET                                                   ; Start of in root directory of VDF map
         push    DWORD [esp+stackoffset+var_header+VDFheader.rootOffset]
         push    DWORD [esp+stackoffset+var_filehndl]
@@ -340,6 +364,8 @@ createVdfArray:
         push    DWORD [esp+stackoffset+var_root]
         call    operator_delete
         add     esp, 0x4
+
+.findClose:
         push    DWORD [esp+stackoffset+var_filehndl]
         call    _fclose
         add     esp, 0x4
