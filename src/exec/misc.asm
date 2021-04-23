@@ -212,6 +212,25 @@ removeInvalidNpcs2:
     verifyStackoffset g1g2(0x5C,0x98)
         jmp     g1g2(0x6D6828,0x77F9C0)
 
+global removeNpcInstRef
+removeNpcInstRef:
+    resetStackoffset 0x14
+        push    ecx
+        push    esi
+        mov     ecx, zCParser_parser
+        call    zCParser__ClearInstanceRefs
+    addStack 4
+        pop     ecx
+    verifyStackoffset 0x14
+%if GOTHIC_BASE_VERSION == 1
+        pop     esi
+        pop     ebp
+        pop     ebx
+        add     esp, 0x8
+%elif GOTHIC_BASE_VERSION == 2
+        cmp     [esi+0x758], ebp
+%endif
+        jmp     g1g2(0x68C0FC,0x72E62B)
 
 global ninja_injectInfo
 ninja_injectInfo:

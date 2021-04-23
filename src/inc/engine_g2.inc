@@ -57,6 +57,7 @@
     %define     zCParser__CreateInstance                  0x792FA0     ; int, void *
     %define     zCParser__cur_parser                      0xAB628C     ; zCParser *
     %define     zCParser__enableParsing                   0xAB6284     ; int
+    %define     zCParser__ClearInstanceRefs               0x796940     ; void *
     %define     zCPar_SymbolTable__Insert                 0x7A3F00     ; zCPar_Symbol *
     %define     zCPar_SymbolTable__GetIndex               0x7A3A70     ; zCPar_Symbol *
     %define     zCPar_SymbolTable__GetIndex_str           0x7A3B60     ; zSTRING const &
