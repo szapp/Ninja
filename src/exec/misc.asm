@@ -5,9 +5,15 @@ setVobToTransient:
         resetStackoffset 0x68
         pusha
 
-        mov     ecx, [esi]
-        cmp     ecx, oCNpc__vftable
-        jnz     .back
+        mov     eax, [esi]
+        mov     ecx, esi
+        call    DWORD [eax]
+        push    eax
+        push    oCNpc__classDef
+        call    zCObject__CheckInheritance
+        add     esp, 0x8
+        test    eax, eax
+        jz      .back
 
         mov     eax, [esi+g1g2(0x7B0,0x770)]                               ; oCNpc.instanz
         test    eax, eax
@@ -478,9 +484,19 @@ fix_Hlp_GetNpc:
         mov     eax, [esi+zCPar_Symbol_offset_offset]
         test    eax, eax
         jz      g1g2(0x65880E,0x6EEE6E)
-        mov     eax, [eax]
-        cmp     eax, oCNpc__vftable
-        jnz     g1g2(0x65880E,0x6EEE6E)
+
+        push    ecx
+        mov     ecx, eax
+        mov     eax, [ecx]
+        call    DWORD [eax]
+        push    eax
+        push    oCNpc__classDef
+        call    zCObject__CheckInheritance
+        add     esp, 0x8
+        test    eax, eax
+        pop     ecx
+        jz      g1g2(0x65880E,0x6EEE6E)
+    verifyStackoffset 0x10
 
         ; Jump back
         push    edi
@@ -493,11 +509,18 @@ fix_Hlp_IsValidNpc:
     resetStackoffset 0x18
         test    eax, eax
         jz      .back
-        mov     eax, [eax]
-        cmp     eax, oCNpc__vftable
-        jz      .back
-        xor     eax, eax
-        jmp     .backClean
+
+        push    ecx
+        mov     ecx, eax
+        mov     eax, [ecx]
+        call    DWORD [eax]
+        push    eax
+        push    oCNpc__classDef
+        call    zCObject__CheckInheritance
+        add     esp, 0x8
+        test    eax, eax
+        pop     ecx
+        jz      .backClean
     verifyStackoffset 0x18
 
 .back:
@@ -512,11 +535,18 @@ fix_Hlp_IsValidItem:
     resetStackoffset 0x18
         test    eax, eax
         jz      .back
-        mov     eax, [eax]
-        cmp     eax, oCItem__vftable
-        jz      .back
-        xor     eax, eax
-        jmp     .backClean
+
+        push    ecx
+        mov     ecx, eax
+        mov     eax, [ecx]
+        call    DWORD [eax]
+        push    eax
+        push    oCItem__classDef
+        call    zCObject__CheckInheritance
+        add     esp, 0x8
+        test    eax, eax
+        pop     ecx
+        jz      .backClean
     verifyStackoffset 0x18
 
 .back:

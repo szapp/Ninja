@@ -81,8 +81,7 @@
     %define     oCGame__GetInfoManager                    0x6C2C90     ; void
     %define     oCMissionManager_misMan                   0xAB1384     ; oCMissionManager*
     %define     oCNpc__classDef                           0xAB1E20     ; zCClassDef
-    %define     oCNpc__vftable                            0x83D724     ; const
-    %define     oCItem__vftable                           0x83C804     ; const
+    %define     oCItem__classDef                          0xAB1168     ; zCClassDef
     %define     zCObject__CheckInheritance                0x476E30     ; zCClassDef const *, zCClassDef const *
     %define     oCWorld__InsertInLists                    0x7808B0     ; zCVob *
     %define     oCWorld__RemoveFromLists                  0x780990     ; zCVob *
