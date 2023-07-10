@@ -9,7 +9,8 @@ ninja_injectSrc:
         %assign var_string -0x14                                           ; zString
         %assign arg_1      +0x4                                            ; char *
         %assign arg_2      +0x8                                            ; char *
-        %assign arg_total   0x8
+        %assign arg_3      +0xC                                            ; int
+        %assign arg_total   0xC
 
         sub     esp, var_total
         pusha
@@ -31,6 +32,26 @@ ninja_injectSrc:
         push    ecx
         call    zERROR__Message
     addStack 4
+
+        push    char_nid_symb                                              ; Create patch ID symbol name
+        lea     eax, [esp+stackoffset+var_symbol]
+        push    eax
+        call    DWORD [ds_lstrcpyA]
+    addStack 2*4
+        push    DWORD [esp+stackoffset+arg_2]
+        push    eax
+        call    DWORD [ds_lstrcatA]
+    addStack 2*4
+
+        push    zPAR_TYPE_INT | zPAR_FLAG_CONST | 0x1                      ; Create patch ID symbol
+        push    eax
+        call    ninja_createSymbol
+    addStack 2*4
+        push    0x0
+        push    DWORD [esp+stackoffset+arg_3]
+        mov     ecx, eax
+        call    zCPar_Symbol__SetValue_int
+    addStack 2*4
 
         push    char_ndivider_symb                                         ; Create divider symbol name
         lea     eax, [esp+stackoffset+var_symbol]

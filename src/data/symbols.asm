@@ -55,4 +55,5 @@ char_ndivider_symb       db   'NINJA_SYMBOLS_START', 0
 char_ndivider2_symb      db   'NINJA_SYMBOLS_END', 0
 char_nversion_symb       db   'NINJA_VERSION', 0
 char_narray_symb         db   'NINJA_PATCHES', 0
+char_nid_symb            db   'NINJA_ID_', 0
 char_modname_symb        db   'NINJA_MODNAME', 0

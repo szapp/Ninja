@@ -134,12 +134,15 @@ ninja_dispatch:
         cmp     eax, ninja_injectSrc
         jnz     .deploycall
 
-        push    DWORD [esp+stackoffset+var_patchname]                      ; ninja_injectSrc takes one more parameter
+        mov     ecx, edi
+        dec     ecx
+        push    ecx                                                        ; ninja_injectSrc takes two more parameters
+        push    DWORD [esp+stackoffset+var_patchname]
 
 .deploycall:
         push    esi
         call    eax
-    addStack 2*4
+    addStack 3*4
         jmp     .arrayLoop
 
 .funcEnd:
