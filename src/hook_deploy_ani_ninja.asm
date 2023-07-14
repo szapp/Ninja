@@ -1,15 +1,10 @@
 ; Hook reading of animations in zCModelPrototype::ReadAniEnum (g1), zCModelPrototype::ReadAniEnumMSB (g2)
 
 %include "inc/macros.inc"
-
-%if GOTHIC_BASE_VERSION == 1
-    %include "inc/symbols_g1.inc"
-%elif GOTHIC_BASE_VERSION == 2
-    %include "inc/symbols_g2.inc"
-%endif
+%include "inc/symbols.inc"
 
 %ifidn __OUTPUT_FORMAT__, bin
-    org     g1g2(0x57DC40,0x5961CD)
+    org     g1g2(0x57DC40,0,0x5961CD)
 %endif
 
 bits    32

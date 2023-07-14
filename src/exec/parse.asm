@@ -18,7 +18,7 @@ parser_check_func:
 .back:
         test    eax, eax
         mov     ebp, eax
-        jnz     g1g2(0x6F4980,0x79E1D1)
+        jnz     g1g2(0x6F4980,0,0x79E1D1)
 
 %if GOTHIC_BASE_VERSION == 1
         push    0x5AE
@@ -32,7 +32,7 @@ parser_check_func:
 
 global linker_replace_func
 linker_replace_func:
-    resetStackoffset g1g2(0xA8,0xE4)
+    resetStackoffset g1g2(0xA8,0,0xE4)
         %assign var_symb_content  0x4
         %assign var_parser        0x0
         push    edi
@@ -45,7 +45,7 @@ linker_replace_func:
 
         mov     eax, [ecx+zCPar_Symbol_content_offset]
         test    eax, eax
-    verifyStackoffset g1g2(0xA8,0xE4) + 0xC
+    verifyStackoffset g1g2(0xA8,0,0xE4) + 0xC
         jz      .rf_back
 
         push    eax                                                        ; symbol->content
@@ -62,7 +62,7 @@ linker_replace_func:
         call    DWORD [ds_lstrcmpiA]
     addStack 2*4
         test    eax, eax
-    verifyStackoffset g1g2(0xA8,0xE4) + 0x14
+    verifyStackoffset g1g2(0xA8,0,0xE4) + 0x14
         jz      .no_rf_back
         push    edi
         call    DWORD [ds_lstrlenA]
@@ -76,7 +76,7 @@ linker_replace_func:
         mov     ecx, [ecx+zCParser_stackpos_offset]
         mov     eax, [esp+var_symb_content]                                ; symbol->content
         cmp     BYTE [eax+ecx], zPAR_TOK_RET
-    verifyStackoffset g1g2(0xA8,0xE4) + 0x14
+    verifyStackoffset g1g2(0xA8,0,0xE4) + 0x14
         jz      .no_rf_back
 
         pop     ebp                                                        ; parser
@@ -87,14 +87,14 @@ linker_replace_func:
         mov     BYTE [eax], zPAR_TOK_JUMP
         mov     [eax+1], ecx
         sub     esp, 0x4
-    verifyStackoffset g1g2(0xA8,0xE4) + 0xC
+    verifyStackoffset g1g2(0xA8,0,0xE4) + 0xC
 
 .rf_back:
         add     esp, 0x4
         pop     ecx
         pop     edi
         call    zCPar_Symbol__SetStackPos
-        jmp     g1g2(0x6E8269,0x7915CC)
+        jmp     g1g2(0x6E8269,0,0x7915CC)
 
 .no_rf_back:
         sub     esp, 0x14
@@ -114,13 +114,13 @@ linker_replace_func:
         pop     ebp
         add     esp, 0x14
         pop     edi
-        jmp     g1g2(0x6E8269,0x7915CC)
+        jmp     g1g2(0x6E8269,0,0x7915CC)
 
 
 global parser_check_var
 parser_check_var:
-    resetStackoffset g1g2(0x394,0x3EC)
-        xor     g1g2(edi,ebp), g1g2(edi,ebp)
+    resetStackoffset g1g2(0x394,0,0x3EC)
+        xor     g1g2(edi,0,ebp), g1g2(edi,0,ebp)
         mov     eax, DWORD [zCParser__enableParsing]                       ; Check if wrapped by Ninja
         cmp     eax, 0x2A
         jnz     .check_sym
@@ -131,24 +131,24 @@ parser_check_var:
         mov     eax, DWORD [esi+zCParser_in_class_offset]                  ; parser->in_class->name
         test    eax, eax
         jnz     .sub_var
-        lea     ecx, [esp+stackoffset+g1g2(-0x354,-0x3BC)]                 ; Variable name
+        lea     ecx, [esp+stackoffset+g1g2(-0x354,0,-0x3BC)]               ; Variable name
         push    ecx
         mov     ecx, esi
         call    zCParser__GetSymbol_str
     addStack 4
-        mov     g1g2(edi,ebp), eax
-    verifyStackoffset g1g2(0x394,0x3EC)
+        mov     g1g2(edi,0,ebp), eax
+    verifyStackoffset g1g2(0x394,0,0x3EC)
         jmp     .check_sym
 
 .sub_var:
         sub     esp, 0x14
         push    char_dot
         push    eax                                                        ; Prefix (function or class name)
-        lea     eax, [esp+stackoffset+g1g2(-0x3A8,-0x400)]                 ; New string
+        lea     eax, [esp+stackoffset+g1g2(-0x3A8,0,-0x400)]               ; New string
         push    eax
         call    operator_StrPlusChar                                       ; __cdecl
         add     esp, 0xC
-        mov     ecx, DWORD [esp+stackoffset+g1g2(-0x34C,-0x3B4)]           ; Variable name
+        mov     ecx, DWORD [esp+stackoffset+g1g2(-0x34C,0,-0x3B4)]         ; Variable name
         push    ecx
         mov     ecx, eax
         call    zSTRING__operator_plusEq
@@ -157,13 +157,13 @@ parser_check_var:
         mov     ecx, esi
         call    zCParser__GetSymbol_str
     addStack 4
-        mov     g1g2(edi,ebp), eax
-        lea     ecx, [esp+stackoffset+g1g2(-0x3A8,-0x400)]                 ; New string
+        mov     g1g2(edi,0,ebp), eax
+        lea     ecx, [esp+stackoffset+g1g2(-0x3A8,0,-0x400)]               ; New string
         call    zSTRING___zSTRING
         add     esp, 0x14
 
 .check_sym:
-    verifyStackoffset g1g2(0x394,0x3EC)
+    verifyStackoffset g1g2(0x394,0,0x3EC)
 
 %if GOTHIC_BASE_VERSION == 1
         test    edi, edi
@@ -181,7 +181,7 @@ parser_check_var:
 
 global parser_check_class
 parser_check_class:
-    resetStackoffset g1g2(0x5C,0x50)
+    resetStackoffset g1g2(0x5C,0,0x50)
 %if GOTHIC_BASE_VERSION == 2
         pop     ecx
 %endif
@@ -195,7 +195,7 @@ parser_check_class:
         call    zCPar_SymbolTable__GetSymbol_str
     addStack 4
         test    eax, eax
-    verifyStackoffset g1g2(0x5C,(0x50-0x4))
+    verifyStackoffset g1g2(0x5C,0,(0x50-0x4))
 
         ; Jump back
 %if GOTHIC_BASE_VERSION == 1
@@ -248,7 +248,7 @@ parser_check_prototype:
 
 global parser_verify_ikarus_version
 parser_verify_ikarus_version:
-    resetStackoffset g1g2(0x398,0x3F0)
+    resetStackoffset g1g2(0x398,0,0x3F0)
         %assign var_newvalue  0x04
         push    eax
         push    ebx
@@ -259,7 +259,7 @@ parser_verify_ikarus_version:
 
         mov     ecx, [esi+zCParser_mergemode_offset]
         test    ecx, ecx
-    verifyStackoffset g1g2(0x398,0x3F0) + 0x8
+    verifyStackoffset g1g2(0x398,0,0x3F0) + 0x8
         jz      .backClean
 
         mov     ebx, keep_int_symbol_start
@@ -272,7 +272,7 @@ parser_verify_ikarus_version:
         call    DWORD [ds_lstrcmpiA]
     addStack 2*4
         test    eax, eax
-    verifyStackoffset g1g2(0x398,0x3F0) + 0x8
+    verifyStackoffset g1g2(0x398,0,0x3F0) + 0x8
         jz      .skip
         push    ebx
         call    DWORD [ds_lstrlenA]
@@ -288,7 +288,7 @@ parser_verify_ikarus_version:
         call    DWORD [ds_lstrcmpiA]
     addStack 2*4
         test    eax, eax
-    verifyStackoffset g1g2(0x398,0x3F0) + 0x8
+    verifyStackoffset g1g2(0x398,0,0x3F0) + 0x8
         jnz     .back
 
         reportToSpy NINJA_VERIFY_VERSION
@@ -312,7 +312,7 @@ parser_verify_ikarus_version:
         ; mov     ecx, esp                                                 ; Never reached: Safe some space
         ; call    zSTRING___zSTRING
         add     esp, 0x14
-    verifyStackoffset g1g2(0x398,0x3F0) + 0x8
+    verifyStackoffset g1g2(0x398,0,0x3F0) + 0x8
         jmp     .back
 
 .verifyFilePath:
@@ -333,12 +333,12 @@ parser_verify_ikarus_version:
     addStack 2*4
         pop     eax
         test    eax, eax
-    verifyStackoffset g1g2(0x398,0x3F0) + 0x8
+    verifyStackoffset g1g2(0x398,0,0x3F0) + 0x8
         jz      .back
 
         reportToSpy NINJA_COMPARE_VERSIONS
         cmp     ebx, eax
-    verifyStackoffset g1g2(0x398,0x3F0) + 0x8
+    verifyStackoffset g1g2(0x398,0,0x3F0) + 0x8
         jge     .back
 
         push    edi
@@ -407,7 +407,7 @@ parser_verify_ikarus_version:
         call    zCPar_Symbol__GetValue
     addStack 2*4
         pop     eax
-    verifyStackoffset g1g2(0x398,0x3F0) + 0x8
+    verifyStackoffset g1g2(0x398,0,0x3F0) + 0x8
         jmp     .backClean
 
 .back:
@@ -416,18 +416,18 @@ parser_verify_ikarus_version:
 .backClean:
         pop     ebx
         add     esp, 0x4
-    verifyStackoffset g1g2(0x398,0x3F0)
+    verifyStackoffset g1g2(0x398,0,0x3F0)
 
         ; Jump back
         push    eax
         mov     ecx, ebp
         call    zCPar_Symbol__SetValue_int
-        jmp     g1g2(0x6F2459,0x79BDD8)
+        jmp     g1g2(0x6F2459,0,0x79BDD8)
 
 
 global parser_verify_lego_version
 parser_verify_lego_version:
-    resetStackoffset g1g2(0x394,0x3EC)
+    resetStackoffset g1g2(0x394,0,0x3EC)
         push    eax
         push    edx
         push    ebx
@@ -438,7 +438,7 @@ parser_verify_lego_version:
 
         mov     ecx, [esi+zCParser_mergemode_offset]
         test    ecx, ecx
-    verifyStackoffset g1g2(0x394,0x3EC) + 0xC
+    verifyStackoffset g1g2(0x394,0,0x3EC) + 0xC
         jz      .back
 
         mov     ebx, keep_string_symbol_start
@@ -451,7 +451,7 @@ parser_verify_lego_version:
         call    DWORD [ds_lstrcmpiA]
     addStack 2*4
         test    eax, eax
-    verifyStackoffset g1g2(0x394,0x3EC) + 0xC
+    verifyStackoffset g1g2(0x394,0,0x3EC) + 0xC
         jz      .skip
         push    ebx
         call    DWORD [ds_lstrlenA]
@@ -466,15 +466,15 @@ parser_verify_lego_version:
         call    DWORD [ds_lstrcmpiA]
     addStack 2*4
         test    eax, eax
-    verifyStackoffset g1g2(0x394,0x3EC) + 0xC
+    verifyStackoffset g1g2(0x394,0,0x3EC) + 0xC
         jnz     .back
 
         reportToSpy NINJA_VERIFY_VERSION
-        mov     ecx, [esp+stackoffset+g1g2(-0x340,-0x394)+0x8]             ; str->ptr
+        mov     ecx, [esp+stackoffset+g1g2(-0x340,0,-0x394)+0x8]           ; str->ptr
         push    ecx
         call    DWORD [ds_lstrlenA]
     addStack 4
-        mov     ecx, [esp+stackoffset+g1g2(-0x340,-0x394)+0x8]             ; str->ptr
+        mov     ecx, [esp+stackoffset+g1g2(-0x340,0,-0x394)+0x8]           ; str->ptr
         sub     eax, 0x5                                                   ; Expects "...-Nxxx"
         add     ecx, eax
         cmp     BYTE [ecx], '-'
@@ -507,7 +507,7 @@ parser_verify_lego_version:
         ; mov     ecx, esp                                                 ; Never reached: Safe some space
         ; call    zSTRING___zSTRING
         add     esp, 0x14
-    verifyStackoffset g1g2(0x394,0x3EC) + 0xC
+    verifyStackoffset g1g2(0x394,0,0x3EC) + 0xC
         jmp     .back
 
 .verifyFilePath:
@@ -516,7 +516,7 @@ parser_verify_lego_version:
         call    ninja_scriptPathInvalid
     addStack 2*4
         test    eax, eax
-    verifyStackoffset g1g2(0x394,0x3EC) + 0xC
+    verifyStackoffset g1g2(0x394,0,0x3EC) + 0xC
         jnz     .back
 
 .compareVersions:
@@ -524,7 +524,7 @@ parser_verify_lego_version:
         lea     edx, [eax+edi*0x4]
         mov     eax, [edx+0x8]
         test    eax, eax
-    verifyStackoffset g1g2(0x394,0x3EC) + 0xC
+    verifyStackoffset g1g2(0x394,0,0x3EC) + 0xC
         jz      .back
 
         reportToSpy NINJA_COMPARE_VERSIONS
@@ -532,15 +532,15 @@ parser_verify_lego_version:
         call    ninja_parseVersionString
     addStack 4
         test    eax, eax
-    verifyStackoffset g1g2(0x394,0x3EC) + 0xC
+    verifyStackoffset g1g2(0x394,0,0x3EC) + 0xC
         jl      .back
         mov     ebx, eax
-        mov     eax, [esp+stackoffset+g1g2(-0x340,-0x394)+0x8]             ; str->ptr
+        mov     eax, [esp+stackoffset+g1g2(-0x340,0,-0x394)+0x8]             ; str->ptr
         push    eax
         call    ninja_parseVersionString
     addStack 4
         cmp     eax, ebx
-    verifyStackoffset g1g2(0x394,0x3EC) + 0xC
+    verifyStackoffset g1g2(0x394,0,0x3EC) + 0xC
         jge     .back
 
         push    edi
@@ -604,17 +604,17 @@ parser_verify_lego_version:
         jmp     .backClean
 
 .back:
-        lea     ecx, [esp+stackoffset+g1g2(-0x340,-0x394)]
+        lea     ecx, [esp+stackoffset+g1g2(-0x340,0,-0x394)]
 
 .backClean:
         pop     ebx
         pop     edx
         pop     eax
-    verifyStackoffset g1g2(0x394,0x3EC)
+    verifyStackoffset g1g2(0x394,0,0x3EC)
 
         ; Jump back
         push    edi
-        jmp     g1g2(0x6F24B1,0x79BE30)
+        jmp     g1g2(0x6F24B1,0,0x79BE30)
 
 
 global parser_resolve_path_src
@@ -630,7 +630,7 @@ parser_resolve_path_src:
         push    NINJA_PATH_IKARUSSRC
         call    zSTRING__zSTRING
     addStack 4
-        jmp     g1g2(0x6E6100,0x78F380)
+        jmp     g1g2(0x6E6100,0,0x78F380)
     verifyStackoffset 0x250
 
 .checkLeGo:
@@ -644,11 +644,11 @@ parser_resolve_path_src:
         push    NINJA_PATH_LEGOSRC
         call    zSTRING__zSTRING
     addStack 4
-        jmp     g1g2(0x6E6100,0x78F380)
+        jmp     g1g2(0x6E6100,0,0x78F380)
     verifyStackoffset 0x250
 
 .back:
         ; Jump back
         lea     ecx, [esp+stackoffset-0x240]
         call    zSTRING__Upper
-        jmp     g1g2(0x6E5F1E,0x78F19E)
+        jmp     g1g2(0x6E5F1E,0,0x78F19E)

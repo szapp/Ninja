@@ -137,6 +137,7 @@
     %define     char_timer                                0x8510CC     ; 'timer', 0
     %define     char_noOfEntries                          0x8510E4     ; 'NoOfEntries', 0
     %define     char_spawningEnabled                      0x8510BC     ; 'spawningEnabled', 0
+
     %define     char_zStartupWindowed                     0x846978     ; 'zStartupWindowed', 0
     %define     char_settings                             0x82BD98     ; 'SETTINGS', 0
     %define     char_meatbug_mds                          0x84E358     ; 'Meatbug.mds', 0

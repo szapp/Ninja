@@ -49,7 +49,8 @@ createVdfArray:
         call    zSTRING___zSTRING
         add     esp, 0x14
 
-        mov     al, [SystemPack_version_info+g1g2(0xD,0xB)]                ; Check for old Ninja system
+%if GOTHIC_BASE_VERSION == 1 || GOTHIC_BASE_VERSION == 2
+        mov     al, [SystemPack_version_info+g1g2(0xD,0x0,0xB)]            ; Check for old Ninja system
         cmp     al, 'N'
         jnz     .checkScripts
 
@@ -64,6 +65,7 @@ createVdfArray:
         ; mov     ecx, esp                                                 ; Never reached: Safe some space
         ; call    zSTRING___zSTRING
         add     esp, 0x14
+%endif
 
 .checkScripts:
         call    zFILE_VDFS__LockCriticalSection
@@ -120,6 +122,7 @@ createVdfArray:
         call    zCConsole__AddEvalFunc
     addStack 4
 
+%if GOTHIC_BASE_VERSION == 1 || GOTHIC_BASE_VERSION == 2
         reportToSpy NINJA_READING_INI
         mov     esi, DWORD [zCOption_zgameoptions]
         test    esi, esi
@@ -158,6 +161,7 @@ createVdfArray:
         lea     ecx, [esp+stackoffset+var_retstr]
         call    zSTRING___zSTRING
         jmp     .detect
+%endif
 
 .ignoreListEmpty:
         push    char_NUL
@@ -561,7 +565,7 @@ createVdfArray:
     verifyStackoffset
 
         push    char_zStartupWindowed
-        jmp     g1g2(0x6019C6,0x630B61)
+        jmp     g1g2(0x6019C6,0x623783,0x630B61)
 
 
 ; int __cdecl ninja_compareTimestampsUnsigned(void const *, void const *)

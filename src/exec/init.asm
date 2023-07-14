@@ -15,7 +15,7 @@ init_menu:
         ; Jump back
         pop     ebp
         mov     ecx, [esp+stackoffset-0xC]
-        jmp     g1g2(0x4CE914,0x4DB504)
+        jmp     g1g2(0x4CE914,0,0x4DB504)
 
 
 global init_content
@@ -37,4 +37,4 @@ init_content:
         add     esp, 0x8
         test    eax, eax
 %endif
-        jmp     g1g2(0x637F8A,0x6C20C8)
+        jmp     g1g2(0x637F8A,0,0x6C20C8)
