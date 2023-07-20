@@ -37,6 +37,9 @@ ECHO/>> %outfile%
 SET gothic=112
 FOR %%N IN ("%indir%") DO CALL :fileloop %%N || EXIT /B 3
 ECHO/>> %outfile%
+SET gothic=130
+FOR %%N IN ("%indir%") DO CALL :fileloop %%N || EXIT /B 3
+ECHO/>> %outfile%
 SET gothic=2
 FOR %%N IN ("%indir%") DO CALL :fileloop %%N || EXIT /B 3
 

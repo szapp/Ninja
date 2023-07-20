@@ -1,7 +1,7 @@
 ::
 :: Read starting address (ORG) from assembly file
 ::
-:: Arguments: SOURCE.ASM GOTHIC-BASE-VERSION(1, 112, or 2)
+:: Arguments: SOURCE.ASM GOTHIC-BASE-VERSION(1, 112, 130, or 2)
 ::
 @ECHO OFF
 SETLOCAL ENABLEEXTENSIONS ENABLEDELAYEDEXPANSION
@@ -11,7 +11,8 @@ IF [%1] == [] GOTO usage
 IF [%2] == [] GOTO usage
 IF %2 EQU 1   SET gId=1&& GOTO start
 IF %2 EQU 112 SET gId=2&& GOTO start
-IF %2 EQU 2   SET gId=3&& GOTO start
+IF %2 EQU 130 SET gId=3&& GOTO start
+IF %2 EQU 2   SET gId=4&& GOTO start
 GOTO usage
 
 :start
@@ -51,4 +52,4 @@ ECHO %addr%
 EXIT /B 0
 
 :usage
-ECHO Usage: %~nx0 SOURCE.ASM GOTHIC-BASE-VERSION(1, 112, or 2)
+ECHO Usage: %~nx0 SOURCE.ASM GOTHIC-BASE-VERSION(1, 112, 130, or 2)

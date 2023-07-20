@@ -182,7 +182,7 @@ ninja_Y3JjMzI:
         push    ecx
         mov     ecx, esp
         push    eax
-        call    g1g2(0x5CE900,0x5ED6A0,0x5F9BF0)
+        call    g1g2(0x5CE900,0x5ED6A0,0,0x5F9BF0)
     addStack 4
         call    _itoa
         add     esp, 0xC

@@ -10,6 +10,10 @@
 
         %include "inc/engine_g112.inc"
 
+    %elif GOTHIC_BASE_VERSION == 130
+
+        %include "inc/engine_g130.inc"
+
     %elif GOTHIC_BASE_VERSION == 2
 
         %include "inc/engine_g2.inc"

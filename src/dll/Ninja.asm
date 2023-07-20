@@ -18,6 +18,14 @@
     %assign inject_g112_count inject_g112_count + 1
 %endmacro
 
+%assign inject_g130_count 0
+%macro add_inject_g130 2
+        injectObj_g130_%[inject_g130_count]_addr   equ    %1
+        injectObj_g130_%[inject_g130_count]_new    incbin %2
+        injectObj_g130_%[inject_g130_count]_size   equ    $-injectObj_g130_%[inject_g130_count]_new
+    %assign inject_g130_count inject_g130_count + 1
+%endmacro
+
 %assign inject_g2_count 0
 %macro add_inject_g2 2
         injectObj_g2_%[inject_g2_count]_addr   equ    %1
@@ -70,10 +78,12 @@ section .data
 
         verify_addr_g1                 equ  0x82C0C0
         verify_addr_g112               equ  0x87F918
+        verify_addr_g130               equ  0x88F858
         verify_addr_g2                 equ  0x89A7FC
 
         zCParser__ParseBlock_g1        equ  0x6E6C00
         zCParser__ParseBlock_g112      equ  0x71F8E0
+        zCParser__ParseBlock_g130      equ  0x7303F0
         zCParser__ParseBlock_g2        equ  0x78FE30
 
         %include "inc/injections.inc"
@@ -179,6 +189,8 @@ injectAll:
         jz      .g2
         cmp     DWORD [verify_addr_g112], 'GOTH'
         jz      .g112
+        cmp     DWORD [verify_addr_g130], 'Goth'
+        jz      .g130
         cmp     DWORD [verify_addr_g1], 'Goth'
         jz      .g1
 
@@ -232,6 +244,28 @@ injectAll:
 
         push    0x8
         push    zCParser__ParseBlock_g112
+        call    clearAccess
+    addStack 2*4
+        test    eax, eax
+        jz      .failed
+
+        jmp     .success
+
+.g130:
+    %assign it 0
+    %rep inject_g130_count
+        push    injectObj_g130_%[it]_new
+        push    injectObj_g130_%[it]_size
+        push    injectObj_g130_%[it]_addr
+        call    inject
+    addStack 3*4
+        test    eax, eax
+        jz      .failed
+        %assign it it + 1
+    %endrep
+
+        push    0x8
+        push    zCParser__ParseBlock_g130
         call    clearAccess
     addStack 2*4
         test    eax, eax

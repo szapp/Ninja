@@ -1,6 +1,7 @@
 # Ninja
 
-This repository contains the source code of the Ninja extension for Gothic, Gothic Sequel, and Gothic 2 NotR.
+This repository contains the source code of the Ninja extension for Gothic, Gothic Sequel, Gothic 2, and Gothic 2 NotR,
+specifically the game versions 1.08k_mod, 1.12f, 1.30 fix (report version), 2.6 fix (report version).
 
 If you are interested in developing patches with Ninja, please follow the instructions in the relevant chapters of the
 [documentation](https://github.com/szapp/Ninja/wiki).

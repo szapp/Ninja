@@ -4,7 +4,7 @@
 %include "inc/symbols.inc"
 
 %ifidn __OUTPUT_FORMAT__, bin
-    org     g1g2(0x6019C1,0x62377E,0x630B5C)
+    org     g1g2(0x6019C1,0x62377E,0,0x630B5C)
 %endif
 
 bits    32

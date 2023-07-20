@@ -82,6 +82,7 @@ CONTENT			:=	$(INCDIR)injections$(INCEXT)
 INC				:=	$(INCDIR)stackops$(INCEXT) $(INCDIR)macros$(INCEXT) $(INCDIR)engine$(INCEXT)
 INC_G1			:=	$(INC) $(INCDIR)engine_g1$(INCEXT)
 INC_G112		:=	$(INC) $(INCDIR)engine_g112$(INCEXT)
+INC_G130		:=	$(INC) $(INCDIR)engine_g130$(INCEXT)
 INC_G2			:=	$(INC) $(INCDIR)engine_g2$(INCEXT)
 
 # Intermediate files
@@ -155,6 +156,7 @@ BIN_BASE_G112	:=	core										\
 					hook_init_menu								\
 					hook_init_content							\
 					hook_zCPar_Symbol__GetNext
+BIN_BASE_G130	:=
 BIN_BASE_G2		:=	ow_zCParser__LoadGlobalVars					\
 					skip_writeAniBinFile_ModelTag				\
 					skip_writeAniBinFile_ReadMeshAndTree		\
@@ -196,6 +198,7 @@ DATA_BASE		:=	symbols										\
 
 BINARIES_G1		:=	$(BIN_BASE:%=$(BINDIR)%_g1)
 BINARIES_G112	:=	$(BIN_BASE_G112:%=$(BINDIR)%_g112)
+BINARIES_G130	:=	$(BIN_BASE_G130:%=$(BINDIR)%_g130)
 BINARIES_G2		:=	$(BIN_BASE:%=$(BINDIR)%_g2) $(BIN_BASE_G2:%=$(BINDIR)%_g2)
 FUNC			:=	$(FUNC_BASE:%=$(FUNCDIR)%$(ASMEXT))
 EXEC			:=	$(EXEC_BASE:%=$(EXECDIR)%$(ASMEXT))
@@ -248,7 +251,7 @@ $(OBJ) : $(SRCDLL) $(CONTENT) $(IKLG)
 $(RSC) : $(RC)
 	gorc $(FLAGS_RC) /fo $@ /r $^
 
-$(CONTENT) : $(BINARIES_G1) $(BINARIES_G112) $(BINARIES_G2)
+$(CONTENT) : $(BINARIES_G1) $(BINARIES_G112) $(BINARIES_G130) $(BINARIES_G2)
 	$(GETBINLIST) $(call FixPath,$@) $(SRCDIR)
 
 $(BINDIR)core_g% : $(SRCDIR)core$(ASMEXT) $(FUNC) $(EXEC) $(DATA) $(INC_G%) $(META)
@@ -266,6 +269,10 @@ $(BINDIR)%_g1 : $(SRCDIR)%$(ASMEXT) $(INCDIR)symbols_g1$(INCEXT) $(INC_G1) $(MET
 $(BINDIR)%_g112 : $(SRCDIR)%$(ASMEXT) $(INCDIR)symbols_g112$(INCEXT) $(INC_G112) $(META)
 	@$(call mkdir,$(BINDIR))
 	$(NASM) -DGOTHIC_BASE_VERSION=112 $(FLAGS_C) -o $@ $<
+
+$(BINDIR)%_g130 : $(SRCDIR)%$(ASMEXT) $(INCDIR)symbols_g130$(INCEXT) $(INC_G130) $(META)
+	@$(call mkdir,$(BINDIR))
+	$(NASM) -DGOTHIC_BASE_VERSION=130 $(FLAGS_C) -o $@ $<
 
 $(BINDIR)%_g2 : $(SRCDIR)%$(ASMEXT) $(INCDIR)symbols_g2$(INCEXT) $(INC_G2) $(META)
 	@$(call mkdir,$(BINDIR))

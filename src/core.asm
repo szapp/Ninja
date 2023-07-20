@@ -4,7 +4,7 @@
 %include "inc/engine.inc"
 
 %ifidn __OUTPUT_FORMAT__, bin
-    org     g1g2(0x452640,0x459190,0x457470)
+    org     g1g2(0x452640,0x459190,0,0x457470)
 %endif
 
 bits    32
@@ -19,7 +19,7 @@ section .text
 %include "exec/createVdfArray.asm"
 %include "exec/deploy.asm"
 %include "exec/init.asm"
-%if GOTHIC_BASE_VERSION != 112
+%if GOTHIC_BASE_VERSION != 112 && GOTHIC_BASE_VERSION != 130
 %include "exec/parse.asm"
 %include "exec/misc.asm"
 %endif

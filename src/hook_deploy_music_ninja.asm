@@ -4,7 +4,7 @@
 %include "inc/symbols.inc"
 
 %ifidn __OUTPUT_FORMAT__, bin
-    org     g1g2(0x4DA448,0x4EB55C,0x4E765C)
+    org     g1g2(0x4DA448,0x4EB55C,0,0x4E765C)
 %endif
 
 bits    32
@@ -15,6 +15,6 @@ section .text   align=1                                                    ; Pre
         jmp     deploy_music_ninja
 
         ; Overwrites
-        ; resetStackoffset g1g2(0xD8,0xB0,0xC8)
-        ; lea     g1g2(edx,eax,edx), [esp+stackoffset+g1g2(-0xC5,-0x9D,-0xB5)]
-        ; push    g1g2(edx,eax,edx)
+        ; resetStackoffset g1g2(0xD8,0xB0,0,0xC8)
+        ; lea     g1g2(edx,eax,0,edx), [esp+stackoffset+g1g2(-0xC5,-0x9D,0,-0xB5)]
+        ; push    g1g2(edx,eax,0,edx)

@@ -3,9 +3,9 @@
 
     ; Sanity check
     %ifndef GOTHIC_BASE_VERSION
-        %fatal "Macro GOTHIC_BASE_VERSION must be defined (1, 112, or 2)."
-    %elif GOTHIC_BASE_VERSION != 1 && GOTHIC_BASE_VERSION != 112 && GOTHIC_BASE_VERSION != 2
-        %fatal "GOTHIC_BASE_VERSION must either be 1, 112, or 2."
+        %fatal "Macro GOTHIC_BASE_VERSION must be defined (1, 112, 130, or 2)."
+    %elif GOTHIC_BASE_VERSION != 1 && GOTHIC_BASE_VERSION != 112 && GOTHIC_BASE_VERSION != 130 && GOTHIC_BASE_VERSION != 2
+        %fatal "GOTHIC_BASE_VERSION must either be 1, 112, 130, or 2."
     %endif
 
     ; General macros
@@ -16,11 +16,13 @@
     %define LEGO_N_VERSION  %!LEGO_N_VERSION
     %define MAX_VDF_TIME    0x7F9FBF7D                                     ; 2043-12-23 23:59:58
     %if GOTHIC_BASE_VERSION == 1
-        %define g1g2(g1,g112,g2) g1
+        %define g1g2(g1,g112,g130,g2) g1
     %elif GOTHIC_BASE_VERSION == 112
-        %define g1g2(g1,g112,g2) g112
+        %define g1g2(g1,g112,g130,g2) g112
+    %elif GOTHIC_BASE_VERSION == 130
+        %define g1g2(g1,g112,g130,g2) g130
     %elif GOTHIC_BASE_VERSION == 2
-        %define g1g2(g1,g112,g2) g2
+        %define g1g2(g1,g112,g130,g2) g2
     %endif
 
     %include "inc/stackops.inc"

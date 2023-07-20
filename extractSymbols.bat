@@ -1,7 +1,7 @@
 ::
 :: Extract all global symbols from assembly files and format them into a macro file
 ::
-:: Arguments: OUTFILE.ASM GOTHIC-BASE-VERSION(1, 112, or 2) SOURCE.ASM [SOURCE.ASM ...]
+:: Arguments: OUTFILE.ASM GOTHIC-BASE-VERSION(1, 112, 130, or 2) SOURCE.ASM [SOURCE.ASM ...]
 ::
 @ECHO OFF
 SETLOCAL ENABLEDELAYEDEXPANSION
@@ -15,6 +15,7 @@ IF [%2] == [] GOTO usage
 IF [%3] == [] GOTO usage
 IF %2 EQU 1   GOTO start
 IF %2 EQU 112 GOTO start
+IF %2 EQU 130 GOTO start
 IF %2 NEQ 2   GOTO usage
 
 :start
@@ -68,4 +69,4 @@ DEL /Q temp.O
 EXIT /B
 
 :usage
-ECHO Usage: %~nx0 OUTFILE.ASM GOTHIC-BASE-VERSION(1, 112, or 2) SOURCE.ASM [SOURCE.ASM ...]
+ECHO Usage: %~nx0 OUTFILE.ASM GOTHIC-BASE-VERSION(1, 112, 130, or 2) SOURCE.ASM [SOURCE.ASM ...]
