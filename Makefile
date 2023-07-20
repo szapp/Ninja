@@ -156,7 +156,21 @@ BIN_BASE_G112	:=	core										\
 					hook_init_menu								\
 					hook_init_content							\
 					hook_zCPar_Symbol__GetNext
-BIN_BASE_G130	:=
+BIN_BASE_G130	:=	core										\
+					hook_createVdfArray							\
+					hook_deploy_ani_ninja						\
+					hook_deploy_camera_ninja					\
+					hook_deploy_content_ninja					\
+					hook_deploy_fightai_ninja					\
+					hook_deploy_menu_ninja						\
+					hook_deploy_music_ninja						\
+					hook_deploy_ou_ninja						\
+					hook_deploy_pfx_ninja						\
+					hook_deploy_sfx_ninja						\
+					hook_deploy_vfx_ninja						\
+					hook_init_menu								\
+					hook_init_content							\
+					hook_zCPar_Symbol__GetNext
 BIN_BASE_G2		:=	ow_zCParser__LoadGlobalVars					\
 					skip_writeAniBinFile_ModelTag				\
 					skip_writeAniBinFile_ReadMeshAndTree		\

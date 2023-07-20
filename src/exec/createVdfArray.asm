@@ -50,7 +50,7 @@ createVdfArray:
         add     esp, 0x14
 
 %if GOTHIC_BASE_VERSION == 1 || GOTHIC_BASE_VERSION == 2
-        mov     al, [SystemPack_version_info+g1g2(0xD,0x0,0,0xB)]          ; Check for old Ninja system
+        mov     al, [SystemPack_version_info+g1g2(0xD,0x0,0x0,0xB)]          ; Check for old Ninja system
         cmp     al, 'N'
         jnz     .checkScripts
 
@@ -565,7 +565,7 @@ createVdfArray:
     verifyStackoffset
 
         push    char_zStartupWindowed
-        jmp     g1g2(0x6019C6,0x623783,0,0x630B61)
+        jmp     g1g2(0x6019C1,0x62377E,0x6293DC,0x630B5C)+5
 
 
 ; int __cdecl ninja_compareTimestampsUnsigned(void const *, void const *)

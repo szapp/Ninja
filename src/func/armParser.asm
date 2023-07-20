@@ -14,8 +14,8 @@ ninja_armParser:
         push    eax
         mov     eax, DWORD [zCParser__ParseBlock+4]
         push    eax
-        mov     DWORD [zCParser__ParseBlock], g1g2(0xC868FF6A,0x1868FF6A,0,0x0868FF6A)
-        mov     DWORD [zCParser__ParseBlock+4], g1g2(0x64007C4A,0x6400807C,0,0x640082A6)
+        mov     DWORD [zCParser__ParseBlock], g1g2(0xC868FF6A,0x1868FF6A,0x2868FF6A,0x0868FF6A)
+        mov     DWORD [zCParser__ParseBlock+4], g1g2(0x64007C4A,0x6400807C,0x64008159,0x640082A6)
 
         mov     eax, DWORD [zCParser__cur_parser]
         push    eax
