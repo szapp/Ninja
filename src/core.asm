@@ -19,8 +19,10 @@ section .text
 %include "exec/createVdfArray.asm"
 %include "exec/deploy.asm"
 %include "exec/init.asm"
+%if GOTHIC_BASE_VERSION != 112
 %include "exec/parse.asm"
 %include "exec/misc.asm"
+%endif
 
 %include "func/freeVdfArray.asm"
 %include "func/dispatch.asm"

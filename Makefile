@@ -140,6 +140,21 @@ BIN_BASE		:=	core										\
 					ow_playerInfoName3							\
 					ow_playerInfoName4							\
 					ow_playerInfoName5
+BIN_BASE_G112	:=	core										\
+					hook_createVdfArray							\
+					hook_deploy_ani_ninja						\
+					hook_deploy_camera_ninja					\
+					hook_deploy_content_ninja					\
+					hook_deploy_fightai_ninja					\
+					hook_deploy_menu_ninja						\
+					hook_deploy_music_ninja						\
+					hook_deploy_ou_ninja						\
+					hook_deploy_pfx_ninja						\
+					hook_deploy_sfx_ninja						\
+					hook_deploy_vfx_ninja						\
+					hook_init_menu								\
+					hook_init_content							\
+					hook_zCPar_Symbol__GetNext
 BIN_BASE_G2		:=	ow_zCParser__LoadGlobalVars					\
 					skip_writeAniBinFile_ModelTag				\
 					skip_writeAniBinFile_ReadMeshAndTree		\
@@ -180,7 +195,7 @@ DATA_BASE		:=	symbols										\
 					messages
 
 BINARIES_G1		:=	$(BIN_BASE:%=$(BINDIR)%_g1)
-BINARIES_G112	:=	# $(BIN_BASE:%=$(BINDIR)%_g112)
+BINARIES_G112	:=	$(BIN_BASE_G112:%=$(BINDIR)%_g112)
 BINARIES_G2		:=	$(BIN_BASE:%=$(BINDIR)%_g2) $(BIN_BASE_G2:%=$(BINDIR)%_g2)
 FUNC			:=	$(FUNC_BASE:%=$(FUNCDIR)%$(ASMEXT))
 EXEC			:=	$(EXEC_BASE:%=$(EXECDIR)%$(ASMEXT))

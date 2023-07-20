@@ -90,42 +90,42 @@ setVobToTransient:
 
 global checkNpcTransient1
 checkNpcTransient1:
-    resetStackoffset g1g2(0x5C,0,0x94)
+    resetStackoffset g1g2(0x5C,0x5C,0x94)
         call    DWORD [edx+0x104]                                          ; oCNpc.IsSelfPlayer(void)
         test    eax, eax
         jnz     .back
 
-    %if GOTHIC_BASE_VERSION == 1
+    %if GOTHIC_BASE_VERSION == 1 || GOTHIC_BASE_VERSION == 112
         test    BYTE [ecx+0xF5], 0x1                                       ; zCVob.dontwritetoarchive
     %elif GOTHIC_BASE_VERSION == 2
         test    BYTE [ecx+0x114], 0x10                                     ; zCVob.dontwritetoarchive
     %endif
         jz      .back
         mov     eax, 0x1
-    verifyStackoffset g1g2(0x5C,0,0x94)
+    verifyStackoffset g1g2(0x5C,0x5C,0x94)
 
 .back:
-        jmp     g1g2(0x6D652A,0,0x77F66A)+6
+        jmp     g1g2(0x6D652A,0x70DF35,0x77F66A)+6
 
 
 global checkNpcTransient2
 checkNpcTransient2:
-    resetStackoffset g1g2(0x5C,0,0x94)
+    resetStackoffset g1g2(0x5C,0x5C,0x94)
         call    DWORD [eax+0x104]                                          ; oCNpc.IsSelfPlayer(void)
         test    eax, eax
         jnz     .back
 
-    %if GOTHIC_BASE_VERSION == 1
+    %if GOTHIC_BASE_VERSION == 1 || GOTHIC_BASE_VERSION == 112
         test    BYTE [ecx+0xF5], 0x1                                       ; zCVob.dontwritetoarchive
     %elif GOTHIC_BASE_VERSION == 2
         test    BYTE [ecx+0x114], 0x10                                     ; zCVob.dontwritetoarchive
     %endif
         jz      .back
         mov     eax, 0x1
-    verifyStackoffset g1g2(0x5C,0,0x94)
+    verifyStackoffset g1g2(0x5C,0x5C,0x94)
 
 .back:
-        jmp     g1g2(0x6D65A3,0,0x77F6E1)+6
+        jmp     g1g2(0x6D65A3,0x70DFA6,0x77F6E1)+6
 
 
 global removeInvalidNpcs
@@ -566,15 +566,15 @@ fastexit_deinit_vdfs:
 ; Deinitialize VDFS on improper CGameManager destruction (access violation)
 global CGameMananager_destruction_deinit_vdfs
 CGameMananager_destruction_deinit_vdfs:
-    resetStackoffset 0x3C
+    resetStackoffset g1g2(0x3C,0x38,0x3C)
         pusha
         call    zFILE_VDFS__DeinitFileSystem
         popa
-    verifyStackoffset 0x3C
+    verifyStackoffset g1g2(0x3C,0x38,0x3C)
 
         ; Jump back
         mov     BYTE [esp+stackoffset-0x4], 0x4
-        jmp     g1g2(0x423BE1,0,0x4247D1)
+        jmp     g1g2(0x423BE1,0x4265C9,0x4247D1)
 
 
 ; Deinitialize VDFS on libExit (fatal error)
