@@ -155,7 +155,19 @@ BIN_BASE_G112	:=	core										\
 					hook_deploy_vfx_ninja						\
 					hook_init_menu								\
 					hook_init_content							\
-					hook_zCPar_Symbol__GetNext
+					hook_linkerReplaceFunc						\
+					hook_parserDeclareClass						\
+					hook_parserDeclareFunc						\
+					hook_parserDeclarePrototype					\
+					hook_parserDeclareVar						\
+					hook_parserDeclareVar_constInt				\
+					hook_parserDeclareVar_constString			\
+					hook_parserParseSource						\
+					hook_zCPar_Symbol__GetNext					\
+					ow_parserDeclareClass_showOverwrite			\
+					ow_parserDeclareFunc_showOverwrite			\
+					ow_parserDeclarePrototype_showOverwrite		\
+					ow_parserDeclareVar_showOverwrite
 BIN_BASE_G130	:=	core										\
 					hook_createVdfArray							\
 					hook_deploy_ani_ninja						\
@@ -170,7 +182,19 @@ BIN_BASE_G130	:=	core										\
 					hook_deploy_vfx_ninja						\
 					hook_init_menu								\
 					hook_init_content							\
-					hook_zCPar_Symbol__GetNext
+					hook_linkerReplaceFunc						\
+					hook_parserDeclareClass						\
+					hook_parserDeclareFunc						\
+					hook_parserDeclarePrototype					\
+					hook_parserDeclareVar						\
+					hook_parserDeclareVar_constInt				\
+					hook_parserDeclareVar_constString			\
+					hook_parserParseSource						\
+					hook_zCPar_Symbol__GetNext					\
+					ow_parserDeclareClass_showOverwrite			\
+					ow_parserDeclareFunc_showOverwrite			\
+					ow_parserDeclarePrototype_showOverwrite		\
+					ow_parserDeclareVar_showOverwrite
 BIN_BASE_G2		:=	ow_zCParser__LoadGlobalVars					\
 					skip_writeAniBinFile_ModelTag				\
 					skip_writeAniBinFile_ReadMeshAndTree		\

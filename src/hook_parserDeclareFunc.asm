@@ -4,7 +4,7 @@
 %include "inc/symbols.inc"
 
 %ifidn __OUTPUT_FORMAT__, bin
-    org     g1g2(0x6F494E,0,0,0x79E1AE)
+    org     g1g2(0x6F494E,0x72E5DE,0x73E76E,0x79E1AE)
 %endif
 
 bits    32
@@ -14,14 +14,12 @@ section .text   align=1                                                    ; Pre
 
         jmp     parser_check_func
 
-    %if GOTHIC_BASE_VERSION == 2
+    %if GOTHIC_BASE_VERSION == 130 || GOTHIC_BASE_VERSION == 2
         times 2 nop
     %endif
 
         ; Overwrites
-        ; %if GOTHIC_BASE_VERSION == 1
-        ;   push    0x5AE
-        ; %elif GOTHIC_BASE_VERSION == 2
-        ;   push    0x3C
-        ;   call    operator_new
+        ;    push    g1g2(0x5AE, 0x5AE, 0x3C, 0x3C)
+        ; %if GOTHIC_BASE_VERSION == 130 || GOTHIC_BASE_VERSION == 2
+        ;    call    operator_new
         ; %endif

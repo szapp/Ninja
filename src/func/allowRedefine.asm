@@ -50,7 +50,7 @@ ninja_allowRedefine:
         push    eax
 
         mov     eax, [esp+stackoffset+arg_1]
-        mov     eax, [eax+g1g2(0x10A4,0x10A4,0x10A4,0x20A4)]                    ; parser->line
+        mov     eax, [eax+g1g2(0x10A4,0x10A4,0x10A4,0x20A4)]               ; parser->line
         push    0xA
         push    ecx
         push    eax
