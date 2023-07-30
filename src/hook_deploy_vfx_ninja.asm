@@ -20,8 +20,8 @@ section .text   align=1                                                    ; Pre
         ; Overwrites
         ; resetStackoffset g1g2(0x248,0x234,0x238,0x250)
         ; %if GOTHIC_BASE_VERSION == 1 || GOTHIC_BASE_VERSION == 130 || GOTHIC_BASE_VERSION == 2
-        ;   lea     g1g2(edx,0x0,eax,eax), [esp+stackoffset+g1g2(-0x239,0x0,-0x226,-0x235)]
+        ;   lea     g1g2(edx,,eax,eax), [esp+stackoffset+g1g2(-0x239,,-0x226,-0x235)]
         ; %elif GOTHIC_BASE_VERSION == 112
         ;   mov     [esp+stackoffset-0x21C], cl
         ; %endif
-        ;   push    g1g2(edx,0,eax,eax)
+        ;   push    g1g2(edx,0x0,eax,eax)

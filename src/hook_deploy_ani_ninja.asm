@@ -17,8 +17,8 @@ section .text   align=1                                                    ; Pre
 
         ; Overwrites
         ; %if GOTHIC_BASE_VERSION == 1 || GOTHIC_BASE_VERSION == 112
-        ;   resetStackoffset g1g2(0xF54,0xFD8,0,0x0)
-        ;   cmp     [esp+stackoffset-g1g2(0xE88,0xF20,0,0x0)], ebp
+        ;   resetStackoffset g1g2(0xF54,0xFD8,,)
+        ;   cmp     [esp+stackoffset-g1g2(0xE88,0xF20,,)], ebp
         ; %elif GOTHIC_BASE_VERSION == 130 || GOTHIC_BASE_VERSION == 2
         ;   resetStackoffset 0x49C
         ;   mov     eax, [esp+stackoffset-0x3E0]

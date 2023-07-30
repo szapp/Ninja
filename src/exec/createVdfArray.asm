@@ -50,7 +50,7 @@ createVdfArray:
         add     esp, 0x14
 
 %if GOTHIC_BASE_VERSION == 1 || GOTHIC_BASE_VERSION == 2
-        mov     al, [SystemPack_version_info+g1g2(0xD,0x0,0x0,0xB)]          ; Check for old Ninja system
+        mov     al, [SystemPack_version_info+g1g2(0xD,,,0xB)]          ; Check for old Ninja system
         cmp     al, 'N'
         jnz     .checkScripts
 

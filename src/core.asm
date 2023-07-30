@@ -20,9 +20,7 @@ section .text
 %include "exec/deploy.asm"
 %include "exec/init.asm"
 %include "exec/parse.asm"
-%if GOTHIC_BASE_VERSION != 112 && GOTHIC_BASE_VERSION != 130
 %include "exec/misc.asm"
-%endif
 
 %include "func/freeVdfArray.asm"
 %include "func/dispatch.asm"

@@ -72,7 +72,7 @@ deploy_vfx_ninja:
 
         ; Jump back
 %if GOTHIC_BASE_VERSION == 1 || GOTHIC_BASE_VERSION == 130 || GOTHIC_BASE_VERSION == 2
-        lea     g1g2(edx,0x0,eax,eax), [esp+stackoffset+g1g2(-0x239,0x0,-0x226,-0x235)]
+        lea     g1g2(edx,,eax,eax), [esp+stackoffset+g1g2(-0x239,,-0x226,-0x235)]
 %elif GOTHIC_BASE_VERSION == 112
         mov     [esp+stackoffset-0x21C], cl
 %endif
@@ -171,9 +171,9 @@ deploy_ani_ninja:
 
 %if GOTHIC_BASE_VERSION == 1 || GOTHIC_BASE_VERSION == 112
 
-    resetStackoffset g1g2(0xF54,0xFD8,0x0,0x0)
+    resetStackoffset g1g2(0xF54,0xFD8,,)
         pusha
-        mov     ebp, [esp+stackoffset-g1g2(0xF24,0xFA8,0,0x0)]             ; zCModelPrototype *
+        mov     ebp, [esp+stackoffset-g1g2(0xF24,0xFA8,,)]                 ; zCModelPrototype *
         mov     esi, [ebp+0x14]                                            ; name->ptr
         push    esi
         mov     esi, DWORD [zFILE_cur_mds_file]
@@ -182,7 +182,7 @@ deploy_ani_ninja:
         call    DWORD [ds_lstrcmpiA]
     addStack 2*4
         test    eax, eax
-    verifyStackoffset g1g2(0xF54,0xFD8,0x0,0x0)+32                           ; Base + pusha
+    verifyStackoffset g1g2(0xF54,0xFD8,,)+32                               ; Base + pusha
         jnz     .back
         sub     esp, 0x120
         mov     eax, esp
@@ -203,9 +203,9 @@ deploy_ani_ninja:
 
     .back:
         popa
-    verifyStackoffset g1g2(0xF54,0xFD8,0x0,0x0)
-        cmp     [esp+stackoffset-g1g2(0xE88,0xF20,0x0,0x0)], ebp
-        jmp     g1g2(0x57DC40,0x598474,0x0,0x0)+7
+    verifyStackoffset g1g2(0xF54,0xFD8,,)
+        cmp     [esp+stackoffset-g1g2(0xE88,0xF20,,)], ebp
+        jmp     g1g2(0x57DC40,0x598474,,)+7
 
 %elif GOTHIC_BASE_VERSION == 130 || GOTHIC_BASE_VERSION == 2
 
@@ -233,6 +233,6 @@ deploy_ani_ninja:
 
         ; Jump back
         mov     eax, [esp+stackoffset-0x3E0]
-        jmp     g1g2(0x0,0x0,0x590C6D,0x5961CD)+7
+        jmp     g1g2(,,0x590C6D,0x5961CD)+7
 
 %endif

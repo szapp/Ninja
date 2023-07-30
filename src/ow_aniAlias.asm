@@ -5,7 +5,7 @@
 %include "inc/symbols.inc"
 
 %ifidn __OUTPUT_FORMAT__, bin
-    org     g1g2(0x579D54,0,0,0x597AA7)
+    org     g1g2(0x579D54,0x593F2D,0x592547,0x597AA7)
 %endif
 
 bits    32
@@ -13,28 +13,33 @@ bits    32
 
 section .text   align=1                                                    ; Prevent auto-alignment
 
-    resetStackoffset g1g2(0xF54,0,0,0x12E8)
+    resetStackoffset g1g2(0xF54,0xF58,0x12E8,0x12E8)
         push    eax                                                        ; Existing zCModelAni *
-        mov     ecx, [esp+stackoffset+g1g2(-0xF24,0,0,-0x12A0)]            ; zCModelPrototype *
+        mov     ecx, [esp+stackoffset+g1g2(-0xF24,-0xF28,-0x12A0,-0x12A0)] ; zCModelPrototype *
         push    ecx
-        mov     edx, g1g2(edi,0,0,ebp)                                     ; New zCModelAni->name
+    %if GOTHIC_BASE_VERSION == 112
+        mov     edx, [esp+stackoffset-0xF48]
+        add     edx, 0x24                                                  ; New zCModelAni->name
+    %elif GOTHIC_BASE_VERSION == 1 || GOTHIC_BASE_VERSION == 130 || GOTHIC_BASE_VERSION == 2
+        mov     edx, g1g2(edi,,ebp,ebp)                                    ; New zCModelAni->name
+    %endif
         call    zCModelPrototype__SearchAniIndex                           ; __fastcall
         pop     ecx
         mov     ecx, [ecx+0x48]
-    %if GOTHIC_BASE_VERSION == 1
-        mov     edx, [esp+stackoffset-0xF38]                               ; New zCModelAni *
+    %if GOTHIC_BASE_VERSION == 1 || GOTHIC_BASE_VERSION == 112
+        mov     edx, [esp+stackoffset+g1g2(-0xF38,-0xF48,,)]               ; New zCModelAni *
     %endif
-        mov     [ecx+eax*0x4], g1g2(edx,0,0,edi)                             ; New ani
+        mov     [ecx+eax*0x4], g1g2(edx,edx,edi,edi)                       ; New ani
         pop     ecx                                                        ; Old ani
         mov     eax, [ecx+0x4]
         dec     eax                                                        ; Decrease refCtr
         mov     [ecx+0x4], eax
         cmp     eax, 0
-    verifyStackoffset g1g2(0xF54,0,0,0x12E8)
-        jg      g1g2(0x579DC2,0,0,0x597B10)                                ; Continue
+    verifyStackoffset g1g2(0xF54,0xF58,0x12E8,0x12E8)
+        jg      g1g2(0x579DC2,0x593FA8,0x5925B0,0x597B10)                  ; Continue
         push    0x1                                                        ; If refCtr <= 0 then
         call    zCModelAni__deleting_destructor
     addStack 4
-    verifyStackoffset g1g2(0xF54,0,0,0x12E8)
-        jmp     g1g2(0x579DC2,0,0,0x597B10)                                ; Continue
+    verifyStackoffset g1g2(0xF54,0xF58,0x12E8,0x12E8)
+        jmp     g1g2(0x579DC2,0x593FA8,0x5925B0,0x597B10)                  ; Continue
     ; Room to 0x579DB5 (g1), 0x597AFA (g2)

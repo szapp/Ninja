@@ -15,7 +15,7 @@ setVobToTransient:
         test    eax, eax
         jz      .back
 
-        mov     eax, [esi+g1g2(0x7B0,0,0,0x770)]                           ; oCNpc.instanz
+        mov     eax, [esi+g1g2(0x7B0,0x7B4,0x6E4,0x770)]                   ; oCNpc.instanz
         test    eax, eax
         jl      .back
         mov     edi, eax
@@ -49,9 +49,9 @@ setVobToTransient:
         cmp     edi, eax
         jg      .cleanup
 
-    %if GOTHIC_BASE_VERSION == 1
+    %if GOTHIC_BASE_VERSION == 1 || GOTHIC_BASE_VERSION == 112
         test    BYTE [esi+0xF5], 0x1                                       ; zCVob.dontwritetoarchive
-    %elif GOTHIC_BASE_VERSION == 2
+    %elif GOTHIC_BASE_VERSION == 130 || GOTHIC_BASE_VERSION == 2
         test    BYTE [esi+0x114], 0x10                                     ; zCVob.dontwritetoarchive
     %endif
         jnz     .cleanup
@@ -68,9 +68,9 @@ setVobToTransient:
         call    zERROR__Message
     addStack 4
 
-    %if GOTHIC_BASE_VERSION == 1
+    %if GOTHIC_BASE_VERSION == 1 || GOTHIC_BASE_VERSION == 112
         or      BYTE [esi+0xF5], 0x1                                       ; zCVob.dontwritetoarchive = True
-    %elif GOTHIC_BASE_VERSION == 2
+    %elif GOTHIC_BASE_VERSION == 130 || GOTHIC_BASE_VERSION == 2
         or      BYTE [esi+0x114], 0x10                                     ; zCVob.dontwritetoarchive = True
     %endif
 
@@ -84,53 +84,56 @@ setVobToTransient:
     verifyStackoffset 0x68
 
         ; Jump back
-        mov     eax, [esi+g1g2(0x214,0,0,0x25C)]
-        jmp     g1g2(0x68CB37,0,0,0x72F167)
+        mov     eax, [esi+g1g2(0x214,0x214,0x248,0x25C)]
+%if GOTHIC_BASE_VERSION == 112
+        test    eax, eax
+%endif
+        jmp     g1g2(0x68CB31,0x6BD2E0,0x6D0F01,0x72F161) + 6
 
 
 global checkNpcTransient1
 checkNpcTransient1:
-    resetStackoffset g1g2(0x5C,0x5C,0,0x94)
+    resetStackoffset g1g2(0x5C,0x5C,0x94,0x94)
         call    DWORD [edx+0x104]                                          ; oCNpc.IsSelfPlayer(void)
         test    eax, eax
         jnz     .back
 
     %if GOTHIC_BASE_VERSION == 1 || GOTHIC_BASE_VERSION == 112
         test    BYTE [ecx+0xF5], 0x1                                       ; zCVob.dontwritetoarchive
-    %elif GOTHIC_BASE_VERSION == 2
+    %elif GOTHIC_BASE_VERSION == 130 || GOTHIC_BASE_VERSION == 2
         test    BYTE [ecx+0x114], 0x10                                     ; zCVob.dontwritetoarchive
     %endif
         jz      .back
         mov     eax, 0x1
-    verifyStackoffset g1g2(0x5C,0x5C,0,0x94)
+    verifyStackoffset g1g2(0x5C,0x5C,0x94,0x94)
 
 .back:
-        jmp     g1g2(0x6D652A,0x70DF35,0,0x77F66A)+6
+        jmp     g1g2(0x6D652A,0x70DF35,0x71FC2A,0x77F66A) + 6
 
 
 global checkNpcTransient2
 checkNpcTransient2:
-    resetStackoffset g1g2(0x5C,0x5C,0,0x94)
+    resetStackoffset g1g2(0x5C,0x5C,0x94,0x94)
         call    DWORD [eax+0x104]                                          ; oCNpc.IsSelfPlayer(void)
         test    eax, eax
         jnz     .back
 
     %if GOTHIC_BASE_VERSION == 1 || GOTHIC_BASE_VERSION == 112
         test    BYTE [ecx+0xF5], 0x1                                       ; zCVob.dontwritetoarchive
-    %elif GOTHIC_BASE_VERSION == 2
+    %elif GOTHIC_BASE_VERSION == 130 || GOTHIC_BASE_VERSION == 2
         test    BYTE [ecx+0x114], 0x10                                     ; zCVob.dontwritetoarchive
     %endif
         jz      .back
         mov     eax, 0x1
-    verifyStackoffset g1g2(0x5C,0x5C,0,0x94)
+    verifyStackoffset g1g2(0x5C,0x5C,0x94,0x94)
 
 .back:
-        jmp     g1g2(0x6D65A3,0x70DFA6,0,0x77F6E1)+6
+        jmp     g1g2(0x6D65A3,0x70DFA6,0x71FCA1,0x77F6E1)+6
 
 
 global removeInvalidNpcs
 removeInvalidNpcs:
-    resetStackoffset g1g2(0x58,0,0,0x8C)
+    resetStackoffset g1g2(0x58,0x58,0x8C,0x8C)
         push    ebx
         push    edx
 
@@ -149,16 +152,16 @@ removeInvalidNpcs:
         pop     ecx
         jz      .back
 
-        mov     eax, [esi+g1g2(0x7B0,0,0,0x770)]                             ; oCNpc.instance
+        mov     eax, [esi+g1g2(0x7B0,0x7B4,0x6E4,0x770)]                   ; oCNpc.instanz
         test    eax, eax
         jge     .back
 
         reportToSpy NINJA_REMOVE_NPC
         push    char_meatbug_mds
-        lea     ecx, [esi+g1g2(0x07B4,0,0,0x774)]                          ; oCNpc.mds_name
+        lea     ecx, [esi+g1g2(0x7B4,0x7C8,0x6E8,0x774)]                   ; oCNpc.mds_name
         call    zSTRING__zSTRING
     addStack 4
-        mov     ecx, [esp+stackoffset+g1g2(-0x48,0,0,-0x7C)]
+        mov     ecx, [esp+stackoffset+g1g2(-0x48,-0x10-0x4,-0x7C,-0x7C)]
         mov     edx, esi
         call    oCWorld__RemoveFromLists
 
@@ -180,28 +183,28 @@ removeInvalidNpcs:
 .back:
         pop     edx
         pop     ebx
-    verifyStackoffset g1g2(0x58,0,0,0x8C)
+    verifyStackoffset g1g2(0x58,0x58,0x8C,0x8C)
 
         ; Jump back
 %if GOTHIC_BASE_VERSION == 1
         test    ebx, ebx
         jnz     0x5F81A2
         test    ecx, ecx
-        jmp     0x5F814F
-%elif GOTHIC_BASE_VERSION == 2
-        mov     eax, [esp+stackoffset-0x78]
+        jmp     0x5F8149 + 5
+%elif GOTHIC_BASE_VERSION == 112 || GOTHIC_BASE_VERSION == 130 || GOTHIC_BASE_VERSION == 2
+        mov     eax, [esp+stackoffset+g1g2(,-0x14-0x4,-0x78,-0x78)]
         test    eax, eax
-        jmp     0x626790
+        jmp     g1g2(,0x61959E,0x61EFFA,0x62678A) + 5
 %endif
 
 
 global removeInvalidNpcs2
 removeInvalidNpcs2:
-    resetStackoffset g1g2(0x5C,0,0,0x98)
+    resetStackoffset g1g2(0x5C,0x5C,0x98,0x98)
         test    esi, esi
         jz      .back
 
-        mov     eax, [esi+g1g2(0x7B0,0,0,0x770)]                             ; oCNpc.instance
+        mov     eax, [esi+g1g2(0x7B0,0x7B4,0x6E4,0x770)]                   ; oCNpc.instanz
         test    eax, eax
         jl      .remove
         call    oCWorld__InsertInLists
@@ -210,13 +213,14 @@ removeInvalidNpcs2:
 .remove:
         reportToSpy NINJA_REMOVE_NPC
         push    char_meatbug_mds
-        lea     ecx, [esi+g1g2(0x07B4,0,0,0x774)]                            ; oCNpc.mds_name
+        lea     ecx, [esi+g1g2(0x7B4,0x7C8,0x6E8,0x774)]                   ; oCNpc.mds_name
         call    zSTRING__zSTRING
     addStack 4
 
 .back:
-    verifyStackoffset g1g2(0x5C,0,0,0x98)
-        jmp     g1g2(0x6D6828,0,0,0x77F9C0)
+    verifyStackoffset g1g2(0x5C,0x5C,0x98,0x98)
+        jmp     g1g2(0x6D6823,0x70E25F,0x71FF7B,0x77F9BB) + 5
+
 
 global removeNpcInstRef
 removeNpcInstRef:
@@ -228,7 +232,7 @@ removeNpcInstRef:
     addStack 4
         pop     ecx
     verifyStackoffset 0x14
-%if GOTHIC_BASE_VERSION == 1
+%if GOTHIC_BASE_VERSION == 1 || GOTHIC_BASE_VERSION == 112 || GOTHIC_BASE_VERSION == 130
         pop     esi
         pop     ebp
         pop     ebx
@@ -236,7 +240,8 @@ removeNpcInstRef:
 %elif GOTHIC_BASE_VERSION == 2
         cmp     [esi+0x758], ebp
 %endif
-        jmp     g1g2(0x68C0FC,0,0,0x72E62B)
+        jmp     g1g2(0x68C0F6,0x6BC7DD,0x6D0445,0x72E625) + 5
+
 
 global ninja_injectInfo
 ninja_injectInfo:
@@ -434,35 +439,35 @@ ninja_injectInfo:
         ; Jump back
         push    esi
         mov     ecx, oCMissionManager_misMan
-        jmp     g1g2(0x63C7F4,0,0,0x6C6D24)
+        jmp     g1g2(0x63C7EE,0x663348,0x66A0EE,0x6C6D1E) + 5
 
 
 global createGlobalVarIfNotExist
 createGlobalVarIfNotExist:
-%if GOTHIC_BASE_VERSION == 1                                               ; zCParser::LoadGlobalVars differs for g1/g2
-    resetStackoffset 0xC4
+%if GOTHIC_BASE_VERSION == 1 || GOTHIC_BASE_VERSION == 112                 ; zCParser::LoadGlobalVars differs for g1/g2
+    resetStackoffset g1g2(0xC4,0xBC,,)
         jz      .createSymb
         mov     eax, [esi+0x20]                                            ; Rewritten what has been overwritten
-        jmp     0x6EDADA
+        jmp     g1g2(0x6EDAD5,0x727105,,) + 5
 
 .createSymb:
         push    zPAR_TYPE_INT | 0x1
-        lea     ecx, [esp+stackoffset-0x8C]
+        lea     ecx, [esp+stackoffset-g1g2(0x8C,0x84,,)]
         push    DWORD [ecx+0x4]
         call    ninja_createSymbol
     addStack 2*4
         mov     esi, eax
-    verifyStackoffset 0xC4
+    verifyStackoffset g1g2(0xC4,0xBC,,)
 
         ; Jump back
-        jmp    0x6EDAF7
+        jmp    g1g2(0x6EDAF7,0x727128,,)
 
-%elif GOTHIC_BASE_VERSION == 2
+%elif GOTHIC_BASE_VERSION == 130 || GOTHIC_BASE_VERSION == 2
     resetStackoffset 0x1F0
-        jle     0x797608
+        jle     g1g2(,,0x737BC8,0x797608)
         mov     ecx, [esp+stackoffset-0x1B0]                               ; zCPar_Symbol *
         test    ecx, ecx
-        jnz     0x7973E7
+        jnz     g1g2(,,0x7379A1,0x7973E1) + 5
 
         or      eax, zPAR_TYPE_INT
         push    eax
@@ -474,7 +479,7 @@ createGlobalVarIfNotExist:
     verifyStackoffset 0x1F0
 
         ; Jump back
-        jmp    0x7973E7
+        jmp    g1g2(,,0x7379A1,0x7973E1) + 5
 %endif
 
 
@@ -483,7 +488,7 @@ fix_Hlp_GetNpc:
     resetStackoffset 0x10
         mov     eax, [esi+zCPar_Symbol_offset_offset]
         test    eax, eax
-        jz      g1g2(0x65880E,0,0,0x6EEE6E)
+        jz      g1g2(0x65880E,0x682D4E,0x691BFE,0x6EEE6E)
 
         push    ecx
         mov     ecx, eax
@@ -495,13 +500,13 @@ fix_Hlp_GetNpc:
         add     esp, 0x8
         test    eax, eax
         pop     ecx
-        jz      g1g2(0x65880E,0,0,0x6EEE6E)
+        jz      g1g2(0x65880E,0x682D4E,0x691BFE,0x6EEE6E)
     verifyStackoffset 0x10
 
         ; Jump back
         push    edi
         push    oCNpc_RTTI_Type_Descriptor
-        jmp     g1g2(0x6587F2,0,0,0x6EEE52)
+        jmp     g1g2(0x6587EC,0x682D2C,0x691BDC,0x6EEE4C) + 5
 
 
 global fix_Hlp_IsValidNpc
@@ -527,7 +532,7 @@ fix_Hlp_IsValidNpc:
         ; Jump back
         call    dynamic_cast
 .backClean:
-        jmp     g1g2(0x658883,0,0,0x6EEEE3)
+        jmp     g1g2(0x65887E,0x682DCE,0x691C6E,0x6EEEDE) + 5
 
 
 global fix_Hlp_IsValidItem
@@ -553,7 +558,7 @@ fix_Hlp_IsValidItem:
         ; Jump back
         call    dynamic_cast
 .backClean:
-        jmp     g1g2(0x658B43,0,0,0x6EF1D3)
+        jmp     g1g2(0x658B3E,0x6830AE,0x691F5E,0x6EF1CE) + 5
 
 
 ; Deinitialize VDFS on fast exit to ensure release of data file
@@ -574,7 +579,7 @@ CGameMananager_destruction_deinit_vdfs:
 
         ; Jump back
         mov     BYTE [esp+stackoffset-0x4], 0x4
-        jmp     g1g2(0x423BE1,0x4265C9,0,0x4247D1)
+        jmp     g1g2(0x423BDC,0x4265C4,0x42449C,0x4247CC) + 5
 
 
 ; Deinitialize VDFS on libExit (fatal error)
@@ -587,5 +592,5 @@ libExit_deinit_vdfs:
     verifyStackoffset
 
         ; Jump back
-        mov     eax, g1g2(0x86F51C,0,0,0x8D4294)
-        jmp     g1g2(0x4F3C35,0,0,0x502AB5)
+        mov     eax, g1g2(0x86F51C,0x8B5138,0x8C5C5C,0x8D4294)
+        jmp     g1g2(0x4F3C30,0x506620,0x4FFE30,0x502AB0) + 5
