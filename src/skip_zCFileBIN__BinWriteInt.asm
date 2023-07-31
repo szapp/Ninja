@@ -2,12 +2,12 @@
 
 %include "inc/macros.inc"
 
-%if GOTHIC_BASE_VERSION == 1
-    %fatal This file is for Gothic 2 only
+%if GOTHIC_BASE_VERSION != 130 && GOTHIC_BASE_VERSION != 2
+    %fatal This file is for Gothic 1.30 and Gothic 2 only
 %endif
 
 %ifidn __OUTPUT_FORMAT__, bin
-    org     0x59D1A0
+    org     g1g2(0x000000,0x000000,0x597C40,0x59D1A0)
 %endif
 
 bits    32

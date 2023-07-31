@@ -3,7 +3,7 @@
 %include "inc/macros.inc"
 
 %if GOTHIC_BASE_VERSION != 130 && GOTHIC_BASE_VERSION != 2
-    %fatal This file is for Gothic 130 / 2 only
+    %fatal This file is for Gothic 1.30 and Gothic 2 only
 %endif
 
 %ifidn __OUTPUT_FORMAT__, bin

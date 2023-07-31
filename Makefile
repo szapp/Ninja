@@ -141,7 +141,6 @@ BIN_BASE		:=	core										\
 					ow_playerInfoName3							\
 					ow_playerInfoName4							\
 					ow_playerInfoName5
-BIN_BASE_G130	:=	ow_zCParser__LoadGlobalVars
 BIN_BASE_G2		:=	ow_zCParser__LoadGlobalVars					\
 					skip_writeAniBinFile_ModelTag				\
 					skip_writeAniBinFile_ReadMeshAndTree		\
@@ -183,7 +182,7 @@ DATA_BASE		:=	symbols										\
 
 BINARIES_G1		:=	$(BIN_BASE:%=$(BINDIR)%_g1)
 BINARIES_G112	:=	$(BIN_BASE:%=$(BINDIR)%_g112)
-BINARIES_G130	:=	$(BIN_BASE:%=$(BINDIR)%_g130) $(BIN_BASE_G130:%=$(BINDIR)%_g130) # $(BIN_BASE_G2:%=$(BINDIR)%_g130)
+BINARIES_G130	:=	$(BIN_BASE:%=$(BINDIR)%_g130) $(BIN_BASE_G2:%=$(BINDIR)%_g130)
 BINARIES_G2		:=	$(BIN_BASE:%=$(BINDIR)%_g2) $(BIN_BASE_G2:%=$(BINDIR)%_g2)
 FUNC			:=	$(FUNC_BASE:%=$(FUNCDIR)%$(ASMEXT))
 EXEC			:=	$(EXEC_BASE:%=$(EXECDIR)%$(ASMEXT))
