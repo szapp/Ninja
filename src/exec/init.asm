@@ -5,6 +5,9 @@ init_menu:
     resetStackoffset g1g2(0x34,0x3C,0x34,0x34)
         call    zCArraySort_zCMenu___InsertSort                            ; Overwritten
         pusha
+%if GOTHIC_BASE_VERSION == 112
+        mov     ebp, ebx
+%endif
         push    ninja_initMenu
         push    char_src
         push    NINJA_PATH_CONTENT

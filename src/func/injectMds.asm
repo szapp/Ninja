@@ -55,7 +55,7 @@ ninja_injectMds:
         push    DWORD [zFILE_cur_mds_file]
         mov     DWORD [zFILE_cur_mds_file], esi
 
-%if GOTHIC_BASE_VERSION == 2
+%if GOTHIC_BASE_VERSION == 130 || GOTHIC_BASE_VERSION == 2
         sub     esp, 0xC                                                   ; Create fake zCFileBIN
         mov     DWORD [esp], 0xFFFFFFFF                                    ; -1
 %endif
@@ -90,19 +90,19 @@ ninja_injectMds:
     addStack 3*4
         cmp     eax, 0xFFFFFFFF
         jz      .mds_loop_start
-%if GOTHIC_BASE_VERSION == 2
+%if GOTHIC_BASE_VERSION == 130 || GOTHIC_BASE_VERSION == 2
         mov     ecx, esp                                                   ; zCFileBIN * (ignored in Gothic 1)
         push    ecx
 %endif
         mov     ecx, ebp
         call    zCModelPrototype__ReadModel
-%if GOTHIC_BASE_VERSION == 2
+%if GOTHIC_BASE_VERSION == 130 || GOTHIC_BASE_VERSION == 2
     addStack 4
 %endif
         jnz     .mds_loop_start
 
 .eof:
-%if GOTHIC_BASE_VERSION == 2
+%if GOTHIC_BASE_VERSION == 130 || GOTHIC_BASE_VERSION == 2
         add     esp, 0xC
 %endif
 
