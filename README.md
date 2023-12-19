@@ -3,7 +3,7 @@
 [![Build status](https://github.com/szapp/Ninja/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/szapp/Ninja/actions/workflows/build.yml)
 [![Documentation](https://img.shields.io/badge/docs-wiki-blue)](https://github.com/szapp/Ninja/wiki)
 [![GitHub release](https://img.shields.io/github/v/release/szapp/Ninja.svg)](https://github.com/szapp/Ninja/releases/latest)
-![Combined downloads](https://api.szapp.de/downloads/ninja/total/badge)]
+![Combined downloads](https://api.szapp.de/downloads/ninja/total/badge)
 
 This repository contains the source code of the Ninja extension for Gothic 1 and Gothic 2 NotR.
 
