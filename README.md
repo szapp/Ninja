@@ -4,6 +4,8 @@
 [![Documentation](https://img.shields.io/badge/docs-wiki-blue)](https://github.com/szapp/Ninja/wiki)
 [![GitHub release](https://img.shields.io/github/v/release/szapp/Ninja.svg)](https://github.com/szapp/Ninja/releases/latest)
 [![Combined downloads](https://api.szapp.de/downloads/ninja/total/badge)](https://github.com/szapp/Ninja/wiki#user-content-downloads)
+[![Steam Gothic 1](https://img.shields.io/badge/steam-Gothic%201-2a3f5a?logo=steam&labelColor=1b2838)](https://steamcommunity.com/sharedfiles/filedetails/?id=2786936496)
+[![Steam Gothic 2](https://img.shields.io/badge/steam-Gothic%202-2a3f5a?logo=steam&labelColor=1b2838)](https://steamcommunity.com/sharedfiles/filedetails/?id=2786910489)
 
 This repository contains the source code of the Ninja extension for Gothic 1 and Gothic 2 NotR.
 
