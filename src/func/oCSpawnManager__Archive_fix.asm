@@ -44,9 +44,9 @@ oCSpawnManager__Archive_fix:
         mov     [esp+stackoffset+var_element], edx                         ; oTSpawnNode*
 
         mov     ecx, [edx]                                                 ; oTSpawnNode.npc
-    %if GOTHIC_BASE_VERSION == 1
+    %if GOTHIC_BASE_VERSION == 1 || GOTHIC_BASE_VERSION == 112
         test    BYTE [ecx+0xF5], 0x1                                       ; zCVob.dontwritetoarchive
-    %elif GOTHIC_BASE_VERSION == 2
+    %elif GOTHIC_BASE_VERSION == 130 || GOTHIC_BASE_VERSION == 2
         test    BYTE [ecx+0x114], 0x10                                     ; zCVob.dontwritetoarchive
     %endif
         jnz     .loc_next
@@ -116,7 +116,7 @@ oCSpawnManager__Archive_fix:
         mov     ecx, esi
         call    DWORD [eax+0x20]                                           ; arc->WriteBool(char const *,int)
     addStack 4
-    %if GOTHIC_BASE_VERSION == 2
+    %if GOTHIC_BASE_VERSION == 130 || GOTHIC_BASE_VERSION == 2
         mov     ecx, [ebx+0x20]                                            ; oCSpawnManager.spawnFlags
         mov     eax, [esi]
         push    ecx

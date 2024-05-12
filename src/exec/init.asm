@@ -2,20 +2,22 @@
 
 global init_menu
 init_menu:
-    resetStackoffset 0x2C
+    resetStackoffset g1g2(0x34,0x3C,0x34,0x34)
+        call    zCArraySort_zCMenu___InsertSort                            ; Overwritten
         pusha
+%if GOTHIC_BASE_VERSION == 112
+        mov     ebp, ebx
+%endif
         push    ninja_initMenu
         push    char_src
         push    NINJA_PATH_CONTENT
         call    ninja_dispatch
     addStack 3*4
         popa
-    verifyStackoffset 0x2C
+    verifyStackoffset g1g2(0x34,0x3C,0x34,0x34)
 
         ; Jump back
-        pop     ebp
-        mov     ecx, [esp+stackoffset-0xC]
-        jmp     g1g2(0x4CE914,0x4DB504)
+        jmp     g1g2(0x4CE909,0x4DF1A6,0x4D8E59,0x4DB4F9)+5
 
 
 global init_content
@@ -31,10 +33,10 @@ init_content:
     verifyStackoffset
 
         ; Jump back
-%if GOTHIC_BASE_VERSION == 1
-        mov    DWORD [0x8DDF90], edi
-%elif GOTHIC_BASE_VERSION == 2
+%if GOTHIC_BASE_VERSION == 1 || GOTHIC_BASE_VERSION == 112
+        mov    DWORD [zCParser_parser+zCParser_progressBar_offset], edi
+%elif GOTHIC_BASE_VERSION == 130 || GOTHIC_BASE_VERSION == 2
         add     esp, 0x8
         test    eax, eax
 %endif
-        jmp     g1g2(0x637F8A,0x6C20C8)
+        jmp     g1g2(0x637F84,0x65E408,0x6655C3,0x6C20C3)+5

@@ -12,6 +12,7 @@
     %define     zCArray_int___zCArray_int_                0x5499D0     ; void
     %define     zCArray_int___InsertEnd                   0x530010     ; int const &
     %define     zCArray_int____zCArray_int_               0x52FF50     ; void
+    %define     zCArraySort_zCMenu___InsertSort           0x4D1270     ; zCMenu *
     %define     zCArraySort_int___QuickSort               0x60F100     ; void
     %define     _qsort                                    0x77757F     ; void *, size_t, size_t, int (__cdecl *)(const void *, const void *)
     %define     _fopen                                    0x778672     ; const char *, const char *
@@ -45,6 +46,7 @@
     %define     ds_lstrcmpiA                              0x7D02C4     ; LPCSTR, LPCSTR
     %define     _strncmp                                  0x7859F0     ; char *, char *, int
     %define     ds_vdf_fexists                            0x7D04D0     ; const char*, long
+    %define     sysEvent                                  0x4F6AC0     ; void
     %define     zCParser_parser                           0x8DCE08     ; zCParser
     %define     zCParser__CallFunc                        0x6E9670     ; zSTRING const &
     %define     zCParser__ParseBlock                      0x6E6C00     ; void
@@ -137,6 +139,7 @@
     %define     char_timer                                0x8510CC     ; 'timer', 0
     %define     char_noOfEntries                          0x8510E4     ; 'NoOfEntries', 0
     %define     char_spawningEnabled                      0x8510BC     ; 'spawningEnabled', 0
+
     %define     char_zStartupWindowed                     0x846978     ; 'zStartupWindowed', 0
     %define     char_settings                             0x82BD98     ; 'SETTINGS', 0
     %define     char_meatbug_mds                          0x84E358     ; 'Meatbug.mds', 0
@@ -167,6 +170,7 @@
     %define     zCParser_in_class_offset                  0x10D8       ; zCPar_Symbol *
     %define     zCParser_datsave_offset                   0x1090
     %define     zCParser_mergemode_offset                 0x109C
+    %define     zCParser_progressBar_offset               0x1188
 
     %define     zCPar_Symbol_content_offset               0x18
     %define     zCPar_Symbol_offset_offset                0x1C

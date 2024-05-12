@@ -120,7 +120,7 @@ ninja_dispatch:
         push    esi
         call    DWORD [ds_lstrlenA]
     addStack 4
-        sub     eax, 0x7                                                   ; Cut off '_G*.EXT'
+        sub     eax, g1g2(0x7,0x9,0x9,0x7)                                 ; Cut off '_G*.EXT'
         mov     BYTE [esi+eax], 0x0
         push    DWORD [esp+stackoffset+arg_2]
         push    esi

@@ -16,7 +16,7 @@ ninja_initContent:
     addStack 4
 
         add     eax, [esp+stackoffset+arg_1]
-        sub     eax, 0xA                                                   ; Cut off/overwrite '\CONTENT_G*.SRC'
+        sub     eax, g1g2(0xA,0xC,0xC,0xA)                                 ; Cut off/overwrite '\CONTENT_G*.SRC'
         mov     BYTE [eax], 0x0
         sub     eax, 0x4
         mov     DWORD [eax], 'INIT'

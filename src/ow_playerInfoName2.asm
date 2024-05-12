@@ -2,15 +2,10 @@
 
 %include "inc/macros.inc"
 %include "inc/engine.inc"
-
-%if GOTHIC_BASE_VERSION == 1
-    %include "inc/symbols_g1.inc"
-%elif GOTHIC_BASE_VERSION == 2
-    %include "inc/symbols_g2.inc"
-%endif
+%include "inc/symbols.inc"
 
 %ifidn __OUTPUT_FORMAT__, bin
-    org     g1g2(0x462475,0x467B15)
+    org     g1g2(0x462475,0x469E72,0x466EE5,0x467B15)
 %endif
 
 bits    32

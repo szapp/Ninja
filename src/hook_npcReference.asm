@@ -1,15 +1,10 @@
 ; Hook oCNpc::CleanUp to remove instance references
 
 %include "inc/macros.inc"
-
-%if GOTHIC_BASE_VERSION == 1
-    %include "inc/symbols_g1.inc"
-%elif GOTHIC_BASE_VERSION == 2
-    %include "inc/symbols_g2.inc"
-%endif
+%include "inc/symbols.inc"
 
 %ifidn __OUTPUT_FORMAT__, bin
-    org     g1g2(0x68C0F6,0x72E625)
+    org     g1g2(0x68C0F6,0x6BC7DD,0x6D0445,0x72E625)
 %endif
 
 bits    32

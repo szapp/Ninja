@@ -1,15 +1,10 @@
 ; Hook retrieval of next Daedalus symbol in zCPar_Symbol::GetNext
 
 %include "inc/macros.inc"
-
-%if GOTHIC_BASE_VERSION == 1
-    %include "inc/symbols_g1.inc"
-%elif GOTHIC_BASE_VERSION == 2
-    %include "inc/symbols_g2.inc"
-%endif
+%include "inc/symbols.inc"
 
 %ifidn __OUTPUT_FORMAT__, bin
-    org     g1g2(0x6F84D0,0x7A1DD0)
+    org     g1g2(0x6F84D0,0x732740,0x742390,0x7A1DD0)
 %endif
 
 bits    32

@@ -7,12 +7,14 @@
 [![Steam Gothic 1](https://img.shields.io/badge/steam-Gothic%201-2a3f5a?logo=steam&labelColor=1b2838)](https://steamcommunity.com/sharedfiles/filedetails/?id=2786936496)
 [![Steam Gothic 2](https://img.shields.io/badge/steam-Gothic%202-2a3f5a?logo=steam&labelColor=1b2838)](https://steamcommunity.com/sharedfiles/filedetails/?id=2786910489)
 
-This repository contains the source code of the Ninja extension for Gothic 1 and Gothic 2 NotR.
+This repository contains the source code of the Ninja extension for the Gothic game series.
 
 If you are interested in developing patches with Ninja, please follow the instructions in the relevant chapters of the
-[documentation](https://github.com/szapp/Ninja/wiki).
+[documentation](https://github.com/szapp/Ninja/wiki) and get started with the official [patch template](https://github.com/szapp/patch-template).
 
 # About
+
+Ninja is supported by the games Gothic (1.08k_mod), Gothic Sequel (1.12f), Gothic 2 (1.30 fix report version), and Gothic 2 NotR (2.6 fix report version).
 
 For information on Ninja, please visit the [documentation](https://github.com/szapp/Ninja/wiki).
 

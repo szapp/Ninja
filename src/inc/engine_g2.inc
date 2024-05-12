@@ -12,6 +12,7 @@
     %define     zCArray_int___zCArray_int_                0x560690     ; void
     %define     zCArray_int___InsertEnd                   0x4D5A30     ; int const &
     %define     zCArray_int____zCArray_int_               0x543CC0     ; void
+    %define     zCArraySort_zCMenu___InsertSort           0x4DE100     ; zCMenu *
     %define     zCArraySort_int___QuickSort               0x63FCA0     ; void
     %define     _qsort                                    0x7D0F6F     ; void *, size_t, size_t, int (__cdecl *)(const void *, const void *)
     %define     _fopen                                    0x7D2010     ; const char *, const char *
@@ -45,6 +46,7 @@
     %define     ds_lstrcmpiA                              0x82E174     ; LPCSTR, LPCSTR
     %define     _strncmp                                  0x7DF2C0     ; char *, char *, int
     %define     ds_vdf_fexists                            0x82E66C     ; const char*, long
+    %define     sysEvent                                  0x5053E0     ; void
     %define     zCParser_parser                           0xAB40C0     ; zCParser
     %define     zCParser__CallFunc                        0x7929D0     ; zSTRING const &
     %define     zCParser__ParseBlock                      0x78FE30     ; void
@@ -168,6 +170,7 @@
     %define     zCParser_in_class_offset                  0x20D8       ; zCPar_Symbol *
     %define     zCParser_datsave_offset                   0x2090
     %define     zCParser_mergemode_offset                 0x209C
+
 
     %define     zCPar_Symbol_content_offset               0x18
     %define     zCPar_Symbol_offset_offset                0x1C

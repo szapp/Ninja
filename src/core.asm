@@ -4,7 +4,7 @@
 %include "inc/engine.inc"
 
 %ifidn __OUTPUT_FORMAT__, bin
-    org     g1g2(0x452640,0x457470)
+    org     g1g2(0x452640,0x459190,0x456D20,0x457470)
 %endif
 
 bits    32

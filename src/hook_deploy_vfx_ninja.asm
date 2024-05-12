@@ -1,15 +1,10 @@
 ; Hook VFX parser in oCVisualFX::InitParser
 
 %include "inc/macros.inc"
-
-%if GOTHIC_BASE_VERSION == 1
-    %include "inc/symbols_g1.inc"
-%elif GOTHIC_BASE_VERSION == 2
-    %include "inc/symbols_g2.inc"
-%endif
+%include "inc/symbols.inc"
 
 %ifidn __OUTPUT_FORMAT__, bin
-    org     g1g2(0x483A3C,0x48B6EF)
+    org     g1g2(0x483A3C,0x48EB1F,0x489D76,0x48B6EF)
 %endif
 
 bits    32
@@ -18,8 +13,15 @@ bits    32
 section .text   align=1                                                    ; Prevent auto-alignment
 
         jmp     deploy_vfx_ninja
+%if GOTHIC_BASE_VERSION == 112
+        nop
+%endif
 
         ; Overwrites
-        ; resetStackoffset g1g2(0x248,0x250)
-        ; lea     g1g2(edx,eax), [esp+stackoffset+g1g2(-0x239,0x235)]
-        ; push    g1g2(edx,eax)
+        ; resetStackoffset g1g2(0x248,0x234,0x238,0x250)
+        ; %if GOTHIC_BASE_VERSION == 1 || GOTHIC_BASE_VERSION == 130 || GOTHIC_BASE_VERSION == 2
+        ;   lea     g1g2(edx,,eax,eax), [esp+stackoffset+g1g2(-0x239,,-0x226,-0x235)]
+        ; %elif GOTHIC_BASE_VERSION == 112
+        ;   mov     [esp+stackoffset-0x21C], cl
+        ; %endif
+        ;   push    g1g2(edx,0x0,eax,eax)
