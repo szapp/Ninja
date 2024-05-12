@@ -20,7 +20,7 @@
 
 !define APP_FILE "Ninja"
 !define APP_NAME "Ninja"
-!define APP_COPY "Copyright © $%RYEARS% szapp"
+!define APP_COPY "Copyright © $%RYEARS% Sören Zapp"
 !define APP_LINK "$%NINJA_WEBSITE%"
 !define APP_HELP "$%NINJA_WEBSITE%"
 
@@ -154,7 +154,7 @@ Page custom PageReinstall PageLeaveReinstall
 ; Configuration (uninstall)
 
 !define MUI_WELCOMEPAGE_TITLE_3LINES
-!define MUI_WELCOMEPAGE_TEXT "This wizard will guide you through the uninstallation of\r\n$(^Name).\r\n\r\nPlease close Gothic/Gothic II and any related tools, before continuing.\r\n\r\n$_CLICK"
+!define MUI_WELCOMEPAGE_TEXT "This wizard will guide you through the uninstallation of\r\n$(^Name).\r\n\r\nPlease close Gothic and any related tools, before continuing.\r\n\r\n$_CLICK"
 !define MUI_FINISHPAGE_NOREBOOTSUPPORT
 !define MUI_FINISHPAGE_TITLE_3LINES
 !define MUI_UNFINISHPAGE_NOAUTOCLOSE
@@ -694,8 +694,8 @@ FunctionEnd
 
 ; Setup (directory validation)
 
-LangString TextVerifyDir ${LANG_ENGLISH} "Choose the installation directory of 'Gothic' 1.08k or 'Gothic II - Night of the Raven' 2.6."
-LangString TextVerifyDir ${LANG_GERMAN} "Wählen Sie das Verzeichnis aus, in welchem sich 'Gothic' 1.08k oder 'Gothic II - Die Nacht des Raben' 2.6 befindet."
+LangString TextVerifyDir ${LANG_ENGLISH} "Choose the installation directory of 'Gothic' 1.08k_mod, 'Gothic Sequel' 1.12f, 'Gothic II' 1.30 or 'Gothic II - Night of the Raven' 2.6."
+LangString TextVerifyDir ${LANG_GERMAN} "Wählen Sie das Verzeichnis aus, in welchem sich 'Gothic' 1.08k_mod, 'Gothic Sequel' 1.12f, 'Gothic II' 1.30 oder 'Gothic II - Die Nacht des Raben' 2.6 befindet."
 
 Var VerifyMessageOnce
 
