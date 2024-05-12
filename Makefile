@@ -277,7 +277,7 @@ $(RC) : $(META)
 	@ECHO         VALUE "FileDescription", "Ninja <$(NINJA_WEBSITE)>">>           "$(call FixPath,$@)"
 	@ECHO         VALUE "FileVersion", "$(VBASE).$(VMAJOR).$(VMINOR)">>           "$(call FixPath,$@)"
 	@ECHO         VALUE "InternalName", "Ninja">>                                 "$(call FixPath,$@)"
-	@ECHO         VALUE "LegalCopyright", "Copyright © $(RYEARS) szapp">>         "$(call FixPath,$@)"
+	@ECHO         VALUE "LegalCopyright", "Copyright © $(RYEARS) Sören Zapp">>    "$(call FixPath,$@)"
 	@ECHO         VALUE "OriginalFilename", "Ninja.dll">>                         "$(call FixPath,$@)"
 	@ECHO         VALUE "ProductName", "Ninja">>                                  "$(call FixPath,$@)"
 	@ECHO         VALUE "ProductVersion", "$(VBASE).$(VMAJOR).$(VMINOR)">>        "$(call FixPath,$@)"
