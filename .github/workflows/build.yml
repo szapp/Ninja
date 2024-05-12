@@ -2,7 +2,6 @@ name: build
 
 on:
   push:
-    branches: [ "master" ]
   pull_request:
   workflow_dispatch:
 
@@ -12,7 +11,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         path: .
 
