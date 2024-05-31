@@ -5,6 +5,7 @@
 ::
 @ECHO OFF
 SETLOCAL ENABLEEXTENSIONS ENABLEDELAYEDEXPANSION
+SET LC_ALL=en_US.utf8
 
 :: Sanity check
 IF [%1] == [] GOTO usage
@@ -28,8 +29,7 @@ IF /I NOT "%fileextn%"==".asm" ECHO Incorrect file extension. *.asm expected.&& 
 IF NOT EXIST %filefull% ECHO File '%filefull%' not found.&& EXIT /B 2
 
 :: Grep addresses from org decorator
-set LC_ALL=en_US.utf8
-type %filefull% ^
+TYPE %filefull% ^
     | grep -iP "[[:blank:]]*org[[:blank:]]+(\w+\()?[[:blank:]]*((0x)?[[:xdigit:]]{6,8})" ^
     | grep -ioP "(?:0x)?[[:xdigit:]]{6,8}" ^
     > tmp.text

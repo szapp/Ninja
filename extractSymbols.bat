@@ -57,7 +57,7 @@ FOR /F "tokens=*" %%a IN ('%getAddress% %filefull% %gothic%') DO (
 IF NOT DEFINED address ECHO %filename%: %getAddress% failed to execute.&& EXIT /B 6
 
 :: Retrieve all external symbols from functions elf
-objdump -t temp.o --adjust-vma=%address% -j .text | find " g  "> symbols.text
+objdump -t temp.o --adjust-vma=%address% -j .text | "%SystemRoot%\System32\find" " g  "> symbols.text
 
 :: Reformat names and addresses into NASM macro syntax
 FOR /F "tokens=1,4 delims= " %%a IN (symbols.text) DO ECHO ^%%define %%b 0x%%a>> %outfile%
