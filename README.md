@@ -45,18 +45,21 @@ the final DLL the following libraries are required on your system.
 
 For assembling and building, the following software is required.
 
-- [NASM (The Netwide Assembler)](https://nasm.us)
-- [GoLink (Go Tools for Windows)](http://godevtool.com)
-- [GoRC (Go Tools for Windows)](http://godevtool.com)
-- [NSIS (Nullsoft Scriptable Install System)](https://nsis.sourceforge.io)
+- [NASM (The Netwide Assembler)](https://nasm.us) (2.16.03)
+- [GoLink (Go Tools for Windows)](http://godevtool.com) (1.0.4.5)
+- [GoRC (Go Tools for Windows)](http://godevtool.com) (1.0.3.0)
+- [NSIS (Nullsoft Scriptable Install System)](https://nsis.sourceforge.io) (3.10)
 
-Additionally, you'll need various *GNU Win32* packages:
+Additionally, you'll need the following binaries:
 
-- [Make](http://gnuwin32.sourceforge.net/packages/make.htm)
-- [Grep](http://gnuwin32.sourceforge.net/packages/grep.htm)
-- [BinUtils](https://sourceforge.net/projects/mingw/files/MinGW/Base/binutils/) for `objdump`
+- [GNU Make](http://gnuwin32.sourceforge.net/packages/make.htm) (3.81)
+- [Git for Windows](https://git-scm.com/download/win) (2.45.1) for various included GNU Win32 tools
+- [BinUtils](https://sourceforge.net/projects/mingw/files/MinGW/Base/binutils/) (2.28) for `objdump`
+- [ducible](https://github.com/jasonwhite/ducible) (1.2.2)
 
-All binaries of the listed software must be added to your `PATH` environment variable.
+The binaries of the listed software must be added to your `PATH` environment variable or placed in the root directory.
+
+Some binaries are attempted to be automatically detected at build time and added to the `PATH` for the duration of building. These include `nasm`, `makensis`, `grep`, `date`, `dd`, `touch`, `xxd`.
 
 ## Assembling
 

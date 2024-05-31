@@ -1,3 +1,4 @@
+# Build intermediates
 /bin/
 /build/
 /src/dll/resource.rc
@@ -5,3 +6,13 @@
 /src/inc/injections.inc
 /src/inc/symbols_g*.inc
 /src/inc/iklg.data
+
+# Local instances of binaries
+/make.exe
+/libiconv2.dll
+/libintl3.dll
+/objdump.exe
+/libiconv-2.dll
+/GoLink.exe
+/GoRC.exe
+/ducible.exe
