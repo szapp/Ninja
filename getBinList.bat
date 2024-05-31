@@ -33,13 +33,10 @@ COPY /Y NUL "%outfile%" >NUL
 :: Process files
 SET gothic=1
 FOR %%N IN ("%indir%") DO CALL :fileloop %%N || EXIT /B 3
-ECHO/>> %outfile%
 SET gothic=112
 FOR %%N IN ("%indir%") DO CALL :fileloop %%N || EXIT /B 3
-ECHO/>> %outfile%
 SET gothic=130
 FOR %%N IN ("%indir%") DO CALL :fileloop %%N || EXIT /B 3
-ECHO/>> %outfile%
 SET gothic=2
 FOR %%N IN ("%indir%") DO CALL :fileloop %%N || EXIT /B 3
 
@@ -70,6 +67,9 @@ IF NOT DEFINED address ECHO %filename%: %getAddress% failed to execute.&& EXIT /
 
 :: Write to output file
 ECHO add_inject_g%gothic% %address%,"../bin/%filebase%_g%gothic%">> "%outfile%"
+
+:: Sort the lines in the file for reproducibility
+"%SystemRoot%\System32\sort" /M 10240 "%outfile%" /o "%outfile%"
 
 EXIT /B 0
 

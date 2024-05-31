@@ -1,22 +1,39 @@
 # Platform specific definitions
 ifdef OS
-	RM 			:=	del /Q
-	FixPath		 =	$(subst /,\,$1)
-	mkdir		 =	mkdir $(subst /,\,$(1)) > nul 2>&1 || (exit 0)
-	SCRIPTEXT	:=	.bat
-else ifeq ($(shell uname), Linux)
-	RM			:=	rm -f
-	FixPath		 =	$1
-	mkdir		 =	mkdir -p $(1)
-	SCRIPTEXT	:=	.sh
+RM 				:=	del /Q
+FixPath			 =	$(subst /,\,$1)
+mkdir			 =	mkdir $(patsubst %\,%,$(subst /,\,$(1)))> nul 2>&1 || (exit 0)
+SCRIPTEXT		:=	.bat
+# Force shell to CMD
+ifdef COMSPEC
+export SHELL	:=	$(shell echo %COMSPEC%)
+else
+export SHELL	:=	$(shell where cmd)
+endif
+else
+# Note that *nix is no longer supported in other parts of the Makefile
+RM				:=	rm -f
+FixPath			 =	$1
+mkdir			 =	mkdir -p $(1)
+SCRIPTEXT		:=	.sh
+$(error Only Windows is supported)
 endif
 
-# Meta data
+# Meta data and escaped characters
 META			:=	metadata
+oe				:=	\xF6
+c				:=	\xA9
 
 # Include meta data
 include $(META)
-export VERSION=$(VBASE).$(VMAJOR).$(VMINOR)
+export VERSION	:=	$(VBASE).$(VMAJOR).$(VMINOR)
+export PATH 	:=	$(subst ;;,;,$(PATH);$(shell getGnuWin32Path))
+export BUILD_TIME:=$(shell getCommitTime)
+ifneq ($(BUILD_TIME),)
+$(info Build time is set to $(BUILD_TIME))
+else
+$(info Warning: No build time is set. Build will not be reproducible!)
+endif
 
 # Directories
 BUILDDIR		:=	build/
@@ -39,20 +56,25 @@ RESEXT			:=	.res
 DLLEXT			:=	.dll
 OBJEXT			:=	.obj
 NSIEXT			:=	.nsi
+INIEXT			:=	.ini
 
 # Assemblers/builders
 NSIS			:=	makensis
 NASM			:=	nasm
-GOLINK			:=	golink
-GORC			:=	gorc
+LINKER			:=	golink
+RCCOMP			:=	gorc
+REPRO			:=	ducible
 GETBINLIST		:=	$(call FixPath,./getBinList)$(SCRIPTEXT)
 EXTRACTSYM		:=	$(call FixPath,./extractSymbols)$(SCRIPTEXT)
 VERIFYSIZE		:=	$(call FixPath,./verifySize)$(SCRIPTEXT)
+PATCHREPRO		:=	$(call FixPath,./patchBuildBytes)$(SCRIPTEXT)
+SETFILETIME		:=	$(call FixPath,./setTimestamps)$(SCRIPTEXT)
 
 FLAGS_C			:=	-I$(SRCDIR)
-FLAGS_A			:=	-f win32 $(FLAGS_C)
+FLAGS_A			:=	-f win32 --reproducible $(FLAGS_C)
 FLAGS_L			:=	/dll /entry DllMain /largeaddressaware /nxcompat /dynamicbase /ni
 FLAGS_RC		:=	/ni
+FLAGS_N			:=	-X"SetCompress force" -X"SetCompressor /FINAL /SOLID lzma" -X"SetCompressorDictSize 8" -X"SetDatablockOptimize on"
 
 # TARGET
 TARGET			:=	$(BUILDDIR)Ninja$(DLLEXT)
@@ -62,18 +84,19 @@ RSC				:=	$(DLLDIR)resource$(RESEXT)
 SRCDLL			:=	$(DLLDIR)Ninja$(ASMEXT)
 IKLG			:=	$(INCDIR)iklg.data
 
-# WRAPPER
-WRAPPER			:=	$(BUILDDIR)BugslayerUtil$(DLLEXT)
-WRAPPER_OBJ		:=	$(BINDIR)BugslayerUtil$(OBJEXT)
-WRAPPER_SRC		:=	$(DLLDIR)BugslayerUtil$(ASMEXT)
+# LOADER
+LOADER			:=	$(BUILDDIR)BugslayerUtil$(DLLEXT)
+LOADER_OBJ		:=	$(BINDIR)BugslayerUtil$(OBJEXT)
+LOADER_SRC		:=	$(DLLDIR)BugslayerUtil$(ASMEXT)
 
 # SETUP
 SETUP			:=	$(BUILDDIR)Ninja-$(VERSION)$(EXEEXT)
 SETUPSCR		:=	$(SETUPDIR)Ninja$(NSIEXT)
+SETUPINI		:=	$(SETUPDIR)setup$(INIEXT)
 
 # System dependencies
-SYSDEP			:=	User32$(DLLEXT) Kernel32$(DLLEXT) NtDll$(DLLEXT)
-WRAPPER_SYSDEP	:=	Kernel32$(DLLEXT)
+SYSDEP			:=	Kernel32$(DLLEXT) User32$(DLLEXT) NtDll$(DLLEXT)
+LOADER_SYSDEP	:=	Kernel32$(DLLEXT)
 
 # Content
 CONTENT			:=	$(INCDIR)injections$(INCEXT)
@@ -193,6 +216,8 @@ DATA			:=	$(DATA_BASE:%=$(DATADIR)%$(ASMEXT))
 all : $(SETUP)
 
 clean :
+	@$(call mkdir,$(BUILDDIR))
+	@$(call mkdir,$(BINDIR))
 	$(RM) $(call FixPath,$(BUILDDIR)*)
 	$(RM) $(call FixPath,$(BINDIR)*)
 	$(RM) $(call FixPath,$(CONTENT))
@@ -202,7 +227,7 @@ clean :
 
 cleanDLL :
 	$(RM) $(call FixPath,$(TARGET))
-	$(RM) $(call FixPath,$(WRAPPER))
+	$(RM) $(call FixPath,$(LOADER))
 	$(RM) $(call FixPath,$(RC))
 
 remake : clean all
@@ -213,18 +238,23 @@ relink : cleanDLL all
 
 
 # Build dependencies
-$(SETUP) : $(WRAPPER) $(TARGET) LICENSE $(SETUPSCR)
-	$(NSIS) /X"SetCompressor /FINAL lzma" $(SETUPSCR)
+$(SETUP) : $(LOADER) $(TARGET) LICENSE $(SETUPSCR) $(SETUPINI)
+	$(SETFILETIME) $(call FixPath,$^)
+	$(NSIS) $(FLAGS_N) $(SETUPSCR)
 
-$(WRAPPER) : $(WRAPPER_OBJ) $(TARGET)
+$(LOADER) : $(LOADER_OBJ) $(TARGET)
 	@$(call mkdir,$(BUILDDIR))
-	golink $(FLAGS_L) /fo $(call FixPath,$@) $^ $(WRAPPER_SYSDEP)
+	$(LINKER) $(FLAGS_L) /fo $@ $^ $(LOADER_SYSDEP)
+	$(REPRO) $@
+	$(PATCHREPRO) $(call FixPath,$@)
 
 $(TARGET) : $(OBJ) $(RSC)
 	@$(call mkdir,$(BUILDDIR))
-	golink $(FLAGS_L) /fo $(call FixPath,$@) $^ $(SYSDEP)
+	$(LINKER) $(FLAGS_L) /fo $@ $^ $(SYSDEP)
+	$(REPRO) $@
+	$(PATCHREPRO) $(call FixPath,$@)
 
-$(WRAPPER_OBJ) : $(WRAPPER_SRC)
+$(LOADER_OBJ) : $(LOADER_SRC)
 	@$(call mkdir,$(BINDIR))
 	$(NASM) $(FLAGS_A) -o $@ $<
 
@@ -232,8 +262,10 @@ $(OBJ) : $(SRCDLL) $(CONTENT) $(IKLG)
 	@$(call mkdir,$(BINDIR))
 	$(NASM) $(FLAGS_A) -o $@ $<
 
+# Overwrite MemoryFlags (0x36 WORD) in the RES Header which sometimes varies across builds on different machines
 $(RSC) : $(RC)
-	gorc $(FLAGS_RC) /fo $@ /r $^
+	$(RCCOMP) $(FLAGS_RC) /fo $@ /r $^
+	ECHO -n 0000 | xxd -r -p | dd of=$@ bs=1 seek=54 count=2 conv=notrunc > nul 2>&1
 
 $(CONTENT) : $(BINARIES_G1) $(BINARIES_G112) $(BINARIES_G130) $(BINARIES_G2)
 	$(GETBINLIST) $(call FixPath,$@) $(SRCDIR)
@@ -272,20 +304,20 @@ $(RC) : $(META)
 	@ECHO {>>                                                                     "$(call FixPath,$@)"
 	@ECHO BLOCK "StringFileInfo">>                                                "$(call FixPath,$@)"
 	@ECHO {>>                                                                     "$(call FixPath,$@)"
-	@ECHO     BLOCK "000004B0">>                                                  "$(call FixPath,$@)"
-	@ECHO     {>>                                                                 "$(call FixPath,$@)"
-	@ECHO         VALUE "FileDescription", "Ninja <$(NINJA_WEBSITE)>">>           "$(call FixPath,$@)"
-	@ECHO         VALUE "FileVersion", "$(VBASE).$(VMAJOR).$(VMINOR)">>           "$(call FixPath,$@)"
-	@ECHO         VALUE "InternalName", "Ninja">>                                 "$(call FixPath,$@)"
-	@ECHO         VALUE "LegalCopyright", "Copyright © $(RYEARS) Sören Zapp">>    "$(call FixPath,$@)"
-	@ECHO         VALUE "OriginalFilename", "Ninja.dll">>                         "$(call FixPath,$@)"
-	@ECHO         VALUE "ProductName", "Ninja">>                                  "$(call FixPath,$@)"
-	@ECHO         VALUE "ProductVersion", "$(VBASE).$(VMAJOR).$(VMINOR)">>        "$(call FixPath,$@)"
-	@ECHO     }>>                                                                 "$(call FixPath,$@)"
+	@ECHO   BLOCK "000004E4">>                                                    "$(call FixPath,$@)"
+	@ECHO   {>>                                                                   "$(call FixPath,$@)"
+	@ECHO     VALUE "FileDescription", "Ninja <$(NINJA_WEBSITE)>">>               "$(call FixPath,$@)"
+	@ECHO     VALUE "FileVersion", "$(VBASE).$(VMAJOR).$(VMINOR)">>               "$(call FixPath,$@)"
+	@ECHO     VALUE "InternalName", "Ninja">>                                     "$(call FixPath,$@)"
+	@ECHO     VALUE "LegalCopyright", "Copyright $(c) $(RYEARS) S$(oe)ren Zapp">> "$(call FixPath,$@)"
+	@ECHO     VALUE "OriginalFilename", "Ninja.dll">>                             "$(call FixPath,$@)"
+	@ECHO     VALUE "ProductName", "Ninja">>                                      "$(call FixPath,$@)"
+	@ECHO     VALUE "ProductVersion", "$(VBASE).$(VMAJOR).$(VMINOR)">>            "$(call FixPath,$@)"
+	@ECHO   }>>                                                                   "$(call FixPath,$@)"
 	@ECHO }>>                                                                     "$(call FixPath,$@)"
 	@ECHO/>>                                                                      "$(call FixPath,$@)"
 	@ECHO BLOCK "VarFileInfo">>                                                   "$(call FixPath,$@)"
 	@ECHO {>>                                                                     "$(call FixPath,$@)"
-	@ECHO     VALUE "Translation", 0x0000 0x04B^0>>                               "$(call FixPath,$@)"
+	@ECHO     VALUE "Translation", 0x0000 0x04E4>>                                "$(call FixPath,$@)"
 	@ECHO }>>                                                                     "$(call FixPath,$@)"
 	@ECHO }>>                                                                     "$(call FixPath,$@)"
