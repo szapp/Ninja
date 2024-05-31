@@ -1,0 +1,72 @@
+name: release
+
+on:
+  workflow_dispatch:
+    inputs:
+      increase-major:
+        description: Increase major version?
+        type: choice
+        options:
+          - "Yes"
+          - "No"
+        default: "Yes"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout resource repository
+        uses: actions/checkout@v4
+        with:
+          repository: szapp/NinjaScripts
+          submodules: recursive
+          token: ${{ secrets.NINJA_LEGO_TOKEN }}
+          persist-credentials: false
+          path: _resources
+      - name: Set minor and resource versions
+        run: |
+          lego=$(cat _resources/Ninja/_intern/LeGo/LeGo.d | grep -oP "^const string LeGo_Version = \"LeGo \d+\.\d+\.\d+-N\K\d{3}")
+          ikarus=$(cat _resources/Ninja/_intern/Ikarus/Ikarus.d | grep -oP "^const int IKARUS_VERSION = \K\d{5,}")
+          echo "VIKARUS_NEW=${ikarus}" >> $GITHUB_ENV
+          echo "VLEGO_NEW=${lego}" >> $GITHUB_ENV
+          echo "VMINOR=${lego#*0}" >> $GITHUB_ENV
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PAT }}
+          fetch-tags: true
+          fetch-depth: 0
+      - name: Set major version
+        run: |
+          source metadata
+          if [ "${{ github.event.inputs.increase-major }}" == "Yes" ]; then
+            VMAJOR=$[$VMAJOR+1]
+            echo "Increase major version to $VMAJOR"
+          fi
+          echo "VMAJOR=$VMAJOR" >> $GITHUB_ENV
+      - name: Bump version number and release years
+        run: |
+          sed -i -r "s/(^export RYEARS=[0-9]{4}-)[0-9]{4}$/\1$(date +'%Y')/" metadata
+          sed -i -r "s/(^export VMAJOR=)[0-9]+$/\1${{ env.VMAJOR }}/" metadata
+          sed -i -r "s/(^export VMINOR=)[0-9]+$/\1${{ env.VMINOR }}/" metadata
+          sed -i -r "s/(^export IKARUS_VERSION=)[0-9]+$/\1${{ env.VIKARUS_NEW }}/" metadata
+          sed -i -r "s/(^export LEGO_N_VERSION=)[0-9]+$/\1${{ env.VLEGO_NEW }}/" metadata
+
+          source metadata
+          ver=$VBASE.$VMAJOR.$VMINOR
+          tag=v$ver
+          tagexists=$(git tag | grep -oP "^${tag}$" | wc -l)
+          if [ $tagexists -gt 0 ]; then
+            echo "::error title=Invalid version::A tag with the version $tag already exists!"
+            exit 1
+          fi
+
+          git diff -- metadata
+
+          git config user.name $(git log -1 --format=%an)
+          git config user.email $(git log -1 --format=%ae)
+
+          git add metadata
+          git commit -m "Bump version number"
+          git tag -a $tag -m "Version $ver"
+          git push --follow-tags
