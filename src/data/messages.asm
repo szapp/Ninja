@@ -1,6 +1,6 @@
 NINJA_AUTHOR_PREFIX      db   AUTHOR_PREFIX, ':', 0
 NINJA_LOADING_MSG        db   AUTHOR_PREFIX, ': NINJA: Loading '
-NINJA_VERSION_CHAR_1     db   'Ninja ', NINJA_VERSION, ', built ', __UTC_DATE__, ' ', __UTC_TIME__, ', ', 0
+NINJA_VERSION_CHAR_1     db   'Ninja ', NINJA_VERSION, ', built ', BUILD_TIME, ', ', 0
 NINJA_VERSION_CHAR_1_len equ  $-NINJA_VERSION_CHAR_1
 NINJA_REGISTER_CONSOLE   db   AUTHOR_PREFIX, ': NINJA: Adding console command', 0
 NINJA_READING_INI        db   AUTHOR_PREFIX, ': NINJA: Reading ini ignore list', 0
