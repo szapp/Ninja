@@ -2,34 +2,180 @@ name: build
 
 on:
   push:
-  pull_request:
+    paths:
+      - "**/*"
+      - "!.*"
+      - "!.github/**/*"
+      - "!README.md"
   workflow_dispatch:
 
 jobs:
-  build:
-
+  assembling:
     runs-on: windows-latest
-
     steps:
-    - uses: actions/checkout@v4
-      with:
-        path: .
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install NASM
+        uses: ilammy/setup-nasm@v1
+      - name: Assemble injections
+        shell: cmd
+        run: make src/inc/injections.inc
+      - name: Cache intermediate build results
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            metadata
+            src
+            bin
+          key: intermediate1-${{ github.run_id }}-${{ github.run_attempt }}
 
-    - name: Donwload dependencies
-      run: |
-        Invoke-WebRequest https://www.nasm.us/pub/nasm/releasebuilds/2.16.01/win64/nasm-2.16.01-win64.zip -OutFile nasm.zip
-        Invoke-WebRequest https://deac-riga.dl.sourceforge.net/project/gnuwin32/grep/2.5.4/grep-2.5.4-bin.zip -OutFile grep.zip
-        Invoke-WebRequest https://master.dl.sourceforge.net/project/gnuwin32/grep/2.5.4/grep-2.5.4-dep.zip?viasf=1 -OutFile grep-dep.zip
-        mkdir nasm
-        mkdir grep
-        unzip nasm.zip nasm-2.16.01/nasm.exe -d nasm
-        unzip grep.zip bin/grep.exe -d grep
-        unzip grep-dep.zip bin/* -d grep
-        mv grep/bin/* .
-        mv nasm/nasm-2.16.01/nasm.exe ./nasm.exe
+  resources:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout resource repository
+        uses: actions/checkout@v4
+        with:
+          repository: szapp/NinjaScripts
+          submodules: recursive
+          token: ${{ secrets.NINJA_LEGO_TOKEN }}
+          persist-credentials: false
+      - name: Build resource data
+        uses: kirides/vdfsbuilder@aaf901f0c98245af54102a1946d8be0e2e17ba36
+        with:
+          in: iklg.vm
+          out: iklg.data
+          ts: '2039-12-31 23:59:58'
+      - name: Move into the correct directory
+        run: |
+          mkdir -p src/inc
+          mv iklg.data src/inc
+      - name: Cache compiled resource data
+        uses: actions/cache/save@v4
+        with:
+          path: src/inc/iklg.data
+          key: resources-${{ github.run_id }}-${{ github.run_attempt }}
 
-    - name: Assemble injections
-      shell: cmd
-      run: |
-        mkdir bin
-        make src/inc/injections.inc
+  linking:
+    runs-on: windows-latest
+    needs: [assembling, resources]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Fetch intermediate build results
+        uses: actions/cache/restore@v4
+        with:
+          fail-on-cache-miss: true
+          path: |
+            metadata
+            src
+            bin
+          key: intermediate1-${{ github.run_id }}-${{ github.run_attempt }}
+      - name: Fetch compiled resource data
+        uses: actions/cache/restore@v4
+        with:
+          fail-on-cache-miss: true
+          enableCrossOsArchive: true
+          path: src/inc/iklg.data
+          key: resources-${{ github.run_id }}-${{ github.run_attempt }}
+      - name: Install NASM
+        uses: ilammy/setup-nasm@v1
+      - name: Download GoDevTools and Ducible
+        run: |
+          Invoke-WebRequest http://godevtool.com/Golink.zip -OutFile golink.zip
+          Invoke-WebRequest http://godevtool.com/Gorc.zip -OutFile gorc.zip
+          Invoke-WebRequest https://github.com/jasonwhite/ducible/releases/download/v1.2.2/ducible-windows-Win32-Release.zip -OutFile ducible.zip
+          unzip golink.zip GoLink.exe
+          unzip gorc.zip GoRC.exe
+          unzip ducible.zip ducible.exe
+      - name: Assemble Ninja.dll
+        shell: cmd
+        run: make build/Ninja.dll
+      - name: Assemble BugslayerUtil.dll
+        shell: cmd
+        run: make build/BugslayerUtil.dll
+      - name: Cache intermediate build results
+        uses: actions/cache/save@v4
+        with:
+          # Cache all source files for make timestamps
+          path: |
+            metadata
+            LICENSE
+            src
+            bin
+            build
+          key: intermediate2-${{ github.run_id }}-${{ github.run_attempt }}
+      - name: Calculate checksum
+        run: |
+          $crc = crc32 build/Ninja.dll
+          echo "::notice title=Ninja.dll CRC32::0x$($crc.ToUpper())"
+      - name: Upload DLLs as workflow artifact
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ninja
+          path: build/*.dll
+
+  setup:
+    runs-on: windows-latest
+    needs: linking
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Fetch intermediate build results
+        uses: actions/cache/restore@v4
+        with:
+          fail-on-cache-miss: true
+          path: |
+            metadata
+            LICENSE
+            src
+            bin
+            build
+          key: intermediate2-${{ github.run_id }}-${{ github.run_attempt }}
+      - name: Build NSIS setup
+        shell: cmd
+        run: make all
+      - name: Export version
+        shell: bash
+        run: |
+          source metadata
+          echo "VERSION=$VBASE.$VMAJOR.$VMINOR" >> $GITHUB_ENV
+      - name: Calculate checksum
+        run: |
+          $sha = (Get-FileHash build/Ninja-${{ env.VERSION }}.exe).Hash
+          echo "::notice title=Ninja-${{ env.VERSION }}.exe SHA-256::$sha"
+      - name: Upload setup as workflow artifact
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v4
+        with:
+          name: setup
+          path: build/Ninja-*.exe
+      - name: Draft release
+        if: startsWith(github.ref, 'refs/tags/')
+        shell: bash
+        run: |
+          tag=${GITHUB_REF#refs/tags/}
+          changlogdate=$(date -d ${{ github.event.head_commit.timestamp }} +"%b-%-d-%Y")
+          changelogid="${tag//./}-${changlogdate,,}"
+          notes="<!-- <div align=\"center\"><table width=\"100%\"><td><b>&#x26A0; &nbsp; This version is outdated. Please use the <a href=\"https://github.com/szapp/Ninja/releases/latest\">lastest version</a> instead. &#x26A0; </b></td></table></div> -->"$'\n\n'"- [Change log](../../wiki/Changelog#$changelogid)"$'\n'"- [Installation instructions](../../wiki/Installation-(EN)#wiki-wrapper)"$'\n'"- [Check sums](../../wiki/Checksums#wiki-wrapper)"
+          gh release create $tag -R ${{ github.repository }} -d --verify-tag --title "Ninja ${tag/v/}" --notes "$notes" --discussion-category "General"  build/Ninja-*.exe || echo "::error title=Release failed::Could not draft release for tag $tag"
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+
+  cleanup:
+    runs-on: ubuntu-latest
+    needs: setup
+    if: ${{ !cancelled() }}
+    permissions:
+      actions: write
+    steps:
+      - name: Clear cache
+        run: |
+          gh extension install actions/gh-actions-cache
+          gh actions-cache delete resources-${{ github.run_id }}-${{ github.run_attempt }} -R ${{ github.repository }} --confirm
+          gh actions-cache delete intermediate1-${{ github.run_id }}-${{ github.run_attempt }} -R ${{ github.repository }} --confirm
+          gh actions-cache delete intermediate2-${{ github.run_id }}-${{ github.run_attempt }} -R ${{ github.repository }} --confirm
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
