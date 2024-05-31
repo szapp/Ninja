@@ -160,7 +160,7 @@ jobs:
           changlogdate=$(date -d ${{ github.event.head_commit.timestamp }} +"%b-%-d-%Y")
           changelogid="${tag//./}-${changlogdate,,}"
           notes="<!-- <div align=\"center\"><table width=\"100%\"><td><b>&#x26A0; &nbsp; This version is outdated. Please use the <a href=\"https://github.com/szapp/Ninja/releases/latest\">lastest version</a> instead. &#x26A0; </b></td></table></div> -->"$'\n\n'"- [Change log](../../wiki/Changelog#$changelogid)"$'\n'"- [Installation instructions](../../wiki/Installation-(EN)#wiki-wrapper)"$'\n'"- [Check sums](../../wiki/Checksums#wiki-wrapper)"
-          gh release create $tag -R ${{ github.repository }} -d --verify-tag --title "Ninja ${tag/v/}" --notes "$notes" --discussion-category "General"  build/Ninja-*.exe || echo "::error title=Release failed::Could not draft release for tag $tag"
+          gh release create $tag -R ${{ github.repository }} -d --verify-tag --title "Ninja ${tag/v/}" --notes "$notes" build/Ninja-*.exe || echo "::error title=Release failed::Could not draft release for tag $tag"
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
 
