@@ -1,4 +1,6 @@
-# Ninja
+<div align="center">
+
+# [![Ninja](https://github.com/szapp/Ninja/assets/20203034/adff73c7-a449-4a4c-8e80-0540deb67e6f)](https://github.com/szapp/Ninja)
 
 [![Build status](https://github.com/szapp/Ninja/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/szapp/Ninja/actions/workflows/build.yml)
 [![Documentation](https://img.shields.io/badge/docs-wiki-blue)](https://github.com/szapp/Ninja/wiki)
@@ -7,10 +9,14 @@
 [![Steam Gothic 1](https://img.shields.io/badge/steam-Gothic%201-2a3f5a?logo=steam&labelColor=1b2838)](https://steamcommunity.com/sharedfiles/filedetails/?id=2786936496)
 [![Steam Gothic 2](https://img.shields.io/badge/steam-Gothic%202-2a3f5a?logo=steam&labelColor=1b2838)](https://steamcommunity.com/sharedfiles/filedetails/?id=2786910489)
 
+</div>
+
 This repository contains the source code of the Ninja extension for the Gothic game series.
 
 If you are interested in developing patches with Ninja, please follow the instructions in the relevant chapters of the
 [documentation](https://github.com/szapp/Ninja/wiki) and get started with the official [patch template](https://github.com/szapp/patch-template).
+
+[![Patch template](https://img.shields.io/badge/get%20started-patch%20template-green?style=for-the-badge&logo=github)](https://github.com/szapp/patch-template)
 
 # About
 
