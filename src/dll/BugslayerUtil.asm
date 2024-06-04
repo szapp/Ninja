@@ -83,6 +83,9 @@ DllMain:
         mov     eax, DWORD 0x1
         ret     0xC
     verifyStackoffset
+.reference:                                                                ; Never reached
+        call    Ninja                                                      ; Force import during linking
+        ret
 
 
 ; Load library on very first call, after that jump to function directly

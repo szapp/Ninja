@@ -244,13 +244,13 @@ $(SETUP) : $(LOADER) $(TARGET) LICENSE $(SETUPSCR) $(SETUPINI)
 
 $(LOADER) : $(LOADER_OBJ) $(TARGET)
 	@$(call mkdir,$(BUILDDIR))
-	$(LINKER) $(FLAGS_L) /fo $@ $^ $(LOADER_SYSDEP)
+	$(LINKER) $(FLAGS_L) /fo $(call FixPath,$@) $^ $(LOADER_SYSDEP)
 	$(REPRO) $@
 	$(PATCHREPRO) $(call FixPath,$@)
 
 $(TARGET) : $(OBJ) $(RSC)
 	@$(call mkdir,$(BUILDDIR))
-	$(LINKER) $(FLAGS_L) /fo $@ $^ $(SYSDEP)
+	$(LINKER) $(FLAGS_L) /fo $(call FixPath,$@) $^ $(SYSDEP)
 	$(REPRO) $@
 	$(PATCHREPRO) $(call FixPath,$@)
 
