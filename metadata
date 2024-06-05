@@ -1,7 +1,7 @@
 export VBASE=2
 export VMAJOR=9
-export VMINOR=13
+export VMINOR=14
 export RYEARS=2018-2024
 export NINJA_WEBSITE=https://ninja.szapp.de
 export IKARUS_VERSION=10202
-export LEGO_N_VERSION=013
+export LEGO_N_VERSION=014
