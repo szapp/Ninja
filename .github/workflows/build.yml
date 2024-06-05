@@ -137,6 +137,12 @@ jobs:
       - name: Build NSIS setup
         shell: cmd
         run: make all
+      - name: Cache build results
+        uses: actions/cache/save@v4
+        with:
+          enableCrossOsArchive: true
+          path: build
+          key: results-${{ github.run_id }}-${{ github.run_attempt }}
       - name: Export version
         shell: bash
         run: |
@@ -152,22 +158,32 @@ jobs:
         with:
           name: setup
           path: build/Ninja-*.exe
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: setup
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+      - name: Fetch build results
+        uses: actions/cache/restore@v4
+        with:
+          enableCrossOsArchive: true
+          fail-on-cache-miss: true
+          path: build
+          key: results-${{ github.run_id }}-${{ github.run_attempt }}
       - name: Draft release
         if: startsWith(github.ref, 'refs/tags/')
-        shell: bash
         run: |
           tag=${GITHUB_REF#refs/tags/}
           changlogdate=$(date -d ${{ github.event.head_commit.timestamp }} +"%b-%-d-%Y")
           changelogid="${tag//./}-${changlogdate,,}"
-          echo "RVERSION=${tag/v/}" >> $GITHUB_ENV
+          echo "VERSION=${tag/v/}" >> $GITHUB_ENV
           echo "CHANGELOGID=${changelogid}" >> $GITHUB_ENV
           notes="<!-- <div align=\"center\"><table width=\"100%\"><td><b>&#x26A0; &nbsp; This version is outdated. Please use the <a href=\"https://github.com/szapp/Ninja/releases/latest\">lastest version</a> instead. &#x26A0; </b></td></table></div> -->"$'\n\n'"- [Change log](https://github.com/szapp/Ninja/wiki/Changelog#$changelogid)"$'\n'"- [Installation instructions](https://github.com/szapp/Ninja/wiki/Installation-(EN)#wiki-wrapper)"$'\n'"- [Check sums](https://github.com/szapp/Ninja/wiki/Checksums#wiki-wrapper)"
           gh release create $tag -R ${{ github.repository }} -d --verify-tag --title "Ninja ${tag/v/}" --notes "$notes" build/Ninja-*.exe || echo "::error title=Release failed::Could not draft release for tag $tag"
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
       - name: Prepare Steam workshop upload
-        if: startsWith(github.ref, 'refs/tags/')
-        shell: bash
         run: |
           mkdir -p content/System
           cp build/*.dll content/System/
@@ -184,7 +200,7 @@ jobs:
           appId: 65540
           publishedFileId: 2786936496
           changeNote: |
-            Version ${{ env.RVERSION }}
+            Version ${{ env.VERSION }}
 
             https://github.com/szapp/Ninja/wiki/Changelog#${{ env.CHANGELOGID }}
       - name: Update in Gothic 2 Steam workshop
@@ -197,13 +213,13 @@ jobs:
           appId: 39510
           publishedFileId: 2786910489
           changeNote: |
-            Version ${{ env.RVERSION }}
+            Version ${{ env.VERSION }}
 
             https://github.com/szapp/Ninja/wiki/Changelog#${{ env.CHANGELOGID }}
 
   cleanup:
     runs-on: ubuntu-latest
-    needs: setup
+    needs: deploy
     if: ${{ !cancelled() }}
     permissions:
       actions: write
@@ -214,5 +230,6 @@ jobs:
           gh actions-cache delete resources-${{ github.run_id }}-${{ github.run_attempt }} -R ${{ github.repository }} --confirm
           gh actions-cache delete intermediate1-${{ github.run_id }}-${{ github.run_attempt }} -R ${{ github.repository }} --confirm
           gh actions-cache delete intermediate2-${{ github.run_id }}-${{ github.run_attempt }} -R ${{ github.repository }} --confirm
+          gh actions-cache delete results-${{ github.run_id }}-${{ github.run_attempt }} -R ${{ github.repository }} --confirm
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
