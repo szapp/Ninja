@@ -5,7 +5,9 @@
 [![Build status](https://github.com/szapp/Ninja/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/szapp/Ninja/actions/workflows/build.yml)
 [![Documentation](https://img.shields.io/badge/docs-wiki-blue)](https://github.com/szapp/Ninja/wiki)
 [![GitHub release](https://img.shields.io/github/v/release/szapp/Ninja.svg)](https://github.com/szapp/Ninja/releases/latest)
-[![Combined downloads](https://api.szapp.de/downloads/ninja/total/badge)](https://github.com/szapp/Ninja/wiki#user-content-downloads)
+[![Combined downloads](https://api.szapp.de/downloads/ninja/total/badge)](https://github.com/szapp/Ninja/wiki#user-content-downloads)  
+[![World of Gothic](https://github.com/szapp/Ninja/assets/20203034/e0d79fca-d176-4c9c-935d-58437da4d4f4)](https://www.worldofgothic.de/dl/download_652.htm)
+[![Spine](https://github.com/szapp/Ninja/assets/20203034/9ffa4f23-885d-4c5c-8a17-40c3d33b3345)](https://clockwork-origins.com/spine)
 [![Steam Gothic 1](https://img.shields.io/badge/steam-Gothic%201-2a3f5a?logo=steam&labelColor=1b2838)](https://steamcommunity.com/sharedfiles/filedetails/?id=2786936496)
 [![Steam Gothic 2](https://img.shields.io/badge/steam-Gothic%202-2a3f5a?logo=steam&labelColor=1b2838)](https://steamcommunity.com/sharedfiles/filedetails/?id=2786910489)
 
