@@ -243,6 +243,51 @@ removeNpcInstRef:
         jmp     g1g2(0x68C0F6,0x6BC7DD,0x6D0445,0x72E625) + 5
 
 
+global recoverInvalidItem
+recoverInvalidItem:
+    resetStackoffset g1g2(0x94,0x94,0x100,0x100)
+        test    esi, esi                                                   ; Check for invalid item in archive
+        jnz     .back
+
+        sub     esp, 0x10                                                  ; At this point the error already happened:
+        push    char_shortKey                                              ; Attempt to recover by reading shortKey
+        lea     eax, [esp+0x4]                                             ; This advances the buffer to try again
+        push    eax
+        call    DWORD [ds_lstrcpyA]                                        ; Construct 'shortKeyX' on stack
+    addStack 2*4
+        push    0xA
+        lea     eax, [esp+0x4+0x8]                                         ; Stack-offset + len('shortKey')
+        push    eax
+        mov     ecx, [esp+stackoffset-g1g2(0x80,0x80,0xEC,0xEC)]           ; Index X
+        push    ecx
+        call    _itoa                                                      ; 'shortKey' + 'X', 0
+        add     esp, 0xC
+
+        mov     eax, [g1g2(ebp,ebp,ebx,ebx)]                               ; Attempt to advance buffer
+        lea     ecx, [esp+stackoffset-g1g2(0x78,0x78,0xE0,0xE0)]           ; Key-variable used as sink
+        push    ecx                                                        ; Arg1 key
+        mov     edx, esp                                                   ; Arg0 'shortKeyX'
+        mov     ecx, g1g2(ebp,ebp,ebx,ebx)                                 ; This zCArchive*
+        call    [eax+0x60]                                                 ; zCArchive->ReadInt
+    addStack 4
+        add     esp, 0x10                                                  ; Free 'shortKeyX' from stack
+
+        mov     edx, [esp+stackoffset-g1g2(0x68,0x68,0xBC,0xBC)]           ; Get existing 'itemX' and try again
+        mov     esi, [g1g2(ebp,ebp,ebx,ebx)]
+        push    0x0
+        mov     ecx, g1g2(ebp,ebp,ebx,ebx)
+        call    [esi+0xAC]                                                 ; zCArchive->ReadObject
+    addStack 4
+        mov     esi, eax
+    verifyStackoffset g1g2(0x94,0x94,0x100,0x100)
+
+.back:
+%if GOTHIC_BASE_VERSION == 1 || GOTHIC_BASE_VERSION == 112
+        mov     DWORD [esp+stackoffset-0x78], 0xFFFFFFFF
+%endif
+        jmp     g1g2(0x66DC47,0x69B420,0x6AFBB9,0x70D6D9) + 6
+
+
 global ninja_injectInfo
 ninja_injectInfo:
         resetStackoffset                                                   ; 0xBC

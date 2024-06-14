@@ -140,6 +140,7 @@
     %define     char_noOfEntries                          0x8A7008     ; 'NoOfEntries', 0
     %define     char_spawningEnabled                      0x8A6FE0     ; 'spawningEnabled', 0
     %define     char_spawnFlags                           0x8A6FD4     ; 'spawnFlags', 0
+    %define     char_shortKey                             0x8A33D8     ; 'shortKey', 0
     %define     char_zStartupWindowed                     0x89C760     ; 'zStartupWindowed', 0
 
     %define     char_meatbug_mds                          0x8A47D0     ; 'Meatbug.mds', 0

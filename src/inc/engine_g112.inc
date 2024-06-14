@@ -139,6 +139,7 @@
     %define     char_timer                                0x897418     ; 'timer', 0
     %define     char_noOfEntries                          0x897430     ; 'NoOfEntries', 0
     %define     char_spawningEnabled                      0x897408     ; 'spawningEnabled', 0
+    %define     char_shortKey                             0x892FCC     ; 'shortKey', 0
 
     %define     char_zStartupWindowed                     0x88C634     ; 'zStartupWindowed', 0
 

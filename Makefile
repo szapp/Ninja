@@ -141,6 +141,7 @@ BIN_BASE		:=	core										\
 					hook_archiveWorldWriteLogicalNpc			\
 					hook_oCSpawnManager__Archive				\
 					hook_npcReference							\
+					hook_recoverInvalidItem						\
 					hook_fastexit								\
 					hook_CGameManager_destructor				\
 					hook_libExit								\
