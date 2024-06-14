@@ -452,7 +452,7 @@ createGlobalVarIfNotExist:
 
 .createSymb:
         push    zPAR_TYPE_INT | 0x1
-        lea     ecx, [esp+stackoffset-g1g2(0x8C,0x84,,)]
+        lea     ecx, [esp+stackoffset-g1g2(0x8C,0x80,,)]
         push    DWORD [ecx+0x4]
         call    ninja_createSymbol
     addStack 2*4
