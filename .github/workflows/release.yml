@@ -42,12 +42,16 @@ jobs:
           if [ "${{ github.event.inputs.increase-major }}" == "Yes" ]; then
             VMAJOR=$[$VMAJOR+1]
             echo "Increase major version to $VMAJOR"
+            if [ $VMAJOR -gt 9 ]; then
+              echo "::error title=Invalid version::The major version needs to be one digit!"
+              exit 1
+            fi
           fi
           echo "VMAJOR=$VMAJOR" >> $GITHUB_ENV
       - name: Bump version number and release years
         run: |
           sed -i -r "s/(^export RYEARS=[0-9]{4}-)[0-9]{4}$/\1$(date +'%Y')/" metadata
-          sed -i -r "s/(^export VMAJOR=)[0-9]+$/\1${{ env.VMAJOR }}/" metadata
+          sed -i -r "s/(^export VMAJOR=)-?[0-9]+$/\1${{ env.VMAJOR }}/" metadata
           sed -i -r "s/(^export VMINOR=)[0-9]+$/\1${{ env.VMINOR }}/" metadata
           sed -i -r "s/(^export IKARUS_VERSION=)[0-9]+$/\1${{ env.VIKARUS_NEW }}/" metadata
           sed -i -r "s/(^export LEGO_N_VERSION=)[0-9]+$/\1${{ env.VLEGO_NEW }}/" metadata
