@@ -291,8 +291,8 @@ recoverInvalidItem:
 global recoverInvalidItem2
 recoverInvalidItem2:
     resetStackoffset g1g2(0x110,0x110,0x158,0x15C)
+        %assign var_numInvSlots -g1g2(0xB8,0xA8,0x100,0xEC)
         %assign var_loopIndex   -g1g2(0xE8,0xD8,0x138,0x140)
-        %assign var_numInvSlots -g1g2(0xB8,0xA8,0xEC,0x100)
         %assign var_used        -g1g2(0x38,0x38,0x6C,0x70)
 
         mov     eax, [esp+stackoffset+var_loopIndex]                       ; Check if first iteration (i.e. index == 0)
