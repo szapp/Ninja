@@ -1,5 +1,5 @@
-export VBASE=2
-export VMAJOR=9
+export VBASE=3
+export VMAJOR=-1
 export VMINOR=15
 export RYEARS=2018-2024
 export NINJA_WEBSITE=https://ninja.szapp.de
