@@ -288,51 +288,6 @@ recoverInvalidItem:
         jmp     g1g2(0x66DC47,0x69B420,0x6AFBB9,0x70D6D9) + 6
 
 
-global recoverInvalidItem2
-recoverInvalidItem2:
-    resetStackoffset g1g2(0x110,0x110,0x158,0x15C)
-        %assign var_numInvSlots -g1g2(0xB8,0xA8,0x100,0xEC)
-        %assign var_loopIndex   -g1g2(0xE8,0xD8,0x138,0x140)
-        %assign var_used        -g1g2(0x38,0x38,0x6C,0x70)
-
-        mov     eax, [esp+stackoffset+var_loopIndex]                       ; Check if first iteration (i.e. index == 0)
-        test    eax, eax
-        jnz     .backOriginal                                              ; If not, jump back as original
-
-        mov     eax, [esi]                                                 ; Read as integer and store it
-        call    [eax+0x60]                                                 ; zCArchive->ReadInt
-    addStack 4
-
-        movzx   ecx, BYTE [esp+stackoffset+var_used]                       ; Take only the lowest byte
-        cmp     ecx, 0x1                                                   ; Check if boolean (i.e. low byte <= 1)
-    verifyStackoffset g1g2(0x110,0x110,0x158,0x15C) - 0x4
-        jbe     .backCorrect                                               ; If so, continue as expected
-
-        mov     eax, [esp+stackoffset+var_used]                            ; Fix the misread values
-        mov     [esp+stackoffset+var_numInvSlots], eax                     ; Update maximum loop iterations
-
-        mov     ecx, esi                                                   ; Read the next (correct) value from archive
-        lea     eax, [esp+stackoffset+var_used]
-        push    eax
-        mov     eax, [esi]
-        call    [eax+0x80]                                                 ; zCArchive->ReadBool
-    addStack 4
-    verifyStackoffset g1g2(0x110,0x110,0x158,0x15C) - 0x4
-        jmp     .back
-
-.backCorrect:
-        mov     [esp+stackoffset+var_used], ecx                            ; Nothing to fix, continue as expected
-        jmp     .back
-
-.backOriginal:
-        mov     eax, [esi]                                                 ; Re-write original instruction
-        call    [eax+0x80]                                                 ; zCArchive->ReadBool
-    addStack 4
-
-.back:
-        jmp     g1g2(0x6A3DD9,0x6D67BB,0x6E96C1,0x748161) + 6
-
-
 global ninja_injectInfo
 ninja_injectInfo:
         resetStackoffset                                                   ; 0xBC
