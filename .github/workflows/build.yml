@@ -179,7 +179,7 @@ jobs:
           changelogid="${tag//./}-${changlogdate,,}"
           echo "VERSION=${tag/v/}" >> $GITHUB_ENV
           echo "CHANGELOGID=${changelogid}" >> $GITHUB_ENV
-          notes="<!-- <div align=\"center\"><table width=\"100%\"><td><b>&#x26A0; &nbsp; This version is outdated. Please use the <a href=\"https://github.com/szapp/Ninja/releases/latest\">lastest version</a> instead. &#x26A0; </b></td></table></div> -->"$'\n\n'"- [Change log](https://github.com/szapp/Ninja/wiki/Changelog#$changelogid)"$'\n'"- [Installation instructions](https://github.com/szapp/Ninja/wiki/Installation-(EN)#wiki-wrapper)"$'\n'"- [Check sums](https://github.com/szapp/Ninja/wiki/Checksums#wiki-wrapper)"
+          notes="<!-- <div align=\"center\"><table width=\"100%\"><td><b>&#x26A0; &nbsp; This version is outdated. Please use the <a href=\"https://github.com/szapp/Ninja/releases/latest\">lastest version</a> instead. &#x26A0; </b></td></table></div> -->"$'\n\n'"- [Change log](https://github.com/szapp/Ninja/wiki/Changelog#$changelogid)"$'\n'"- [Installation instructions](https://github.com/szapp/Ninja/wiki/Installation-(EN)#wiki-wrapper)"$'\n'"- [Check sums](https://github.com/szapp/Ninja/wiki/Checksums#wiki-wrapper)"$'\n\n'"<a href=\"https://ko-fi.com/szapp\"><img src=\"https://github.com/szapp/GothicFreeAim/assets/20203034/49fbc81a-69b2-4ee2-bfcb-eae746546894\" alt=\"\" height=\"12pt\" /></a>"
           gh release create $tag -R ${{ github.repository }} -d --verify-tag --title "Ninja ${tag/v/}" --notes "$notes" build/Ninja-*.exe || echo "::error title=Release failed::Could not draft release for tag $tag"
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
