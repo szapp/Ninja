@@ -14,6 +14,11 @@ IF [%1] == [] GOTO usage
 SET "file=%~1"
 SET filebase=%~n1
 
+:: Convert unix timestamp to hexadecimal and flip endianness
+CMD /C EXIT %BUILD_TIME_UNIX%
+SET "BUILD_TIME_HEX=%=ExitCode%"
+SET "BUILD_TIME_HEX=%BUILD_TIME_HEX:~-4,4%%BUILD_TIME_HEX:~0,4%"
+
 :: Use objdump to get a summary of the file to later compare patched bytes
 objdump -x %file% > %file%.txt
 
@@ -55,7 +60,7 @@ FOR /F "tokens=1" %%A IN (iat.txt) DO (
     SET /A "hex_dec=0x!hex!"
     SET /A "addr=!hex_dec!-!idata_vma!+!idata_offset!"
     :: Zero out ordinal number at address (WORD)
-    ECHO -n 0000 | xxd -r -p | dd of=%file% bs=1 seek=!addr! count=2 conv=notrunc > nul 2>&1
+    ECHO -n 0000 | xxd -r -p | dd of=%file% bs=1 seek=!addr! count=2 conv=notrunc status=none
 )
 DEL /Q iat.txt
 
@@ -91,9 +96,68 @@ FOR /F "tokens=5" %%A IN (dlltables.txt) DO (
     )
     CALL :strlen name len
     :: Convert name to uppercase
-    dd if=%file% of=%file% bs=1 seek=!addr! skip=!addr! count=!len! conv=ucase,notrunc > nul 2>&1
+    dd if=%file% of=%file% bs=1 seek=!addr! skip=!addr! count=!len! conv=ucase,notrunc status=none
 )
 DEL /Q dlltables.txt
+
+:: Next: Remove time stamps from file header
+
+:: Find offset of FILE_HEADER
+dd if=%file% bs=1 skip=60 count=4 2> nul | od -An -t u4 -N4 > header.txt
+FOR /F "tokens=1" %%a IN (header.txt) DO (
+    SET /A "file_header_offset=%%a+4"
+)
+DEL /Q header.txt
+
+ECHO FILE_HEADER: %file_header_offset%
+
+:: Set FILE_HEADER time stamp
+SET /A "timestamp_offset=file_header_offset + 4"
+ECHO -n %BUILD_TIME_HEX% | xxd -r -p | dd of=%file% bs=1 seek=%timestamp_offset% count=4 conv=notrunc,swab status=none
+
+:: Next: Remove the check sum from optional header
+
+:: Find offset of the optional header
+SET /A "optional_header_offset=file_header_offset+32"
+ECHO OPTIONAL_HEADER: %optional_header_offset%
+
+:: Set optional header checksum
+SET /A "checksum_offset=optional_header_offset + 52"
+ECHO -n 00000000 | xxd -r -p | dd of=%file% bs=1 seek=%checksum_offset% count=4 conv=notrunc status=none
+
+:: Next: Set the image version
+
+:: Find the version offset
+SET /A "image_version_offset=optional_header_offset + 32"
+ECHO IMAGE_VERSION: %image_version_offset%
+
+:: Build hexadecimal version with switched endianness
+SET "VERSION_H_DEC=%VBASE%%VMAJOR%"
+CMD /C EXIT %VERSION_H_DEC%
+SET "VERSION_H_HEX=%=ExitCode%"
+SET "VERSION_H_HEX=%VERSION_H_HEX:~-2,2%%VERSION_H_HEX:~-4,2%"
+CMD /C EXIT %VMINOR%
+SET "VERSION_L_HEX=%=ExitCode%"
+SET "VERSION_L_HEX=%VERSION_L_HEX:~-2,2%%VERSION_L_HEX:~-4,2%"
+SET "VERSION_HEX=%VERSION_H_HEX%%VERSION_L_HEX%"
+
+:: Set the image version
+ECHO -n %VERSION_HEX% | xxd -r -p | dd of=%file% bs=1 seek=%image_version_offset% count=4 conv=notrunc status=none
+
+:: Next: Remove time stamps from export table
+
+:: Find offset of .edata section
+objdump -h -j .edata %file% | findstr "\.edata" > header.txt
+FOR /F "tokens=6" %%a IN (header.txt) DO (
+    SET /A "edata_offset=0x%%a"
+)
+DEL /Q header.txt
+
+ECHO IMAGE_EXPORT_DIRECTORY: %edata_offset%
+
+:: Set IMAGE_EXPORT_DIRECTORY time stamp
+SET /A "timestamp_offset=edata_offset + 4"
+ECHO -n %BUILD_TIME_HEX% | xxd -r -p | dd of=%file% bs=1 seek=%timestamp_offset% count=4 conv=notrunc,swab status=none
 
 :: Next: Remove time stamps from resource table
 
@@ -113,15 +177,15 @@ IF "%rsrc_size%" NEQ "768" ECHO Warning: Resource directory sections is of unexp
 
 :: Type Table Time
 SET /A "timestamp_offset=rsrc_offset + 4"
-ECHO -n 003b3d4b | xxd -r -p | dd of=%file% bs=1 seek=%timestamp_offset% count=4 conv=notrunc > nul 2>&1
+ECHO -n %BUILD_TIME_HEX% | xxd -r -p | dd of=%file% bs=1 seek=%timestamp_offset% count=4 conv=notrunc,swab status=none
 
 :: Name Table Time
 SET /A "timestamp_offset=rsrc_offset + 28"
-ECHO -n 003b3d4b | xxd -r -p | dd of=%file% bs=1 seek=%timestamp_offset% count=4 conv=notrunc > nul 2>&1
+ECHO -n %BUILD_TIME_HEX% | xxd -r -p | dd of=%file% bs=1 seek=%timestamp_offset% count=4 conv=notrunc,swab status=none
 
 :: Language Table Time
 SET /A "timestamp_offset=rsrc_offset + 52"
-ECHO -n 003b3d4b | xxd -r -p | dd of=%file% bs=1 seek=%timestamp_offset% count=4 conv=notrunc > nul 2>&1
+ECHO -n %BUILD_TIME_HEX% | xxd -r -p | dd of=%file% bs=1 seek=%timestamp_offset% count=4 conv=notrunc,swab status=none
 
 :CLEANUP
 

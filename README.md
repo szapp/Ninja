@@ -64,7 +64,6 @@ Additionally, you'll need the following binaries:
 - [GNU Make](http://gnuwin32.sourceforge.net/packages/make.htm) (3.81)
 - [Git for Windows](https://git-scm.com/download/win) (2.45.1) for various included GNU Win32 tools
 - [BinUtils](https://sourceforge.net/projects/mingw/files/MinGW/Base/binutils/) (2.28) for `objdump`
-- [ducible](https://github.com/jasonwhite/ducible) (1.2.2)
 
 The binaries of the listed software must be added to your `PATH` environment variable or placed in the root directory.
 

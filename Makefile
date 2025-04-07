@@ -29,6 +29,7 @@ include $(META)
 export VERSION	:=	$(VBASE).$(VMAJOR).$(VMINOR)
 export PATH 	:=	$(subst ;;,;,$(PATH);$(shell getGnuWin32Path))
 export BUILD_TIME:=$(shell getCommitTime)
+export BUILD_TIME_UNIX:=$(shell getCommitTime unix)
 ifneq ($(BUILD_TIME),)
 $(info Build time is set to $(BUILD_TIME))
 else
@@ -63,7 +64,6 @@ NSIS			:=	makensis
 NASM			:=	nasm
 LINKER			:=	golink
 RCCOMP			:=	gorc
-REPRO			:=	ducible
 GETBINLIST		:=	$(call FixPath,./getBinList)$(SCRIPTEXT)
 EXTRACTSYM		:=	$(call FixPath,./extractSymbols)$(SCRIPTEXT)
 VERIFYSIZE		:=	$(call FixPath,./verifySize)$(SCRIPTEXT)
@@ -246,13 +246,11 @@ $(SETUP) : $(LOADER) $(TARGET) LICENSE $(SETUPSCR) $(SETUPINI)
 $(LOADER) : $(LOADER_OBJ) $(TARGET)
 	@$(call mkdir,$(BUILDDIR))
 	$(LINKER) $(FLAGS_L) /fo $(call FixPath,$@) $^ $(LOADER_SYSDEP)
-	$(REPRO) $@
 	$(PATCHREPRO) $(call FixPath,$@)
 
 $(TARGET) : $(OBJ) $(RSC)
 	@$(call mkdir,$(BUILDDIR))
 	$(LINKER) $(FLAGS_L) /fo $(call FixPath,$@) $^ $(SYSDEP)
-	$(REPRO) $@
 	$(PATCHREPRO) $(call FixPath,$@)
 
 $(LOADER_OBJ) : $(LOADER_SRC)
@@ -266,7 +264,7 @@ $(OBJ) : $(SRCDLL) $(CONTENT) $(IKLG)
 # Overwrite MemoryFlags (0x36 WORD) in the RES Header which sometimes varies across builds on different machines
 $(RSC) : $(RC)
 	$(RCCOMP) $(FLAGS_RC) /fo $@ /r $^
-	ECHO -n 0000 | xxd -r -p | dd of=$@ bs=1 seek=54 count=2 conv=notrunc > nul 2>&1
+	ECHO -n 0000 | xxd -r -p | dd of=$@ bs=1 seek=54 count=2 conv=notrunc status=none
 
 $(CONTENT) : $(BINARIES_G1) $(BINARIES_G112) $(BINARIES_G130) $(BINARIES_G2)
 	$(GETBINLIST) $(call FixPath,$@) $(SRCDIR)

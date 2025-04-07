@@ -63,7 +63,7 @@ extern WriteFile
 extern CloseHandle
 extern DeleteFileA
 
-export DllMain
+global DllMain
 export Ninja
 
 section .data
