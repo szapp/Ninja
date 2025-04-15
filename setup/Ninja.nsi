@@ -20,7 +20,7 @@
 
 !define APP_FILE "Ninja"
 !define APP_NAME "Ninja"
-!define APP_COPY "Copyright © $%RYEARS% Sören Zapp"
+!define APP_COPY "Copyright ï¿½ $%RYEARS% Sï¿½ren Zapp"
 !define APP_LINK "$%NINJA_WEBSITE%"
 !define APP_HELP "$%NINJA_WEBSITE%"
 
@@ -141,6 +141,7 @@ ShowUnInstDetails show
 !define MUI_FINISHPAGE_NOREBOOTSUPPORT
 !define MUI_FINISHPAGE_TITLE_3LINES
 !define MUI_FINISHPAGE_NOAUTOCLOSE
+!finalize '..\signCode "%1"'
 
 ; Setup pages (install)
 
@@ -158,6 +159,7 @@ Page custom PageReinstall PageLeaveReinstall
 !define MUI_FINISHPAGE_NOREBOOTSUPPORT
 !define MUI_FINISHPAGE_TITLE_3LINES
 !define MUI_UNFINISHPAGE_NOAUTOCLOSE
+!uninstfinalize '..\signCode "%1"'
 
 ; Setup pages (uninstaller)
 
@@ -194,7 +196,7 @@ VIAddVersionKey /LANG=1200 "OriginalFilename" "${APP_FILE}-${VER_FILE}.exe"
 
 
 LangString NameInstFull ${LANG_ENGLISH} "Complete"
-LangString NameInstFull ${LANG_GERMAN} "Vollständig"
+LangString NameInstFull ${LANG_GERMAN} "Vollstï¿½ndig"
 InstType $(NameInstFull)
 
 
@@ -207,7 +209,7 @@ InstType $(NameInstFull)
 ; Setup
 
 LangString TextInsuffRights ${LANG_ENGLISH} "Setting up the uninstalling option failed.$\r$\nMake sure you have sufficient permission (administrator).$\r$\n$\r$\n(HKLM\$R0)"
-LangString TextInsuffRights ${LANG_GERMAN} "Beim Schreiben der Werte für die spätere Deinstallation trat ein Fehler auf.$\r$\nStellen Sie sicher, dass Ihr Benutzerkonto über die notwendigen Rechte verfügt.$\r$\n$\r$\n(HKLM\$R0)"
+LangString TextInsuffRights ${LANG_GERMAN} "Beim Schreiben der Werte fï¿½r die spï¿½tere Deinstallation trat ein Fehler auf.$\r$\nStellen Sie sicher, dass Ihr Benutzerkonto ï¿½ber die notwendigen Rechte verfï¿½gt.$\r$\n$\r$\n(HKLM\$R0)"
 
 Section -pre
   Push $R0
@@ -567,7 +569,7 @@ FunctionEnd
 ; Uninstall (init)
 
 LangString TextInvalidUninstall ${LANG_ENGLISH} "The installation directory is invalid.$\r$\nContinue uninstalling anyway?"
-LangString TextInvalidUninstall ${LANG_GERMAN} "Das Installationsverzeichnis scheint ungültig zu sein.$\r$\nSoll die Deinstallation trotzdem fortgesetzt werden?"
+LangString TextInvalidUninstall ${LANG_GERMAN} "Das Installationsverzeichnis scheint ungï¿½ltig zu sein.$\r$\nSoll die Deinstallation trotzdem fortgesetzt werden?"
 
 Function un.onInit
   Push $R0
@@ -606,15 +608,15 @@ LangString TextReinstNewer ${LANG_ENGLISH} "A newer version is already installed
 LangString TextReinstEqual ${LANG_ENGLISH} "$(^Name) is already installed."
 
 LangString TextReinstTitle ${LANG_GERMAN} "Vorherige Installation"
-LangString TextReinstHead1 ${LANG_GERMAN} "Wählen Sie aus, wie $(^Name) installiert werden soll."
+LangString TextReinstHead1 ${LANG_GERMAN} "Wï¿½hlen Sie aus, wie $(^Name) installiert werden soll."
 LangString TextReinstOpt1A ${LANG_GERMAN} "Vorher deinstallieren"
 LangString TextReinstOpt1B ${LANG_GERMAN} "Nicht deinstallieren"
-LangString TextReinstHead2 ${LANG_GERMAN} "Wählen Sie die auszuführende Wartungsoption aus."
+LangString TextReinstHead2 ${LANG_GERMAN} "Wï¿½hlen Sie die auszufï¿½hrende Wartungsoption aus."
 LangString TextReinstOpt2A ${LANG_GERMAN} "Erneut installieren"
 LangString TextReinstOpt2B ${LANG_GERMAN} "$(^Name) deinstallieren"
 LangString TextReinstWrong ${LANG_GERMAN} "Eine inkompatible Version ist bereits installiert!\r\nWenn Sie diese Version wirklich installieren wollen,\r\nsollten Sie die aktuelle Version vorher deinstallieren."
-LangString TextReinstOlder ${LANG_GERMAN} "Eine ältere Version ist auf Ihrem System installiert.\r\nEs wird empfohlen die aktuelle Version vorher zu deinstallieren."
-LangString TextReinstNewer ${LANG_GERMAN} "Eine neuere Version ist bereits auf Ihrem System installiert!\r\nEs wird empfohlen die ältere Version nicht zu installieren. Wenn Sie diese ältere Version wirklich installieren wollen, sollten Sie die aktuelle Version vorher deinstallieren."
+LangString TextReinstOlder ${LANG_GERMAN} "Eine ï¿½ltere Version ist auf Ihrem System installiert.\r\nEs wird empfohlen die aktuelle Version vorher zu deinstallieren."
+LangString TextReinstNewer ${LANG_GERMAN} "Eine neuere Version ist bereits auf Ihrem System installiert!\r\nEs wird empfohlen die ï¿½ltere Version nicht zu installieren. Wenn Sie diese ï¿½ltere Version wirklich installieren wollen, sollten Sie die aktuelle Version vorher deinstallieren."
 LangString TextReinstEqual ${LANG_GERMAN} "$(^Name) ist bereits installiert."
 
 Function PageReinstall
@@ -695,7 +697,7 @@ FunctionEnd
 ; Setup (directory validation)
 
 LangString TextVerifyDir ${LANG_ENGLISH} "Choose the installation directory of 'Gothic' 1.08k_mod, 'Gothic Sequel' 1.12f, 'Gothic II' 1.30 or 'Gothic II - Night of the Raven' 2.6."
-LangString TextVerifyDir ${LANG_GERMAN} "Wählen Sie das Verzeichnis aus, in welchem sich 'Gothic' 1.08k_mod, 'Gothic Sequel' 1.12f, 'Gothic II' 1.30 oder 'Gothic II - Die Nacht des Raben' 2.6 befindet."
+LangString TextVerifyDir ${LANG_GERMAN} "Wï¿½hlen Sie das Verzeichnis aus, in welchem sich 'Gothic' 1.08k_mod, 'Gothic Sequel' 1.12f, 'Gothic II' 1.30 oder 'Gothic II - Die Nacht des Raben' 2.6 befindet."
 
 Var VerifyMessageOnce
 
