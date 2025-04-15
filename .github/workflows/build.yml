@@ -79,14 +79,12 @@ jobs:
           key: resources-${{ github.run_id }}-${{ github.run_attempt }}
       - name: Install NASM
         uses: ilammy/setup-nasm@v1
-      - name: Download GoDevTools and Ducible
+      - name: Download GoDevTools
         run: |
           Invoke-WebRequest http://godevtool.com/Golink.zip -OutFile golink.zip
           Invoke-WebRequest http://godevtool.com/Gorc.zip -OutFile gorc.zip
-          Invoke-WebRequest https://github.com/jasonwhite/ducible/releases/download/v1.2.2/ducible-windows-Win32-Release.zip -OutFile ducible.zip
           unzip golink.zip GoLink.exe
           unzip gorc.zip GoRC.exe
-          unzip ducible.zip ducible.exe
       - name: Assemble Ninja.dll
         shell: cmd
         run: make build/Ninja.dll

@@ -28,13 +28,6 @@ c				:=	\xA9
 include $(META)
 export VERSION	:=	$(VBASE).$(VMAJOR).$(VMINOR)
 export PATH 	:=	$(subst ;;,;,$(PATH);$(shell getGnuWin32Path))
-export BUILD_TIME:=$(shell getCommitTime)
-export BUILD_TIME_UNIX:=$(shell getCommitTime unix)
-ifneq ($(BUILD_TIME),)
-$(info Build time is set to $(BUILD_TIME))
-else
-$(info Warning: No build time is set. Build will not be reproducible!)
-endif
 
 # Directories
 BUILDDIR		:=	build/
@@ -67,12 +60,10 @@ RCCOMP			:=	gorc
 GETBINLIST		:=	$(call FixPath,./getBinList)$(SCRIPTEXT)
 EXTRACTSYM		:=	$(call FixPath,./extractSymbols)$(SCRIPTEXT)
 VERIFYSIZE		:=	$(call FixPath,./verifySize)$(SCRIPTEXT)
-PATCHREPRO		:=	$(call FixPath,./patchBuildBytes)$(SCRIPTEXT)
-SETFILETIME		:=	$(call FixPath,./setTimestamps)$(SCRIPTEXT)
 CODESIGN		:=	$(call FixPath,./signCode)$(SCRIPTEXT)
 
 FLAGS_C			:=	-I$(SRCDIR)
-FLAGS_A			:=	-f win32 --reproducible $(FLAGS_C)
+FLAGS_A			:=	-f win32 $(FLAGS_C)
 FLAGS_L			:=	/dll /entry DllMain /largeaddressaware /nxcompat /dynamicbase /ni
 FLAGS_RC		:=	/ni
 FLAGS_N			:=	-X"SetCompress force" -X"SetCompressor /FINAL /SOLID lzma" -X"SetCompressorDictSize 8" -X"SetDatablockOptimize on"
@@ -241,19 +232,16 @@ relink : cleanDLL all
 
 # Build dependencies
 $(SETUP) : $(LOADER) $(TARGET) LICENSE $(SETUPSCR) $(SETUPINI)
-	$(SETFILETIME) $(call FixPath,$^)
 	$(NSIS) $(FLAGS_N) $(SETUPSCR)
 
 $(LOADER) : $(LOADER_OBJ) $(TARGET)
 	@$(call mkdir,$(BUILDDIR))
 	$(LINKER) $(FLAGS_L) /fo $(call FixPath,$@) $^ $(LOADER_SYSDEP)
-	$(PATCHREPRO) $(call FixPath,$@)
 	$(CODESIGN) $(call FixPath,$@)
 
 $(TARGET) : $(OBJ) $(RSC)
 	@$(call mkdir,$(BUILDDIR))
 	$(LINKER) $(FLAGS_L) /fo $(call FixPath,$@) $^ $(SYSDEP)
-	$(PATCHREPRO) $(call FixPath,$@)
 	$(CODESIGN) $(call FixPath,$@)
 
 $(LOADER_OBJ) : $(LOADER_SRC)
@@ -264,10 +252,8 @@ $(OBJ) : $(SRCDLL) $(CONTENT) $(IKLG)
 	@$(call mkdir,$(BINDIR))
 	$(NASM) $(FLAGS_A) -o $@ $<
 
-# Overwrite MemoryFlags (0x36 WORD) in the RES Header which sometimes varies across builds on different machines
 $(RSC) : $(RC)
 	$(RCCOMP) $(FLAGS_RC) /fo $@ /r $^
-	ECHO -n 0000 | xxd -r -p | dd of=$@ bs=1 seek=54 count=2 conv=notrunc status=none
 
 $(CONTENT) : $(BINARIES_G1) $(BINARIES_G112) $(BINARIES_G130) $(BINARIES_G2)
 	$(GETBINLIST) $(call FixPath,$@) $(SRCDIR)
