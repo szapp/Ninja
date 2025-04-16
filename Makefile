@@ -142,9 +142,6 @@ BIN_BASE		:=	core										\
 					hook_oCSpawnManager__Archive				\
 					hook_npcReference							\
 					hook_recoverInvalidItem						\
-					hook_fastexit								\
-					hook_CGameManager_destructor				\
-					hook_libExit								\
 					hook_Hlp_GetNpc								\
 					hook_Hlp_IsValidNpc							\
 					hook_Hlp_IsValidItem						\

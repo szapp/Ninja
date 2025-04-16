@@ -604,38 +604,3 @@ fix_Hlp_IsValidItem:
         call    dynamic_cast
 .backClean:
         jmp     g1g2(0x658B3E,0x6830AE,0x691F5E,0x6EF1CE) + 5
-
-
-; Deinitialize VDFS on fast exit to ensure release of data file
-global fastexit_deinit_vdfs
-fastexit_deinit_vdfs:
-        call    zFILE_VDFS__DeinitFileSystem
-        call    _exit                                                      ; Never returns
-
-
-; Deinitialize VDFS on improper CGameManager destruction (access violation)
-global CGameMananager_destruction_deinit_vdfs
-CGameMananager_destruction_deinit_vdfs:
-    resetStackoffset g1g2(0x3C,0x38,0,0x3C)
-        pusha
-        call    zFILE_VDFS__DeinitFileSystem
-        popa
-    verifyStackoffset g1g2(0x3C,0x38,0,0x3C)
-
-        ; Jump back
-        mov     BYTE [esp+stackoffset-0x4], 0x4
-        jmp     g1g2(0x423BDC,0x4265C4,0x42449C,0x4247CC) + 5
-
-
-; Deinitialize VDFS on libExit (fatal error)
-global libExit_deinit_vdfs
-libExit_deinit_vdfs:
-    resetStackoffset
-        pusha
-        call    zFILE_VDFS__DeinitFileSystem
-        popa
-    verifyStackoffset
-
-        ; Jump back
-        mov     eax, g1g2(0x86F51C,0x8B5138,0x8C5C5C,0x8D4294)
-        jmp     g1g2(0x4F3C30,0x506620,0x4FFE30,0x502AB0) + 5
