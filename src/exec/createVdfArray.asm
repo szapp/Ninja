@@ -328,10 +328,24 @@ createVdfArray:
         push    DWORD [esp+stackoffset+var_nameSpaced]
         call    _strncmp
         add     esp, 0xC
-        test    eax, eax
-        jnz     .dirLoopNext
         mov     esi, 0x1
-        jmp     .findDirEnd                                                ; This patch is based on Ninja: confirmed
+        test    eax, eax
+        jz      .findDirEnd                                                ; This patch is based on Ninja: confirmed
+
+        sub     esp, 0x14                                                  ; Only allow patches with directory of same name
+        mov     ecx, esp
+        push    NINJA_INVALID_PATCH
+        call    zSTRING__zSTRING
+    addStack 4
+        push    DWORD [esp+stackoffset+var_patchname]
+        call    zSTRING__operator_plusEq
+    addStack 4
+        push    ecx
+        call    zERROR__Fatal
+    addStack 4
+        ; mov     ecx, esp                                                 ; Never reached: Safe some space
+        ; call    zSTRING___zSTRING
+        add     esp, 0x14
 
 .dirLoopNext:
         mov     ecx, [edi+VDFentry.type]                                   ; Advance to next entry if not last one
