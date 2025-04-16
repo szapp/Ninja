@@ -52,7 +52,7 @@ createVdfArray:
 %if GOTHIC_BASE_VERSION == 1 || GOTHIC_BASE_VERSION == 2
         mov     al, [SystemPack_version_info+g1g2(0xD,,,0xB)]          ; Check for old Ninja system
         cmp     al, 'N'
-        jnz     .checkScripts
+        jnz     .registerConsole
 
         sub     esp, 0x14
         mov     ecx, esp
@@ -66,30 +66,6 @@ createVdfArray:
         ; call    zSTRING___zSTRING
         add     esp, 0x14
 %endif
-
-.checkScripts:
-        call    zFILE_VDFS__LockCriticalSection
-        push    VDF_VIRTUAL | VDF_PHYSICAL | VDF_PHYSICALFIRST
-        push    NINJA_PATH_IKARUS
-        call    DWORD [ds_vdf_fexists]
-        add     esp, 0x8
-        push    eax
-        call    zFILE_VDFS__UnlockCriticalSection
-        pop     eax
-        test    eax, eax
-        jg      .registerConsole
-
-        sub     esp, 0x14
-        mov     ecx, esp
-        push    NINJA_MOUNTFAIL
-        call    zSTRING__zSTRING
-    addStack 4
-        push    ecx
-        call    zERROR__Fatal
-    addStack 4
-        ; mov     ecx, esp                                                 ; Never reached: Safe some space
-        ; call    zSTRING___zSTRING
-        add     esp, 0x14
 
 .registerConsole:
         reportToSpy NINJA_REGISTER_CONSOLE

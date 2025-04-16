@@ -29,7 +29,6 @@ NINJA_STRINGCOUNT_APPLY  db   AUTHOR_PREFIX, ':NINJA: Adjusting string count to 
 NINJA_STRINGCOUNT_FAILED db   AUTHOR_PREFIX, ':NINJA: Failed to adjust string count', 0
 NINJA_SKIPPING           db   AUTHOR_PREFIX, ':NINJA: Skipping : ', 0
 NINJA_OUTDATED_PATCH     db   AUTHOR_PREFIX, ':NINJA: Outdated patch found (Ninja < 2)', 0
-NINJA_MOUNTFAIL          db   AUTHOR_PREFIX, ':NINJA: Ninja was attached too late (after VDFS)', 0
 NINJA_VERIFY_PATH        db   AUTHOR_PREFIX, ':NINJA: Verifying file path', 0
 NINJA_VERIFY_VERSION     db   AUTHOR_PREFIX, ':NINJA: Verifying version', 0
 NINJA_COMPARE_VERSIONS   db   AUTHOR_PREFIX, ':NINJA: Comparing versions', 0
