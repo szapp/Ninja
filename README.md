@@ -6,7 +6,7 @@
 [![Documentation](https://img.shields.io/badge/docs-wiki-blue)](https://github.com/szapp/Ninja/wiki)
 [![GitHub release](https://img.shields.io/github/v/release/szapp/Ninja.svg)](https://github.com/szapp/Ninja/releases/latest)
 [![Support on Ko-fi](https://img.shields.io/badge/ko--fi-support-ff586e?logo=kofi&logoColor=white)](https://ko-fi.com/szapp)
-[![Combined downloads](https://api.szapp.de/downloads/ninja/total/badge)](https://github.com/szapp/Ninja/wiki#user-content-downloads)  
+[![Combined downloads](https://api.szapp.de/downloads/ninja/total/badge)](https://github.com/szapp/Ninja/wiki#user-content-downloads)
 [![World of Gothic](https://raw.githubusercontent.com/szapp/patch-template/main/.github/actions/initialization/badges/wog.svg)](https://www.worldofgothic.de/dl/download_652.htm)
 [![Spine](https://raw.githubusercontent.com/szapp/patch-template/main/.github/actions/initialization/badges/spine.svg)](https://clockwork-origins.com/spine)
 [![Steam Gothic 1](https://img.shields.io/badge/steam-Gothic%201-2a3f5a?logo=steam&labelColor=1b2838)](https://steamcommunity.com/sharedfiles/filedetails/?id=2786936496)
@@ -38,9 +38,7 @@ issues or need further instructions, please consult the [documentation](https://
 
 There is **absolutely no need to assemble Ninja yourself** as the latest build is always available for download.
 
-Nevertheless, if you wish to do so anyway, not all resources necessary for building are supplied in this repository and
-you'll not be able to successfully build it. The purpose of this repository is merely to provide *insight* into the
-source code. The additional resources may be provided upon request.
+The purpose of this repository is merely to provide *insight* into the source code.
 
 ## Requirements
 
@@ -71,7 +69,7 @@ Some binaries are attempted to be automatically detected at build time and added
 
 ## Assembling
 
-Building Ninja consists of a cascade of assembling the core and assembling the DLL wrapper.  
+Building Ninja consists of a cascade of assembling the core and assembling the DLL wrapper.
 First, the core is assembled into binary files. These are then included when assembling the wrapper which is then
 finally linked into a DLL.
 
