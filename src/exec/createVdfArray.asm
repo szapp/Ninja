@@ -429,6 +429,14 @@ createVdfArray:
         cmp     eax, ecx
         jae     .nextFile
 
+        push    0x7
+        push    DWORD [esp+stackoffset+var_patchname]                      ; Hide Toolkit
+        push    NINJA_TOOLKIT_NAME
+        call    _strncmp
+        add     esp, 0xC
+        test    eax, eax
+        jz      .nextFile
+
 .addToConsole:                                                             ; Add auto-completion for console
         sub     esp, 0x14
         mov     ecx, esp
