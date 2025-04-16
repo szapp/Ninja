@@ -83,7 +83,6 @@ OBJ				:=	$(BINDIR)Ninja$(OBJEXT)
 RC				:=	$(DLLDIR)resource$(RCEXT)
 RSC				:=	$(DLLDIR)resource$(RESEXT)
 SRCDLL			:=	$(DLLDIR)Ninja$(ASMEXT)
-IKLG			:=	$(INCDIR)iklg.data
 
 # LOADER
 LOADER			:=	$(BUILDDIR)BugslayerUtil$(DLLEXT)
@@ -260,7 +259,7 @@ $(LOADER_OBJ) : $(LOADER_SRC)
 	@$(call mkdir,$(BINDIR))
 	$(NASM) $(FLAGS_A) -o $@ $<
 
-$(OBJ) : $(SRCDLL) $(CONTENT) $(IKLG)
+$(OBJ) : $(SRCDLL) $(CONTENT)
 	@$(call mkdir,$(BINDIR))
 	$(NASM) $(FLAGS_A) -o $@ $<
 
