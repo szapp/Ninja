@@ -28,7 +28,8 @@ NINJA_SYMBOL_FAILED      db   AUTHOR_PREFIX, ':NINJA: Failed to add symbol: ', 0
 NINJA_STRINGCOUNT_APPLY  db   AUTHOR_PREFIX, ':NINJA: Adjusting string count to ', 0
 NINJA_STRINGCOUNT_FAILED db   AUTHOR_PREFIX, ':NINJA: Failed to adjust string count', 0
 NINJA_SKIPPING           db   AUTHOR_PREFIX, ':NINJA: Skipping : ', 0
-NINJA_OUTDATED_PATCH     db   AUTHOR_PREFIX, ':NINJA: Outdated patch found (Ninja < 2)', 0
+NINJA_OUTDATED_PATCH     db   AUTHOR_PREFIX, ':NINJA: Outdated VDF found (Ninja < 2)', 0
+NINJA_MISSING_TOOLKIT    db   AUTHOR_PREFIX, ':NINJA: Missing dependency. Please install Toolkit', 0
 NINJA_VERIFY_PATH        db   AUTHOR_PREFIX, ':NINJA: Verifying file path', 0
 NINJA_VERIFY_VERSION     db   AUTHOR_PREFIX, ':NINJA: Verifying version', 0
 NINJA_COMPARE_VERSIONS   db   AUTHOR_PREFIX, ':NINJA: Comparing versions', 0
@@ -39,6 +40,6 @@ NINJA_LEGO_VER_ERROR     db   AUTHOR_PREFIX, ':NINJA: LeGo version invalid: ', 0
 NINJA_LEGO_END           db   'No onset.', 0
 NINJA_LEGO_BMM           db   'BMM incomplete.', 0
 NINJA_VERSION_INVALID    db   AUTHOR_PREFIX, ':NINJA: Version mismatch of %s. ', 10, 13
-                         db   'Game: %09d, Ninja: %09d ', 10, 13
-                         db   'Please update Ninja or report this error at ', 10, 13
+                         db   'Game: %09d, Toolkit: %09d ', 10, 13
+                         db   'Please update Toolkit or report this to ', 10, 13
                          db   '<', NINJA_WEBSITE, '>', 0

@@ -631,7 +631,7 @@ parser_resolve_path_src:
         push    NINJA_PATH_IKARUSSRC
         call    zSTRING__zSTRING
     addStack 4
-        jmp     g1g2(0x6E6100,0x71ECCD,0x72F940,0x78F380)
+        jmp     .checkScripts
     verifyStackoffset 0x250
 
 .checkLeGo:
@@ -645,8 +645,33 @@ parser_resolve_path_src:
         push    NINJA_PATH_LEGOSRC
         call    zSTRING__zSTRING
     addStack 4
-        jmp     g1g2(0x6E6100,0x71ECCD,0x72F940,0x78F380)
     verifyStackoffset 0x250
+
+.checkScripts:
+        push    eax
+        call    zFILE_VDFS__LockCriticalSection
+        push    VDF_VIRTUAL | VDF_PHYSICAL | VDF_PHYSICALFIRST
+        push    NINJA_PATH_IKARUS
+        call    DWORD [ds_vdf_fexists]
+        add     esp, 0x8
+        push    eax
+        call    zFILE_VDFS__UnlockCriticalSection
+        pop     eax
+        test    eax, eax
+        pop     eax
+        jg      g1g2(0x6E6100,0x71ECCD,0x72F940,0x78F380)                  ; Successfully return
+
+        sub     esp, 0x14
+        mov     ecx, esp
+        push    NINJA_MISSING_TOOLKIT
+        call    zSTRING__zSTRING
+    addStack 4
+        push    ecx
+        call    zERROR__Fatal
+    addStack 4
+        ; mov     ecx, esp                                                 ; Never reached: Safe some space
+        ; call    zSTRING___zSTRING
+        add     esp, 0x14
 
 .back:
         ; Jump back
