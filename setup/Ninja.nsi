@@ -239,7 +239,7 @@ Section -pre
   WriteRegExpandStr HKLM $R0 "UninstallString" "$INSTDIR\${APP_FILE}-uninst.exe"
   WriteRegStr       HKLM $R0 "URLInfoAbout"    "${APP_LINK}"
   WriteRegStr       HKLM $R0 "HelpLink"        "${APP_HELP}"
-  WriteRegDWORD     HKLM $R0 "EstimatedSize"   1800
+  WriteRegDWORD     HKLM $R0 "EstimatedSize"   80
 
   Pop $R0
 SectionEnd
@@ -500,12 +500,6 @@ Section !un.$(NameSecAppFiles) unSecAppFiles
   ; Remove Ninja
   IfFileExists    "Ninja.dll" "" +2
       Delete      "Ninja.dll"
-
-  ; Remove temporary VDF if present
-  StrCmp          $OUTDIR "$INSTDIR\Data" +2
-    SetOutPath    "$INSTDIR\Data"
-  IfFileExists    "_delete_me.vdf" "" +2
-      Delete      "_delete_me.vdf"
 
   ; Start menu entries
   SetShellVarContext current
