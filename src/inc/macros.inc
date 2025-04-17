@@ -14,11 +14,7 @@
     %defstr NINJA_WEBSITE   %!NINJA_WEBSITE
     %define IKARUS_VERSION  %!IKARUS_VERSION
     %define LEGO_N_VERSION  %!LEGO_N_VERSION
-    %ifenv  BUILD_TIME
-        %defstr BUILD_TIME  %!BUILD_TIME
-    %else
-        %strcat BUILD_TIME  __UTC_DATE__, ' ',__UTC_TIME__
-    %endif
+    %strcat BUILD_TIME  __UTC_DATE__, ' ',__UTC_TIME__
 
     %define MAX_VDF_TIME    0x7F9FBF7D                                     ; 2043-12-23 23:59:58
     %if GOTHIC_BASE_VERSION == 1
