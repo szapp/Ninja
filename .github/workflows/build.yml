@@ -29,35 +29,9 @@ jobs:
             bin
           key: intermediate1-${{ github.run_id }}-${{ github.run_attempt }}
 
-  resources:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout resource repository
-        uses: actions/checkout@v4
-        with:
-          repository: szapp/NinjaScripts
-          submodules: recursive
-          token: ${{ secrets.NINJA_LEGO_TOKEN }}
-          persist-credentials: false
-      - name: Build resource data
-        uses: kirides/vdfsbuilder@aaf901f0c98245af54102a1946d8be0e2e17ba36
-        with:
-          in: iklg.vm
-          out: iklg.data
-          ts: '2039-12-31 23:59:58'
-      - name: Move into the correct directory
-        run: |
-          mkdir -p src/inc
-          mv iklg.data src/inc
-      - name: Cache compiled resource data
-        uses: actions/cache/save@v4
-        with:
-          path: src/inc/iklg.data
-          key: resources-${{ github.run_id }}-${{ github.run_attempt }}
-
   linking:
     runs-on: windows-latest
-    needs: [assembling, resources]
+    needs: assembling
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -70,13 +44,6 @@ jobs:
             src
             bin
           key: intermediate1-${{ github.run_id }}-${{ github.run_attempt }}
-      - name: Fetch compiled resource data
-        uses: actions/cache/restore@v4
-        with:
-          fail-on-cache-miss: true
-          enableCrossOsArchive: true
-          path: src/inc/iklg.data
-          key: resources-${{ github.run_id }}-${{ github.run_attempt }}
       - name: Install NASM
         uses: ilammy/setup-nasm@v1
       - name: Download GoDevTools
@@ -225,7 +192,6 @@ jobs:
       - name: Clear cache
         run: |
           gh extension install actions/gh-actions-cache
-          gh actions-cache delete resources-${{ github.run_id }}-${{ github.run_attempt }} -R ${{ github.repository }} --confirm
           gh actions-cache delete intermediate1-${{ github.run_id }}-${{ github.run_attempt }} -R ${{ github.repository }} --confirm
           gh actions-cache delete intermediate2-${{ github.run_id }}-${{ github.run_attempt }} -R ${{ github.repository }} --confirm
           gh actions-cache delete results-${{ github.run_id }}-${{ github.run_attempt }} -R ${{ github.repository }} --confirm

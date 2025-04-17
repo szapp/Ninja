@@ -74,7 +74,6 @@ OBJ				:=	$(BINDIR)Ninja$(OBJEXT)
 RC				:=	$(DLLDIR)resource$(RCEXT)
 RSC				:=	$(DLLDIR)resource$(RESEXT)
 SRCDLL			:=	$(DLLDIR)Ninja$(ASMEXT)
-IKLG			:=	$(INCDIR)iklg.data
 
 # LOADER
 LOADER			:=	$(BUILDDIR)BugslayerUtil$(DLLEXT)
@@ -134,9 +133,6 @@ BIN_BASE		:=	core										\
 					hook_oCSpawnManager__Archive				\
 					hook_npcReference							\
 					hook_recoverInvalidItem						\
-					hook_fastexit								\
-					hook_CGameManager_destructor				\
-					hook_libExit								\
 					hook_Hlp_GetNpc								\
 					hook_Hlp_IsValidNpc							\
 					hook_Hlp_IsValidItem						\
@@ -248,7 +244,7 @@ $(LOADER_OBJ) : $(LOADER_SRC)
 	@$(call mkdir,$(BINDIR))
 	$(NASM) $(FLAGS_A) -o $@ $<
 
-$(OBJ) : $(SRCDLL) $(CONTENT) $(IKLG)
+$(OBJ) : $(SRCDLL) $(CONTENT)
 	@$(call mkdir,$(BINDIR))
 	$(NASM) $(FLAGS_A) -o $@ $<
 
