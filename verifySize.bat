@@ -33,6 +33,10 @@ IF %gothic% == 2   SET SIZELIMIT=11904
 SET FILESIZE=%~z1
 IF %FILESIZE% GTR %SIZELIMIT% ECHO %filename% exceeds %SIZELIMIT% bytes (%FILESIZE%).&& DEL /Q %filefull% && EXIT /B 2
 
+:: Info output
+SET /A remaining=%SIZELIMIT% - %FILESIZE%
+ECHO %remaining% bytes remaining.
+
 EXIT /B
 
 :usage
