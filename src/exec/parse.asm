@@ -257,7 +257,7 @@ parser_verify_ikarus_version:
         mov     ebx, keep_int_symbol_start
 
 .preserveSymbols:
-        cmp     ebx, char_narray_symb
+        cmp     ebx, char_modname_symb
         jg      .verifyIkarusVersion
         push    DWORD [ebp+0x8]                                            ; symbol->name->ptr
         push    ebx
