@@ -17,7 +17,7 @@ ninja_allowRedefine:
         mov     esi, [ecx+zCParser_datsave_offset]
         add     esi, DWORD [zCParser__enableParsing]                       ; Check if wrapped by Ninja
         mov     eax, char_redefinedIdentifier
-        cmp     ecx, 0x2A
+        cmp     esi, 0x2A
         jnz     .createString
         mov     eax, NINJA_OVERWRITING
 
