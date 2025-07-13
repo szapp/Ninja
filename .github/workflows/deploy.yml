@@ -1,0 +1,93 @@
+name: deploy
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify release asset
+        run: |
+          is_prerelease=$(jq -r '.release.prerelease' "$GITHUB_EVENT_PATH")
+          num_assets=$(jq '.release.assets | length' "$GITHUB_EVENT_PATH")
+          release_date=$(jq -r '.release.published_at' "$GITHUB_EVENT_PATH")
+          tag=$(jq -r '.release.tag_name' "$GITHUB_EVENT_PATH")
+          # Format properties
+          version="${tag#v}"
+          changelogdate=$(date -d ${release_date} +"%b-%-d-%Y")
+          changelogid="${tag//./}-${changelogdate,,}"
+          # Checks
+          if [ "$is_prerelease" == "true" ]; then
+            echo "::error title=Invalid Release::Deployment only on full releases."
+            exit 1
+          fi
+          if [ "$num_assets" -ne 1 ]; then
+            echo "::error title=No attachment::No assets found in the release."
+            exit 1
+          fi
+          asset_name=$(jq -r '.release.assets[0].name' "$GITHUB_EVENT_PATH")
+          expected_name="Ninja-${version}.exe"
+          if [ "$asset_name" != "$expected_name" ]; then
+            echo "::error title=Invalid Asset Name::Expected asset name '$expected_name', but found '$asset_name'."
+            exit 1
+          fi
+          # Export variables
+          echo "VERSION=$version" >> $GITHUB_ENV
+          echo "CHANGELOGID=${changelogid}" >> $GITHUB_ENV
+      - name: Download 7zip
+        uses: milliewalky/setup-7-zip@v2
+      - name: Prepare Steam workshop assets
+        run: |
+          asset_url=$(jq -r '.release.assets[0].url' "$GITHUB_EVENT_PATH")
+          asset_name=$(jq -r '.release.assets[0].name' "$GITHUB_EVENT_PATH")
+          curl -L \
+            -H "Accept: application/octet-stream" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            "$asset_url" -o "$asset_name"
+          curl -sLO https://github.com/user-attachments/files/15592985/BugslayerUtilG.zip
+          7z x "$asset_name" System/* -ocontent -y
+          unzip BugslayerUtilG.zip -d content/System/
+          rm BugslayerUtilG.zip "$asset_name"
+          ls -R content/System/ # Debug output
+      - name: Upload to VirusTotal
+        id: vt
+        uses: crazy-max/ghaction-virustotal@v4
+        with:
+          vt_api_key: ${{ secrets.VIRUSTOTAL_API_KEY }}
+          files: |
+            .exe$
+      - name: Update release notes
+        run: |
+          vt_link=${{ steps.vt.outputs.analysis }}
+          vt_link="${vt_link#*=}"
+          add="&nbsp;<img src=\"https://www.virustotal.com/gui/images/favicon.svg\" alt=\"\" height=\"12pt\" />&nbsp; <a href=\"$vt_link\">VirusTotal report</a> for the setup of this release."
+          notes="$(gh release view ${{ github.event.release.tag_name }} -R ${{ github.repository }} --json body -q '.body')$add"
+          gh release edit ${{ github.event.release.tag_name }} -R ${{ github.repository }} --notes "$notes" --latest --discussion-category "general" || echo "::error title=Update notes failed::Could not update release notes for tag ${{ github.event.release.tag_name }}"
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT }}
+      - name: Update in Gothic 1 Steam workshop
+        uses: m00nl1ght-dev/steam-workshop-deploy@v3
+        with:
+          username: ${{ secrets.STEAM_USERNAME }}
+          configVdf: ${{ secrets.STEAM_CONFIG_VDF }}
+          path: content
+          appId: 65540
+          publishedFileId: 2786936496
+          changeNote: |
+            Version ${{ env.VERSION }}
+
+            https://github.com/szapp/Ninja/wiki/Changelog#${{ env.CHANGELOGID }}
+      - name: Update in Gothic 2 Steam workshop
+        uses: m00nl1ght-dev/steam-workshop-deploy@v3
+        with:
+          username: ${{ secrets.STEAM_USERNAME }}
+          configVdf: ${{ secrets.STEAM_CONFIG_VDF }}
+          path: content
+          appId: 39510
+          publishedFileId: 2786910489
+          changeNote: |
+            Version ${{ env.VERSION }}
+
+            https://github.com/szapp/Ninja/wiki/Changelog#${{ env.CHANGELOGID }}
