@@ -22,15 +22,15 @@ jobs:
       - name: Checkout resource repository
         uses: actions/checkout@v4
         with:
-          repository: szapp/NinjaScripts
+          repository: szapp/Toolkit
           submodules: recursive
-          token: ${{ secrets.NINJA_LEGO_TOKEN }}
+          token: ${{ secrets.TOOLKIT_SUBMODULES }}
           persist-credentials: false
           path: _resources
       - name: Set minor and resource versions
         run: |
-          lego=$(cat _resources/Ninja/_intern/LeGo/LeGo.d | grep -oP "^const string LeGo_Version = \"LeGo \d+\.\d+\.\d+-N\K\d{3}")
-          ikarus=$(cat _resources/Ninja/_intern/Ikarus/Ikarus.d | grep -oP "^const int IKARUS_VERSION = \K\d{5,}")
+          lego=$(cat _resources/Ninja/Toolkit/LeGo/LeGo.d | grep -oP "^const string LeGo_Version = \"LeGo \d+\.\d+\.\d+-N\K\d{3}")
+          ikarus=$(cat _resources/Ninja/Toolkit/Ikarus/Ikarus.d | grep -oP "^const int IKARUS_VERSION = \K\d{5,}")
           echo "VIKARUS_NEW=${ikarus}" >> $GITHUB_ENV
           echo "VLEGO_NEW=${lego}" >> $GITHUB_ENV
           echo "VMINOR=${lego#*0}" >> $GITHUB_ENV
