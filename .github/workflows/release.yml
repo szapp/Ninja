@@ -3,13 +3,17 @@ name: release
 on:
   workflow_dispatch:
     inputs:
-      increase-major:
+      increase_major:
         description: Increase major version?
         type: choice
         options:
           - "Yes"
           - "No"
         default: "Yes"
+      dry_run:
+        description: Perform a dry run
+        required: false
+        type: boolean
 
 jobs:
   release:
@@ -39,7 +43,7 @@ jobs:
       - name: Set major version
         run: |
           source metadata
-          if [ "${{ github.event.inputs.increase-major }}" == "Yes" ]; then
+          if [ "${{ inputs.increase_major }}" == "Yes" ]; then
             VMAJOR=$[$VMAJOR+1]
             echo "Increase major version to $VMAJOR"
             if [ $VMAJOR -gt 9 ]; then
@@ -67,16 +71,24 @@ jobs:
             exit 1
           fi
 
-          git diff -- metadata
-
+          changes="$(git diff -- metadata | tail -n +6 | head -n5 | sed 's/export //g')"
+          echo "### Version changes
+          \`\`\`diff
+          $changes
+          \`\`\`
+          " >> $GITHUB_STEP_SUMMARY
+      - name: Commit changes
+        if: ${{ !inputs.dry_run }}
+        run: |
           git config user.name $(git log -1 --format=%an)
           git config user.email $(git log -1 --format=%ae)
 
           git add metadata
           git commit -m "Bump version number"
-          git tag -a $tag -m "Version $ver"
+          git tag -a ${{ env.TAG }} -m "Version ${{ env.VERSION }}"
           git push --follow-tags
       - name: Draft release
+        if: ${{ !inputs.dry_run }}
         run: |
           tag=${{ env.TAG }}
           changelogdate=$(date +"%b-%-d-%Y")
