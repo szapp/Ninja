@@ -171,6 +171,8 @@ FUNC_BASE		:=	freeVdfArray								\
 					dispatch									\
 					parseVersionString							\
 					scriptPathInvalid							\
+					reportVersionMismatch						\
+					reportIllegalVdf							\
 					debugMessage								\
 					zCPar_Symbol__GetNext_fix					\
 					createSymbol								\

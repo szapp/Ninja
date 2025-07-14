@@ -287,25 +287,13 @@ parser_verify_ikarus_version:
         cmp     ebx, IKARUS_VERSION
         jge     .verifyFilePath
 
-        sub     esp, 0x14
-        mov     ecx, esp
-        push    NINJA_PARSER_FAILED
-        call    zSTRING__zSTRING
-    addStack 4
+        push    ebx
+        push    IKARUS_VERSION
         push    char_ikarus
-        call    zSTRING__operator_plusEq
-    addStack 4
-        push    NINJA_PARSER_FAILED_2
-        call    zSTRING__operator_plusEq
-    addStack 4
-        push    eax
-        call    zERROR__Fatal
-    addStack 4
-        ; mov     ecx, esp                                                 ; Never reached: Safe some space
-        ; call    zSTRING___zSTRING
-        add     esp, 0x14
+        call    ninja_reportVersionMismatch
+    addStack 3*4
     verifyStackoffset g1g2(0x398,0x38C,0x3F0,0x3F0) + 0xC
-        jmp     .back
+        ; jmp     .back                                                    ; Never reached: Safe some space
 
 .verifyFilePath:
         push    NINJA_PATH_IKARUS
@@ -333,40 +321,13 @@ parser_verify_ikarus_version:
     verifyStackoffset g1g2(0x398,0x38C,0x3F0,0x3F0) + 0xC
         jge     .back
 
-        push    edi
-        mov     edi, eax
-        sub     esp, 0x4
-        push    0x200
-        call    operator_new
-        add     esp, 0x4
-        push    0x1FF
-        push    0x20
-        push    eax
-        call    _memset
-        add     esp, 0xC
-        mov     BYTE [eax+0x1FF], 0x0                                      ; Null-terminated
-        sub     esp, 0x14
-        mov     ecx, esp
-        push    eax
-        call    zSTRING__zSTRING
-    addStack 4
         push    ebx
-        push    edi
+        push    eax
         push    char_ikarus
-        push    NINJA_VERSION_INVALID
-        push    ecx
-        call    zSTRING__Sprintf
-        add     esp, 0x14
-        push    esp
-        call    zERROR__Fatal
-    addStack 4
-        ; mov     ecx, esp                                                 ; Never reached: Safe some space
-        ; call    zSTRING___zSTRING
-        add     esp, 0x14
-        push    esp
-        call    operator_delete
-        add     esp, 0x8
-        pop     edi
+        call    ninja_reportVersionMismatch
+    addStack 3*4
+    verifyStackoffset g1g2(0x398,0x38C,0x3F0,0x3F0) + 0xC
+        ; jmp     .back                                                    ; Never reached: Safe some space
 
 .skip:
         mov     ebx, DWORD [esp+var_newvalue]                              ; New value of symbol (content)
@@ -489,14 +450,8 @@ parser_verify_lego_version:
 .invalidVersion:
         sub     esp, 0x14
         mov     ecx, esp
-        push    NINJA_PARSER_FAILED
+        push    NINJA_PATH_INVALID
         call    zSTRING__zSTRING
-    addStack 4
-        push    char_lego
-        call    zSTRING__operator_plusEq
-    addStack 4
-        push    NINJA_PARSER_FAILED_2
-        call    zSTRING__operator_plusEq
     addStack 4
         push    eax
         call    zERROR__Fatal
@@ -505,7 +460,7 @@ parser_verify_lego_version:
         ; call    zSTRING___zSTRING
         add     esp, 0x14
     verifyStackoffset g1g2(0x394,0x388,0x3EC,0x3EC) + 0x10
-        jmp     .back
+        ; jmp     .back                                                    ; Never reached: Safe some space
 
 .verifyFilePath:
         push    NINJA_PATH_LEGO
@@ -540,41 +495,13 @@ parser_verify_lego_version:
     verifyStackoffset g1g2(0x394,0x388,0x3EC,0x3EC) + 0x10
         jge     .back
 
-        push    edi
-        mov     edi, eax
-        sub     esp, 0x4
-        push    0x200
-        call    operator_new
-        add     esp, 0x4
-        push    0x1FF
-        push    0x20
         push    eax
-        call    _memset
-        add     esp, 0xC
-        mov     BYTE [eax+0x1FF], 0x0                                      ; Null-terminated
-        sub     esp, 0x14
-        mov     ecx, esp
-        push    eax
-        call    zSTRING__zSTRING
-    addStack 4
-        push    edi
         push    ebx
         push    char_lego
-        push    NINJA_VERSION_INVALID
-        push    ecx
-        call    zSTRING__Sprintf
-        add     esp, 0x14
-        push    esp
-        call    zERROR__Fatal
-    addStack 4
-        ; mov     ecx, esp                                                 ; Never reached: Safe some space
-        ; call    zSTRING___zSTRING
-        add     esp, 0x14
-        ; push    esp                                                      ; Never reached: Safe some space
-        ; call    operator_delete
-        ; add     esp, 0x4
-        add     esp, 0x4
-        pop     edi
+        call    ninja_reportVersionMismatch
+    addStack 3*4
+    verifyStackoffset g1g2(0x394,0x388,0x3EC,0x3EC) + 0x10
+        ; jmp     .back                                                    ; Never reached: Safe some space
 
 .skip:
         mov     ecx, [ebp+zCPar_Symbol_content_offset]

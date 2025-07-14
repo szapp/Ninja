@@ -28,7 +28,7 @@ ninja_parseVersionString:
         mov     ecx, [esi+edi]
         cmp     cl, 0
     verifyStackoffset 0x10+var_total
-        jz      .failed1
+        jz      .reportError
 
         inc     edi
         cmp     cl, ' '
@@ -71,7 +71,7 @@ ninja_parseVersionString:
 .done:
         cmp     edx, var_minor
     verifyStackoffset 0x10+var_total
-        jg      .failed2
+        jg      .reportError
         jz      .foundOffset
 
 .final:
@@ -85,21 +85,11 @@ ninja_parseVersionString:
     verifyStackoffset 0x10+var_total
         jmp     .funcEnd
 
-.failed1:
-        mov     esi, NINJA_LEGO_END
-        jmp     .reportError
-
-.failed2:
-        mov     esi, NINJA_LEGO_BMM
-
 .reportError:
         sub     esp, 0x14
         mov     ecx, esp
         push    NINJA_LEGO_VER_ERROR
         call    zSTRING__zSTRING
-    addStack 4
-        push    esi
-        call    zSTRING__operator_plusEq
     addStack 4
         push    eax
         call    zERROR__Fatal

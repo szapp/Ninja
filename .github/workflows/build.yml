@@ -7,8 +7,6 @@ on:
       - "!.*"
       - "!.github/**/*"
       - "!README.md"
-    tags-ignore:
-      - "**"
   workflow_dispatch:
 
 jobs:

@@ -50,21 +50,14 @@ createVdfArray:
         add     esp, 0x14
 
 %if GOTHIC_BASE_VERSION == 1 || GOTHIC_BASE_VERSION == 2
-        mov     al, [SystemPack_version_info+g1g2(0xD,,,0xB)]          ; Check for old Ninja system
+        mov     al, [SystemPack_version_info+g1g2(0xD,,,0xB)]              ; Check for old Ninja system
         cmp     al, 'N'
         jnz     .registerConsole
 
-        sub     esp, 0x14
-        mov     ecx, esp
-        push    NINJA_OUTDATED_PATCH
-        call    zSTRING__zSTRING
+        push    char_NUL
+        call    ninja_reportIllegalVdf
     addStack 4
-        push    ecx
-        call    zERROR__Fatal
-    addStack 4
-        ; mov     ecx, esp                                                 ; Never reached: Safe some space
-        ; call    zSTRING___zSTRING
-        add     esp, 0x14
+        ; jmp     .back                                                    ; Never reached: Safe some space
 %endif
 
 .registerConsole:
@@ -332,20 +325,10 @@ createVdfArray:
         test    eax, eax
         jz      .findDirEnd                                                ; This patch is based on Ninja: confirmed
 
-        sub     esp, 0x14                                                  ; Only allow patches with directory of same name
-        mov     ecx, esp
-        push    NINJA_INVALID_PATCH
-        call    zSTRING__zSTRING
+        push    DWORD [esp+stackoffset+var_patchname]                      ; Only allow patches with directory of same name
+        call    ninja_reportIllegalVdf
     addStack 4
-        push    DWORD [esp+stackoffset+var_patchname]
-        call    zSTRING__operator_plusEq
-    addStack 4
-        push    ecx
-        call    zERROR__Fatal
-    addStack 4
-        ; mov     ecx, esp                                                 ; Never reached: Safe some space
-        ; call    zSTRING___zSTRING
-        add     esp, 0x14
+        ; jmp     .back                                                    ; Never reached: Safe some space
 
 .dirLoopNext:
         mov     ecx, [edi+VDFentry.type]                                   ; Advance to next entry if not last one

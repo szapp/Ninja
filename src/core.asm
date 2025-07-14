@@ -26,6 +26,8 @@ section .text
 %include "func/dispatch.asm"
 %include "func/parseVersionString.asm"
 %include "func/scriptPathInvalid.asm"
+%include "func/reportVersionMismatch.asm"
+%include "func/reportIllegalVdf.asm"
 %include "func/debugMessage.asm"
 %include "func/zCPar_Symbol__GetNext_fix.asm"
 %include "func/createSymbol.asm"
