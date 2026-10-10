@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout resource repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: szapp/Toolkit
           submodules: recursive
@@ -35,7 +35,7 @@ jobs:
           echo "VLEGO_NEW=${lego}" >> $GITHUB_ENV
           echo "VMINOR=${lego#*0}" >> $GITHUB_ENV
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           token: ${{ secrets.PAT }}
           fetch-tags: true

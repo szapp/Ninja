@@ -14,14 +14,14 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Install NASM
         uses: ilammy/setup-nasm@v1
       - name: Assemble injections
         shell: cmd
         run: make src/inc/injections.inc
       - name: Cache intermediate build results
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v6
         with:
           path: |
             metadata
@@ -34,9 +34,9 @@ jobs:
     needs: assembling
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Fetch intermediate build results
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           fail-on-cache-miss: true
           path: |
@@ -59,7 +59,7 @@ jobs:
         shell: cmd
         run: make build/BugslayerUtil.dll
       - name: Cache intermediate build results
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v6
         with:
           # Cache all source files for make timestamps
           path: |
@@ -75,7 +75,7 @@ jobs:
           echo "::notice title=Ninja.dll (unsigned) CRC32::0x$($crc.ToUpper())"
       - name: Upload DLLs as workflow artifact
         if: github.event_name == 'workflow_dispatch'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ninja
           path: build/*.dll
@@ -85,9 +85,9 @@ jobs:
     needs: linking
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Fetch intermediate build results
-        uses: actions/cache/restore@v4
+        uses: actions/cache/restore@v6
         with:
           fail-on-cache-miss: true
           path: |
@@ -101,7 +101,7 @@ jobs:
         shell: cmd
         run: make all
       - name: Cache build results
-        uses: actions/cache/save@v4
+        uses: actions/cache/save@v6
         with:
           enableCrossOsArchive: true
           path: build
@@ -117,7 +117,7 @@ jobs:
           echo "::notice title=Ninja-${{ env.VERSION }}.exe (unsigned) SHA-256::$sha"
       - name: Upload setup as workflow artifact
         if: github.event_name == 'workflow_dispatch'
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: setup
           path: build/Ninja-*.exe
