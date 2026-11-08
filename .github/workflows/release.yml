@@ -15,9 +15,14 @@ on:
         required: false
         type: boolean
 
+permissions:
+  contents: read
+
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout resource repository
         uses: actions/checkout@v7

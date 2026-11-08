@@ -9,6 +9,9 @@ on:
       - "!README.md"
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   assembling:
     runs-on: windows-latest
@@ -97,6 +100,8 @@ jobs:
             bin
             build
           key: intermediate2-${{ github.run_id }}-${{ github.run_attempt }}
+      - name: Install NSIS
+        uses: negrutiu/nsis-install@v3
       - name: Build NSIS setup
         shell: cmd
         run: make all
